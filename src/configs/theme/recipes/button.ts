@@ -1,4 +1,6 @@
-import { defineRecipe } from '@chakra-ui/react'
+import { defineRecipe } from '@chakra-ui/react/styled-system'
+
+import { makeButtonCompoundVariants } from '@/utils/theme/make-button-compound-varients'
 
 export const buttonRecipe = defineRecipe({
   className: 'chakra-button',
@@ -32,144 +34,57 @@ export const buttonRecipe = defineRecipe({
   },
   variants: {
     size: {
-      '2xs': {
-        h: '6',
-        minW: '6',
-        textStyle: 'xs',
-        px: '2',
-        gap: '1',
-        _icon: {
-          width: '3.5',
-          height: '3.5',
-        },
-      },
-      xs: {
-        h: '8',
-        minW: '8',
-        textStyle: 'xs',
-        px: '2.5',
-        gap: '1',
-        _icon: {
-          width: '4',
-          height: '4',
-        },
-      },
       sm: {
-        h: '9',
-        minW: '9',
-        px: '3.5',
-        textStyle: 'sm',
-        gap: '2',
+        h: '32px',
+        px: '12px',
+        gap: '4px',
+        textStyle: 'pre-caption-1',
+        rounded: '6px',
         _icon: {
-          width: '4',
-          height: '4',
+          width: '16px',
+          height: '16px',
         },
       },
       md: {
-        h: '10',
-        minW: '10',
-        textStyle: 'sm',
-        px: '4',
-        gap: '2',
+        h: '40px',
+        px: '16px',
+        gap: '6px',
+        textStyle: 'pre-body-5',
+        rounded: '8px',
         _icon: {
-          width: '5',
-          height: '5',
+          width: '20px',
+          height: '20px',
         },
       },
       lg: {
-        h: '11',
-        minW: '11',
-        textStyle: 'md',
-        px: '5',
-        gap: '3',
+        h: '48px',
+        px: '24px',
+        gap: '8px',
+        textStyle: 'pre-body-3',
+        rounded: '10px',
         _icon: {
-          width: '5',
-          height: '5',
-        },
-      },
-      xl: {
-        h: '12',
-        minW: '12',
-        textStyle: 'md',
-        px: '5',
-        gap: '2.5',
-        _icon: {
-          width: '5',
-          height: '5',
-        },
-      },
-      '2xl': {
-        h: '16',
-        minW: '16',
-        textStyle: 'lg',
-        px: '7',
-        gap: '3',
-        _icon: {
-          width: '6',
-          height: '6',
+          width: '24px',
+          height: '24px',
         },
       },
     },
     variant: {
-      solid: {
-        bg: 'colorPalette.solid',
-        color: 'colorPalette.contrast',
-        _hover: {
-          bg: 'colorPalette.solid/90',
-        },
-        _expanded: {
-          bg: 'colorPalette.solid/90',
-        },
-      },
-      subtle: {
-        bg: 'colorPalette.subtle',
-        color: 'colorPalette.fg',
-        _hover: {
-          bg: 'colorPalette.muted',
-        },
-        _expanded: {
-          bg: 'colorPalette.muted',
-        },
-      },
-      surface: {
-        bg: 'colorPalette.subtle',
-        color: 'colorPalette.fg',
-        shadow: '0 0 0px 1px var(--shadow-color)',
-        shadowColor: 'colorPalette.muted',
-        _hover: {
-          bg: 'colorPalette.muted',
-        },
-        _expanded: {
-          bg: 'colorPalette.muted',
-        },
-      },
-      outline: {
-        borderWidth: '1px',
-        borderColor: 'colorPalette.muted',
-        color: 'colorPalette.fg',
-        _hover: {
-          bg: 'colorPalette.subtle',
-        },
-        _expanded: {
-          bg: 'colorPalette.subtle',
-        },
-      },
-      ghost: {
-        color: 'colorPalette.fg',
-        _hover: {
-          bg: 'colorPalette.subtle',
-        },
-        _expanded: {
-          bg: 'colorPalette.subtle',
-        },
-      },
-      plain: {
-        color: 'colorPalette.fg',
-      },
+      solid: {},
+      outline: {},
+      ghost: {},
+    },
+    colorPalette: {
+      primary: {},
+      grey: {},
     },
   },
+  compoundVariants: makeButtonCompoundVariants(
+    ['solid', 'outline', 'ghost'],
+    ['primary', 'grey'],
+  ),
   defaultVariants: {
     size: 'md',
     variant: 'solid',
+    colorPalette: 'primary',
   },
 })
