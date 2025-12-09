@@ -113,7 +113,7 @@ export const textStyles = {
       textDecoration: 'none',
       fontWeight: 700,
       fontSize: {
-        base: '16px',
+        base: '18px',
         sm: '18px',
         md: '18px',
       },
@@ -141,7 +141,7 @@ export const textStyles = {
       textDecoration: 'none',
       fontWeight: 600,
       fontSize: {
-        base: '16px',
+        base: '18px',
         sm: '18px',
         md: '18px',
       },
@@ -155,7 +155,7 @@ export const textStyles = {
       textDecoration: 'none',
       fontWeight: 400,
       fontSize: {
-        base: '16px',
+        base: '18px',
         sm: '18px',
         md: '18px',
       },
@@ -237,7 +237,7 @@ export const textStyles = {
     value: {
       fontFamily: 'Pretendard Variable',
       textDecoration: 'none',
-      fontWeight: 400,
+      fontWeight: 500,
       fontSize: {
         base: '12px',
         sm: '12px',
@@ -265,7 +265,7 @@ export const textStyles = {
     value: {
       fontFamily: 'Pretendard Variable',
       textDecoration: 'none',
-      fontWeight: 400,
+      fontWeight: 500,
       fontSize: {
         base: '10px',
         sm: '10px',
