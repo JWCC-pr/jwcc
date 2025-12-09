@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    // Type Checking
+    "strict": true,
+    // Modules
+    "resolveJsonModule": true,
+    // Emit
+    "noEmit": true,
+    "downlevelIteration": true,
+    "removeComments": false,
+    "sourceMap": false,
+    // JavaScript Support
+    "allowJs": false,
+    // Language and Environment
+    "lib": ["DOM", "DOM.Iterable", "ES2022", "ESNext.AsyncIterable"],
+    "target": "ES2022",
+    "jsx": "preserve",
+    // Interop Constraints
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "@/theme/*": ["./configs/theme/*"],
+      "@/swagger/*": ["./generated/swagger/*"],
+      "@/images": ["./generated/path/images.ts"],
+      "@/icons": ["./generated/icons/MyIcons.tsx"],
+      "@/packageJSON": ["../package.json"]
+    },
+    "incremental": true,
+    "declaration": false,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "isolatedModules": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "app.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "./public/mockServiceWorker.js"]
+}
