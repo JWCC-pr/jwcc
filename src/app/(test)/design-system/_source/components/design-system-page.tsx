@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react/box'
 
+import BadgeSections from './sections/badge-sections'
 import ButtonSections from './sections/button-sections'
 import CheckboxSections from './sections/checkbox-sections'
 import FontSections from './sections/font-sections'
@@ -27,6 +28,8 @@ const DesignSystemPage: React.FC = () => {
       <RadioSections />
 
       <SwitchSections />
+
+      <BadgeSections />
     </Box>
   )
 }

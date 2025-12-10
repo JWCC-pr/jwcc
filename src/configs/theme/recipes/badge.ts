@@ -1,67 +1,64 @@
 import { defineRecipe } from '@chakra-ui/react'
 
+import { makeBadgeCompoundVariants } from '@/utils/theme/make-badge-compound-varients'
+
 export const badgeRecipe = defineRecipe({
   className: 'chakra-badge',
   base: {
     display: 'inline-flex',
     alignItems: 'center',
-    borderRadius: 'l2',
-    gap: '1',
-    fontWeight: 'medium',
+    justifyContent: 'center',
+    rounded: '6px',
     fontVariantNumeric: 'tabular-nums',
     whiteSpace: 'nowrap',
     userSelect: 'none',
+    textStyle: 'pre-caption-1',
+    w: 'fit-content',
   },
   variants: {
-    variant: {
-      solid: {
-        bg: 'colorPalette.solid',
-        color: 'colorPalette.contrast',
-      },
-      subtle: {
-        bg: 'colorPalette.subtle',
-        color: 'colorPalette.fg',
-      },
-      outline: {
-        color: 'colorPalette.fg',
-        shadow: 'inset 0 0 0px 1px var(--shadow-color)',
-        shadowColor: 'colorPalette.muted',
-      },
-      surface: {
-        bg: 'colorPalette.subtle',
-        color: 'colorPalette.fg',
-        shadow: 'inset 0 0 0px 1px var(--shadow-color)',
-        shadowColor: 'colorPalette.muted',
-      },
-      plain: {
-        color: 'colorPalette.fg',
-      },
-    },
     size: {
-      xs: {
-        textStyle: '2xs',
-        px: '1',
-        minH: '4',
-      },
-      sm: {
-        textStyle: 'xs',
-        px: '1.5',
-        minH: '5',
-      },
       md: {
-        textStyle: 'sm',
-        px: '2',
-        minH: '6',
+        px: '6px',
+        gap: '2px',
+        h: '24px',
+        minH: '24px',
+        _icon: {
+          width: '16px',
+          height: '16px',
+        },
       },
       lg: {
-        textStyle: 'sm',
-        px: '2.5',
-        minH: '7',
+        px: '10px',
+        gap: '4px',
+        minH: '28px',
+        textStyle: 'pre-caption-1',
+        _icon: {
+          width: '16px',
+          height: '16px',
+        },
       },
     },
+    variant: {
+      solid: {},
+      subtle: {},
+    },
+    colorPalette: {
+      grey: {},
+      primary: {},
+      green: {},
+      yellow: {},
+      blue: {},
+      red: {},
+      pink: {},
+      violet: {},
+    },
   },
+  compoundVariants: makeBadgeCompoundVariants(
+    ['solid', 'subtle'],
+    ['grey', 'primary', 'green', 'yellow', 'blue', 'red', 'pink', 'violet'],
+  ),
   defaultVariants: {
-    variant: 'subtle',
-    size: 'sm',
+    variant: 'solid',
+    size: 'lg',
   },
 })
