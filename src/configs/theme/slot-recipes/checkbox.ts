@@ -19,8 +19,8 @@ export const checkboxSlotRecipe = defineSlotRecipe({
       color: 'white',
       borderWidth: '1px',
       borderColor: 'transparent',
-      borderRadius: 'l1',
       focusVisibleRing: 'outside',
+      rounded: '4px',
       _icon: {
         boxSize: 'full',
       },
@@ -42,79 +42,51 @@ export const checkboxSlotRecipe = defineSlotRecipe({
   },
   variants: {
     size: {
-      xs: {
-        root: {
-          gap: '1.5',
-        },
-        label: {
-          textStyle: 'xs',
-        },
-        control: {
-          boxSize: '3',
-        },
-      },
       sm: {
         root: {
-          gap: '2',
+          gap: '4px',
         },
         label: {
-          textStyle: 'sm',
+          textStyle: 'pre-caption-1',
         },
         control: {
-          boxSize: '4',
+          boxSize: '16px',
+          p: '3px',
         },
       },
       md: {
         root: {
-          gap: '2.5',
+          gap: '6px',
         },
         label: {
-          textStyle: 'sm',
+          textStyle: 'pre-body-5',
         },
         control: {
-          boxSize: '5',
-          p: '0.5',
-        },
-      },
-      lg: {
-        root: {
-          gap: '3',
-        },
-        label: {
-          textStyle: 'md',
-        },
-        control: {
-          boxSize: '6',
-          p: '0.5',
+          boxSize: '20px',
+          p: '4px',
         },
       },
     },
     variant: {
-      outline: {
-        control: {
-          borderColor: 'border',
-          '&:is([data-state=checked], [data-state=indeterminate])': {
-            color: 'colorPalette.fg',
-            borderColor: 'colorPalette.solid',
-          },
-        },
-      },
       solid: {
         control: {
-          borderColor: 'border',
+          borderColor: 'grey.3',
           '&:is([data-state=checked], [data-state=indeterminate])': {
-            bg: 'colorPalette.solid',
-            color: 'colorPalette.contrast',
-            borderColor: 'colorPalette.solid',
+            bg: 'primary.4',
+            borderColor: 'primary.4',
+          },
+          _checked: {
+            bgColor: 'primary.4',
+            color: 'grey.0',
+            borderColor: 'primary.4',
+          },
+          _disabled: {
+            opacity: '0.4',
           },
         },
-      },
-      subtle: {
-        control: {
-          bg: 'colorPalette.muted',
-          borderColor: 'colorPalette.muted',
-          '&:is([data-state=checked], [data-state=indeterminate])': {
-            color: 'colorPalette.fg',
+        label: {
+          _disabled: {
+            opacity: '0.4',
           },
         },
       },
