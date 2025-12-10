@@ -76,11 +76,12 @@ export const buttonRecipe = defineRecipe({
     colorPalette: {
       primary: {},
       grey: {},
+      red: {},
     },
   },
   compoundVariants: makeButtonCompoundVariants(
     ['solid', 'outline', 'ghost'],
-    ['primary', 'grey'],
+    ['primary', 'grey', 'red'],
   ),
   defaultVariants: {
     size: 'md',

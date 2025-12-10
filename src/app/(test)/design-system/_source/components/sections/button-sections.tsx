@@ -7,7 +7,7 @@ import { Stack } from '@chakra-ui/react/stack'
 const option = {
   sizes: ['sm', 'md', 'lg'],
   variants: ['solid', 'outline', 'ghost'],
-  colorPalettes: ['primary', 'grey'],
+  colorPalettes: ['primary', 'grey', 'red'],
 } as const
 
 const ButtonSections: React.FC = () => {
