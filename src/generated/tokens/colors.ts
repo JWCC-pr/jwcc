@@ -287,7 +287,7 @@ export const colorSchema = {
     value: '#ffffffE5',
   },
   'grey-transparent.50': {
-    value: '#1b1c1dD',
+    value: '#1b1c1d0D',
   },
   'grey-transparent.100': {
     value: '#1b1c1d1A',

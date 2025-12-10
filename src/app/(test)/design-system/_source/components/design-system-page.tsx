@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react/box'
 
 import ButtonSections from './sections/button-sections'
 import FontSections from './sections/font-sections'
+import TabsSections from './sections/tabs-sections'
 
 const DesignSystemPage: React.FC = () => {
   return (
@@ -9,6 +10,8 @@ const DesignSystemPage: React.FC = () => {
       <FontSections />
 
       <ButtonSections />
+
+      <TabsSections />
     </Box>
   )
 }
