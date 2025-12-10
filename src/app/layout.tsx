@@ -2,6 +2,7 @@ import { Metadata, Viewport } from 'next'
 
 import { GoogleAnalytics, GoogleTagManager } from '@/components/analytics'
 import { Provider as ThemeProvider } from '@/components/ui/provider'
+import { Toaster } from '@/components/ui/toaster'
 import { ENV } from '@/configs/env'
 import { catholic, pretendard } from '@/generated/fonts/next-fonts'
 import { AppProvider } from '@/providers/app-provider'
@@ -104,7 +105,10 @@ export default function RootLayout({
     >
       <body>
         <AppProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <Toaster />
+            {children}
+          </ThemeProvider>
         </AppProvider>
       </body>
 

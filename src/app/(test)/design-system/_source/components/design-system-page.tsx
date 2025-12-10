@@ -12,6 +12,7 @@ import RadioSections from './sections/radio-sections'
 import SwitchSections from './sections/switch-sections'
 import TabsSections from './sections/tabs-sections'
 import TextareaSections from './sections/textarea-sections'
+import ToastSections from './sections/toast-sections'
 
 const DesignSystemPage: React.FC = () => {
   return (
@@ -45,6 +46,8 @@ const DesignSystemPage: React.FC = () => {
       <AlertDialogSections />
 
       <OtherDialogSections />
+
+      <ToastSections />
     </Box>
   )
 }
