@@ -227,34 +227,34 @@ export const colorSchema = {
     value: '#272339',
   },
   'primary.50': {
-    value: '#fdf1f1',
+    value: '#feefea',
   },
   'primary.100': {
-    value: '#fdddcf',
+    value: '#f8c8c9',
   },
   'primary.200': {
-    value: '#fbb5a1',
+    value: '#f194a0',
   },
   'primary.300': {
-    value: '#f38270',
+    value: '#d65b77',
   },
   'primary.400': {
-    value: '#e7534c',
+    value: '#ae3059',
   },
   'primary.500': {
-    value: '#d8171f',
+    value: '#780536',
   },
   'primary.600': {
-    value: '#b91026',
+    value: '#670337',
   },
   'primary.700': {
-    value: '#9b0b2b',
+    value: '#560236',
   },
   'primary.800': {
-    value: '#7d072b',
+    value: '#450132',
   },
   'primary.900': {
-    value: '#67042b',
+    value: '#39002f',
   },
   'white-transparent.50': {
     value: '#ffffffD',
@@ -315,36 +315,6 @@ export const colorSchema = {
   },
   'grey-transparent.900': {
     value: '#1b1c1dE5',
-  },
-  'secondary.50': {
-    value: '#fef4f0',
-  },
-  'secondary.100': {
-    value: '#feeae1',
-  },
-  'secondary.200': {
-    value: '#fdd5c0',
-  },
-  'secondary.300': {
-    value: '#fcc3a2',
-  },
-  'secondary.400': {
-    value: '#fbac76',
-  },
-  'secondary.500': {
-    value: '#fb9630',
-  },
-  'secondary.600': {
-    value: '#c77521',
-  },
-  'secondary.700': {
-    value: '#915415',
-  },
-  'secondary.800': {
-    value: '#60360a',
-  },
-  'secondary.900': {
-    value: '#351b03',
   },
 }
 
@@ -425,36 +395,6 @@ export const colors = {
     value: {
       _light: '{colors.primary.700}',
       _dark: '{colors.primary.200}',
-    },
-  },
-  'secondary.1': {
-    value: {
-      _light: '{colors.secondary.50}',
-      _dark: '{colors.secondary.900}',
-    },
-  },
-  'secondary.3': {
-    value: {
-      _light: '{colors.secondary.400}',
-      _dark: '{colors.secondary.700}',
-    },
-  },
-  'secondary.4': {
-    value: {
-      _light: '{colors.secondary.500}',
-      _dark: '{colors.secondary.400}',
-    },
-  },
-  'secondary.5': {
-    value: {
-      _light: '{colors.secondary.600}',
-      _dark: '{colors.secondary.300}',
-    },
-  },
-  'secondary.6': {
-    value: {
-      _light: '{colors.secondary.700}',
-      _dark: '{colors.secondary.200}',
     },
   },
   'background.inverse.1': {
@@ -713,12 +653,6 @@ export const colors = {
     value: {
       _light: '{colors.primary.400}',
       _dark: '{colors.primary.700}',
-    },
-  },
-  'secondary.2': {
-    value: {
-      _light: '{colors.secondary.100}',
-      _dark: '{colors.secondary.800}',
     },
   },
   'grey.9': {
