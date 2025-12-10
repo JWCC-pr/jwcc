@@ -34,18 +34,20 @@ export const selectSlotRecipe = defineSlotRecipe({
       width: 'full',
       minH: 'var(--select-trigger-height)',
       px: 'var(--select-trigger-padding-x)',
+      gap: '2001px',
       borderRadius: 'l2',
       userSelect: 'none',
       textAlign: 'start',
       focusVisibleRing: 'inside',
-      _placeholderShown: {
-        color: 'fg.muted/80',
-      },
+      '--focus-color': 'colors.primary.4',
+      '--error-color': 'colors.accent.red2',
+      color: 'grey.8',
       _disabled: {
         layerStyle: 'disabled',
+        opacity: 0.4,
       },
-      _invalid: {
-        borderColor: 'border.error',
+      _placeholderShown: {
+        color: 'grey.5',
       },
     },
     indicatorGroup: {
@@ -56,7 +58,7 @@ export const selectSlotRecipe = defineSlotRecipe({
       right: '0',
       top: '0',
       bottom: '0',
-      px: 'var(--select-trigger-padding-x)',
+      px: 'var(--select-indicator-padding-x)',
       pointerEvents: 'none',
     },
     indicator: {
@@ -64,21 +66,22 @@ export const selectSlotRecipe = defineSlotRecipe({
       alignItems: 'center',
       justifyContent: 'center',
       color: {
-        base: 'fg.muted',
+        base: 'grey.5',
         _disabled: 'fg.subtle',
         _invalid: 'fg.error',
       },
     },
     content: {
-      background: 'bg.panel',
       display: 'flex',
       flexDirection: 'column',
       zIndex: 'dropdown',
-      borderRadius: 'l2',
       outline: 0,
       maxH: '96',
       overflowY: 'auto',
-      boxShadow: 'md',
+      bg: 'grey.0',
+      boxShadow: `0 20px 80px 0 rgba(27, 28, 29, 0.04), 0 4px 10px 0 rgba(27, 28, 29, 0.04)`,
+      border: '1px solid',
+      borderColor: 'grey.2',
       _open: {
         animationStyle: 'slide-fade-in',
         animationDuration: 'fast',
@@ -94,21 +97,27 @@ export const selectSlotRecipe = defineSlotRecipe({
       display: 'flex',
       alignItems: 'center',
       gap: '2',
-      cursor: 'option',
+      cursor: 'pointer',
       justifyContent: 'space-between',
       flex: '1',
       textAlign: 'start',
       borderRadius: 'l1',
+      color: 'grey.8',
       _highlighted: {
         bg: 'bg.emphasized/60',
       },
       _disabled: {
         pointerEvents: 'none',
-        opacity: '0.5',
+        opacity: '0.4',
       },
-      _icon: {
-        width: '4',
-        height: '4',
+      _hover: {
+        bgColor: 'grey-transparent.100',
+      },
+      _active: {
+        bgColor: 'grey-transparent.200',
+      },
+      _selected: {
+        bgColor: 'grey-transparent.200',
       },
     },
     control: {
@@ -141,155 +150,142 @@ export const selectSlotRecipe = defineSlotRecipe({
   },
   variants: {
     variant: {
-      outline: {
+      solid: {
         trigger: {
-          bg: 'transparent',
-          borderWidth: '1px',
-          borderColor: 'border',
-          _expanded: {
-            borderColor: 'border.emphasized',
+          bgColor: 'grey.1',
+          _focus: {
+            bgColor: 'primary.1',
+            border: '1.5px solid',
+            borderColor: 'var(--focus-color)',
+          },
+          _invalid: {
+            bgColor: 'accent.red1',
+            border: '1.5px solid',
+            borderColor: 'var(--error-color)',
           },
         },
       },
-      subtle: {
+      outline: {
         trigger: {
-          borderWidth: '1px',
-          borderColor: 'transparent',
-          bg: 'bg.muted',
+          bgColor: 'grey.0',
+          border: '1px solid',
+          borderColor: 'grey.3',
+          _focus: {
+            border: '1.5px solid',
+            borderColor: 'var(--focus-color)',
+          },
+          _invalid: {
+            border: '1.5px solid',
+            borderColor: 'var(--error-color)',
+          },
+        },
+      },
+      flushed: {
+        trigger: {
+          borderBottom: '1px solid',
+          borderBottomColor: 'grey.2',
+          rounded: '0',
+          _focus: {
+            borderBottom: '1.5px solid',
+            borderBottomColor: 'var(--focus-color)',
+          },
+          _invalid: {
+            borderBottom: '1.5px solid',
+            borderBottomColor: 'var(--error-color)',
+          },
         },
       },
     },
     size: {
-      xs: {
-        root: {
-          '--select-trigger-height': 'sizes.8',
-          '--select-trigger-padding-x': 'spacing.2',
-        },
-        content: {
-          p: '1',
-          gap: '1',
-          textStyle: 'xs',
-        },
-        trigger: {
-          textStyle: 'xs',
-          gap: '1',
-        },
-        item: {
-          py: '1',
-          px: '2',
-        },
-        itemGroupLabel: {
-          py: '1',
-          px: '2',
-        },
-        indicator: {
-          _icon: {
-            width: '3.5',
-            height: '3.5',
-          },
-        },
-      },
       sm: {
         root: {
-          '--select-trigger-height': 'sizes.9',
-          '--select-trigger-padding-x': 'spacing.2.5',
-        },
-        content: {
-          p: '1',
-          textStyle: 'sm',
+          '--select-trigger-height': '32px',
+          '--select-trigger-padding-x': '8px',
+          '--select-indicator-padding-x': '4px 8px',
         },
         trigger: {
-          textStyle: 'sm',
-          gap: '1',
+          textStyle: 'pre-caption-2',
+          rounded: '6px',
         },
         indicator: {
           _icon: {
-            width: '4',
-            height: '4',
+            width: '12px',
+            height: '12px',
           },
         },
         item: {
-          py: '1',
-          px: '1.5',
+          p: '8px',
+          textStyle: 'pre-caption-2',
+          h: '35px',
         },
-        itemGroup: {
-          mt: '1',
-        },
-        itemGroupLabel: {
-          py: '1',
-          px: '1.5',
+        content: {
+          rounded: '6px',
+          minW: '126px',
         },
       },
       md: {
         root: {
-          '--select-trigger-height': 'sizes.10',
-          '--select-trigger-padding-x': 'spacing.3',
-        },
-        content: {
-          p: '1',
-          textStyle: 'sm',
-        },
-        itemGroup: {
-          mt: '1.5',
-        },
-        item: {
-          py: '1.5',
-          px: '2',
-        },
-        itemIndicator: {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        itemGroupLabel: {
-          py: '1.5',
-          px: '2',
+          '--select-trigger-height': '40px',
+          '--select-trigger-padding-x': '10px',
+          '--select-indicator-padding-x': '6px 10px',
         },
         trigger: {
-          textStyle: 'sm',
-          gap: '2',
+          textStyle: 'pre-body-6',
+          rounded: '8px',
         },
         indicator: {
           _icon: {
-            width: '4',
-            height: '4',
+            width: '16px',
+            height: '16px',
           },
+        },
+        item: {
+          p: '8px 10px',
+          textStyle: 'pre-body-6',
+          h: '38px',
+        },
+        content: {
+          rounded: '8px',
         },
       },
       lg: {
         root: {
-          '--select-trigger-height': 'sizes.12',
-          '--select-trigger-padding-x': 'spacing.4',
-        },
-        content: {
-          p: '1.5',
-          textStyle: 'md',
-        },
-        itemGroup: {
-          mt: '2',
-        },
-        item: {
-          py: '2',
-          px: '3',
-        },
-        itemGroupLabel: {
-          py: '2',
-          px: '3',
+          '--select-trigger-height': '48px',
+          '--select-trigger-padding-x': '12px',
+          '--select-indicator-padding-x': '8px 12px',
         },
         trigger: {
-          textStyle: 'md',
-          py: '3',
-          gap: '2',
+          textStyle: 'pre-body-4',
+          rounded: '10px',
         },
         indicator: {
           _icon: {
-            width: '5',
-            height: '5',
+            width: '16px',
+            height: '16px',
           },
+        },
+        item: {
+          p: '10px 12px',
+          textStyle: 'pre-body-4',
+          h: '46px',
+        },
+        content: {
+          rounded: '10px',
         },
       },
     },
   },
+  compoundVariants: [
+    ...(['sm', 'md', 'lg'] as const).map((size) => ({
+      variant: 'flushed' as const,
+      size,
+      css: {
+        root: {
+          '--select-trigger-padding-x': '0px',
+        },
+      },
+    })),
+  ],
   defaultVariants: {
     size: 'md',
     variant: 'outline',

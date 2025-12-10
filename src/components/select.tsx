@@ -1,89 +1,114 @@
-import { Select as ChakraSelect, SelectComponent } from 'chakra-react-select'
+'use client'
 
-type Option = Record<'label' | 'value', unknown>
+import { createListCollection } from '@chakra-ui/react/collection'
+import { Portal } from '@chakra-ui/react/portal'
+import {
+  Select as ChakraSelect,
+  type SelectRootProps,
+} from '@chakra-ui/react/select'
 
-/**
- * `ExtractReadOnlyMap` 타입은 불변 배열(`ReadonlyArray`)에서 각 요소의 속성을 추출하여 새로운 객체 타입을 생성합니다.
- *
- * @template T 불변(`Readonly`) `label`과 `value`를 포함한 `Option` 객체 배열
- *
- * @example
- * ```ts
- * const FRUITS = [
- *  {
- *     label: 'Apple',
- *     value: 'apple',
- *   },
- *   {
- *     label: 'Banana',
- *     value: 'banana',
- *   },
- * ] as const
- *
- * type Options = ExtractReadOnlyMap<typeof FRUITS>
- * //  { label: "Apple" | "Banana" , value: "apple" | "banana" }
- * ```
- */
-export type ExtractReadOnlyMap<T extends Readonly<Option[]>> = {
-  [K in keyof T[number]]: T[number][K]
+import { Controller, useFormContext } from 'react-hook-form'
+
+export interface SelectOption<T extends string | number = string> {
+  label: string
+  value: T
 }
 
-/**
- * `CommonSelect` 컴포넌트는 ` 'chakra-react-select'`를 기반으로 만들어진 똑똑한개발자 Select 컴포넌트입니다.
- * @see https://github.com/csandman/chakra-react-select
- *
- * @template T 기본 `Option` 타입
- *
- * @param options `SelectOption<T>[]`
- * @param basisProps `ChakraSelect` 컴포넌트에 전달될 추가 속성들입니다. 'chakra-react-select'의 `Props`를 확장합니다.
- *
- * @returns `ChakraSelect` 컴포넌트를 렌더링합니다.
- *
- */
+interface SelectProps extends Omit<SelectRootProps, 'collection'> {
+  options: SelectOption[]
+  placeholder?: string
+  size?: 'sm' | 'md' | 'lg'
+  name?: string
+}
 
-export const Select: SelectComponent = ({
+const Select: React.FC<SelectProps> = ({
   options,
-  isSearchable = false,
-  ...basisProps
+  placeholder = '옵션을 선택해주세요',
+  size = 'md',
+  name,
+  onSelect,
+  ...props
 }) => {
+  const collection = createListCollection({ items: options })
+  const formContext = useFormContext()
+
+  // controlled select
+  if (formContext?.control && name) {
+    return (
+      <Controller
+        control={formContext.control}
+        name={name}
+        render={({ field }) => {
+          return (
+            <ChakraSelect.Root
+              size={size}
+              collection={collection}
+              value={field.value ? [String(field.value)] : []}
+              onValueChange={(e) => {
+                const selectedValue = e.value[0]
+                field.onChange(selectedValue)
+                onSelect?.({ value: selectedValue })
+              }}
+              onInteractOutside={() => field.onBlur()}
+              {...props}
+            >
+              <ChakraSelect.HiddenSelect />
+              <ChakraSelect.Control>
+                <ChakraSelect.Trigger>
+                  <ChakraSelect.ValueText placeholder={placeholder} />
+                </ChakraSelect.Trigger>
+                <ChakraSelect.IndicatorGroup>
+                  <ChakraSelect.Indicator />
+                </ChakraSelect.IndicatorGroup>
+              </ChakraSelect.Control>
+              <Portal>
+                <ChakraSelect.Positioner>
+                  <ChakraSelect.Content>
+                    {collection.items.map((item) => (
+                      <ChakraSelect.Item
+                        item={item}
+                        key={item.label + item.value}
+                      >
+                        {item.label}
+                        <ChakraSelect.ItemIndicator />
+                      </ChakraSelect.Item>
+                    ))}
+                  </ChakraSelect.Content>
+                </ChakraSelect.Positioner>
+              </Portal>
+            </ChakraSelect.Root>
+          )
+        }}
+      />
+    )
+  }
+
+  // uncontrolled select
   return (
-    <ChakraSelect
-      options={options}
-      isSearchable={isSearchable}
-      chakraStyles={{
-        option: (provided, state) => ({
-          ...provided,
-          bg: 'transparent',
-          color: 'content.1',
-          _hover: {
-            bg: 'primary.1',
-            color: '',
-          },
-          _selected: {
-            bg: 'primary.3',
-            color: 'white',
-            _hover: {
-              bg: 'primary.3',
-            },
-          },
-        }),
-        dropdownIndicator: (provided) => ({
-          ...provided,
-          bg: 'transparent',
-          p: 0,
-          w: 6,
-          mx: 2,
-          cursor: 'inherit',
-        }),
-        indicatorSeparator: () => ({
-          display: 'none',
-        }),
-      }}
-      menuPortalTarget={document.body}
-      styles={{
-        menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
-      }}
-      {...basisProps}
-    />
+    <ChakraSelect.Root size={size} collection={collection} {...props}>
+      <ChakraSelect.HiddenSelect />
+      <ChakraSelect.Control>
+        <ChakraSelect.Trigger>
+          <ChakraSelect.ValueText placeholder={placeholder} />
+        </ChakraSelect.Trigger>
+        <ChakraSelect.IndicatorGroup>
+          <ChakraSelect.Indicator />
+        </ChakraSelect.IndicatorGroup>
+      </ChakraSelect.Control>
+      <Portal>
+        <ChakraSelect.Positioner>
+          <ChakraSelect.Content>
+            {collection.items.map((item) => (
+              <ChakraSelect.Item item={item} key={item.label + item.value}>
+                {item.label}
+                <ChakraSelect.ItemIndicator />
+              </ChakraSelect.Item>
+            ))}
+          </ChakraSelect.Content>
+        </ChakraSelect.Positioner>
+      </Portal>
+    </ChakraSelect.Root>
   )
 }
+
+export default Select
