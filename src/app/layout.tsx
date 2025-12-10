@@ -3,7 +3,7 @@ import { Metadata, Viewport } from 'next'
 import { GoogleAnalytics, GoogleTagManager } from '@/components/analytics'
 import { Provider as ThemeProvider } from '@/components/ui/provider'
 import { ENV } from '@/configs/env'
-import { pretendard } from '@/generated/fonts/next-fonts'
+import { catholic, pretendard } from '@/generated/fonts/next-fonts'
 import { AppProvider } from '@/providers/app-provider'
 
 /**
@@ -99,7 +99,7 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${pretendard.variable}`}
+      className={`${pretendard.variable} ${catholic.variable}`}
       suppressHydrationWarning
     >
       <body>
