@@ -27,7 +27,7 @@ const ToastSections: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="24px">
       <Box display="flex" flexDirection="column" gap="12px">
-        <Stack direction="column" gap="24px">
+        <Stack direction="row" gap="24px">
           {option.types.map((type) => (
             <Button key={type} onClick={() => handleOpenToast(type)}>
               {type}

@@ -13,6 +13,7 @@ import SwitchSections from './sections/switch-sections'
 import TabsSections from './sections/tabs-sections'
 import TextareaSections from './sections/textarea-sections'
 import ToastSections from './sections/toast-sections'
+import TooltipSections from './sections/tooltip-sections'
 
 const DesignSystemPage: React.FC = () => {
   return (
@@ -48,6 +49,8 @@ const DesignSystemPage: React.FC = () => {
       <OtherDialogSections />
 
       <ToastSections />
+
+      <TooltipSections />
     </Box>
   )
 }

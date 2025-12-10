@@ -5,15 +5,12 @@ export const tooltipSlotRecipe = defineSlotRecipe({
   className: 'chakra-tooltip',
   base: {
     content: {
-      '--tooltip-bg': 'colors.bg.inverted',
+      '--tooltip-bg': 'colors.grey-transparent.600',
       bg: 'var(--tooltip-bg)',
-      color: 'fg.inverted',
-      px: '2.5',
-      py: '1',
-      borderRadius: 'l2',
-      fontWeight: 'medium',
-      textStyle: 'xs',
-      boxShadow: 'md',
+      color: 'grey.0',
+      p: '4px 8px',
+      rounded: '6px',
+      textStyle: 'pre-body-6',
       maxW: 'xs',
       zIndex: 'tooltip',
       transformOrigin: 'var(--transform-origin)',
@@ -28,11 +25,9 @@ export const tooltipSlotRecipe = defineSlotRecipe({
     },
     arrow: {
       '--arrow-size': 'sizes.2',
-      '--arrow-background': 'var(--tooltip-bg)',
+      '--arrow-background': 'grey.0',
     },
     arrowTip: {
-      borderTopWidth: '1px',
-      borderInlineStartWidth: '1px',
       borderColor: 'var(--tooltip-bg)',
     },
   },
