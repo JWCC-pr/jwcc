@@ -17,7 +17,7 @@ export const dialogSlotRecipe = defineSlotRecipe({
   className: 'chakra-dialog',
   base: {
     backdrop: {
-      bg: 'blackAlpha.500',
+      bg: 'grey.transparent.4',
       pos: 'fixed',
       left: 0,
       top: 0,
@@ -51,13 +51,14 @@ export const dialogSlotRecipe = defineSlotRecipe({
       position: 'relative',
       width: '100%',
       outline: 0,
-      borderRadius: 'l3',
+      borderRadius: '20px',
       textStyle: 'sm',
       my: 'var(--dialog-margin, var(--dialog-base-margin))',
       '--dialog-z-index': 'zIndex.modal',
       zIndex: 'calc(var(--dialog-z-index) + var(--layer-index, 0))',
-      bg: 'bg.panel',
+      bg: 'grey.0',
       boxShadow: 'lg',
+      p: '32px 16px 16px',
       _open: {
         animationDuration: 'moderate',
       },
@@ -67,31 +68,23 @@ export const dialogSlotRecipe = defineSlotRecipe({
     },
     header: {
       flex: 0,
-      px: '6',
-      pt: '6',
-      pb: '4',
     },
     body: {
       flex: '1',
-      px: '6',
-      pt: '2',
-      pb: '6',
     },
     footer: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',
-      gap: '3',
-      px: '6',
-      pt: '2',
-      pb: '4',
+      gap: '8px',
     },
     title: {
-      textStyle: 'lg',
-      fontWeight: 'semibold',
+      color: 'grey.10',
+      textStyle: 'pre-heading-4',
     },
     description: {
-      color: 'fg.muted',
+      color: 'grey.7',
+      textStyle: 'pre-body-6',
     },
   },
   variants: {
@@ -144,47 +137,19 @@ export const dialogSlotRecipe = defineSlotRecipe({
       },
     },
     size: {
-      xs: {
-        content: {
-          maxW: 'sm',
-        },
-      },
       sm: {
         content: {
-          maxW: 'md',
+          maxW: '320px',
         },
       },
       md: {
         content: {
-          maxW: 'lg',
+          maxW: '460px',
         },
       },
       lg: {
         content: {
-          maxW: '2xl',
-        },
-      },
-      xl: {
-        content: {
-          maxW: '4xl',
-        },
-      },
-      cover: {
-        positioner: {
-          padding: '10',
-        },
-        content: {
-          width: '100%',
-          height: '100%',
-          '--dialog-margin': '0',
-        },
-      },
-      full: {
-        content: {
-          maxW: '100vw',
-          minH: '100vh',
-          '--dialog-margin': '0',
-          borderRadius: '0',
+          maxW: '600px',
         },
       },
     },
