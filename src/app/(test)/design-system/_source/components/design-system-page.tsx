@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react/box'
 
 import AlertDialogSections from './sections/alert-dialog-sections'
+import OtherDialogSections from './sections/athor-dialog-sections'
 import BadgeSections from './sections/badge-sections'
 import ButtonSections from './sections/button-sections'
 import CheckboxSections from './sections/checkbox-sections'
@@ -42,6 +43,8 @@ const DesignSystemPage: React.FC = () => {
       <PaginationSections />
 
       <AlertDialogSections />
+
+      <OtherDialogSections />
     </Box>
   )
 }
