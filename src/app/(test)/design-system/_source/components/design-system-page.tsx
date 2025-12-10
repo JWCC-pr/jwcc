@@ -4,6 +4,7 @@ import ButtonSections from './sections/button-sections'
 import CheckboxSections from './sections/checkbox-sections'
 import FontSections from './sections/font-sections'
 import RadioSections from './sections/radio-sections'
+import SwitchSections from './sections/switch-sections'
 import TabsSections from './sections/tabs-sections'
 
 const DesignSystemPage: React.FC = () => {
@@ -24,6 +25,8 @@ const DesignSystemPage: React.FC = () => {
       <CheckboxSections />
 
       <RadioSections />
+
+      <SwitchSections />
     </Box>
   )
 }

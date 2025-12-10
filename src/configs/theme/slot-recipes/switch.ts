@@ -29,8 +29,6 @@ export const switchSlotRecipe = defineSlotRecipe({
       position: 'absolute',
       height: 'var(--switch-height)',
       width: 'var(--switch-height)',
-      fontSize: 'var(--switch-indicator-font-size)',
-      fontWeight: 'medium',
       flexShrink: 0,
       userSelect: 'none',
       display: 'grid',
@@ -51,6 +49,7 @@ export const switchSlotRecipe = defineSlotRecipe({
       position: 'relative',
       width: 'var(--switch-width)',
       height: 'var(--switch-height)',
+      bgColor: 'grey.3',
       _disabled: {
         opacity: '0.5',
         cursor: 'not-allowed',
@@ -69,6 +68,8 @@ export const switchSlotRecipe = defineSlotRecipe({
       transitionProperty: 'translate',
       transitionDuration: 'fast',
       borderRadius: 'inherit',
+      width: 'var(--switch-thumb-size)',
+      height: 'var(--switch-thumb-size)',
       _checked: {
         translate: 'var(--switch-x) 0',
       },
@@ -78,75 +79,49 @@ export const switchSlotRecipe = defineSlotRecipe({
     variant: {
       solid: {
         control: {
-          borderRadius: 'full',
-          bg: 'bg.emphasized',
+          bgColor: 'grey.3',
           focusVisibleRing: 'outside',
           _checked: {
-            bg: 'colorPalette.solid',
+            bgColor: 'primary.4',
+          },
+          _disabled: {
+            opacity: '0.4',
           },
         },
         thumb: {
           bg: 'white',
-          width: 'var(--switch-height)',
-          height: 'var(--switch-height)',
-          scale: '0.8',
           boxShadow: 'sm',
           _checked: {
             bg: 'colorPalette.contrast',
           },
         },
       },
-      raised: {
-        control: {
-          borderRadius: 'full',
-          height: 'calc(var(--switch-height) / 2)',
-          bg: 'bg.muted',
-          boxShadow: 'inset',
-          _checked: {
-            bg: 'colorPalette.solid/60',
-          },
-        },
-        thumb: {
-          width: 'var(--switch-height)',
-          height: 'var(--switch-height)',
-          position: 'relative',
-          top: 'calc(var(--switch-height) * -0.25)',
-          bg: 'white',
-          boxShadow: 'xs',
-          focusVisibleRing: 'outside',
-          _checked: {
-            bg: 'colorPalette.solid',
-          },
-        },
-      },
     },
     size: {
-      xs: {
-        root: {
-          '--switch-width': 'sizes.6',
-          '--switch-height': 'sizes.3',
-          '--switch-indicator-font-size': 'fontSizes.xs',
-        },
-      },
-      sm: {
-        root: {
-          '--switch-width': 'sizes.8',
-          '--switch-height': 'sizes.4',
-          '--switch-indicator-font-size': 'fontSizes.xs',
-        },
-      },
       md: {
         root: {
-          '--switch-width': 'sizes.10',
-          '--switch-height': 'sizes.5',
-          '--switch-indicator-font-size': 'fontSizes.sm',
+          '--switch-width': '42px',
+          '--switch-height': '24px',
+          '--switch-thumb-size': '18px',
+        },
+        control: {
+          p: '3px',
+        },
+        label: {
+          textStyle: 'pre-caption-1',
         },
       },
       lg: {
         root: {
-          '--switch-width': 'sizes.12',
-          '--switch-height': 'sizes.6',
-          '--switch-indicator-font-size': 'fontSizes.md',
+          '--switch-width': '56px',
+          '--switch-height': '32px',
+          '--switch-thumb-size': '24px',
+        },
+        control: {
+          p: '4px',
+        },
+        label: {
+          textStyle: 'pre-body-5',
         },
       },
     },
