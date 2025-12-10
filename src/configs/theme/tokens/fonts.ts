@@ -10,4 +10,7 @@ export const fonts = defineTokens.fonts({
   'Pretendard Variable': {
     value: 'var(--font-pretendard)',
   },
+  Catholic: {
+    value: 'var(--font-catholic)',
+  },
 })

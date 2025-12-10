@@ -52,11 +52,9 @@ export const tabsSlotRecipe = defineSlotRecipe({
       focusVisibleRing: 'inside',
       _horizontal: {
         width: '100%',
-        pt: 'var(--tabs-content-padding)',
       },
       _vertical: {
         height: '100%',
-        ps: 'var(--tabs-content-padding)',
       },
     },
     indicator: {
@@ -101,174 +99,170 @@ export const tabsSlotRecipe = defineSlotRecipe({
     size: {
       sm: {
         root: {
-          '--tabs-height': 'sizes.9',
-          '--tabs-content-padding': 'spacing.3',
+          '--tabs-height': '32px',
         },
         trigger: {
-          py: '1',
-          px: '3',
-          textStyle: 'sm',
+          textStyle: 'pre-caption-1',
+          gap: '4px',
+          px: '10px',
+          rounded: '6px',
+          _icon: {
+            width: '18px',
+            height: '18px',
+          },
         },
       },
       md: {
         root: {
-          '--tabs-height': 'sizes.10',
-          '--tabs-content-padding': 'spacing.4',
+          '--tabs-height': '40px',
         },
         trigger: {
-          py: '2',
-          px: '4',
-          textStyle: 'sm',
+          textStyle: 'pre-body-5',
+          gap: '6px',
+          px: '12px',
+          rounded: '8px',
+          _icon: {
+            width: '24px',
+            height: '24px',
+          },
         },
       },
       lg: {
         root: {
-          '--tabs-height': 'sizes.11',
-          '--tabs-content-padding': 'spacing.4.5',
+          '--tabs-height': '48px',
         },
         trigger: {
-          py: '2',
-          px: '4.5',
-          textStyle: 'md',
+          textStyle: 'pre-body-1',
+          gap: '8px',
+          px: '16px',
+          rounded: '10px',
+          _icon: {
+            width: '26px',
+            height: '26px',
+          },
         },
       },
     },
     variant: {
       line: {
-        list: {
-          display: 'flex',
-          borderColor: 'border',
-          _horizontal: {
-            borderBottomWidth: '1px',
-          },
-          _vertical: {
-            borderEndWidth: '1px',
-          },
-        },
         trigger: {
-          color: 'fg.muted',
-          _disabled: {
-            _active: {
-              bg: 'initial',
-            },
+          color: 'grey.7',
+          borderBottom: '1px solid',
+          borderColor: 'grey.2',
+          rounded: '0px',
+          _hover: {
+            color: 'grey.10',
+            borderColor: 'grey.2',
+          },
+          _active: {
+            color: 'grey.10',
+            borderColor: 'grey.2',
           },
           _selected: {
-            color: 'fg',
-            _horizontal: {
-              layerStyle: 'indicator.bottom',
-              '--indicator-offset-y': '-1px',
-              '--indicator-color': 'colors.colorPalette.solid',
+            color: 'grey.10',
+            borderColor: 'grey.10',
+            _hover: {
+              color: 'grey.10',
+              borderColor: 'grey.10',
             },
-            _vertical: {
-              layerStyle: 'indicator.end',
-              '--indicator-offset-x': '-1px',
-            },
+          },
+          _disabled: {
+            color: 'grey.7',
+            borderColor: 'grey.2',
+            opacity: '0.4',
           },
         },
       },
       subtle: {
+        list: {
+          gap: '4px',
+        },
         trigger: {
-          borderRadius: 'var(--tabs-trigger-radius)',
-          color: 'fg.muted',
+          color: 'grey.7',
+          _hover: {
+            color: 'grey.7',
+            bgColor: 'grey.transparent.1',
+          },
+          _active: {
+            color: 'grey.7',
+            bgColor: 'grey.transparent.1',
+          },
           _selected: {
-            bg: 'colorPalette.subtle',
-            color: 'colorPalette.fg',
+            color: 'grey.10',
+            bgColor: 'grey.transparent.1',
+            _hover: {
+              color: 'grey.10',
+              bgColor: 'grey.transparent.1',
+            },
+          },
+          _disabled: {
+            color: 'grey.7',
+            opacity: '0.4',
           },
         },
       },
       enclosed: {
         list: {
-          bg: 'bg.muted',
-          padding: '1',
-          borderRadius: 'l3',
-          minH: 'calc(var(--tabs-height) - 4px)',
+          p: '4px',
+          gap: '4px',
+          bgColor: 'grey.2',
+          rounded: '12px',
         },
         trigger: {
-          justifyContent: 'center',
-          color: 'fg.muted',
-          borderRadius: 'var(--tabs-trigger-radius)',
+          color: 'grey.7',
+          _hover: {
+            color: 'grey.7',
+            bgColor: 'grey.transparent.1',
+          },
+          _active: {
+            color: 'grey.7',
+            bgColor: 'grey.transparent.1',
+          },
           _selected: {
-            bg: 'bg',
-            color: 'colorPalette.fg',
-            shadow: 'xs',
-          },
-        },
-      },
-      outline: {
-        list: {
-          '--line-thickness': '1px',
-          '--line-offset': 'calc(var(--line-thickness) * -1)',
-          borderColor: 'border',
-          display: 'flex',
-          _horizontal: {
-            _before: {
-              content: '""',
-              position: 'absolute',
-              bottom: '0px',
-              width: '100%',
-              borderBottomWidth: 'var(--line-thickness)',
-              borderBottomColor: 'border',
+            color: 'grey.0',
+            bgColor: 'primary.4',
+            _hover: {
+              color: 'grey.0',
+              bgColor: 'primary.4',
             },
           },
-          _vertical: {
-            _before: {
-              content: '""',
-              position: 'absolute',
-              insetInline: 'var(--line-offset)',
-              height: 'calc(100% - calc(var(--line-thickness) * 2))',
-              borderEndWidth: 'var(--line-thickness)',
-              borderEndColor: 'border',
-            },
-          },
-        },
-        trigger: {
-          color: 'fg.muted',
-          borderWidth: '1px',
-          borderColor: 'transparent',
-          _selected: {
-            bg: 'currentBg',
-            color: 'colorPalette.fg',
-          },
-          _horizontal: {
-            borderTopRadius: 'var(--tabs-trigger-radius)',
-            marginBottom: 'var(--line-offset)',
-            marginEnd: {
-              _notLast: 'var(--line-offset)',
-            },
-            _selected: {
-              borderColor: 'border',
-              borderBottomColor: 'transparent',
-            },
-          },
-          _vertical: {
-            borderStartRadius: 'var(--tabs-trigger-radius)',
-            marginEnd: 'var(--line-offset)',
-            marginBottom: {
-              _notLast: 'var(--line-offset)',
-            },
-            _selected: {
-              borderColor: 'border',
-              borderEndColor: 'transparent',
-            },
-          },
-        },
-      },
-      plain: {
-        trigger: {
-          color: 'fg.muted',
-          _selected: {
-            color: 'colorPalette.fg',
-          },
-          borderRadius: 'var(--tabs-trigger-radius)',
-          '&[data-selected][data-ssr]': {
-            bg: 'var(--tabs-indicator-bg)',
-            shadow: 'var(--tabs-indicator-shadow)',
-            borderRadius: 'var(--tabs-indicator-radius)',
+          _disabled: {
+            color: 'grey.7',
+            opacity: '0.4',
           },
         },
       },
     },
   },
+  compoundVariants: [
+    {
+      size: 'sm',
+      variant: 'enclosed',
+      css: {
+        root: {
+          '--tabs-height': '24px',
+        },
+      },
+    },
+    {
+      size: 'md',
+      variant: 'enclosed',
+      css: {
+        root: {
+          '--tabs-height': '32px',
+        },
+      },
+    },
+    {
+      size: 'lg',
+      variant: 'enclosed',
+      css: {
+        root: {
+          '--tabs-height': '40px',
+        },
+      },
+    },
+  ],
   defaultVariants: {
     size: 'md',
     variant: 'line',

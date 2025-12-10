@@ -9,6 +9,216 @@
  **/
 
 export const textStyles = {
+  'cat-display-1': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '48px',
+        sm: '64px',
+        md: '80px',
+      },
+      lineHeight: 1.2,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-display-2': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '40px',
+        sm: '48px',
+        md: '64px',
+      },
+      lineHeight: 1.2,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-display-3': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '32px',
+        sm: '40px',
+        md: '48px',
+      },
+      lineHeight: 1.3,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-display-4': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '28px',
+        sm: '36px',
+        md: '40px',
+      },
+      lineHeight: 1.3,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-heading-1': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '24px',
+        sm: '24px',
+        md: '32px',
+      },
+      lineHeight: 1.4,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-heading-2': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '20px',
+        sm: '20px',
+        md: '24px',
+      },
+      lineHeight: 1.4,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-heading-3': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '18px',
+        sm: '18px',
+        md: '20px',
+      },
+      lineHeight: 1.4,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-heading-4': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '18px',
+        sm: '18px',
+        md: '18px',
+      },
+      lineHeight: 1.4,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-heading-5': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '16px',
+        sm: '16px',
+        md: '16px',
+      },
+      lineHeight: 1.4,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-heading-6': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '14px',
+        sm: '14px',
+        md: '14px',
+      },
+      lineHeight: 1.4,
+      letterSpacing: '-0.01em',
+    },
+  },
+  'cat-body-1': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '18px',
+        sm: '18px',
+        md: '18px',
+      },
+      lineHeight: 1.6,
+      letterSpacing: '-0.02em',
+    },
+  },
+  'cat-body-2': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '16px',
+        sm: '16px',
+        md: '16px',
+      },
+      lineHeight: 1.6,
+      letterSpacing: '-0.02em',
+    },
+  },
+  'cat-body-3': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '14px',
+        sm: '14px',
+        md: '14px',
+      },
+      lineHeight: 1.6,
+      letterSpacing: '-0.02em',
+    },
+  },
+  'cat-caption-1': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '12px',
+        sm: '12px',
+        md: '12px',
+      },
+      lineHeight: 1.6,
+      letterSpacing: '-0.02em',
+    },
+  },
+  'cat-caption-2': {
+    value: {
+      fontFamily: 'Catholic',
+      textDecoration: 'none',
+      fontWeight: 400,
+      fontSize: {
+        base: '10px',
+        sm: '10px',
+        md: '10px',
+      },
+      lineHeight: 1.6,
+      letterSpacing: '-0.02em',
+    },
+  },
   'pre-display-1': {
     value: {
       fontFamily: 'Pretendard Variable',
@@ -19,7 +229,7 @@ export const textStyles = {
         sm: '64px',
         md: '80px',
       },
-      lineHeight: 1.3,
+      lineHeight: 1.2,
       letterSpacing: '-0.01em',
     },
   },
@@ -33,7 +243,7 @@ export const textStyles = {
         sm: '48px',
         md: '64px',
       },
-      lineHeight: 1.3,
+      lineHeight: 1.2,
       letterSpacing: '-0.01em',
     },
   },
@@ -47,7 +257,7 @@ export const textStyles = {
         sm: '40px',
         md: '48px',
       },
-      lineHeight: 1.4,
+      lineHeight: 1.3,
       letterSpacing: '-0.01em',
     },
   },
@@ -61,7 +271,7 @@ export const textStyles = {
         sm: '36px',
         md: '40px',
       },
-      lineHeight: 1.4,
+      lineHeight: 1.3,
       letterSpacing: '-0.01em',
     },
   },
@@ -113,7 +323,7 @@ export const textStyles = {
       textDecoration: 'none',
       fontWeight: 700,
       fontSize: {
-        base: '16px',
+        base: '18px',
         sm: '18px',
         md: '18px',
       },
@@ -135,13 +345,27 @@ export const textStyles = {
       letterSpacing: '-0.01em',
     },
   },
+  'pre-heading-6': {
+    value: {
+      fontFamily: 'Pretendard Variable',
+      textDecoration: 'none',
+      fontWeight: 700,
+      fontSize: {
+        base: '14px',
+        sm: '14px',
+        md: '14px',
+      },
+      lineHeight: 1.4,
+      letterSpacing: '-0.01em',
+    },
+  },
   'pre-body-1': {
     value: {
       fontFamily: 'Pretendard Variable',
       textDecoration: 'none',
       fontWeight: 600,
       fontSize: {
-        base: '16px',
+        base: '18px',
         sm: '18px',
         md: '18px',
       },
@@ -155,7 +379,7 @@ export const textStyles = {
       textDecoration: 'none',
       fontWeight: 400,
       fontSize: {
-        base: '16px',
+        base: '18px',
         sm: '18px',
         md: '18px',
       },
@@ -237,7 +461,7 @@ export const textStyles = {
     value: {
       fontFamily: 'Pretendard Variable',
       textDecoration: 'none',
-      fontWeight: 400,
+      fontWeight: 500,
       fontSize: {
         base: '12px',
         sm: '12px',
@@ -265,7 +489,7 @@ export const textStyles = {
     value: {
       fontFamily: 'Pretendard Variable',
       textDecoration: 'none',
-      fontWeight: 400,
+      fontWeight: 500,
       fontSize: {
         base: '10px',
         sm: '10px',

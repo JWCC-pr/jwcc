@@ -46,13 +46,7 @@ export const FormHelper = ({
     <ChakraField.Root invalid={isShowErrorText} {...basisProps}>
       {!!label && (
         <ChakraField.Label>
-          <Text
-            textStyle="pre-body-05"
-            color="content.3"
-            fontWeight={600}
-            mb="8px"
-            {...styles?.label}
-          >
+          <Text textStyle="pre-body-05" color="content.3" {...styles?.label}>
             {label}
           </Text>
         </ChakraField.Label>

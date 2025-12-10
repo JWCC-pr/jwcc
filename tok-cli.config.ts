@@ -38,6 +38,7 @@ const config: RootConfig<{
       },
     },
     version: 'v3',
+    input: './token.json',
   },
   'gen:icon': {
     input: 'public/icons',

@@ -64,77 +64,40 @@ export const radioGroupSlotRecipe = defineSlotRecipe({
   },
   variants: {
     variant: {
-      outline: {
-        itemControl: {
-          borderWidth: '1px',
-          borderColor: 'inherit',
-          _checked: {
-            color: 'colorPalette.fg',
-            borderColor: 'colorPalette.solid',
-          },
-          '& .dot': {
-            scale: '0.6',
-          },
-        },
-      },
-      subtle: {
-        itemControl: {
-          borderWidth: '1px',
-          bg: 'colorPalette.muted',
-          borderColor: 'colorPalette.muted',
-          color: 'transparent',
-          _checked: {
-            color: 'colorPalette.fg',
-          },
-        },
-      },
       solid: {
         itemControl: {
-          borderWidth: '1px',
-          borderColor: 'border',
+          borderColor: 'grey.3',
           _checked: {
-            bg: 'colorPalette.solid',
-            color: 'colorPalette.contrast',
-            borderColor: 'colorPalette.solid',
+            bg: 'primary.4',
+            color: 'grey.0',
+            borderColor: 'primary.4',
           },
         },
       },
     },
     size: {
-      xs: {
-        item: {
-          textStyle: 'xs',
-          gap: '1.5',
-        },
-        itemControl: {
-          boxSize: '3',
-        },
-      },
       sm: {
         item: {
-          textStyle: 'sm',
-          gap: '2',
+          gap: '4px',
+        },
+        label: {
+          textStyle: 'pre-caption-1',
         },
         itemControl: {
-          boxSize: '4',
+          boxSize: '16px',
+          p: '0.75px',
         },
       },
       md: {
         item: {
-          textStyle: 'sm',
-          gap: '2.5',
+          gap: '6px',
+        },
+        label: {
+          textStyle: 'pre-body-5',
         },
         itemControl: {
-          boxSize: '5',
-        },
-      },
-      lg: {
-        item: {
-          textStyle: 'md',
-          gap: '3',
-        },
-        itemControl: {
-          boxSize: '6',
+          boxSize: '20px',
+          p: '1.5px',
         },
       },
     },
