@@ -36,6 +36,7 @@ export const buttonRecipe = defineRecipe({
     size: {
       sm: {
         h: '32px',
+        minW: '32px',
         px: '12px',
         gap: '4px',
         textStyle: 'pre-caption-1',
@@ -47,6 +48,7 @@ export const buttonRecipe = defineRecipe({
       },
       md: {
         h: '40px',
+        minW: '40px',
         px: '16px',
         gap: '6px',
         textStyle: 'pre-body-5',
@@ -58,6 +60,7 @@ export const buttonRecipe = defineRecipe({
       },
       lg: {
         h: '48px',
+        minW: '48px',
         px: '24px',
         gap: '8px',
         textStyle: 'pre-body-3',
