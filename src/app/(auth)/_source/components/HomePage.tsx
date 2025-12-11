@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react/box'
 import { motion } from 'motion/react'
 
 import CarouselSection from './sections/carousel-section'
-import ChurchNewsSection from './sections/church-news-section'
+import NewsBulletinSection from './sections/news-bulletin-section/news-bulletin-section'
 import NoticeAndMassSection from './sections/notice-and-mass-section/notice-and-mass-section'
 import ScheduleSection from './sections/schedule-section'
 
@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
     >
       <CarouselSection />
       <NoticeAndMassSection />
-      <ChurchNewsSection />
+      <NewsBulletinSection />
       <ScheduleSection />
     </MotionBox>
   )
