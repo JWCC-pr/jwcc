@@ -17,6 +17,8 @@ const Header: React.FC = () => {
       w="100%"
       position="relative"
       zIndex="sticky"
+      borderBottom="1px solid"
+      borderBottomColor="white.trnsparent.2"
       onMouseLeave={() => setHoveredNavIndex(null)}
     >
       <HeaderBar
