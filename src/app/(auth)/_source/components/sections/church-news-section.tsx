@@ -7,6 +7,8 @@ const ChurchNewsSection: React.FC = () => {
     <Box
       as="section"
       w="100%"
+      maxW="1280px"
+      mx="auto"
       h="100vh"
       bgColor="accent.pink2"
       p="64px 40px"

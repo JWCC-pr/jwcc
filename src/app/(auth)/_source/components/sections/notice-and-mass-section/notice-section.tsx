@@ -1,0 +1,76 @@
+'use client'
+
+import { Box } from '@chakra-ui/react/box'
+import { Button } from '@chakra-ui/react/button'
+import { Link } from '@chakra-ui/react/link'
+import { Text } from '@chakra-ui/react/text'
+import { ArrowRightIcon, CaretRightIcon } from '@phosphor-icons/react'
+
+import { format } from 'date-fns/format'
+
+// FIXME: API 연동 후 수정
+interface Mock {
+  id: number
+  title: string
+  publishedAt: string
+}
+
+// FIXME: API 연동 후 수정
+const mocks: Mock[] = Array.from({ length: 10 }, (_, index) => ({
+  id: index + 1,
+  title: `주일 미사 시간 안내 ${index + 1}`,
+  publishedAt: new Date(2025, 11, 10 + index).toISOString(),
+}))
+
+const NoticeSection: React.FC = () => {
+  return (
+    <Box flex="1" display="flex" flexFlow="column nowrap" gap="40px">
+      <Box py="10px" display="flex" alignItems="center" gap="10px">
+        <Text flex="1" textStyle="pre-heading-1" color="grey.10">
+          공지사항
+        </Text>
+        <Link href={`#/notice TODO:`} _hover={{ textDecoration: 'none' }}>
+          <Button variant="ghost" size="md" colorPalette="grey">
+            전체 보기
+            <ArrowRightIcon size="20px" />
+          </Button>
+        </Link>
+      </Box>
+      <Box display="flex" flexFlow="column nowrap">
+        <Box w="full" h="1.5px" bgColor="grey.10" />
+        <Box as="ul" display="flex" flexFlow="column nowrap">
+          {mocks.slice(0, 5).map((mock) => (
+            <Link
+              key={mock.id}
+              href={`#/notice/${mock.id} TODO:`}
+              p="24px 16px"
+              display="flex"
+              alignItems="center"
+              gap="20px"
+              borderBottom="1px solid"
+              borderBottomColor="grey.2"
+              transition="all 0.2s ease-in-out"
+              _last={{
+                borderBottom: 'none',
+              }}
+              _hover={{
+                bgColor: 'grey.1',
+                textDecoration: 'none',
+              }}
+            >
+              <Text flex="1" textStyle="pre-body-1" color="grey.10">
+                {mock.title}
+              </Text>
+              <Text textStyle="pre-body-6" color="grey.7">
+                {format(new Date(mock.publishedAt), 'yyyy-MM-dd')}
+              </Text>
+              <CaretRightIcon size="20px" color="#9FA4A9" />
+            </Link>
+          ))}
+        </Box>
+      </Box>
+    </Box>
+  )
+}
+
+export default NoticeSection

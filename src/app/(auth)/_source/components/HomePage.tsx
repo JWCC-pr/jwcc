@@ -6,7 +6,7 @@ import { motion } from 'motion/react'
 
 import CarouselSection from './sections/carousel-section'
 import ChurchNewsSection from './sections/church-news-section'
-import NoticeAndMassSection from './sections/notice-and-mass-section'
+import NoticeAndMassSection from './sections/notice-and-mass-section/notice-and-mass-section'
 import ScheduleSection from './sections/schedule-section'
 
 const MotionBox = motion(Box)
