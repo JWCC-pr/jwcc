@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   return (
     <Box
       w="100%"
-      position="relative"
+      position="fixed"
       zIndex="sticky"
       borderBottom="1px solid"
       borderBottomColor="white.trnsparent.2"

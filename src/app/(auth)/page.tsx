@@ -1,7 +1,9 @@
 import type { NextPage } from 'next'
 
+import HomePage from './_source/components/HomePage'
+
 const Page: NextPage = () => {
-  return <div>AuthPage</div>
+  return <HomePage />
 }
 
 export default Page
