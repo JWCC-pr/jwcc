@@ -31,7 +31,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
         position="absolute"
         inset="0"
         h="64px"
-        bgColor="white-transparent.500"
+        bgColor={hasHoveredNav ? 'white-transparent.500' : 'transparent'}
         zIndex="-1"
       />
 
