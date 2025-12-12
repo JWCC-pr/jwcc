@@ -436,6 +436,17 @@ export const SignupCCheckCircleFillIcon = (props: IconProps) => (
   </Icon>
 )
 
+export const SignupCompleteCCheckCircleFillIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <svg viewBox="0 0 64 64" fill="none">
+      <path
+        d="M32 8C45.2547 8.00021 56 18.7453 56 32C55.9998 45.2545 45.2545 55.9998 32 56C18.7453 56 8.00021 45.2547 8 32C8 18.7452 18.7452 8 32 8ZM43.6973 24.3027C42.76 23.3655 41.24 23.3655 40.3027 24.3027L28 36.6055L23.6973 32.3027C22.76 31.3655 21.24 31.3655 20.3027 32.3027C19.3655 33.24 19.3655 34.76 20.3027 35.6973L26.3027 41.6973C27.24 42.6341 28.7601 42.6344 29.6973 41.6973L43.6973 27.6973C44.6344 26.7601 44.6341 25.24 43.6973 24.3027Z"
+        fill="#22A04C"
+      />
+    </svg>
+  </Icon>
+)
+
 export const SunIcon = (props: IconProps) => (
   <Icon {...props}>
     <svg viewBox="0 0 24 24" fill="none">
