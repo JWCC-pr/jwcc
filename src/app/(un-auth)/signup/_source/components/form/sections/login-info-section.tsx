@@ -11,6 +11,7 @@ import { FormHelper } from '@/components/form-helper'
 import { PasswordInput } from '@/components/ui/password-input'
 
 import { SignupFormDataType } from '../../../hooks/useSignupForm'
+import EmailInputSection from '../../sections/email-input-section'
 
 const LoginInfoSection: React.FC = () => {
   const { register, control } = useFormContext<SignupFormDataType>()
@@ -28,30 +29,7 @@ const LoginInfoSection: React.FC = () => {
         로그인 정보
       </Text>
       <Box py="16px" display="flex" flexDirection="column" gap="32px">
-        <FormHelper
-          required
-          label="이메일"
-          message={{ error: errors.email?.message }}
-        >
-          <Box w="full" display="flex" alignItems="center" gap="8px">
-            <Input
-              size="lg"
-              variant="outline"
-              colorPalette="grey"
-              placeholder="이메일"
-              {...register('email')}
-              flex="1"
-            />
-            <Button
-              type="button"
-              size="lg"
-              variant="solid"
-              colorPalette="primary"
-            >
-              인증
-            </Button>
-          </Box>
-        </FormHelper>
+        <EmailInputSection />
 
         <FormHelper
           required

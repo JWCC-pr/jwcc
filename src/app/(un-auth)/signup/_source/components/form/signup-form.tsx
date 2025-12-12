@@ -9,7 +9,11 @@ import SignupFormView from './signup-form-view'
 const SignupForm: React.FC = () => {
   const methods = useSignupForm({
     defaultValues: {
-      email: '',
+      email: {
+        value: '',
+        verificationCode: '',
+        isVerified: false,
+      },
       password: '',
     },
   })

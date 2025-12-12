@@ -8,7 +8,16 @@ import { REGEX } from '@/constants/form/regex'
 
 export interface SignupFormDataType {
   // ================================ 로그인 정보 ================================
-  email: string
+  /** 이메일 정보 */
+  email: {
+    /** 이메일 */
+    value: string
+    /** 인증번호 */
+    verificationCode: string
+    /** 인증 여부 */
+    isVerified: boolean
+  }
+
   password: string
   passwordConfirm: string
 
@@ -44,10 +53,14 @@ export const signupFormSchema: yup.ObjectSchema<SignupFormDataType> = yup
   .object()
   .shape({
     // ================================ 로그인 정보 ================================
-    email: yup
-      .string()
-      .required(FORM_MESSAGE.COMMON.REQUIRED)
-      .matches(REGEX.EMAIL, FORM_MESSAGE.EMAIL.FORMAT),
+    email: yup.object().shape({
+      value: yup
+        .string()
+        .required(FORM_MESSAGE.COMMON.REQUIRED)
+        .matches(REGEX.EMAIL, FORM_MESSAGE.EMAIL.FORMAT),
+      verificationCode: yup.string().required(),
+      isVerified: yup.boolean().required().oneOf([true]).required(),
+    }),
     password: yup
       .string()
       .required(FORM_MESSAGE.COMMON.REQUIRED)
@@ -101,6 +114,13 @@ export const useSignupForm = (options?: UseFormProps<SignupFormDataType>) => {
   return useForm<SignupFormDataType>({
     resolver: yupResolver(signupFormSchema),
     mode: 'onChange',
+    defaultValues: {
+      email: {
+        value: '',
+        verificationCode: '',
+        isVerified: false,
+      },
+    },
     ...options,
   })
 }
