@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react/box'
 import { Input } from '@chakra-ui/react/input'
 import { Text } from '@chakra-ui/react/text'
 
-import { useFormContext, useFormState } from 'react-hook-form'
+import { Controller, useFormContext, useFormState } from 'react-hook-form'
 
 import DepartmentMultiSelect from '@/app/(un-auth)/signup/_source/components/sections/department-multi-select'
 import { FormHelper } from '@/components/form-helper'
@@ -13,13 +13,11 @@ import Select from '@/components/select'
 
 import { SignupFormDataType } from '../../../hooks/useSignupForm'
 
-const MemberInfoSection: React.FC = () => {
-  const { register, control, setValue } = useFormContext<SignupFormDataType>()
-  const { errors } = useFormState({ control })
+const TODAY_YEAR = new Date().getFullYear()
 
-  const handleSelectDepartment = (department: string[]) => {
-    setValue('department', department)
-  }
+const MemberInfoSection: React.FC = () => {
+  const { register, control } = useFormContext<SignupFormDataType>()
+  const { errors } = useFormState({ control })
 
   return (
     <Box display="flex" flexDirection="column">
@@ -77,22 +75,37 @@ const MemberInfoSection: React.FC = () => {
         >
           <Box w="full" display="flex" gap="4px">
             <Select
-              options={[]}
+              options={Array(120)
+                .fill(0)
+                .map((_, index) => ({
+                  label: (TODAY_YEAR - index).toString() + '년',
+                  value: (TODAY_YEAR - index).toString(),
+                }))}
               placeholder="년도"
+              flex="1"
               {...register('birthDate.year')}
-              flex="1"
             />
             <Select
-              options={[]}
+              options={Array(12)
+                .fill(0)
+                .map((_, index) => ({
+                  label: (index + 1).toString() + '월',
+                  value: (index + 1).toString(),
+                }))}
               placeholder="월"
-              {...register('birthDate.month')}
               flex="1"
+              {...register('birthDate.month')}
             />
             <Select
-              options={[]}
+              options={Array(31)
+                .fill(0)
+                .map((_, index) => ({
+                  label: (index + 1).toString() + '일',
+                  value: (index + 1).toString(),
+                }))}
               placeholder="일"
-              {...register('birthDate.day')}
               flex="1"
+              {...register('birthDate.day')}
             />
           </Box>
         </FormHelper>
@@ -101,10 +114,22 @@ const MemberInfoSection: React.FC = () => {
           required
           label="분과"
           message={{
-            error: errors.baptismName?.message,
+            error: errors.department?.message,
           }}
         >
-          <DepartmentMultiSelect onSelect={handleSelectDepartment} />
+          <Controller
+            control={control}
+            name="department"
+            render={({ field }) => (
+              <DepartmentMultiSelect
+                value={field.value || []}
+                onChange={(value) => {
+                  field.onChange(value)
+                }}
+                onBlur={field.onBlur}
+              />
+            )}
+          />
         </FormHelper>
       </Box>
     </Box>

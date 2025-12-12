@@ -4,6 +4,10 @@ import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
 import { Text } from '@chakra-ui/react/text'
 
+import { useFormContext, useFormState } from 'react-hook-form'
+
+import { SignupFormDataType } from '../../hooks/useSignupForm'
+
 interface SignupFormContainerProps {
   onSubmit: () => void
   view: React.ReactNode
@@ -13,6 +17,9 @@ const SignupFormContainer: React.FC<SignupFormContainerProps> = ({
   onSubmit,
   view,
 }) => {
+  const { control } = useFormContext<SignupFormDataType>()
+  const { isValid } = useFormState({ control })
+
   return (
     <Box
       as="form"
@@ -28,7 +35,13 @@ const SignupFormContainer: React.FC<SignupFormContainerProps> = ({
       {view}
 
       <Box py="16px">
-        <Button w="full" type="submit" size="lg" variant="solid">
+        <Button
+          w="full"
+          type="submit"
+          size="lg"
+          variant="solid"
+          disabled={!isValid}
+        >
           가입 신청
         </Button>
       </Box>

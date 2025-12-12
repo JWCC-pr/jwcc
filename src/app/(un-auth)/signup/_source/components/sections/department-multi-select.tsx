@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo } from 'react'
 
 import { Box } from '@chakra-ui/react/box'
 import { Checkbox } from '@chakra-ui/react/checkbox'
@@ -195,34 +195,58 @@ const DropdownIndicator = (props: DropdownIndicatorProps<Option, true>) => {
 }
 
 interface DepartmentMultiSelectProps {
-  onSelect: (department: string[]) => void
+  /** 선택된 값 (string[]) */
+  value?: string[]
+  /** 값 변경 핸들러 */
+  onChange?: (value: string[]) => void
+  /** blur 핸들러 */
+  onBlur?: () => void
+  /** 기존 onSelect prop (하위 호환성) */
+  onSelect?: (department: string[]) => void
 }
 
 const DepartmentMultiSelect: React.FC<DepartmentMultiSelectProps> = ({
+  value = [],
+  onChange,
+  onBlur,
   onSelect,
 }) => {
-  const [selectedValues, setSelectedValues] = useState<MultiValue<Option>>([])
+  // 모든 옵션을 평탄화하여 value로 Option을 찾을 수 있도록 함
+  const allOptions = useMemo(() => {
+    return groupedOptions.flatMap((group) => group.options)
+  }, [])
+
+  // string[]을 MultiValue<Option>으로 변환
+  const selectedValues = useMemo<MultiValue<Option>>(() => {
+    return value
+      .map((val) => allOptions.find((opt) => opt.value === val))
+      .filter((opt): opt is Option => opt !== undefined)
+  }, [value, allOptions])
 
   const handleOptionChange = (option: Option) => {
-    setSelectedValues((prev) => {
-      const isSelected = prev.some((item) => item.value === option.value)
+    const isSelected = selectedValues.some(
+      (item) => item.value === option.value,
+    )
 
-      let newSelectedValues: Option[] = []
+    let newSelectedValues: Option[] = []
 
-      if (isSelected) {
-        newSelectedValues = prev.filter((item) => item.value !== option.value)
-      } else {
-        newSelectedValues = [...prev, option]
-      }
+    if (isSelected) {
+      newSelectedValues = selectedValues.filter(
+        (item) => item.value !== option.value,
+      )
+    } else {
+      newSelectedValues = [...selectedValues, option]
+    }
 
-      onSelect(newSelectedValues.map((item) => item.value))
-      return newSelectedValues
-    })
+    const newValue = newSelectedValues.map((item) => item.value)
+    onChange?.(newValue)
+    onSelect?.(newValue)
   }
 
   const handleChange = (newValue: MultiValue<Option>) => {
-    setSelectedValues(newValue)
-    onSelect(newValue.map((item) => item.value))
+    const newValueArray = newValue.map((item) => item.value)
+    onChange?.(newValueArray)
+    onSelect?.(newValueArray)
   }
 
   const formatOptionLabel = (option: Option) => {
@@ -231,7 +255,7 @@ const DepartmentMultiSelect: React.FC<DepartmentMultiSelectProps> = ({
 
     return (
       <Checkbox.Root
-        size="md"
+        size="sm"
         variant="solid"
         colorPalette="primary"
         checked={isSelected}
@@ -285,6 +309,7 @@ const DepartmentMultiSelect: React.FC<DepartmentMultiSelectProps> = ({
     <ReactSelect
       value={selectedValues}
       onChange={handleChange}
+      onBlur={onBlur}
       isMulti
       closeMenuOnSelect={false}
       hideSelectedOptions={false}

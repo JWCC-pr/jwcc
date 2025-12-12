@@ -59,7 +59,7 @@ export const signupFormSchema: yup.ObjectSchema<SignupFormDataType> = yup
         .required(FORM_MESSAGE.COMMON.REQUIRED)
         .matches(REGEX.EMAIL, FORM_MESSAGE.EMAIL.FORMAT),
       verificationCode: yup.string().required(),
-      isVerified: yup.boolean().required().oneOf([true]).required(),
+      isVerified: yup.boolean().oneOf([true]).required(),
     }),
     password: yup
       .string()
@@ -98,14 +98,18 @@ export const signupFormSchema: yup.ObjectSchema<SignupFormDataType> = yup
         day: yup.string().required(),
       })
       .required(),
-    department: yup.array().of(yup.string().required()).required(),
+    department: yup
+      .array()
+      .of(yup.string().required())
+      .min(1, FORM_MESSAGE.COMMON.REQUIRED)
+      .required(FORM_MESSAGE.COMMON.REQUIRED),
 
     // ================================ 약관 동의 ================================
     agreement: yup
       .object()
       .shape({
-        termsOfService: yup.boolean().required(),
-        privacyPolicy: yup.boolean().required(),
+        termsOfService: yup.boolean().oneOf([true]).required(),
+        privacyPolicy: yup.boolean().oneOf([true]).required(),
       })
       .required(),
   })

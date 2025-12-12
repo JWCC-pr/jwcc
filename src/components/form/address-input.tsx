@@ -31,7 +31,7 @@ declare global {
 }
 
 const AddressInput: React.FC = () => {
-  const { register, control, setValue } = useFormContext()
+  const { register, control, setValue, clearErrors } = useFormContext()
   const { errors } = useFormState({ control })
   const scriptLoaded = useRef(false)
 
@@ -88,6 +88,7 @@ const AddressInput: React.FC = () => {
 
         // 주소 필드에 값 설정
         setValue('address', fullAddress + extraAddress)
+        clearErrors('address')
       },
     }).open()
   }
