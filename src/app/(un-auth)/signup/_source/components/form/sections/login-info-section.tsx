@@ -1,11 +1,9 @@
 'use client'
 
 import { Box } from '@chakra-ui/react/box'
-import { Button } from '@chakra-ui/react/button'
-import { Input } from '@chakra-ui/react/input'
 import { Text } from '@chakra-ui/react/text'
 
-import { useFormContext, useFormState } from 'react-hook-form'
+import { useFormContext, useFormState, useWatch } from 'react-hook-form'
 
 import { FormHelper } from '@/components/form-helper'
 import { PasswordInput } from '@/components/ui/password-input'
@@ -16,6 +14,7 @@ import EmailInputSection from '../../sections/email-input-section'
 const LoginInfoSection: React.FC = () => {
   const { register, control } = useFormContext<SignupFormDataType>()
   const { errors } = useFormState({ control })
+  const watchedPassword = useWatch({ control, name: 'password' })
 
   return (
     <Box display="flex" flexDirection="column">
@@ -36,7 +35,10 @@ const LoginInfoSection: React.FC = () => {
           label="비밀번호"
           message={{
             error: errors.password?.message,
-            help: '영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요.',
+            help:
+              watchedPassword ? '' : (
+                '영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요.'
+              ),
           }}
         >
           <PasswordInput
