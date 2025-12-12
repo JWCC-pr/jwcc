@@ -1,13 +1,13 @@
 'use client'
 
 import { Box } from '@chakra-ui/react/box'
-import { Button } from '@chakra-ui/react/button'
 import { Input } from '@chakra-ui/react/input'
 import { Text } from '@chakra-ui/react/text'
 
 import { useFormContext, useFormState } from 'react-hook-form'
 
 import { FormHelper } from '@/components/form-helper'
+import AddressInput from '@/components/form/address-input'
 import Select from '@/components/select'
 
 import { SignupFormDataType } from '../../../hooks/useSignupForm'
@@ -61,45 +61,7 @@ const MemberInfoSection: React.FC = () => {
           />
         </FormHelper>
 
-        <Box display="flex" flexDirection="column" gap="4px">
-          <FormHelper
-            required
-            label="주소"
-            message={{ error: errors.address?.message }}
-          >
-            <Box w="full" display="flex" alignItems="center" gap="8px">
-              <Input
-                size="lg"
-                variant="outline"
-                colorPalette="grey"
-                placeholder="주소"
-                {...register('address')}
-                flex="1"
-              />
-              <Button
-                type="button"
-                size="lg"
-                variant="solid"
-                colorPalette="primary"
-              >
-                주소 검색
-              </Button>
-            </Box>
-          </FormHelper>
-          <FormHelper
-            message={{
-              error: errors.addressDetail?.message,
-            }}
-          >
-            <Input
-              size="lg"
-              variant="outline"
-              colorPalette="grey"
-              placeholder="상세 주소(선택)"
-              {...register('addressDetail')}
-            />
-          </FormHelper>
-        </Box>
+        <AddressInput />
 
         <FormHelper
           required
