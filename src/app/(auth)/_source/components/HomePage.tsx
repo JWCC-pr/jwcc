@@ -4,6 +4,8 @@ import { Box } from '@chakra-ui/react/box'
 
 import { motion } from 'motion/react'
 
+import Footer from '@/components/@layout/footer/footer'
+
 import CarouselSection from './sections/carousel-section'
 import NewsBulletinSection from './sections/news-bulletin-section/news-bulletin-section'
 import NoticeAndMassSection from './sections/notice-and-mass-section/notice-and-mass-section'
@@ -31,6 +33,8 @@ const HomePage: React.FC = () => {
       <NoticeAndMassSection />
       <NewsBulletinSection />
       <ScheduleSection />
+
+      <Footer />
     </MotionBox>
   )
 }
