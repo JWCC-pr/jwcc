@@ -18,7 +18,7 @@ const NewsSection: React.FC = () => {
         flexShrink={0}
       >
         <Text flex="1" textStyle="pre-heading-1" color="grey.10">
-          공지사항
+          본당 소식
         </Text>
         <Link href={`#/news TODO:`} _hover={{ textDecoration: 'none' }}>
           <Button variant="ghost" size="md" colorPalette="grey">

@@ -77,6 +77,8 @@ const MassTime: React.FC<MassTimeProps> = ({ type, time }) => {
   return (
     <Box
       p="6px 10px"
+      minW="64px"
+      h="36px"
       display="flex"
       alignItems="center"
       justifyContent="center"

@@ -371,9 +371,8 @@ const CarouselSection: React.FC = () => {
       <Box
         position="absolute"
         inset="0"
-        top="50%"
-        transform="translate(0, -50%)"
         display="flex"
+        justifyContent="center"
         flexFlow="column nowrap"
         gap="64px"
         px="40px"

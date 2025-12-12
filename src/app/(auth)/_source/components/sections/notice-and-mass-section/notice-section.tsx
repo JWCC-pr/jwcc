@@ -58,7 +58,12 @@ const NoticeSection: React.FC = () => {
                 textDecoration: 'none',
               }}
             >
-              <Text flex="1" textStyle="pre-body-1" color="grey.10">
+              <Text
+                flex="1"
+                textStyle="pre-body-1"
+                color="grey.10"
+                lineClamp="1"
+              >
                 {mock.title}
               </Text>
               <Text textStyle="pre-body-6" color="grey.7">

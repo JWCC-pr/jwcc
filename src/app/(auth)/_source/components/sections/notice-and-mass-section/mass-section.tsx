@@ -46,7 +46,7 @@ interface Mock {
   }
 }
 const times = [
-  { type: 'default', time: '09:00' } as const,
+  { type: 'default', time: '9:00' } as const,
   { type: 'accent', time: '10:00' } as const,
   { type: 'middle-high', time: '11:00' } as const,
   { type: 'parish-mass', time: '12:00' } as const,
@@ -144,7 +144,7 @@ const MassSection: React.FC = () => {
                     >
                       {weekdayMassMap[key as keyof typeof weekdayMassMap]}
                     </Text>
-                    <Box py="10px" display="flex" gap="6px">
+                    <Box flex="1" py="10px" display="flex" gap="6px">
                       {value.times.map((time) => (
                         <MassTime
                           key={time.time}
