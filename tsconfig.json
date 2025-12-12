@@ -46,7 +46,8 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.d.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/app/(un-auth)/login/_source/components/login-page"
   ],
   "exclude": ["node_modules", "./public/mockServiceWorker.js"]
 }

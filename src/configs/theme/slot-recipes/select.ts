@@ -169,7 +169,7 @@ export const selectSlotRecipe = defineSlotRecipe({
         trigger: {
           bgColor: 'grey.0',
           border: '1px solid',
-          borderColor: 'grey.3',
+          borderColor: 'grey.2',
           _focus: {
             border: '1.5px solid',
             borderColor: 'var(--focus-color)',

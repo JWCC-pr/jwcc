@@ -7,7 +7,7 @@ import { Box } from '@chakra-ui/react/box'
 import HeaderBar from './header-bar'
 import HeaderDropdown from './header-dropdown'
 
-const Header: React.FC = () => {
+const AuthHeader: React.FC = () => {
   const [hoveredNavIndex, setHoveredNavIndex] = useState<number | null>(null)
 
   const hasHoveredNav = hoveredNavIndex !== null
@@ -34,4 +34,4 @@ const Header: React.FC = () => {
   )
 }
 
-export default Header
+export default AuthHeader

@@ -1,0 +1,35 @@
+'use client'
+
+import { Box } from '@chakra-ui/react/box'
+import { Button } from '@chakra-ui/react/button'
+import { Link } from '@chakra-ui/react/link'
+import { Text } from '@chakra-ui/react/text'
+
+import LoginForm from './form/login-form'
+
+const LoginPage: React.FC = () => {
+  return (
+    <Box display="flex" flexDirection="column" gap="36px">
+      <Text textStyle="pre-heading-2" color="grey.10" textAlign="center">
+        잠원동 성당 로그인
+      </Text>
+      <LoginForm />
+      <Box display="flex" gap="10px" alignItems="center">
+        <Box w="72.5px" h="1px" bgColor="border.basic.2" />
+        <Box display="flex" alignItems="center">
+          <Text textStyle="pre-body-6" color="grey.7">
+            아직 회원이 아니신가요?
+          </Text>
+          <Link href="/signup" _hover={{ textDecoration: 'none' }}>
+            <Button size="sm" variant="ghost" colorPalette="primary">
+              회원가입
+            </Button>
+          </Link>
+        </Box>
+        <Box w="72.5px" h="1px" bgColor="border.basic.2" />
+      </Box>
+    </Box>
+  )
+}
+
+export default LoginPage

@@ -12,7 +12,7 @@ export const inputRecipe = defineRecipe({
     height: 'var(--input-height)',
     minW: 'var(--input-height)',
     '--focus-color': 'colors.colorPalette.focusRing',
-    '--error-color': 'accent.red2',
+    '--error-color': 'colors.accent.red2',
     color: 'grey.8',
     _placeholder: {
       color: 'grey.5',
