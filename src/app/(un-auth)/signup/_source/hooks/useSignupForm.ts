@@ -37,7 +37,7 @@ export interface SignupFormDataType {
     day: string
   }
   /** 분과 */
-  department: string
+  department: string[]
 
   // ================================ 약관 동의 ================================
   /** 약관 동의 */
@@ -98,7 +98,7 @@ export const signupFormSchema: yup.ObjectSchema<SignupFormDataType> = yup
         day: yup.string().required(),
       })
       .required(),
-    department: yup.string().required(),
+    department: yup.array().of(yup.string().required()).required(),
 
     // ================================ 약관 동의 ================================
     agreement: yup
@@ -120,6 +120,7 @@ export const useSignupForm = (options?: UseFormProps<SignupFormDataType>) => {
         verificationCode: '',
         isVerified: false,
       },
+      department: [],
     },
     ...options,
   })

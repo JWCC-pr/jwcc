@@ -6,6 +6,7 @@ import { Text } from '@chakra-ui/react/text'
 
 import { useFormContext, useFormState } from 'react-hook-form'
 
+import DepartmentMultiSelect from '@/app/(un-auth)/signup/_source/components/sections/department-multi-select'
 import { FormHelper } from '@/components/form-helper'
 import AddressInput from '@/components/form/address-input'
 import Select from '@/components/select'
@@ -13,8 +14,12 @@ import Select from '@/components/select'
 import { SignupFormDataType } from '../../../hooks/useSignupForm'
 
 const MemberInfoSection: React.FC = () => {
-  const { register, control } = useFormContext<SignupFormDataType>()
+  const { register, control, setValue } = useFormContext<SignupFormDataType>()
   const { errors } = useFormState({ control })
+
+  const handleSelectDepartment = (department: string[]) => {
+    setValue('department', department)
+  }
 
   return (
     <Box display="flex" flexDirection="column">
@@ -99,11 +104,7 @@ const MemberInfoSection: React.FC = () => {
             error: errors.baptismName?.message,
           }}
         >
-          <Select
-            options={[]}
-            placeholder="분과 선택"
-            {...register('department')}
-          />
+          <DepartmentMultiSelect onSelect={handleSelectDepartment} />
         </FormHelper>
       </Box>
     </Box>
