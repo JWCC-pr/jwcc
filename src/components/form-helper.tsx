@@ -1,4 +1,4 @@
-import { Field as ChakraField, Text, TextProps } from '@chakra-ui/react'
+import { Box, Field as ChakraField, Text, TextProps } from '@chakra-ui/react'
 
 interface FormHelperProps extends Omit<ChakraField.RootProps, 'label'> {
   label?: React.ReactNode
@@ -50,9 +50,14 @@ export const FormHelper = ({
     <ChakraField.Root invalid={isShowErrorText || isError} {...basisProps}>
       {!!label && (
         <ChakraField.Label>
-          <Text textStyle="pre-body-5" color="content.3" {...styles?.label}>
-            {label}
-          </Text>
+          <Box display="flex" alignItems="center" gap="4px" {...styles?.label}>
+            <Text textStyle="pre-body-5" color="grey.7">
+              {label}
+            </Text>
+            {basisProps.required && (
+              <Box w="4px" h="4px" bg="primary.4" rounded="full" />
+            )}
+          </Box>
         </ChakraField.Label>
       )}
       {children}
@@ -67,14 +72,14 @@ export const FormHelper = ({
       )}
       {isShowSuccessText && (
         <ChakraField.HelperText {...styles?.success}>
-          <Text textStyle="pre-cation-2" color="accent.green.2" mt="8px">
+          <Text textStyle="pre-caption-2" color="accent.green.2" mt="8px">
             {message?.success}
           </Text>
         </ChakraField.HelperText>
       )}
       {isShowHelperText && (
         <ChakraField.HelperText {...styles?.help}>
-          <Text textStyle="pre-cation-2" color="content.4" mt="8px">
+          <Text textStyle="pre-caption-2" color="grey.6">
             {message?.help}
           </Text>
         </ChakraField.HelperText>

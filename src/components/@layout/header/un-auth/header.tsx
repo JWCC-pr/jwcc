@@ -8,6 +8,9 @@ const UnAuthHeader: React.FC = () => {
     <Box
       as="header"
       px="40px"
+      position="sticky"
+      top="0"
+      zIndex="100"
       w="100%"
       maxW="1200px"
       h="64px"
