@@ -4,6 +4,8 @@ interface FormHelperProps extends Omit<ChakraField.RootProps, 'label'> {
   label?: React.ReactNode
   children: React.ReactNode | React.ReactNode[]
 
+  isError?: boolean
+
   message?: {
     help?: string
     error?: string
@@ -32,6 +34,8 @@ export const FormHelper = ({
   children,
   label,
 
+  isError = false,
+
   message,
   styles,
 
@@ -43,30 +47,34 @@ export const FormHelper = ({
     !!message?.help && !isShowErrorText && !isShowSuccessText
 
   return (
-    <ChakraField.Root invalid={isShowErrorText} {...basisProps}>
+    <ChakraField.Root invalid={isShowErrorText || isError} {...basisProps}>
       {!!label && (
         <ChakraField.Label>
-          <Text textStyle="pre-body-05" color="content.3" {...styles?.label}>
+          <Text textStyle="pre-body-5" color="content.3" {...styles?.label}>
             {label}
           </Text>
         </ChakraField.Label>
       )}
       {children}
       {isShowErrorText && (
-        <ChakraField.ErrorText {...styles?.error}>
+        <ChakraField.ErrorText
+          textStyle="pre-caption-2"
+          color="accent.red2"
+          {...styles?.error}
+        >
           {message?.error}
         </ChakraField.ErrorText>
       )}
       {isShowSuccessText && (
         <ChakraField.HelperText {...styles?.success}>
-          <Text textStyle="pre-cation-02" color="accent.green.2" mt="8px">
+          <Text textStyle="pre-cation-2" color="accent.green.2" mt="8px">
             {message?.success}
           </Text>
         </ChakraField.HelperText>
       )}
       {isShowHelperText && (
         <ChakraField.HelperText {...styles?.help}>
-          <Text textStyle="pre-cation-02" color="content.4" mt="8px">
+          <Text textStyle="pre-cation-2" color="content.4" mt="8px">
             {message?.help}
           </Text>
         </ChakraField.HelperText>
