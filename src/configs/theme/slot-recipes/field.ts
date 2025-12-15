@@ -22,7 +22,7 @@ export const fieldSlotRecipe = defineSlotRecipe({
       display: 'flex',
       width: '100%',
       position: 'relative',
-      gap: '1.5',
+      gap: '4px',
     },
     label: {
       display: 'flex',

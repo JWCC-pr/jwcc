@@ -21,9 +21,59 @@ const config: RootConfig<{
     basePath: '/images',
   },
   'gen:api': {
+    // swaggerSchemaUrl: 'https://organizer-api.dev.localduck.io/openapi.json/',
     swaggerSchemaUrl: 'https://sales-api-dev.pluuug.com/openapi.json/',
     httpClientType: 'fetch',
     instancePath: '@/configs/fetch/fetch-extend',
+    paginationSets: [
+      {
+        keywords: ['offset', 'limit'],
+        nextKey: 'offset',
+        getNextPage: (param) => {
+          const { pagination, apiInstanceName, functionName } = param
+          const { nextKey } = pagination
+          return `({ pageParam }) => {
+             const ${nextKey} = pageParam ?? params?.variables?.query?.${nextKey} ?? 0;
+             return ${apiInstanceName}.${functionName}({
+              ...params?.variables,
+              query: { ...params?.variables?.query, ${nextKey} },
+            });
+          }`
+        },
+        getNextPageParam: `(lastPage, allPages) => {
+          if (!lastPage?.isNext) return null;
+          const fetchedLength = allPages?.length || 0;
+          const initialOffset = params?.variables?.query?.offset || 0;
+          const limit = params?.variables?.query?.limit || 0;
+
+          return initialOffset + fetchedLength * limit;
+        }`,
+      },
+      {
+        keywords: ['cursor'],
+        nextKey: 'cursor',
+        /**
+         * @type undefined | string | (param: {apiInstanceName: string; functionName: string, pagination: { keywords: string[], nextKey: string }}) => string
+         */
+        getNextPage: (param) => {
+          const { pagination, apiInstanceName, functionName } = param
+          const { nextKey } = pagination
+          const query = `pageParam ? { ...params?.variables?.query, ${nextKey}: pageParam } :  { ...params?.variables?.query }`
+          return `({ pageParam }: { pageParam: any }) => {
+             return ${apiInstanceName}.${functionName}({
+              ...params?.variables,
+              query: ${query},
+            });
+          }`
+        },
+        /**
+         * @type undefined | string | (param: {apiInstanceName: string; functionName: string, pagination: { keywords: string[], nextKey: string }}) => string
+         */
+        getNextPageParam: () => `(lastPage) => {
+          return lastPage.cursor;
+        }`,
+      },
+    ],
   },
   'gen:theme': {
     tokenModes: {
