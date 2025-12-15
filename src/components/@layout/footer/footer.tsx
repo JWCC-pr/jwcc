@@ -1,7 +1,13 @@
 import { Box } from '@chakra-ui/react/box'
+import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
-import { LayoutFooterLogoIcon } from '@/generated/icons/MyIcons'
+import {
+  LayoutFooterFacebookIcon,
+  LayoutFooterInstagramIcon,
+  LayoutFooterLogoIcon,
+  LayoutFooterYoutubeIcon,
+} from '@/generated/icons/MyIcons'
 
 const menuItems = [
   {
@@ -47,6 +53,20 @@ const menuItems = [
       { label: '혼인성사 예약 안내' },
       { label: '전입 교우 안내' },
     ],
+  },
+]
+const snsItems = [
+  {
+    icon: <LayoutFooterYoutubeIcon w="24px" h="24px" />,
+    href: `https://www.youtube.com/@jwcc_official`,
+  },
+  {
+    icon: <LayoutFooterFacebookIcon w="24px" h="24px" />,
+    href: `#TODO: 링크 수정`,
+  },
+  {
+    icon: <LayoutFooterInstagramIcon w="24px" h="24px" />,
+    href: `https://www.instagram.com/jwcc_official`,
   },
 ]
 
@@ -123,6 +143,21 @@ const Footer: React.FC = () => {
             <Text textStyle="pre-caption-2" color="grey.5">
               Copyright © 잠원동 성당. ALLRights Reserved.
             </Text>
+            <Box as="ul" display="flex" gap="10px">
+              {snsItems.map((snsItem) => (
+                <Link
+                  key={snsItem.href}
+                  href={snsItem.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  _hover={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  {snsItem.icon}
+                </Link>
+              ))}
+            </Box>
           </Box>
           <Box alignSelf="flex-end">
             <LayoutFooterLogoIcon w="124px" h="37px" />

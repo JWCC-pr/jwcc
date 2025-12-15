@@ -4,10 +4,24 @@ import { useState } from 'react'
 
 import { Box } from '@chakra-ui/react/box'
 
+import { useScrolled } from '@/hooks/useScrolled'
+
 import HeaderBar from './header-bar'
 import HeaderDropdown from './header-dropdown'
 
+const styleMap = {
+  default: {
+    borderBottom: '1px solid',
+    borderBottomColor: 'white-transparent.200',
+  },
+  scrolled: {
+    borderBottom: '1px solid',
+    borderBottomColor: 'white-transparent.300',
+  },
+} as const
+
 const AuthHeader: React.FC = () => {
+  const { hasScrolled } = useScrolled()
   const [hoveredNavIndex, setHoveredNavIndex] = useState<number | null>(null)
 
   const hasHoveredNav = hoveredNavIndex !== null
@@ -17,8 +31,7 @@ const AuthHeader: React.FC = () => {
       w="100%"
       position="fixed"
       zIndex="sticky"
-      borderBottom="1px solid"
-      borderBottomColor="white.trnsparent.2"
+      {...styleMap[hasScrolled ? 'scrolled' : 'default']}
       onMouseLeave={() => setHoveredNavIndex(null)}
     >
       <HeaderBar
