@@ -48,6 +48,7 @@ const CarouselSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(FIRST_INDEX)
   const [isPlaying, setIsPlaying] = useState(true)
   const [isDragging, setIsDragging] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
   const x = useMotionValue(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const autoSwipeTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -184,6 +185,7 @@ const CarouselSection: React.FC = () => {
     const containerWidth = getContainerWidth()
     if (!containerWidth) return
     x.set(-currentIndex * containerWidth)
+    setIsInitialized(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -341,7 +343,7 @@ const CarouselSection: React.FC = () => {
         display="flex"
         w={`${extendedTotal * 100}%`}
         h="100%"
-        style={{ x }}
+        style={{ x, opacity: isInitialized ? 1 : 0 }}
         drag="x"
         dragElastic={DRAG_ELASTIC}
         dragMomentum={false}
