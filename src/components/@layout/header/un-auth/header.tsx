@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react/box'
 import { Link } from '@chakra-ui/react/link'
 
+import { ROUTES } from '@/constants/routes'
 import { LogoHoverIcon } from '@/generated/icons/MyIcons'
 
 const UnAuthHeader: React.FC = () => {
@@ -21,7 +22,7 @@ const UnAuthHeader: React.FC = () => {
       display="flex"
       alignItems="center"
     >
-      <Link href="/">
+      <Link href={ROUTES.HOME}>
         <LogoHoverIcon w="122px" h="36px" />
       </Link>
     </Box>

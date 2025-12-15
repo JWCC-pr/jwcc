@@ -5,6 +5,8 @@ import { Button } from '@chakra-ui/react/button'
 import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
+import { ROUTES } from '@/constants/routes'
+
 import LoginForm from './form/login-form'
 
 const LoginPage: React.FC = () => {
@@ -20,7 +22,7 @@ const LoginPage: React.FC = () => {
           <Text textStyle="pre-body-6" color="grey.7">
             아직 회원이 아니신가요?
           </Text>
-          <Link href="/signup" _hover={{ textDecoration: 'none' }}>
+          <Link href={ROUTES.SIGNUP} _hover={{ textDecoration: 'none' }}>
             <Button size="sm" variant="ghost" colorPalette="primary">
               회원가입
             </Button>

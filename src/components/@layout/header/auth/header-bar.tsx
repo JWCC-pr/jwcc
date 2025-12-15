@@ -7,6 +7,7 @@ import { UserIcon } from '@phosphor-icons/react'
 import { motion } from 'motion/react'
 
 import { NAV_ITEMS } from '@/constants/nav-items'
+import { ROUTES } from '@/constants/routes'
 import { LogoDefaultIcon, LogoHoverIcon } from '@/generated/icons/MyIcons'
 import { useScrolled } from '@/hooks/useScrolled'
 
@@ -60,7 +61,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
             justifyContent="center"
             alignItems="center"
           >
-            <Link href="#">
+            <Link href={ROUTES.HOME}>
               {hasScrolled || hasHoveredNav ?
                 <LogoHoverIcon w="122px" h="36px" />
               : <LogoDefaultIcon w="122px" h="36px" />}
