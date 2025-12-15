@@ -110,5 +110,6 @@
     "patchedDependencies": {
       "lodash@4.17.21": "patches/lodash@4.17.21.patch"
     }
-  }
+  },
+  "packageManager": "pnpm@9.14.0"
 }
