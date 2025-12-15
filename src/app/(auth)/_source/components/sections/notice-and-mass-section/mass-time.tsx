@@ -20,7 +20,7 @@ const getMassTimeElement = ({
     case 'accent':
       return (
         <Text textStyle="pre-heading-6" color="grey.7">
-          {time}
+          {time}*
         </Text>
       )
     case 'middle-high':

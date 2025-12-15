@@ -117,7 +117,7 @@ const ScheduleSection: React.FC = () => {
         </Text>
         <Link href={`#/schedule TODO:`} _hover={{ textDecoration: 'none' }}>
           <Button variant="ghost" size="md" colorPalette="grey">
-            전체 보기
+            더 보기
             <ArrowRightIcon size="20px" />
           </Button>
         </Link>

@@ -105,6 +105,14 @@ const MassSection: React.FC = () => {
               </Text>
             </Box>
           ))}
+          <Box as="li" display="flex" alignItems="center" gap="6px">
+            <Text color="grey.7" textStyle="pre-heading-6">
+              *
+            </Text>
+            <Text textStyle="pre-body-6" color="grey.7">
+              주일 미사
+            </Text>
+          </Box>
         </Box>
 
         <Box display="flex" flexFlow="column nowrap">
