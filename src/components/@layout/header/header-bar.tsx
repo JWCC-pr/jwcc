@@ -8,8 +8,18 @@ import { motion } from 'motion/react'
 
 import { NAV_ITEMS } from '@/constants/nav-items'
 import { LogoDefaultIcon, LogoHoverIcon } from '@/generated/icons/MyIcons'
+import { useScrolled } from '@/hooks/useScrolled'
 
 import HeaderMenu from './header-menu'
+
+const styleMap = {
+  default: {
+    bgColor: 'transparent',
+  },
+  scrolled: {
+    bgColor: 'grey.0',
+  },
+} as const
 
 const MotionBox = motion(Box)
 
@@ -22,6 +32,8 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   hasHoveredNav,
   setHoveredNavIndex,
 }) => {
+  const { hasScrolled } = useScrolled()
+
   return (
     <>
       <MotionBox
@@ -31,16 +43,25 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
         position="absolute"
         inset="0"
         h="64px"
-        bgColor={hasHoveredNav ? 'white-transparent.500' : 'transparent'}
+        bgColor={
+          hasHoveredNav ?
+            'white-transparent.500'
+          : styleMap[hasScrolled ? 'scrolled' : 'default'].bgColor
+        }
         zIndex="-1"
       />
 
       <Box maxW="1280px" mx="auto" px="40px">
         <Box h="64px" display="flex" alignItems="center" position="relative">
           {/* 로고 섹션 */}
-          <Box w="180px">
+          <Box
+            w="180px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
             <Link href="#">
-              {hasHoveredNav ?
+              {hasScrolled || hasHoveredNav ?
                 <LogoHoverIcon w="122px" h="36px" />
               : <LogoDefaultIcon w="122px" h="36px" />}
             </Link>
