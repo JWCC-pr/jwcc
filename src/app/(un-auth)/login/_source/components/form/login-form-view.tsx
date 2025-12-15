@@ -4,6 +4,7 @@ import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
 import { Checkbox } from '@chakra-ui/react/checkbox'
 import { Input } from '@chakra-ui/react/input'
+import { Link } from '@chakra-ui/react/link'
 
 import { Controller, useFormContext, useFormState } from 'react-hook-form'
 
@@ -57,9 +58,11 @@ const LoginFormView: React.FC = () => {
           )}
         />
 
-        <Button type="button" size="sm" variant="ghost" colorPalette="grey">
-          비밀번호 재설정
-        </Button>
+        <Link href="/forgot-password" _hover={{ textDecoration: 'none' }}>
+          <Button type="button" size="sm" variant="ghost" colorPalette="grey">
+            비밀번호 재설정
+          </Button>
+        </Link>
       </Box>
     </Box>
   )
