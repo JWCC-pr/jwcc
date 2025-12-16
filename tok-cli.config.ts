@@ -21,8 +21,7 @@ const config: RootConfig<{
     basePath: '/images',
   },
   'gen:api': {
-    // swaggerSchemaUrl: 'https://organizer-api.dev.localduck.io/openapi.json/',
-    swaggerSchemaUrl: 'https://sales-api-dev.pluuug.com/openapi.json/',
+    swaggerSchemaUrl: 'https://api.jwcc.or.kr/openapi.json/',
     httpClientType: 'fetch',
     instancePath: '@/configs/fetch/fetch-extend',
     paginationSets: [
