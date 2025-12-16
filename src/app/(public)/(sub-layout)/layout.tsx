@@ -6,6 +6,7 @@ import Footer from '@/components/@layout/footer/footer'
 import StickyHeader from '@/components/@layout/header/sticky/header'
 
 import QuickMenuSection from '../(home-layout)/_source/components/sections/quick-menu-section'
+import SubLayout from './_source/components/sub-layout'
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
@@ -14,7 +15,7 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
         <StickyHeader />
 
         <Box as="main" w="100%" flex="1">
-          {children}
+          <SubLayout>{children}</SubLayout>
         </Box>
 
         <QuickMenuSection />
