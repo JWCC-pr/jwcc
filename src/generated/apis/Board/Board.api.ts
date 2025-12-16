@@ -30,11 +30,11 @@ export class BoardApi<
 
   boardList = (variables?: {
     query?: {
-      /** Which field to use when ordering the results. */
+      /** 결과 정렬 시 사용할 필드. */
       ordering?: BoardListParamsOrderingEnumType[]
-      /** Number of results to return per page. */
+      /** 페이지당 반환할 결과 수. */
       limit?: number
-      /** The initial index from which to return the results. */
+      /** 결과를 반환할 초기 인덱스. */
       offset?: number
     }
     params?: RequestParams

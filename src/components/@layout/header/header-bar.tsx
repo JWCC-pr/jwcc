@@ -2,7 +2,6 @@
 
 import { Box } from '@chakra-ui/react/box'
 import { Link } from '@chakra-ui/react/link'
-import { UserIcon } from '@phosphor-icons/react'
 
 import { motion } from 'motion/react'
 
@@ -11,13 +10,16 @@ import { ROUTES } from '@/constants/routes'
 import { LogoDefaultIcon, LogoHoverIcon } from '@/generated/icons/MyIcons'
 
 import HeaderMenu from './header-menu'
+import HeaderUserMenu from './header-user-menu'
 
 const styleMap = {
   default: {
     bgColor: 'transparent',
+    color: 'grey.0',
   },
   scrolled: {
     bgColor: 'grey.0',
+    color: 'grey.10',
   },
 } as const
 
@@ -99,9 +101,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
             ))}
           </Box>
 
-          <Box w="180px" display="flex" justifyContent="flex-end">
-            <UserIcon size="24px" />
-          </Box>
+          <HeaderUserMenu isScrolled={isScrolled} />
         </Box>
       </Box>
     </>
