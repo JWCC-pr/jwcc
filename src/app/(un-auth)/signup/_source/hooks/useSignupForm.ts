@@ -16,6 +16,8 @@ export interface SignupFormDataType {
     verificationCode: string
     /** 인증 여부 */
     isVerified: boolean
+    /** 인증 토큰 */
+    token: string
   }
 
   password: string
@@ -30,6 +32,8 @@ export interface SignupFormDataType {
   address: string
   /** 상세 주소 */
   addressDetail?: string
+  /** 우편번호 */
+  postcode: string
   /** 생년월일 */
   birthDate: {
     year: string
@@ -60,6 +64,7 @@ export const signupFormSchema: yup.ObjectSchema<SignupFormDataType> = yup
         .matches(REGEX.EMAIL, FORM_MESSAGE.EMAIL.FORMAT),
       verificationCode: yup.string().required(),
       isVerified: yup.boolean().oneOf([true]).required(),
+      token: yup.string().required(),
     }),
     password: yup
       .string()
@@ -90,6 +95,7 @@ export const signupFormSchema: yup.ObjectSchema<SignupFormDataType> = yup
       .required(FORM_MESSAGE.COMMON.REQUIRED)
       .max(100, FORM_MESSAGE.ADDRESS.MAX),
     addressDetail: yup.string().max(100, FORM_MESSAGE.ADDRESS.MAX),
+    postcode: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
     birthDate: yup
       .object()
       .shape({

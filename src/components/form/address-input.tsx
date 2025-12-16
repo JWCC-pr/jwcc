@@ -64,6 +64,10 @@ const AddressInput: React.FC = () => {
 
     new window.daum.Postcode({
       oncomplete: (data) => {
+        // 우편번호 설정
+        setValue('postcode', data.zonecode)
+        clearErrors('postcode')
+
         // 도로명 주소 선택 시 (R: 도로명, J: 지번)
         const fullAddress = data.address
         let extraAddress = ''

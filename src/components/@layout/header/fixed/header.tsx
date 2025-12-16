@@ -31,7 +31,6 @@ const FixedHeader: React.FC = () => {
       w="100%"
       position="fixed"
       zIndex="sticky"
-      bgColor="white.trnsparent.5"
       {...styleMap[hasScrolled ? 'scrolled' : 'default']}
       onMouseLeave={() => setHoveredNavIndex(null)}
     >
