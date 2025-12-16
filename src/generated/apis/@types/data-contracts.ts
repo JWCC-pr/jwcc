@@ -1016,3 +1016,66 @@ export interface DepartmentType {
    */
   name: string
 }
+
+export interface BoardSubDepartmentType {
+  readonly id: number
+  /**
+   * 분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface BoardSubDepartmentRequestType {
+  /**
+   * 분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface DepartmentSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface LiturgyFlowerSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface LiturgyFlowerSubDepartmentRequestType {
+  /**
+   * 세부분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface PassingNoticeCommentSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface PassingNoticeCommentSubDepartmentRequestType {
+  /**
+   * 세부분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+}
