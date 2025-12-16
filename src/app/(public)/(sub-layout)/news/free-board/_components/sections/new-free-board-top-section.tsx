@@ -4,9 +4,11 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
+import { Link } from '@chakra-ui/react/link'
 import type { SelectRootProps } from '@chakra-ui/react/select'
 
 import Select from '@/components/select'
+import { ROUTES } from '@/constants/routes'
 import { NewsFreeBoardPencilSimpleLineIcon } from '@/generated/icons/MyIcons'
 
 const options = [
@@ -46,10 +48,15 @@ const NewFreeBoardTopSection: React.FC = () => {
         value={[sort]}
         onValueChange={handleSortChange}
       />
-      <Button size="md" variant="solid" colorPalette="primary">
-        <NewsFreeBoardPencilSimpleLineIcon w="20px" h="20px" />
-        게시글 작성
-      </Button>
+      <Link
+        href={ROUTES.NEWS_FREE_BOARD_CREATE}
+        _hover={{ textDecoration: 'none' }}
+      >
+        <Button size="md" variant="solid" colorPalette="primary">
+          <NewsFreeBoardPencilSimpleLineIcon w="20px" h="20px" />
+          게시글 작성
+        </Button>
+      </Link>
     </Box>
   )
 }

@@ -1,0 +1,70 @@
+.simple-editor-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  // Active state 버튼 스타일 강화
+  .tiptap-button[data-active-state='on'] {
+    background-color: var(--tt-button-active-bg-color) !important;
+
+    .tiptap-button-icon {
+      color: var(--tt-button-active-icon-color) !important;
+    }
+  }
+}
+
+.simple-editor-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-bottom: 1px solid #eaebec;
+  min-height: 200px;
+  height: 100%;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor {
+  flex: 1;
+  padding: 16px;
+  min-height: 200px;
+  outline: none;
+
+  &::selection {
+    background-color: rgba(66, 153, 225, 0.3);
+    color: inherit;
+  }
+
+  *::selection {
+    background-color: rgba(66, 153, 225, 0.3);
+    color: inherit;
+  }
+
+  .ProseMirror-selectednode {
+    outline: 2px solid rgba(66, 153, 225, 0.5);
+    outline-offset: 2px;
+  }
+
+  &[data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: #9ca3af;
+    pointer-events: none;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+  }
+
+  p {
+    margin: 0;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}

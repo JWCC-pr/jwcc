@@ -77,8 +77,8 @@ const oneDepthLabelMap = {
 const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname() as keyof typeof labelMap
 
-  const mainLabel = labelMap[pathname] ?? '잘못된 경로'
-  const oneDepthLabel = oneDepthLabelMap[pathname] ?? '잘못된 경로'
+  const mainLabel = labelMap[pathname]
+  const oneDepthLabel = oneDepthLabelMap[pathname]
 
   const index = useMemo(() => {
     if (oneDepthLabel === '본당 소개') return 0
@@ -95,6 +95,10 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
       })) ?? [],
     [index],
   )
+
+  if (!mainLabel || !oneDepthLabel) {
+    return <Box p="40px 40px 120px">{children}</Box>
+  }
 
   return (
     <Box display="flex" flexFlow="column nowrap">
@@ -133,7 +137,7 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         <TwoDepthSelect options={options} />
         <Box w="1px" h="auto" bgColor="border.basic.1" />
       </Box>
-      <Box p="20px 40px 120px">{children}</Box>
+      <Box p="40px 40px 120px">{children}</Box>
     </Box>
   )
 }
