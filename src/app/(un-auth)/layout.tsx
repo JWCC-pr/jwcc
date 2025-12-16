@@ -2,12 +2,12 @@ import React from 'react'
 
 import { Box } from '@chakra-ui/react/box'
 
-import UnAuthHeader from '@/components/@layout/header/un-auth/header'
+import SimpleHeader from '@/components/@layout/header/simple/header'
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <Box minH="100vh" display="flex" flexDirection="column">
-      <UnAuthHeader />
+      <SimpleHeader />
 
       <Box
         as="main"

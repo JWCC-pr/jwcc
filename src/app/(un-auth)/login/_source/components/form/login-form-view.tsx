@@ -10,6 +10,7 @@ import { Controller, useFormContext, useFormState } from 'react-hook-form'
 
 import { FormHelper } from '@/components/form-helper'
 import { PasswordInput } from '@/components/ui/password-input'
+import { ROUTES } from '@/constants/routes'
 
 import { LoginFormDataType } from '../../hooks/useLoginForm'
 
@@ -58,7 +59,7 @@ const LoginFormView: React.FC = () => {
           )}
         />
 
-        <Link href="/forgot-password" _hover={{ textDecoration: 'none' }}>
+        <Link href={ROUTES.FORGOT_PASSWORD} _hover={{ textDecoration: 'none' }}>
           <Button type="button" size="sm" variant="ghost" colorPalette="grey">
             비밀번호 재설정
           </Button>

@@ -3,6 +3,7 @@ import { Button } from '@chakra-ui/react/button'
 import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
+import { ROUTES } from '@/constants/routes'
 import { SignupCompleteCCheckCircleFillIcon } from '@/generated/icons/MyIcons'
 
 const ResetPasswordCompletePage: React.FC = () => {
@@ -19,7 +20,7 @@ const ResetPasswordCompletePage: React.FC = () => {
           </Text>
         </Box>
       </Box>
-      <Link w="full" href="/login" _hover={{ textDecoration: 'none' }}>
+      <Link w="full" href={ROUTES.LOGIN} _hover={{ textDecoration: 'none' }}>
         <Button w="full" size="lg" variant="solid" colorPalette="primary">
           로그인
         </Button>
