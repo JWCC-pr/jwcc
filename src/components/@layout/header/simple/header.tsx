@@ -4,7 +4,7 @@ import { Link } from '@chakra-ui/react/link'
 import { ROUTES } from '@/constants/routes'
 import { LogoHoverIcon } from '@/generated/icons/MyIcons'
 
-const UnAuthHeader: React.FC = () => {
+const SimpleHeader: React.FC = () => {
   return (
     <Box
       as="header"
@@ -17,7 +17,7 @@ const UnAuthHeader: React.FC = () => {
       h="64px"
       bgColor="white.trnsparent.5"
       borderBottom="1px solid"
-      borderBottomColor="white.trnsparent.3"
+      borderBottomColor="border.basic.1"
       backdropFilter="blue"
       display="flex"
       alignItems="center"
@@ -29,4 +29,4 @@ const UnAuthHeader: React.FC = () => {
   )
 }
 
-export default UnAuthHeader
+export default SimpleHeader

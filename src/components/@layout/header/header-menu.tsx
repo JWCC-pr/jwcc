@@ -9,7 +9,6 @@ import { Link, type LinkProps } from '@chakra-ui/react/link'
 
 import { motion } from 'motion/react'
 
-import { useScrolled } from '@/hooks/useScrolled'
 import { matchingPath } from '@/utils/middleware/matching-path'
 
 const styleMap = {
@@ -26,15 +25,15 @@ const MotionBox = motion(Box)
 interface HeaderMenuProps extends LinkProps {
   href: string
   hasHoveredNav: boolean
+  isScrolled?: boolean
 }
 
 const HeaderMenu: React.FC<HeaderMenuProps> = ({
   children,
   hasHoveredNav,
+  isScrolled,
   ...props
 }) => {
-  const { hasScrolled } = useScrolled()
-
   const pathname = usePathname()
   const [isHovered, setIsHovered] = useState(false)
 
@@ -52,7 +51,7 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({
       textStyle="pre-body-3"
       position="relative"
       zIndex="1001"
-      {...styleMap[hasScrolled ? 'scrolled' : 'default']}
+      {...styleMap[isScrolled ? 'scrolled' : 'default']}
       {...(hasHoveredNav && {
         color: 'grey.10',
       })}

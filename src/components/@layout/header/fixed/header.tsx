@@ -6,8 +6,8 @@ import { Box } from '@chakra-ui/react/box'
 
 import { useScrolled } from '@/hooks/useScrolled'
 
-import HeaderBar from './header-bar'
-import HeaderDropdown from './header-dropdown'
+import HeaderBar from '../header-bar'
+import HeaderDropdown from '../header-dropdown'
 
 const styleMap = {
   default: {
@@ -16,11 +16,11 @@ const styleMap = {
   },
   scrolled: {
     borderBottom: '1px solid',
-    borderBottomColor: 'white-transparent.300',
+    borderBottomColor: 'border.basic.1',
   },
 } as const
 
-const AuthHeader: React.FC = () => {
+const FixedHeader: React.FC = () => {
   const { hasScrolled } = useScrolled()
   const [hoveredNavIndex, setHoveredNavIndex] = useState<number | null>(null)
 
@@ -31,10 +31,12 @@ const AuthHeader: React.FC = () => {
       w="100%"
       position="fixed"
       zIndex="sticky"
+      bgColor="white.trnsparent.5"
       {...styleMap[hasScrolled ? 'scrolled' : 'default']}
       onMouseLeave={() => setHoveredNavIndex(null)}
     >
       <HeaderBar
+        isScrolled={hasScrolled}
         hasHoveredNav={hasHoveredNav}
         setHoveredNavIndex={setHoveredNavIndex}
       />
@@ -47,4 +49,4 @@ const AuthHeader: React.FC = () => {
   )
 }
 
-export default AuthHeader
+export default FixedHeader

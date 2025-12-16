@@ -12,7 +12,6 @@ import { useScrolled } from '@/hooks/useScrolled'
 import CarouselSection from './sections/carousel-section'
 import NewsBulletinSection from './sections/news-bulletin-section/news-bulletin-section'
 import NoticeAndMassSection from './sections/notice-and-mass-section/notice-and-mass-section'
-import QuickMenuSection from './sections/quick-menu-section'
 import ScheduleSection from './sections/schedule-section'
 
 const MotionBox = motion(Box)
@@ -38,32 +37,28 @@ const HomePage: React.FC = () => {
   }, [setHasScrolled])
 
   return (
-    <>
-      <MotionBox
-        as="section"
-        w="100%"
-        h="100vh"
-        overflowY="scroll"
-        ref={containerRef}
-        css={{
-          scrollSnapType: 'y mandatory',
-          WebkitOverflowScrolling: 'touch',
-          '& > *': {
-            scrollSnapAlign: 'start',
-            scrollSnapStop: 'always',
-          },
-        }}
-      >
-        <CarouselSection />
-        <NoticeAndMassSection />
-        <NewsBulletinSection />
-        <ScheduleSection />
+    <MotionBox
+      as="section"
+      w="100%"
+      h="100vh"
+      overflowY="scroll"
+      ref={containerRef}
+      css={{
+        scrollSnapType: 'y mandatory',
+        WebkitOverflowScrolling: 'touch',
+        '& > *': {
+          scrollSnapAlign: 'start',
+          scrollSnapStop: 'always',
+        },
+      }}
+    >
+      <CarouselSection />
+      <NoticeAndMassSection />
+      <NewsBulletinSection />
+      <ScheduleSection />
 
-        <Footer />
-      </MotionBox>
-
-      <QuickMenuSection />
-    </>
+      <Footer />
+    </MotionBox>
   )
 }
 

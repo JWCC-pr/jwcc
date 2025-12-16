@@ -9,7 +9,6 @@ import { motion } from 'motion/react'
 import { NAV_ITEMS } from '@/constants/nav-items'
 import { ROUTES } from '@/constants/routes'
 import { LogoDefaultIcon, LogoHoverIcon } from '@/generated/icons/MyIcons'
-import { useScrolled } from '@/hooks/useScrolled'
 
 import HeaderMenu from './header-menu'
 
@@ -27,14 +26,14 @@ const MotionBox = motion(Box)
 interface HeaderBarProps {
   hasHoveredNav: boolean
   setHoveredNavIndex: (index: number | null) => void
+  isScrolled?: boolean
 }
 
 const HeaderBar: React.FC<HeaderBarProps> = ({
   hasHoveredNav,
   setHoveredNavIndex,
+  isScrolled,
 }) => {
-  const { hasScrolled } = useScrolled()
-
   return (
     <>
       <MotionBox
@@ -47,7 +46,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
         bgColor={
           hasHoveredNav ?
             'white-transparent.500'
-          : styleMap[hasScrolled ? 'scrolled' : 'default'].bgColor
+          : styleMap[isScrolled ? 'scrolled' : 'default'].bgColor
         }
         zIndex="-1"
       />
@@ -62,7 +61,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
             alignItems="center"
           >
             <Link href={ROUTES.HOME}>
-              {hasScrolled || hasHoveredNav ?
+              {isScrolled || hasHoveredNav ?
                 <LogoHoverIcon w="122px" h="36px" />
               : <LogoDefaultIcon w="122px" h="36px" />}
             </Link>
@@ -92,6 +91,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
                   position="relative"
                   transition="color 0.2s"
                   hasHoveredNav={hasHoveredNav}
+                  isScrolled={isScrolled}
                 >
                   {item.label}
                 </HeaderMenu>
