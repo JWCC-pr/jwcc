@@ -991,8 +991,10 @@ export interface WeeklyBulletinType {
  * `banner.Banner.image` - 이미지
  * `pastoral_guidelines.PastoralGuidelines.image` - 이미지
  */
+
 export type PresignedRequestFieldChoiceEnumType =
   keyof typeof PresignedRequestFieldChoiceEnumTypeMap
+
 export const PresignedRequestFieldChoiceEnumTypeMap = {
   'banner.Banner.image': '이미지',
   'document.DocumentFile.file': '자료',
@@ -1005,3 +1007,12 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
 } as const
 
 export type BoardListParamsOrderingEnumType = '-created_at' | '-like_count' // X-enumName Values Missing
+
+export interface DepartmentType {
+  readonly id: number
+  /**
+   * 분과명
+   * @maxLength 100
+   */
+  name: string
+}
