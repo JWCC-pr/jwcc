@@ -35,9 +35,9 @@ export class PassingNoticeCommentApi<
        * 부모 댓글 ID
        */
       parent_id?: number | null
-      /** The pagination cursor value. */
+      /** 페이지네이션 커서 값. */
       cursor?: string
-      /** Number of results to return per page. */
+      /** 페이지당 반환할 결과 수. */
       page_size?: number
     }
     params?: RequestParams

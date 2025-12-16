@@ -26,9 +26,9 @@ export class NoticeApi<
 
   noticeList = (variables?: {
     query?: {
-      /** Number of results to return per page. */
+      /** 페이지당 반환할 결과 수. */
       limit?: number
-      /** The initial index from which to return the results. */
+      /** 결과를 반환할 초기 인덱스. */
       offset?: number
     }
     params?: RequestParams

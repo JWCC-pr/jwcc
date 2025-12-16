@@ -25,6 +25,16 @@ export interface BoardType {
   readonly commentCount: number
   /** 좋아요수 */
   readonly likeCount: number
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
 }
 
 export interface BoardCommentType {
@@ -50,7 +60,7 @@ export interface BoardCommentType {
 export interface BoardCommentDepartmentType {
   readonly id: number
   /**
-   * 분과명
+   * 세부분과명
    * @maxLength 100
    */
   name: string
@@ -58,7 +68,7 @@ export interface BoardCommentDepartmentType {
 
 export interface BoardCommentDepartmentRequestType {
   /**
-   * 분과명
+   * 세부분과명
    * @minLength 1
    * @maxLength 100
    */
@@ -95,7 +105,7 @@ export interface BoardCommentUserType {
    */
   baptismalName: string
   /** 분과 */
-  departmentSet: BoardCommentDepartmentType[]
+  subDepartmentSet: BoardCommentDepartmentType[]
 }
 
 export interface BoardCommentUserRequestType {
@@ -112,25 +122,7 @@ export interface BoardCommentUserRequestType {
    */
   baptismalName: string
   /** 분과 */
-  departmentSet: BoardCommentDepartmentRequestType[]
-}
-
-export interface BoardDepartmentType {
-  readonly id: number
-  /**
-   * 분과명
-   * @maxLength 100
-   */
-  name: string
-}
-
-export interface BoardDepartmentRequestType {
-  /**
-   * 분과명
-   * @minLength 1
-   * @maxLength 100
-   */
-  name: string
+  subDepartmentSet: BoardCommentDepartmentRequestType[]
 }
 
 export interface BoardErrorMessageType {
@@ -162,6 +154,24 @@ export interface BoardRequestType {
   body: string
 }
 
+export interface BoardSubDepartmentType {
+  readonly id: number
+  /**
+   * 분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface BoardSubDepartmentRequestType {
+  /**
+   * 분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+}
+
 export interface BoardUserType {
   readonly id: number
   /**
@@ -175,7 +185,7 @@ export interface BoardUserType {
    */
   baptismalName: string
   /** 분과 */
-  departmentSet: BoardDepartmentType[]
+  subDepartmentSet: BoardSubDepartmentType[]
 }
 
 export interface BoardUserRequestType {
@@ -192,11 +202,31 @@ export interface BoardUserRequestType {
    */
   baptismalName: string
   /** 분과 */
-  departmentSet: BoardDepartmentRequestType[]
+  subDepartmentSet: BoardSubDepartmentRequestType[]
 }
 
 export interface CommonErrorType {
   detail: string
+}
+
+export interface DepartmentType {
+  readonly id: number
+  /**
+   * 분과명
+   * @maxLength 100
+   */
+  name: string
+  /** 세부분과 */
+  subDepartmentSet: DepartmentSubDepartmentType[]
+}
+
+export interface DepartmentSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
 }
 
 export interface DocumentType {
@@ -324,24 +354,6 @@ export interface LiturgyFlowerType {
   readonly createdAt: string
 }
 
-export interface LiturgyFlowerDepartmentType {
-  readonly id: number
-  /**
-   * 분과명
-   * @maxLength 100
-   */
-  name: string
-}
-
-export interface LiturgyFlowerDepartmentRequestType {
-  /**
-   * 분과명
-   * @minLength 1
-   * @maxLength 100
-   */
-  name: string
-}
-
 export interface LiturgyFlowerErrorMessageType {
   nonField?: string[]
   title?: string[]
@@ -377,6 +389,24 @@ export interface LiturgyFlowerRequestType {
   imageSet: LiturgyFlowerImageRequestType[]
 }
 
+export interface LiturgyFlowerSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface LiturgyFlowerSubDepartmentRequestType {
+  /**
+   * 세부분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+}
+
 export interface LiturgyFlowerUserType {
   readonly id: number
   /**
@@ -390,7 +420,7 @@ export interface LiturgyFlowerUserType {
    */
   baptismalName: string
   /** 분과 */
-  departmentSet: LiturgyFlowerDepartmentType[]
+  subDepartmentSet: LiturgyFlowerSubDepartmentType[]
 }
 
 export interface LiturgyFlowerUserRequestType {
@@ -407,7 +437,7 @@ export interface LiturgyFlowerUserRequestType {
    */
   baptismalName: string
   /** 분과 */
-  departmentSet: LiturgyFlowerDepartmentRequestType[]
+  subDepartmentSet: LiturgyFlowerSubDepartmentRequestType[]
 }
 
 export interface NoticeType {
@@ -580,24 +610,6 @@ export interface PassingNoticeCommentType {
   readonly createdAt: string
 }
 
-export interface PassingNoticeCommentDepartmentType {
-  readonly id: number
-  /**
-   * 분과명
-   * @maxLength 100
-   */
-  name: string
-}
-
-export interface PassingNoticeCommentDepartmentRequestType {
-  /**
-   * 분과명
-   * @minLength 1
-   * @maxLength 100
-   */
-  name: string
-}
-
 export interface PassingNoticeCommentErrorMessageType {
   nonField?: string[]
   parentId?: string[]
@@ -615,6 +627,24 @@ export interface PassingNoticeCommentRequestType {
   body: string
 }
 
+export interface PassingNoticeCommentSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface PassingNoticeCommentSubDepartmentRequestType {
+  /**
+   * 세부분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+}
+
 export interface PassingNoticeCommentUserType {
   readonly id: number
   /**
@@ -628,7 +658,7 @@ export interface PassingNoticeCommentUserType {
    */
   baptismalName: string
   /** 분과 */
-  departmentSet: PassingNoticeCommentDepartmentType[]
+  subDepartmentSet: PassingNoticeCommentSubDepartmentType[]
 }
 
 export interface PassingNoticeCommentUserRequestType {
@@ -645,7 +675,7 @@ export interface PassingNoticeCommentUserRequestType {
    */
   baptismalName: string
   /** 분과 */
-  departmentSet: PassingNoticeCommentDepartmentRequestType[]
+  subDepartmentSet: PassingNoticeCommentSubDepartmentRequestType[]
 }
 
 export interface PastoralGuidelinesType {
@@ -835,7 +865,7 @@ export interface UserRefreshRequestType {
 
 export interface UserRegisterType {
   /** 분과 ID */
-  departmentIds: number[]
+  subDepartmentIds: number[]
   /**
    * 유저네임
    * @format email
@@ -885,7 +915,7 @@ export interface UserRegisterType {
 
 export interface UserRegisterErrorMessageType {
   nonField?: string[]
-  departmentIds?: string[]
+  subDepartmentIds?: string[]
   email?: string[]
   emailVerifierToken?: string[]
   password?: string[]
@@ -899,7 +929,7 @@ export interface UserRegisterErrorMessageType {
 
 export interface UserRegisterRequestType {
   /** 분과 ID */
-  departmentIds: number[]
+  subDepartmentIds: number[]
   /**
    * 유저네임
    * @format email
