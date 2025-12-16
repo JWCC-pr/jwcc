@@ -133,7 +133,7 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         <TwoDepthSelect options={options} />
         <Box w="1px" h="auto" bgColor="border.basic.1" />
       </Box>
-      <Box>{children}</Box>
+      <Box p="20px 40px 120px">{children}</Box>
     </Box>
   )
 }

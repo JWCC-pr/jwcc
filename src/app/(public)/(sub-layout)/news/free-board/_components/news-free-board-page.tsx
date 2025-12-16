@@ -1,10 +1,14 @@
 import { Box } from '@chakra-ui/react/box'
-import { Text } from '@chakra-ui/react/text'
+
+import NewFreeBoardTableSection from './new-free-board-table-section'
+import NewFreeBoardTopSection from './sections/new-free-board-top-section'
 
 const NewsFreeBoardPage: React.FC = () => {
   return (
-    <Box>
-      <Text>본당 소식 | 자유 게시판</Text>
+    <Box display="flex" flexDirection="column">
+      <NewFreeBoardTopSection />
+
+      <NewFreeBoardTableSection />
     </Box>
   )
 }
