@@ -1,10 +1,11 @@
 import { Box } from '@chakra-ui/react/box'
-import { Text } from '@chakra-ui/react/text'
+
+import NewNoticesTableSection from './sections/new-notices-table-section'
 
 const NewsNoticesPage: React.FC = () => {
   return (
     <Box>
-      <Text>본당 소식 | 공지사항</Text>
+      <NewNoticesTableSection />
     </Box>
   )
 }

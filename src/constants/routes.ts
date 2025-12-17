@@ -33,6 +33,8 @@ export const ROUTES = {
   // ================================ 본당 소식 관련 라우트 ================================
   /** 공지사항 */
   NEWS_NOTICES: `/news/notices`,
+  /** 공지사항 상세 */
+  NEWS_NOTICES_DETAIL: (id: number) => `/news/notices/${id}`,
   /** 본당 행사 */
   NEWS_EVENTS: `/news/events`,
   /** 주보 */
