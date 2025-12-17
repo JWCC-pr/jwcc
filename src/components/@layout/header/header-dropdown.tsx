@@ -106,7 +106,18 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
                                 ease: 'easeOut',
                               }}
                             >
-                              <HeaderSubMenu href={subItem.href}>
+                              <HeaderSubMenu
+                                href={
+                                  subItem.disabled ? undefined : subItem.href
+                                }
+                                {...(subItem.disabled && {
+                                  cursor: 'not-allowed',
+                                  opacity: 0.4,
+                                  _hover: {
+                                    textDecoration: 'none',
+                                  },
+                                })}
+                              >
                                 {subItem.label}
                               </HeaderSubMenu>
                             </MotionBox>
