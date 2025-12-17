@@ -25,6 +25,8 @@ export interface BoardType {
   readonly commentCount: number
   /** 좋아요수 */
   readonly likeCount: number
+  /** 수정여부 */
+  readonly isModified: boolean
   /**
    * 생성일시
    * @format date-time
@@ -48,6 +50,8 @@ export interface BoardCommentType {
   body: string
   /** 소유 여부 */
   readonly isOwned: boolean
+  /** 수정여부 */
+  readonly isModified: boolean
   /** 삭제여부 */
   readonly isDeleted: boolean
   /**
@@ -318,12 +322,6 @@ export interface EventType {
   title: string
   /** 본문 */
   body: string
-  /**
-   * 유튜브 링크
-   * @format uri
-   * @maxLength 1000
-   */
-  youtubeLink?: string | null
   /**
    * 생성일시
    * @format date-time
@@ -601,6 +599,8 @@ export interface PassingNoticeCommentType {
   body: string
   /** 소유 여부 */
   readonly isOwned: boolean
+  /** 수정여부 */
+  readonly isModified: boolean
   /** 삭제여부 */
   readonly isDeleted: boolean
   /**
@@ -701,6 +701,7 @@ export interface PresignedErrorMessageType {
 
 export interface PresignedRequestType {
   /**
+   * * `board.Board.body` - 자유 게시글
    * * `document.DocumentFile.file` - 자료
    * * `event.Event.thumbnail` - 썸네일
    * * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
@@ -740,6 +741,11 @@ export interface ScheduleType {
    * @format time
    */
   endTime?: string | null
+  /**
+   * 장소
+   * @maxLength 200
+   */
+  location?: string
 }
 
 export interface UserType {
@@ -780,6 +786,17 @@ export interface UserType {
    * @format date
    */
   birth: string
+  /**
+   * 등급
+   * * `1` - 총관리자
+   * * `2` - 관리자
+   * * `3` - 사제 및 수도자
+   * * `4` - 단체장
+   * * `5` - 본당 신자
+   * @min 0
+   * @max 2147483647
+   */
+  grade?: UserGradeEnumType
 }
 
 export interface UserLoginType {
@@ -864,8 +881,6 @@ export interface UserRefreshRequestType {
 }
 
 export interface UserRegisterType {
-  /** 분과 ID */
-  subDepartmentIds: number[]
   /**
    * 유저네임
    * @format email
@@ -1012,7 +1027,8 @@ export interface WeeklyBulletinType {
 }
 
 /**
- * * `document.DocumentFile.file` - 자료
+ * * `board.Board.body` - 자유 게시글
+ * `document.DocumentFile.file` - 자료
  * `event.Event.thumbnail` - 썸네일
  * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
  * `weekly_bulletin.WeeklyBulletin.file` - 주보 파일
@@ -1025,6 +1041,7 @@ export type PresignedRequestFieldChoiceEnumType =
   keyof typeof PresignedRequestFieldChoiceEnumTypeMap
 export const PresignedRequestFieldChoiceEnumTypeMap = {
   'banner.Banner.image': '이미지',
+  'board.Board.body': '자유 게시글',
   'document.DocumentFile.file': '자료',
   'event.Event.thumbnail': '썸네일',
   'liturgy_flower.LiturgyFlowerImage.image': '이미지',
@@ -1032,6 +1049,24 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
   'pastoral_guidelines.PastoralGuidelines.image': '이미지',
   'weekly_bulletin.WeeklyBulletin.file': '주보 파일',
   'weekly_bulletin.WeeklyBulletin.thumbnail': '썸네일',
+} as const
+
+/**
+ * * `1` - 총관리자
+ * `2` - 관리자
+ * `3` - 사제 및 수도자
+ * `4` - 단체장
+ * `5` - 본당 신자
+ * @min 0
+ * @max 2147483647
+ */
+export type UserGradeEnumType = keyof typeof UserGradeEnumTypeMap
+export const UserGradeEnumTypeMap = {
+  1: '총관리자',
+  2: '관리자',
+  3: '사제 및 수도자',
+  4: '단체장',
+  5: '본당 신자',
 } as const
 
 export type BoardListParamsOrderingEnumType = '-created_at' | '-like_count' // X-enumName Values Missing

@@ -26,6 +26,7 @@ export class DocumentApi<
 
   documentList = (variables?: {
     query?: {
+      title?: string
       /** 페이지당 반환할 결과 수. */
       limit?: number
       /** 결과를 반환할 초기 인덱스. */

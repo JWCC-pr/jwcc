@@ -11,7 +11,7 @@ import SubLayout from './_source/components/sub-layout'
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <Box display="flex" flexDirection="column">
-      <Box display="flex" flexDirection="column" h="100vh">
+      <Box display="flex" flexDirection="column" minH="100vh">
         <StickyHeader />
 
         <Box as="main" w="100%" flex="1">

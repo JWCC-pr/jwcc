@@ -43,6 +43,12 @@ export const ROUTES = {
   NEWS_LITERARY_FLOWERS: `/news/literary-flowers`,
   /** 자유게시판 */
   NEWS_FREE_BOARD: `/news/free-board`,
+  /** 자유게시판 상세 */
+  NEWS_FREE_BOARD_DETAIL: (id: number) => `/news/free-board/${id}`,
+  /** 자유게시판 생성 */
+  NEWS_FREE_BOARD_CREATE: `/news/free-board/create`,
+  /** 자유게시판 수정 */
+  NEWS_FREE_BOARD_EDIT: (id: number) => `/news/free-board/${id}/edit`,
   /** 자료실 */
   NEWS_RESOURCES: `/news/resources`,
 
