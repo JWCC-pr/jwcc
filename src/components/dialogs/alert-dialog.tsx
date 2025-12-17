@@ -8,7 +8,7 @@ interface AlertDialogProps extends Omit<Dialog.RootProps, 'children'> {
   title: string
   description: string | React.ReactNode
   buttons: {
-    cancelProps: ButtonProps & { text: string }
+    cancelProps?: ButtonProps & { text: string }
     actionProps: ButtonProps & { text: string }
   }
 
@@ -53,18 +53,20 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
               </Dialog.Body>
             </Box>
             <Dialog.Footer>
-              <Dialog.CloseTrigger asChild>
-                <Button
-                  variant="solid"
-                  size="lg"
-                  colorPalette="grey"
-                  flex="1"
-                  rounded="10px"
-                  {...buttons.cancelProps}
-                >
-                  {buttons.cancelProps.text}
-                </Button>
-              </Dialog.CloseTrigger>
+              {buttons.cancelProps && (
+                <Dialog.CloseTrigger asChild>
+                  <Button
+                    variant="solid"
+                    size="lg"
+                    colorPalette="grey"
+                    flex="1"
+                    rounded="10px"
+                    {...buttons.cancelProps}
+                  >
+                    {buttons.cancelProps.text}
+                  </Button>
+                </Dialog.CloseTrigger>
+              )}
               <Dialog.CloseTrigger asChild>
                 <Button
                   variant="solid"

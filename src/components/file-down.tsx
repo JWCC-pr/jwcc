@@ -19,60 +19,70 @@ const getFileName = (fileUrl: string) => {
 interface FileDownProps {
   size?: 'l' | 's'
   path: string
+  enableDownload?: boolean
 }
 
-const FileDown: React.FC<FileDownProps> = ({ path, size = 'l' }) => {
+const FileDown: React.FC<FileDownProps> = ({
+  path,
+  size = 'l',
+  enableDownload = true,
+}) => {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleDownload = useCallback(async (fileUrl: string) => {
-    setIsLoading(true)
-    try {
-      const proxyUrl = fileUrl
+  const handleDownload = useCallback(
+    async (fileUrl: string) => {
+      if (!enableDownload) return
 
-      const response = await fetch(proxyUrl)
-      if (!response.ok) {
-        throw new Error('파일 다운로드에 실패했습니다.')
-      }
+      setIsLoading(true)
+      try {
+        const proxyUrl = fileUrl
 
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
+        const response = await fetch(proxyUrl)
+        if (!response.ok) {
+          throw new Error('파일 다운로드에 실패했습니다.')
+        }
 
-      // Content-Disposition 헤더에서 파일명 추출 시도
-      const contentDisposition = response.headers.get('content-disposition')
-      let fileName = getFileName(fileUrl)
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
 
-      if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(
-          /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/,
-        )
-        if (filenameMatch) {
-          const extractedName = filenameMatch[1].replace(/['"]/g, '')
-          try {
-            fileName = decodeURIComponent(extractedName)
-          } catch {
-            fileName = extractedName
+        // Content-Disposition 헤더에서 파일명 추출 시도
+        const contentDisposition = response.headers.get('content-disposition')
+        let fileName = getFileName(fileUrl)
+
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(
+            /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/,
+          )
+          if (filenameMatch) {
+            const extractedName = filenameMatch[1].replace(/['"]/g, '')
+            try {
+              fileName = decodeURIComponent(extractedName)
+            } catch {
+              fileName = extractedName
+            }
           }
         }
+
+        link.download = fileName
+
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(url)
+      } catch (error) {
+        console.error(error)
+        toaster.create({
+          type: 'error',
+          title: '파일 다운로드에 실패했습니다.',
+        })
+      } finally {
+        setIsLoading(false)
       }
-
-      link.download = fileName
-
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error(error)
-      toaster.create({
-        type: 'error',
-        title: '파일 다운로드에 실패했습니다.',
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+    },
+    [enableDownload],
+  )
 
   const isLarge = size === 'l'
   const disabled = isLoading
