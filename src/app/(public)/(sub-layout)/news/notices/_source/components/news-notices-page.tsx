@@ -1,12 +1,12 @@
-import { Box } from '@chakra-ui/react/box'
+import { Suspense } from 'react'
 
 import NewNoticesTableSection from './sections/new-notices-table-section'
 
 const NewsNoticesPage: React.FC = () => {
   return (
-    <Box>
+    <Suspense>
       <NewNoticesTableSection />
-    </Box>
+    </Suspense>
   )
 }
 
