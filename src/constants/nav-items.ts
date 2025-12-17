@@ -42,7 +42,7 @@ export const NAV_ITEMS: NavItem[] = [
       { label: '선종 안내', href: ROUTES.NEWS_OBITUARY },
       { label: '전례꽃 갤러리', href: ROUTES.NEWS_LITERARY_FLOWERS },
       { label: '자유게시판', href: ROUTES.NEWS_FREE_BOARD },
-      { label: '자료실', href: ROUTES.NEWS_RESOURCES },
+      { label: '자료실', href: ROUTES.NEWS_DOCUMENT },
     ],
   },
   {

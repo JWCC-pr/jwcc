@@ -52,7 +52,9 @@ export const ROUTES = {
   /** 자유게시판 수정 */
   NEWS_FREE_BOARD_EDIT: (id: number) => `/news/free-board/${id}/edit`,
   /** 자료실 */
-  NEWS_RESOURCES: `/news/resources`,
+  NEWS_DOCUMENT: `/news/document`,
+  /** 자료실 상세 */
+  NEWS_DOCUMENT_DETAIL: (id: number) => `/news/document/${id}`,
 
   // ================================ 신앙 공동체 관련 라우트 ================================
   /** 사목협의회 조직도 */

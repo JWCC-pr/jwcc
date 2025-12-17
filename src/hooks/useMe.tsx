@@ -10,7 +10,10 @@ const useMe = () => {
     },
   })
 
-  return { ...data }
+  /** 타본당 신자 여부 ( 7등급 이상 ) */
+  const isNotParishMember = data.data?.grade && data.data?.grade >= 7
+
+  return { ...data, isNotParishMember }
 }
 
 export default useMe
