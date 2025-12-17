@@ -447,6 +447,8 @@ export interface NoticeType {
   title: string
   /** 본문 */
   body: string
+  /** 파일 */
+  readonly fileSet: NoticeNoticeFileType[]
   /**
    * 생성일시
    * @format date-time
@@ -457,6 +459,22 @@ export interface NoticeType {
    * @format date-time
    */
   readonly updatedAt: string
+}
+
+export interface NoticeFileType {
+  readonly id: number
+}
+
+export interface NoticeFileErrorMessageType {
+  nonField?: string[]
+}
+
+export interface NoticeNoticeFileType {
+  /**
+   * 파일
+   * @format uri
+   */
+  file: string
 }
 
 export interface PaginatedBoardCommentListType {
@@ -487,6 +505,12 @@ export interface PaginatedLiturgyFlowerListType {
   count?: number
   isNext?: boolean
   results?: LiturgyFlowerType[]
+}
+
+export interface PaginatedNoticeFileListType {
+  count?: number
+  cursor?: string | null
+  results?: NoticeFileType[]
 }
 
 export interface PaginatedNoticeListType {
@@ -702,6 +726,7 @@ export interface PresignedErrorMessageType {
 export interface PresignedRequestType {
   /**
    * * `board.Board.body` - 자유 게시글
+   * * `notice.NoticeFile.file` - 파일
    * * `document.DocumentFile.file` - 자료
    * * `event.Event.thumbnail` - 썸네일
    * * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
@@ -789,10 +814,12 @@ export interface UserType {
   /**
    * 등급
    * * `1` - 총관리자
-   * * `2` - 관리자
-   * * `3` - 사제 및 수도자
+   * * `2` - 사제 및 수도자
+   * * `3` - 사무실
    * * `4` - 단체장
-   * * `5` - 본당 신자
+   * * `5` - 명도회
+   * * `6` - 본당 신자
+   * * `7` - 타본당 신자
    * @min 0
    * @max 2147483647
    */
@@ -1028,6 +1055,7 @@ export interface WeeklyBulletinType {
 
 /**
  * * `board.Board.body` - 자유 게시글
+ * `notice.NoticeFile.file` - 파일
  * `document.DocumentFile.file` - 자료
  * `event.Event.thumbnail` - 썸네일
  * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
@@ -1045,6 +1073,7 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
   'document.DocumentFile.file': '자료',
   'event.Event.thumbnail': '썸네일',
   'liturgy_flower.LiturgyFlowerImage.image': '이미지',
+  'notice.NoticeFile.file': '파일',
   'passing_notice.PassingNotice.portrait': '고인 사진',
   'pastoral_guidelines.PastoralGuidelines.image': '이미지',
   'weekly_bulletin.WeeklyBulletin.file': '주보 파일',
@@ -1053,20 +1082,24 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
 
 /**
  * * `1` - 총관리자
- * `2` - 관리자
- * `3` - 사제 및 수도자
+ * `2` - 사제 및 수도자
+ * `3` - 사무실
  * `4` - 단체장
- * `5` - 본당 신자
+ * `5` - 명도회
+ * `6` - 본당 신자
+ * `7` - 타본당 신자
  * @min 0
  * @max 2147483647
  */
 export type UserGradeEnumType = keyof typeof UserGradeEnumTypeMap
 export const UserGradeEnumTypeMap = {
   1: '총관리자',
-  2: '관리자',
-  3: '사제 및 수도자',
+  2: '사제 및 수도자',
+  3: '사무실',
   4: '단체장',
-  5: '본당 신자',
+  5: '명도회',
+  6: '본당 신자',
+  7: '타본당 신자',
 } as const
 
 export type BoardListParamsOrderingEnumType = '-created_at' | '-like_count' // X-enumName Values Missing
