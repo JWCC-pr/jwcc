@@ -39,7 +39,8 @@ const CommentContainerSection: React.FC<CommentContainerSectionProps> = ({
   })
 
   const isDeleted = comment.isDeleted
-  const hasReply = replies?.count && replies.count > 0
+  const hasReply =
+    (replies?.results?.filter((reply) => !reply.isDeleted).length ?? 0) > 0
 
   /** 댓글이 삭제되었고, 답글이 있는 경우 "(삭제된 댓글입니다)" 표시 */
   const isDeletedAndHasReply = isDeleted && hasReply
@@ -73,14 +74,16 @@ const CommentContainerSection: React.FC<CommentContainerSectionProps> = ({
       )}
 
       {/* 답글 영역 */}
-      {replies?.results?.map((reply) => (
-        <ReplyContainerSection
-          key={reply.id}
-          boardId={boardId}
-          comment={comment}
-          reply={reply}
-        />
-      ))}
+      {replies?.results
+        ?.filter((reply) => !reply.isDeleted)
+        .map((reply) => (
+          <ReplyContainerSection
+            key={reply.id}
+            boardId={boardId}
+            comment={comment}
+            reply={reply}
+          />
+        ))}
 
       {/* 답글 쓰기 영역 */}
       {isOpenReplyWrite && (

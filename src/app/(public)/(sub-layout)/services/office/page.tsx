@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import ServicesOfficePage from './_components/services-office-page'
+import ServicesOfficePage from './_source/components/services-office-page'
 
 const Page: NextPage = () => {
   return <ServicesOfficePage />

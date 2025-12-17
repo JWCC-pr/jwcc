@@ -5,6 +5,7 @@ import { format } from 'date-fns/format'
 
 import Popover from '@/components/popover'
 import { BoardCommentType } from '@/generated/apis/@types/data-contracts'
+import { QUERY_KEY_BOARD_API } from '@/generated/apis/Board/Board.query'
 import {
   QUERY_KEY_BOARD_COMMENT_API,
   useBoardCommentDestroyMutation,
@@ -31,6 +32,7 @@ const ReplySection: React.FC<ReplySectionProps> = ({
       })
 
       invalidateQueries(QUERY_KEY_BOARD_COMMENT_API.LIST({ boardId }))
+      invalidateQueries(QUERY_KEY_BOARD_API.RETRIEVE({ id: boardId }))
     } catch (error) {
       console.error(error)
     }
@@ -40,7 +42,6 @@ const ReplySection: React.FC<ReplySectionProps> = ({
 
   return (
     <Box
-      as="li"
       p="16px 12px 20px 36px"
       display="flex"
       flexFlow="column"

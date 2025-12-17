@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import NewsFreeBoardPage from './_components/news-free-board-page'
+import NewsFreeBoardPage from './_source/components/news-free-board-page'
 
 const Page: NextPage = () => {
   return <NewsFreeBoardPage />
