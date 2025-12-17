@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import NewsEventsPage from './_components/news-events-page'
+import NewsEventsPage from './_source/components/news-events-page'
 
 const Page: NextPage = () => {
   return <NewsEventsPage />
