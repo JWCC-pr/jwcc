@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
-const NewsResourcesPage: React.FC = () => {
+const NewsDocumentPage: React.FC = () => {
   return (
     <Box>
       <Text>본당 소식 | 자료실</Text>
@@ -9,4 +9,4 @@ const NewsResourcesPage: React.FC = () => {
   )
 }
 
-export default NewsResourcesPage
+export default NewsDocumentPage

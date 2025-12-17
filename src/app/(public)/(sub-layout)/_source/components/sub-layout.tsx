@@ -32,7 +32,7 @@ const labelMap = {
   [ROUTES.NEWS_OBITUARY]: '선종 안내',
   [ROUTES.NEWS_LITERARY_FLOWERS]: '전례꽃 갤러리',
   [ROUTES.NEWS_FREE_BOARD]: '자유게시판',
-  [ROUTES.NEWS_RESOURCES]: '자료실',
+  [ROUTES.NEWS_DOCUMENT]: '자료실',
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '사목협의회 조직도',
   [ROUTES.COMMUNITY_PARISH_AREA]: '본당 관할 구역도',
@@ -62,7 +62,7 @@ const oneDepthLabelMap = {
   [ROUTES.NEWS_OBITUARY]: '본당 소식',
   [ROUTES.NEWS_LITERARY_FLOWERS]: '본당 소식',
   [ROUTES.NEWS_FREE_BOARD]: '본당 소식',
-  [ROUTES.NEWS_RESOURCES]: '본당 소식',
+  [ROUTES.NEWS_DOCUMENT]: '본당 소식',
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '신앙 공동체',
   [ROUTES.COMMUNITY_PARISH_AREA]: '신앙 공동체',
