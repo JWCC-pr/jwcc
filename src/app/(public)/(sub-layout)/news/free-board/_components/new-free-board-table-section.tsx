@@ -9,15 +9,15 @@ import { format } from 'date-fns/format'
 
 import Pagination from '@/components/pagination'
 import { ROUTES } from '@/constants/routes'
+import { useBoardListQuery } from '@/generated/apis/Board/Board.query'
 
 const LIMIT = 10
 
 // 컬럼 너비 비율 (원본 값)
 const COLUMN_WIDTHS = {
-  title: 60,
+  title: 72,
   writer: 10,
   createdAt: 12,
-  updatedAt: 12,
   viewCount: 8,
   commentCount: 8,
   likeCount: 8,
@@ -28,7 +28,6 @@ const TOTAL_WIDTH =
   COLUMN_WIDTHS.title +
   COLUMN_WIDTHS.writer +
   COLUMN_WIDTHS.createdAt +
-  COLUMN_WIDTHS.updatedAt +
   COLUMN_WIDTHS.viewCount +
   COLUMN_WIDTHS.commentCount +
   COLUMN_WIDTHS.likeCount
@@ -36,17 +35,6 @@ const TOTAL_WIDTH =
 // 100% 기준으로 정규화된 비율 계산
 const getWidthPercentage = (width: number) =>
   `${((width / TOTAL_WIDTH) * 100).toFixed(2)}%`
-
-const items = Array.from({ length: 10 }, (_, index) => ({
-  id: index + 1,
-  title: `게시글 제목 ${index + 1}`,
-  writer: `작성자 ${index + 1}`,
-  createdAt: `2025-01-01`,
-  updatedAt: `2025-01-01`,
-  viewCount: 10 * index,
-  commentCount: 10 * index,
-  likeCount: 10 * index,
-}))
 
 const tableHeaderStyles = {
   h: '40px',
@@ -76,14 +64,6 @@ const tableHeaders = [
     styles: {
       ...tableHeaderStyles,
       htmlWidth: getWidthPercentage(COLUMN_WIDTHS.createdAt),
-      textAlign: 'center',
-    },
-  },
-  {
-    label: '수정일',
-    styles: {
-      ...tableHeaderStyles,
-      htmlWidth: getWidthPercentage(COLUMN_WIDTHS.updatedAt),
       textAlign: 'center',
     },
   },
@@ -123,7 +103,7 @@ const tableBodyRowCellStyle = {
 const NewFreeBoardTableSection: React.FC = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const page = searchParams.get('page')
+  const page = Number(searchParams.get('page') ?? 1)
 
   const handleClick = (id: number) => {
     router.push(ROUTES.NEWS_FREE_BOARD_DETAIL(id))
@@ -134,6 +114,19 @@ const NewFreeBoardTableSection: React.FC = () => {
 
     router.replace(`${ROUTES.NEWS_FREE_BOARD}?${newSearchParams.toString()}`)
   }
+
+  const { data: boards } = useBoardListQuery({
+    variables: {
+      query: {
+        offset: (page - 1) * LIMIT,
+        limit: LIMIT,
+      },
+    },
+  })
+
+  // FIXME: 스켈레톤 UI, 빈 데이터 UI 추가
+  if (!boards) return
+  if (!boards.results) return
 
   return (
     <>
@@ -148,13 +141,13 @@ const NewFreeBoardTableSection: React.FC = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {items.map((item) => (
+          {boards.results.map((board) => (
             <Table.Row
-              key={item.id}
+              key={board.id}
               borderBottom="1px solid"
               borderColor="border.basic.1"
               cursor="pointer"
-              onClick={() => handleClick(item.id)}
+              onClick={() => handleClick(board.id)}
               _hover={{
                 bgColor: 'background.basic.2',
                 '& > *:first-of-type': {
@@ -168,23 +161,22 @@ const NewFreeBoardTableSection: React.FC = () => {
                 alignItems="center"
                 justifyContent="flex-start"
               >
-                {item.title}
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>{item.writer}</Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {format(new Date(item.createdAt), 'yyyy-MM-dd')}
+                {board.title}
               </Table.Cell>
               <Table.Cell {...tableBodyRowCellStyle}>
-                {format(new Date(item.updatedAt), 'yyyy-MM-dd')}
+                {board.user.name}
               </Table.Cell>
               <Table.Cell {...tableBodyRowCellStyle}>
-                {item.viewCount.toLocaleString()}
+                {format(new Date(board.createdAt), 'yyyy-MM-dd')}
               </Table.Cell>
               <Table.Cell {...tableBodyRowCellStyle}>
-                {item.commentCount.toLocaleString()}
+                {board.hitCount.toLocaleString()}
               </Table.Cell>
               <Table.Cell {...tableBodyRowCellStyle}>
-                {item.likeCount.toLocaleString()}
+                {board.commentCount.toLocaleString()}
+              </Table.Cell>
+              <Table.Cell {...tableBodyRowCellStyle}>
+                {board.likeCount.toLocaleString()}
               </Table.Cell>
             </Table.Row>
           ))}
@@ -194,8 +186,7 @@ const NewFreeBoardTableSection: React.FC = () => {
       <Box py="24px" display="flex" justifyContent="center">
         <Pagination
           size="sm"
-          // FIXME: API
-          count={100}
+          count={boards.count ?? 0}
           pageSize={LIMIT}
           defaultPage={page ? Number(page) : 1}
           onPageChange={(details) => handlePageChange(details.page)}
