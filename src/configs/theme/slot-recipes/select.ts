@@ -117,7 +117,7 @@ export const selectSlotRecipe = defineSlotRecipe({
         bgColor: 'grey-transparent.200',
       },
       _selected: {
-        bgColor: 'grey-transparent.200',
+        bgColor: 'primary.1',
       },
     },
     control: {

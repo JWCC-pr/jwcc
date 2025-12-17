@@ -5,7 +5,7 @@
  * + `lg desktop`: `lg` ~
  */
 export const breakpoints = {
-  base: '0px',
+  base: '360px',
   sm: '768px',
   md: '1280px',
   lg: '1760px',

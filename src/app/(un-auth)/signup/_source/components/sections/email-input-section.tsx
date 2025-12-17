@@ -14,6 +14,10 @@ import { FormHelper } from '@/components/form-helper'
 import { InputGroup } from '@/components/ui/input-group'
 import { toaster } from '@/components/ui/toaster'
 import { REGEX } from '@/constants/form/regex'
+import {
+  useEmailVerifierConfirmCreateMutation,
+  useEmailVerifierCreateMutation,
+} from '@/generated/apis/EmailVerifier/EmailVerifier.query'
 import { SignupCCheckCircleFillIcon } from '@/generated/icons/MyIcons'
 
 import { SignupFormDataType } from '../../hooks/useSignupForm'
@@ -206,6 +210,9 @@ const EmailInputSection: React.FC = () => {
     }))
   }, [verification.isCodeSent, verification.isVerified, verification.timeLeft])
 
+  const { mutateAsync: createEmailVerifierMutateAsync } =
+    useEmailVerifierCreateMutation({})
+
   /** 인증번호 전송 (첫 전송) */
   const onSendCode = async () => {
     // 이메일 형식 검증
@@ -223,8 +230,9 @@ const EmailInputSection: React.FC = () => {
         verificationFailureMessage: '',
       }))
 
-      // FIXME: API
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await createEmailVerifierMutateAsync({
+        data: { email: watchedEmailValue },
+      })
 
       setVerification((prev) => ({
         ...prev,
@@ -262,8 +270,9 @@ const EmailInputSection: React.FC = () => {
         verificationFailureMessage: '',
       }))
 
-      // FIXME: API
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await createEmailVerifierMutateAsync({
+        data: { email: watchedEmailValue },
+      })
 
       // 타이머 및 입력값 완전 초기화
       setVerification((prev) => ({
@@ -298,17 +307,9 @@ const EmailInputSection: React.FC = () => {
    * 선택된 도메인으로 이메일 주소를 완성하고 폼 값을 업데이트합니다.
    */
   const handleSelectEmail = (selectedDomain: string) => {
-    setValue(
-      'email',
-      {
-        value: `${local}@${selectedDomain}`,
-        verificationCode: '',
-        isVerified: false,
-      },
-      {
-        shouldValidate: true,
-      },
-    )
+    setValue('email.value', `${local}@${selectedDomain}`, {
+      shouldValidate: true,
+    })
 
     // 자동완성 드롭다운 닫기
     setAutocomplete({
@@ -380,11 +381,14 @@ const EmailInputSection: React.FC = () => {
     }
   }
 
-  /** 인증번호 확인 (4자리 입력 시 자동 실행) */
+  const { mutateAsync: verifyEmailVerifierConfirmMutateAsync } =
+    useEmailVerifierConfirmCreateMutation({})
+
+  /** 인증번호 확인 (6자리 입력 시 자동 실행) */
   useEffect(() => {
     if (!hasEmailCode) return
     if (verification.isVerified) return
-    if (watchedEmailVerificationCode.length !== 4) return
+    if (watchedEmailVerificationCode.length !== 6) return
     if (isTimeOut) return
 
     const verifyCode = async () => {
@@ -395,39 +399,32 @@ const EmailInputSection: React.FC = () => {
       }))
 
       try {
-        // FIXME: API
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        const { token } = await verifyEmailVerifierConfirmMutateAsync({
+          data: {
+            email: watchedEmailValue,
+            code: watchedEmailVerificationCode,
+          },
+        })
 
-        // FIXME: API
-        const isSuccess = Math.random() > 0.5
+        setValue('email.token', token, { shouldValidate: true })
 
-        if (isSuccess) {
-          setVerification((prev) => ({
-            ...prev,
-            isVerified: true,
-          }))
+        setVerification((prev) => ({
+          ...prev,
+          isVerified: true,
+        }))
 
-          setValue('email.isVerified', true, { shouldValidate: true })
+        setValue('email.isVerified', true, { shouldValidate: true })
 
-          toaster.create({
-            title: '인증이 완료되었습니다.',
-            type: 'success',
-            duration: 2_000,
-          })
-
-          return
-        }
-
+        toaster.create({
+          title: '인증이 완료되었습니다.',
+          type: 'success',
+          duration: 2_000,
+        })
+      } catch (error) {
         // 인증 실패
         setVerification((prev) => ({
           ...prev,
           verificationFailureMessage: '인증번호를 다시 확인해주세요',
-        }))
-      } catch (error) {
-        console.error('error >> ', error)
-        setVerification((prev) => ({
-          ...prev,
-          verificationFailureMessage: `인증 확인에 실패했습니다. 다시 시도해 주세요.`,
         }))
       }
     }
@@ -439,6 +436,8 @@ const EmailInputSection: React.FC = () => {
     verification.isVerified,
     isTimeOut,
     setValue,
+    verifyEmailVerifierConfirmMutateAsync,
+    watchedEmailValue,
   ])
 
   return (
@@ -580,16 +579,16 @@ const EmailInputSection: React.FC = () => {
               variant="outline"
               placeholder="인증번호"
               w="100%"
-              maxLength={4}
+              maxLength={6}
               inputMode="numeric"
               disabled={verification.isVerified || verification.timeLeft <= 0}
               readOnly={verification.isVerified}
               {...register('email.verificationCode', {
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                  // 숫자만 허용하고 4자리로 제한
+                  // 숫자만 허용하고 6자리로 제한
                   const value = e.target.value.replace(/[^0-9]/g, '')
-                  if (value.length > 4) {
-                    e.target.value = value.slice(0, 4)
+                  if (value.length > 6) {
+                    e.target.value = value.slice(0, 6)
                   } else {
                     e.target.value = value
                   }
