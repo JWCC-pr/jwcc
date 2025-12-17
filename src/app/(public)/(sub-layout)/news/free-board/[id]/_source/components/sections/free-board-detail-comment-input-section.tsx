@@ -9,6 +9,7 @@ import { Textarea } from '@chakra-ui/react/textarea'
 import { CaretRightIcon, ChatCircleDotsIcon } from '@phosphor-icons/react'
 
 import { BoardType } from '@/generated/apis/@types/data-contracts'
+import { QUERY_KEY_BOARD_API } from '@/generated/apis/Board/Board.query'
 import {
   QUERY_KEY_BOARD_COMMENT_API,
   useBoardCommentCreateMutation,
@@ -49,6 +50,7 @@ const FreeBoardDetailCommentInputSection: React.FC<
       })
 
       invalidateQueries(QUERY_KEY_BOARD_COMMENT_API.LIST({ boardId }))
+      invalidateQueries(QUERY_KEY_BOARD_API.RETRIEVE({ id: boardId }))
 
       setBody('')
     } catch (error) {

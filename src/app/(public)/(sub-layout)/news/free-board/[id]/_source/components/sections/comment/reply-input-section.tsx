@@ -8,6 +8,7 @@ import { Text } from '@chakra-ui/react/text'
 import { Textarea } from '@chakra-ui/react/textarea'
 
 import { BoardCommentType } from '@/generated/apis/@types/data-contracts'
+import { QUERY_KEY_BOARD_API } from '@/generated/apis/Board/Board.query'
 import {
   QUERY_KEY_BOARD_COMMENT_API,
   useBoardCommentCreateMutation,
@@ -47,6 +48,7 @@ const ReplyInputSection: React.FC<ReplyInputSectionProps> = ({
       })
 
       invalidateQueries(QUERY_KEY_BOARD_COMMENT_API.LIST({ boardId }))
+      invalidateQueries(QUERY_KEY_BOARD_API.RETRIEVE({ id: boardId }))
 
       setBody('')
       onClose()
