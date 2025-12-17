@@ -1,26 +1,72 @@
+import { useRouter } from 'next/navigation'
+
 import { Box } from '@chakra-ui/react/box'
 import { IconButton } from '@chakra-ui/react/button'
 import { Text } from '@chakra-ui/react/text'
-import {
-  ChatCircleDotsIcon,
-  DotsThreeVerticalIcon,
-  HeartIcon,
-} from '@phosphor-icons/react'
+import { ChatCircleDotsIcon, HeartIcon } from '@phosphor-icons/react'
 
 import { format } from 'date-fns/format'
 
+import Popover from '@/components/popover'
+import { ROUTES } from '@/constants/routes'
 import { BoardType } from '@/generated/apis/@types/data-contracts'
+import {
+  QUERY_KEY_BOARD_API,
+  useBoardDestroyMutation,
+} from '@/generated/apis/Board/Board.query'
+import { useBoardLikeToggleCreateMutation } from '@/generated/apis/BoardLike/BoardLike.query'
+import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
 
 interface FreeBoardDetailHeaderSectionProps {
   data: Pick<
     BoardType,
-    'title' | 'user' | 'createdAt' | 'hitCount' | 'commentCount' | 'likeCount'
+    | 'id'
+    | 'title'
+    | 'user'
+    | 'createdAt'
+    | 'hitCount'
+    | 'commentCount'
+    | 'likeCount'
+    | 'isOwned'
+    | 'isLiked'
   >
 }
 
 const FreeBoardDetailHeaderSection: React.FC<
   FreeBoardDetailHeaderSectionProps
 > = ({ data }) => {
+  const router = useRouter()
+  const invalidateQueries = useInvalidateQueries()
+
+  const { mutateAsync: boardLikeToggleCreateMutateAsync } =
+    useBoardLikeToggleCreateMutation({})
+  const handleClickLike = async () => {
+    try {
+      await boardLikeToggleCreateMutateAsync({ boardId: data.id })
+
+      invalidateQueries(QUERY_KEY_BOARD_API.RETRIEVE({ id: data.id }))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleClickEdit = () => {
+    router.push(ROUTES.NEWS_FREE_BOARD_EDIT(data.id))
+  }
+
+  const { mutateAsync: boardDestroyMutateAsync } = useBoardDestroyMutation({})
+  const handleClickDelete = async () => {
+    if (!data.isOwned) return
+
+    try {
+      await boardDestroyMutateAsync({ id: data.id })
+
+      router.replace(ROUTES.NEWS_FREE_BOARD)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <Box
       py="20px"
@@ -37,12 +83,28 @@ const FreeBoardDetailHeaderSection: React.FC<
           {data.title}
         </Text>
         <Box>
-          <IconButton size="md" variant="ghost" colorPalette="grey">
-            <HeartIcon size="20px" />
+          <IconButton
+            size="md"
+            variant="ghost"
+            colorPalette="grey"
+            onClick={handleClickLike}
+          >
+            <HeartIcon
+              size="20px"
+              color={data.isLiked ? '#AE3059' : '#6A6D71'}
+              weight={data.isLiked ? 'fill' : 'regular'}
+            />
           </IconButton>
-          <IconButton size="md" variant="ghost" colorPalette="grey">
-            <DotsThreeVerticalIcon size="20px" />
-          </IconButton>
+          <Popover
+            options={[
+              { label: '수정', onClick: handleClickEdit },
+              {
+                label: '삭제',
+                onClick: handleClickDelete,
+                styles: { color: 'accent.red2' },
+              },
+            ]}
+          />
         </Box>
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
