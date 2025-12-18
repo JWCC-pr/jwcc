@@ -27,7 +27,7 @@ const labelMap = {
   [ROUTES.ABOUT_EVENTS]: '본당 행사 일정',
   // 본당 소식
   [ROUTES.NEWS_NOTICES]: '공지사항',
-  [ROUTES.NEWS_EVENTS]: '본당 행사',
+  [ROUTES.NEWS_EVENT]: '본당 행사',
   [ROUTES.NEWS_BULLETIN]: '주보',
   [ROUTES.NEWS_PASSING_NOTICE]: '선종 안내',
   [ROUTES.NEWS_LITERARY_FLOWERS]: '전례꽃 갤러리',
@@ -57,7 +57,7 @@ const oneDepthLabelMap = {
   [ROUTES.ABOUT_EVENTS]: '본당 소개',
   // 본당 소식
   [ROUTES.NEWS_NOTICES]: '본당 소식',
-  [ROUTES.NEWS_EVENTS]: '본당 소식',
+  [ROUTES.NEWS_EVENT]: '본당 소식',
   [ROUTES.NEWS_BULLETIN]: '본당 소식',
   [ROUTES.NEWS_PASSING_NOTICE]: '본당 소식',
   [ROUTES.NEWS_LITERARY_FLOWERS]: '본당 소식',

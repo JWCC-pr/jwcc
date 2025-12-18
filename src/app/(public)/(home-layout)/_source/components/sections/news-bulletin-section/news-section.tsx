@@ -22,7 +22,7 @@ const NewsSection: React.FC = () => {
         <Text flex="1" textStyle="pre-heading-1" color="grey.10">
           본당 소식
         </Text>
-        <Link href={ROUTES.NEWS_EVENTS} _hover={{ textDecoration: 'none' }}>
+        <Link href={ROUTES.NEWS_EVENT} _hover={{ textDecoration: 'none' }}>
           <Button variant="ghost" size="md" colorPalette="grey">
             더 보기
             <ArrowRightIcon size="20px" />
