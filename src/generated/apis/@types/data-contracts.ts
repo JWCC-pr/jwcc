@@ -161,7 +161,7 @@ export interface BoardRequestType {
 export interface BoardSubDepartmentType {
   readonly id: number
   /**
-   * 분과명
+   * 세부분과명
    * @maxLength 100
    */
   name: string
@@ -169,7 +169,7 @@ export interface BoardSubDepartmentType {
 
 export interface BoardSubDepartmentRequestType {
   /**
-   * 분과명
+   * 세부분과명
    * @minLength 1
    * @maxLength 100
    */
@@ -258,6 +258,8 @@ export interface DocumentType {
    * @maxLength 100
    */
   title: string
+  /** 본문 */
+  body: string
   /** 파일 */
   fileSet: DocumentDocumentFileType[]
   /**
@@ -361,6 +363,12 @@ export interface LiturgyFlowerType {
    * @maxLength 100
    */
   title: string
+  /** 댓글수 */
+  readonly commentCount: number
+  /** 조회수 */
+  readonly hitCount: number
+  /** 좋아요수 */
+  readonly likeCount: number
   /** 이미지 */
   imageSet: LiturgyFlowerImageType[]
   /**
@@ -368,6 +376,96 @@ export interface LiturgyFlowerType {
    * @format date-time
    */
   readonly createdAt: string
+}
+
+export interface LiturgyFlowerCommentType {
+  readonly id: number
+  /** 유저 */
+  readonly user: LiturgyFlowerCommentUserType
+  /**
+   * 내용
+   * @maxLength 500
+   */
+  body: string
+  /** 소유 여부 */
+  readonly isOwned: boolean
+  /** 수정여부 */
+  readonly isModified: boolean
+  /** 삭제여부 */
+  readonly isDeleted: boolean
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+}
+
+export interface LiturgyFlowerCommentErrorMessageType {
+  nonField?: string[]
+  parentId?: string[]
+  body?: string[]
+}
+
+export interface LiturgyFlowerCommentRequestType {
+  /** 부모 댓글 ID */
+  parentId: number | null
+  /**
+   * 내용
+   * @minLength 1
+   * @maxLength 500
+   */
+  body: string
+}
+
+export interface LiturgyFlowerCommentSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface LiturgyFlowerCommentSubDepartmentRequestType {
+  /**
+   * 세부분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface LiturgyFlowerCommentUserType {
+  readonly id: number
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /** 분과 */
+  subDepartmentSet: LiturgyFlowerCommentSubDepartmentType[]
+}
+
+export interface LiturgyFlowerCommentUserRequestType {
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
+  /** 분과 */
+  subDepartmentSet: LiturgyFlowerCommentSubDepartmentRequestType[]
 }
 
 export interface LiturgyFlowerErrorMessageType {
@@ -392,6 +490,15 @@ export interface LiturgyFlowerImageRequestType {
    * @minLength 1
    */
   image: string
+}
+
+export interface LiturgyFlowerLikeToggleType {
+  /** 좋아요 여부 */
+  readonly isLiked: boolean
+}
+
+export interface LiturgyFlowerLikeToggleErrorMessageType {
+  nonField?: string[]
 }
 
 export interface LiturgyFlowerRequestType {
@@ -569,6 +676,12 @@ export interface PaginatedEventListType {
   count?: number
   isNext?: boolean
   results?: EventType[]
+}
+
+export interface PaginatedLiturgyFlowerCommentListType {
+  count?: number
+  cursor?: string | null
+  results?: LiturgyFlowerCommentType[]
 }
 
 export interface PaginatedLiturgyFlowerListType {
@@ -900,6 +1013,8 @@ export interface UserType {
    * @max 2147483647
    */
   grade?: UserGradeEnumType
+  /** 분과 */
+  subDepartmentSet: UserSubDepartmentType[]
 }
 
 export interface UserLoginType {
@@ -1101,6 +1216,15 @@ export interface UserRegisterRequestType {
    * @format date
    */
   birth: string
+}
+
+export interface UserSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
 }
 
 export interface WeeklyBulletinType {

@@ -40,7 +40,7 @@ export const NAV_ITEMS: NavItem[] = [
       { label: '본당 행사', href: ROUTES.NEWS_EVENT },
       { label: '주보', href: ROUTES.NEWS_BULLETIN },
       { label: '선종 안내', href: ROUTES.NEWS_PASSING_NOTICE },
-      { label: '전례꽃 갤러리', href: ROUTES.NEWS_LITERARY_FLOWERS },
+      { label: '전례꽃 갤러리', href: ROUTES.NEWS_LITURGY_FLOWER },
       { label: '자유게시판', href: ROUTES.NEWS_FREE_BOARD },
       { label: '자료실', href: ROUTES.NEWS_DOCUMENT },
     ],

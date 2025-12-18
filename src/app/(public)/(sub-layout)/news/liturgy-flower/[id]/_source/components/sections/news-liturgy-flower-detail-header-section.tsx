@@ -1,3 +1,5 @@
+'use client'
+
 import { useRouter } from 'next/navigation'
 
 import { Box } from '@chakra-ui/react/box'
@@ -9,17 +11,17 @@ import { format } from 'date-fns/format'
 
 import Popover from '@/components/popover'
 import { ROUTES } from '@/constants/routes'
-import { BoardType } from '@/generated/apis/@types/data-contracts'
+import { LiturgyFlowerType } from '@/generated/apis/@types/data-contracts'
 import {
-  QUERY_KEY_BOARD_API,
-  useBoardDestroyMutation,
-} from '@/generated/apis/Board/Board.query'
-import { useBoardLikeToggleCreateMutation } from '@/generated/apis/BoardLike/BoardLike.query'
+  QUERY_KEY_LITURGY_FLOWER_API,
+  useLiturgyFlowerDestroyMutation,
+} from '@/generated/apis/LiturgyFlower/LiturgyFlower.query'
+import { useLiturgyFlowerLikeToggleCreateMutation } from '@/generated/apis/LiturgyFlowerLike/LiturgyFlowerLike.query'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
 
-interface FreeBoardDetailHeaderSectionProps {
-  data: Pick<
-    BoardType,
+interface NewsLiturgyFlowerDetailHeaderSectionProps {
+  liturgyFlower: Pick<
+    LiturgyFlowerType,
     | 'id'
     | 'title'
     | 'user'
@@ -27,41 +29,45 @@ interface FreeBoardDetailHeaderSectionProps {
     | 'hitCount'
     | 'commentCount'
     | 'likeCount'
-    | 'isOwned'
-    | 'isLiked'
   >
 }
 
-const FreeBoardDetailHeaderSection: React.FC<
-  FreeBoardDetailHeaderSectionProps
-> = ({ data }) => {
+const NewsLiturgyFlowerDetailHeaderSection: React.FC<
+  NewsLiturgyFlowerDetailHeaderSectionProps
+> = ({ liturgyFlower }) => {
   const router = useRouter()
   const invalidateQueries = useInvalidateQueries()
 
-  const { mutateAsync: boardLikeToggleCreateMutateAsync } =
-    useBoardLikeToggleCreateMutation({})
+  const { mutateAsync: liturgyFlowerLikeToggleCreateMutateAsync } =
+    useLiturgyFlowerLikeToggleCreateMutation({})
   const handleClickLike = async () => {
     try {
-      await boardLikeToggleCreateMutateAsync({ boardId: data.id })
+      await liturgyFlowerLikeToggleCreateMutateAsync({
+        liturgyFlowerId: liturgyFlower.id,
+      })
 
-      invalidateQueries(QUERY_KEY_BOARD_API.RETRIEVE({ id: data.id }))
+      invalidateQueries(
+        QUERY_KEY_LITURGY_FLOWER_API.RETRIEVE({ id: liturgyFlower.id }),
+      )
     } catch (error) {
       console.error(error)
     }
   }
 
   const handleClickEdit = () => {
-    router.push(ROUTES.NEWS_FREE_BOARD_EDIT(data.id))
+    router.push(ROUTES.NEWS_LITURGY_FLOWER_EDIT(liturgyFlower.id))
   }
 
-  const { mutateAsync: boardDestroyMutateAsync } = useBoardDestroyMutation({})
+  const { mutateAsync: liturgyFlowerDestroyMutateAsync } =
+    useLiturgyFlowerDestroyMutation({})
   const handleClickDelete = async () => {
-    if (!data.isOwned) return
+    // FIXME: API
+    // if (!liturgyFlower.isOwned) return
 
     try {
-      await boardDestroyMutateAsync({ id: data.id })
+      await liturgyFlowerDestroyMutateAsync({ id: liturgyFlower.id })
 
-      router.replace(ROUTES.NEWS_FREE_BOARD)
+      router.replace(ROUTES.NEWS_LITURGY_FLOWER)
     } catch (error) {
       console.error(error)
     }
@@ -80,7 +86,7 @@ const FreeBoardDetailHeaderSection: React.FC<
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Text textStyle="pre-heading-2" color="grey.10" lineClamp="1">
-          {data.title}
+          {liturgyFlower.title}
         </Text>
         <Box>
           <IconButton
@@ -91,44 +97,44 @@ const FreeBoardDetailHeaderSection: React.FC<
           >
             <HeartIcon
               size="20px"
-              color={data.isLiked ? '#AE3059' : '#6A6D71'}
-              weight={data.isLiked ? 'fill' : 'regular'}
+              // FIXME: 좋아요 상태에 따라 색상 변경
+              //   color={liturgyFlower.isLiked ? '#AE3059' : '#6A6D71'}
+              //   weight={liturgyFlower.isLiked ? 'fill' : 'regular'}
             />
           </IconButton>
-          {data.isOwned && (
-            <Popover
-              options={[
-                { label: '수정', onClick: handleClickEdit },
-                {
-                  label: '삭제',
-                  onClick: handleClickDelete,
-                  styles: { color: 'accent.red2' },
-                },
-              ]}
-            />
-          )}
+          {/* FIXME: 작성자인지 여부에 따라 보여주기 처리 */}
+          <Popover
+            options={[
+              { label: '수정', onClick: handleClickEdit },
+              {
+                label: '삭제',
+                onClick: handleClickDelete,
+                styles: { color: 'accent.red2' },
+              },
+            ]}
+          />
         </Box>
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" flexFlow="column" gap="2px">
           <Box display="flex" gap="6px">
             <Text textStyle="pre-body-5" color="grey.10">
-              {data.user.name}
+              {liturgyFlower.user.name}
             </Text>
             <Text textStyle="pre-body-6" color="grey.7">
-              {data.user.baptismalName}
+              {liturgyFlower.user.baptismalName}
             </Text>
           </Box>
           <Box display="flex" gap="10px">
             <Text textStyle="pre-caption-2" color="grey.7">
-              {format(data.createdAt, 'yyyy-MM-dd')}
+              {format(liturgyFlower.createdAt, 'yyyy-MM-dd')}
             </Text>
             <Box display="flex" gap="4px">
               <Text textStyle="pre-caption-2" color="grey.7">
                 조회
               </Text>
               <Text textStyle="pre-caption-2" color="grey.7">
-                {data.hitCount}
+                {liturgyFlower.hitCount}
               </Text>
             </Box>
           </Box>
@@ -141,7 +147,7 @@ const FreeBoardDetailHeaderSection: React.FC<
                 댓글
               </Text>
               <Text textStyle="pre-caption-1" color="grey.10">
-                {data.commentCount}
+                {liturgyFlower.commentCount}
               </Text>
             </Box>
           </Box>
@@ -152,7 +158,7 @@ const FreeBoardDetailHeaderSection: React.FC<
                 좋아요
               </Text>
               <Text textStyle="pre-caption-1" color="grey.10">
-                {data.likeCount}
+                {liturgyFlower.likeCount}
               </Text>
             </Box>
           </Box>
@@ -162,4 +168,4 @@ const FreeBoardDetailHeaderSection: React.FC<
   )
 }
 
-export default FreeBoardDetailHeaderSection
+export default NewsLiturgyFlowerDetailHeaderSection
