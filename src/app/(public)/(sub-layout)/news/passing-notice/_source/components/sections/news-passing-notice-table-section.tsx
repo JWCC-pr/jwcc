@@ -15,9 +15,9 @@ const LIMIT = 10
 
 // 컬럼 너비 비율 (원본 값)
 const COLUMN_WIDTHS = {
-  name: 960,
-  baptismName: 120,
-  funeralService: 120,
+  name: 400,
+  baptismName: 400,
+  funeralService: 400,
 } as const
 
 // 총합 계산
@@ -36,11 +36,11 @@ const tableHeaderStyles = {
 }
 const tableHeaders = [
   {
-    label: '성함',
+    label: '고인 성함',
     styles: {
       ...tableHeaderStyles,
       htmlWidth: getWidthPercentage(COLUMN_WIDTHS.name),
-      textAlign: 'left',
+      textAlign: 'center',
     },
   },
   {
@@ -121,17 +121,9 @@ const NewsPassingNoticeTableSection: React.FC = () => {
               onClick={() => handleClick(passingNotice.id)}
               _hover={{
                 bgColor: 'background.basic.2',
-                '& > *:first-of-type': {
-                  textDecoration: 'underline',
-                },
               }}
             >
-              <Table.Cell
-                {...tableBodyRowCellStyle}
-                display="flex"
-                alignItems="center"
-                justifyContent="flex-start"
-              >
+              <Table.Cell {...tableBodyRowCellStyle}>
                 {passingNotice.name}
               </Table.Cell>
               <Table.Cell {...tableBodyRowCellStyle}>

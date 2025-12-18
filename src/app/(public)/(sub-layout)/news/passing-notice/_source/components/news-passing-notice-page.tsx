@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import { Box } from '@chakra-ui/react/box'
 
 import NewsPassingNoticeTableSection from './sections/news-passing-notice-table-section'
@@ -5,11 +7,13 @@ import NewsPassingNoticeTopSection from './sections/news-passing-notice-top-sect
 
 const NewsPassingNoticePage: React.FC = () => {
   return (
-    <Box display="flex" flexDirection="column" gap="24px">
-      <NewsPassingNoticeTopSection />
+    <Suspense>
+      <Box display="flex" flexDirection="column" gap="24px">
+        <NewsPassingNoticeTopSection />
 
-      <NewsPassingNoticeTableSection />
-    </Box>
+        <NewsPassingNoticeTableSection />
+      </Box>
+    </Suspense>
   )
 }
 
