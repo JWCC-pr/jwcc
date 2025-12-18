@@ -36,7 +36,9 @@ export const ROUTES = {
   /** 공지사항 상세 */
   NEWS_NOTICES_DETAIL: (id: number) => `/news/notices/${id}`,
   /** 본당 행사 */
-  NEWS_EVENTS: `/news/events`,
+  NEWS_EVENT: `/news/event`,
+  /** 본당 행사 상세 */
+  NEWS_EVENT_DETAIL: (id: number) => `/news/event/${id}`,
   /** 주보 */
   NEWS_BULLETIN: `/news/bulletin`,
   /** 선종 안내 */
