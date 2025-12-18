@@ -16,12 +16,12 @@ import {
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
 import useMe from '@/hooks/useMe'
 
-interface NewsLigurgyFlowerDetailCommentInputSectionProps {
+interface NewsLiturgyFlowerDetailCommentInputSectionProps {
   liturgyFlowerId: number
 }
 
-const NewsLigurgyFlowerDetailCommentInputSection: React.FC<
-  NewsLigurgyFlowerDetailCommentInputSectionProps
+const NewsLiturgyFlowerDetailCommentInputSection: React.FC<
+  NewsLiturgyFlowerDetailCommentInputSectionProps
 > = ({ liturgyFlowerId }) => {
   const { data: me } = useMe()
 
@@ -146,4 +146,4 @@ const NewsLigurgyFlowerDetailCommentInputSection: React.FC<
   )
 }
 
-export default NewsLigurgyFlowerDetailCommentInputSection
+export default NewsLiturgyFlowerDetailCommentInputSection

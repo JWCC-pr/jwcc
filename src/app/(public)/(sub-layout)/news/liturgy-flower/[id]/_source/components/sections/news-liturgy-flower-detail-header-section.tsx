@@ -19,7 +19,7 @@ import {
 import { useLiturgyFlowerLikeToggleCreateMutation } from '@/generated/apis/LiturgyFlowerLike/LiturgyFlowerLike.query'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
 
-interface NewsLigurgyFlowerDetailHeaderSectionProps {
+interface NewsLiturgyFlowerDetailHeaderSectionProps {
   liturgyFlower: Pick<
     LiturgyFlowerType,
     | 'id'
@@ -32,8 +32,8 @@ interface NewsLigurgyFlowerDetailHeaderSectionProps {
   >
 }
 
-const NewsLigurgyFlowerDetailHeaderSection: React.FC<
-  NewsLigurgyFlowerDetailHeaderSectionProps
+const NewsLiturgyFlowerDetailHeaderSection: React.FC<
+  NewsLiturgyFlowerDetailHeaderSectionProps
 > = ({ liturgyFlower }) => {
   const router = useRouter()
   const invalidateQueries = useInvalidateQueries()
@@ -168,4 +168,4 @@ const NewsLigurgyFlowerDetailHeaderSection: React.FC<
   )
 }
 
-export default NewsLigurgyFlowerDetailHeaderSection
+export default NewsLiturgyFlowerDetailHeaderSection

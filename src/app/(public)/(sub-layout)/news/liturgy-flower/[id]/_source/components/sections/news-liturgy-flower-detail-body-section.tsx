@@ -19,12 +19,12 @@ const DRAG_THRESHOLD_RATIO = 0.25 // 25%
 const DRAG_VELOCITY_THRESHOLD = 300
 const DRAG_ELASTIC = 0.1
 
-interface NewsLigurgyFlowerDetailBodySectionProps {
+interface NewsLiturgyFlowerDetailBodySectionProps {
   liturgyFlower: Pick<LiturgyFlowerType, 'imageSet'>
 }
 
-const NewsLigurgyFlowerDetailBodySection: React.FC<
-  NewsLigurgyFlowerDetailBodySectionProps
+const NewsLiturgyFlowerDetailBodySection: React.FC<
+  NewsLiturgyFlowerDetailBodySectionProps
 > = ({ liturgyFlower }) => {
   const images = useMemo(
     () => liturgyFlower.imageSet || [],
@@ -396,4 +396,4 @@ const NewsLigurgyFlowerDetailBodySection: React.FC<
   )
 }
 
-export default NewsLigurgyFlowerDetailBodySection
+export default NewsLiturgyFlowerDetailBodySection

@@ -4,12 +4,12 @@ import { ChatCircleDotsIcon } from '@phosphor-icons/react'
 
 import { LiturgyFlowerType } from '@/generated/apis/@types/data-contracts'
 
-interface NewsLigurgyFlowerDetailCommentInfoSectionProps {
+interface NewsLiturgyFlowerDetailCommentInfoSectionProps {
   liturgyFlower: Pick<LiturgyFlowerType, 'commentCount'>
 }
 
-const NewsLigurgyFlowerDetailCommentInfoSection: React.FC<
-  NewsLigurgyFlowerDetailCommentInfoSectionProps
+const NewsLiturgyFlowerDetailCommentInfoSection: React.FC<
+  NewsLiturgyFlowerDetailCommentInfoSectionProps
 > = ({ liturgyFlower }) => {
   return (
     <Box p="16px 12px" display="flex" gap="6px" alignItems="center">
@@ -26,4 +26,4 @@ const NewsLigurgyFlowerDetailCommentInfoSection: React.FC<
   )
 }
 
-export default NewsLigurgyFlowerDetailCommentInfoSection
+export default NewsLiturgyFlowerDetailCommentInfoSection

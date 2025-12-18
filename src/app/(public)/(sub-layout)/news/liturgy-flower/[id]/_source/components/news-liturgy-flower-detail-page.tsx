@@ -7,11 +7,11 @@ import { Link } from '@chakra-ui/react/link'
 import { ROUTES } from '@/constants/routes'
 import { useLiturgyFlowerRetrieveQuery } from '@/generated/apis/LiturgyFlower/LiturgyFlower.query'
 
-import NewsLigurgyFlowerDetailBodySection from './sections/news-ligurgy-flower-detail-body-section'
-import NewsLigurgyFlowerDetailCommentInfoSection from './sections/news-ligurgy-flower-detail-comment-info-section'
-import NewsLigurgyFlowerDetailCommentInputSection from './sections/news-ligurgy-flower-detail-comment-input-section'
-import NewsLigurgyFlowerDetailCommentListSection from './sections/news-ligurgy-flower-detail-comment-list-section'
-import NewsLigurgyFlowerDetailHeaderSection from './sections/news-ligurgy-flower-detail-header-section'
+import NewsLiturgyFlowerDetailBodySection from './sections/news-liturgy-flower-detail-body-section'
+import NewsLiturgyFlowerDetailCommentInfoSection from './sections/news-liturgy-flower-detail-comment-info-section'
+import NewsLiturgyFlowerDetailCommentInputSection from './sections/news-liturgy-flower-detail-comment-input-section'
+import NewsLiturgyFlowerDetailCommentListSection from './sections/news-liturgy-flower-detail-comment-list-section'
+import NewsLiturgyFlowerDetailHeaderSection from './sections/news-liturgy-flower-detail-header-section'
 
 interface NewsLiturgyFlowerDetailPageProps {
   liturgyFlowerId: number
@@ -30,19 +30,19 @@ const NewsLiturgyFlowerDetailPage: React.FC<
 
   return (
     <Box display="flex" flexDirection="column">
-      <NewsLigurgyFlowerDetailHeaderSection liturgyFlower={liturgyFlower} />
+      <NewsLiturgyFlowerDetailHeaderSection liturgyFlower={liturgyFlower} />
 
-      <NewsLigurgyFlowerDetailBodySection liturgyFlower={liturgyFlower} />
+      <NewsLiturgyFlowerDetailBodySection liturgyFlower={liturgyFlower} />
 
-      <NewsLigurgyFlowerDetailCommentInfoSection
+      <NewsLiturgyFlowerDetailCommentInfoSection
         liturgyFlower={liturgyFlower}
       />
 
-      <NewsLigurgyFlowerDetailCommentListSection
+      <NewsLiturgyFlowerDetailCommentListSection
         liturgyFlowerId={liturgyFlowerId}
       />
 
-      <NewsLigurgyFlowerDetailCommentInputSection
+      <NewsLiturgyFlowerDetailCommentInputSection
         liturgyFlowerId={liturgyFlowerId}
       />
 

@@ -4,12 +4,12 @@ import { useLiturgyFlowerCommentListQuery } from '@/generated/apis/LiturgyFlower
 
 import CommentContainerSection from './comment/comment-container-section'
 
-interface NewsLigurgyFlowerDetailCommentListSectionProps {
+interface NewsLiturgyFlowerDetailCommentListSectionProps {
   liturgyFlowerId: number
 }
 
-const NewsLigurgyFlowerDetailCommentListSection: React.FC<
-  NewsLigurgyFlowerDetailCommentListSectionProps
+const NewsLiturgyFlowerDetailCommentListSection: React.FC<
+  NewsLiturgyFlowerDetailCommentListSectionProps
 > = ({ liturgyFlowerId }) => {
   const { data: comments } = useLiturgyFlowerCommentListQuery({
     variables: {
@@ -33,4 +33,4 @@ const NewsLigurgyFlowerDetailCommentListSection: React.FC<
   )
 }
 
-export default NewsLigurgyFlowerDetailCommentListSection
+export default NewsLiturgyFlowerDetailCommentListSection
