@@ -85,7 +85,7 @@ const QuickMenuItems = [
       />
     ),
     label: '선종 안내',
-    value: ROUTES.NEWS_OBITUARY,
+    value: ROUTES.NEWS_PASSING_NOTICE,
   },
   {
     icon: (

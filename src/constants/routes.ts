@@ -40,7 +40,9 @@ export const ROUTES = {
   /** 주보 */
   NEWS_BULLETIN: `/news/bulletin`,
   /** 선종 안내 */
-  NEWS_OBITUARY: `/news/obituary`,
+  NEWS_PASSING_NOTICE: `/news/passing-notice`,
+  /** 선종 안내 상세 */
+  NEWS_PASSING_NOTICE_DETAIL: (id: number) => `/news/passing-notice/${id}`,
   /** 전례꽃 갤러리 */
   NEWS_LITERARY_FLOWERS: `/news/literary-flowers`,
   /** 자유게시판 */
