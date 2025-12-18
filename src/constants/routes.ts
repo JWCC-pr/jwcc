@@ -46,7 +46,9 @@ export const ROUTES = {
   /** 선종 안내 상세 */
   NEWS_PASSING_NOTICE_DETAIL: (id: number) => `/news/passing-notice/${id}`,
   /** 전례꽃 갤러리 */
-  NEWS_LITERARY_FLOWERS: `/news/literary-flowers`,
+  NEWS_LITURGY_FLOWER: `/news/liturgy-flower`,
+  /** 전례꽃 갤러리 상세 */
+  NEWS_LITURGY_FLOWER_DETAIL: (id: number) => `/news/liturgy-flower/${id}`,
   /** 자유게시판 */
   NEWS_FREE_BOARD: `/news/free-board`,
   /** 자유게시판 상세 */

@@ -56,10 +56,12 @@ const NewsEventsPage: React.FC = () => {
             display="flex"
             flexDirection="column"
             alignItems="start"
+            gap="0px"
           >
             <Image
               src={news.thumbnail}
               alt={news.title + ' 썸네일 이미지'}
+              flex="1"
               aspectRatio="16/9"
               rounded="6px"
               border="1px solid"
