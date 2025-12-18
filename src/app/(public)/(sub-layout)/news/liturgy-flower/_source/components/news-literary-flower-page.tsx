@@ -97,7 +97,7 @@ const NewsLiturgyFlowerPage: React.FC = () => {
                         조회
                       </Text>
                       <Text textStyle="pre-caption-2" color="grey.7">
-                        FIXME: 조회수
+                        {liturgyFlower.hitCount}
                       </Text>
                     </Box>
                   </Box>
