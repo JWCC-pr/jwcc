@@ -213,6 +213,24 @@ export interface CommonErrorType {
   detail: string
 }
 
+export interface ContactType {
+  /**
+   * 사무실 연락처
+   * @maxLength 13
+   */
+  officePhone: string
+  /**
+   * 연령회장 이름
+   * @maxLength 40
+   */
+  presidentName: string
+  /**
+   * 연령회장 연락처
+   * @maxLength 13
+   */
+  presidentPhone: string
+}
+
 export interface DepartmentType {
   readonly id: number
   /**
@@ -438,6 +456,58 @@ export interface LiturgyFlowerUserRequestType {
   subDepartmentSet: LiturgyFlowerSubDepartmentRequestType[]
 }
 
+export interface NewsType {
+  readonly id: number
+  /**
+   * 제목
+   * @maxLength 100
+   */
+  title: string
+  /**
+   * 썸네일
+   * @format uri
+   */
+  thumbnail: string
+  /** 본문 */
+  body: string
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
+export interface NewsErrorMessageType {
+  nonField?: string[]
+  title?: string[]
+  thumbnail?: string[]
+  body?: string[]
+}
+
+export interface NewsRequestType {
+  /**
+   * 제목
+   * @minLength 1
+   * @maxLength 100
+   */
+  title: string
+  /**
+   * 썸네일
+   * @format binary
+   */
+  thumbnail: File
+  /**
+   * 본문
+   * @minLength 1
+   */
+  body: string
+}
+
 export interface NoticeType {
   readonly id: number
   /**
@@ -505,6 +575,12 @@ export interface PaginatedLiturgyFlowerListType {
   count?: number
   isNext?: boolean
   results?: LiturgyFlowerType[]
+}
+
+export interface PaginatedNewsListType {
+  count?: number
+  isNext?: boolean
+  results?: NewsType[]
 }
 
 export interface PaginatedNoticeFileListType {
@@ -605,6 +681,8 @@ export interface PassingNoticeType {
    * @format date-time
    */
   departureAt: string
+  /** 댓글수 */
+  readonly commentCount: number
   /**
    * 생성일시
    * @format date-time
@@ -636,13 +714,10 @@ export interface PassingNoticeCommentType {
 
 export interface PassingNoticeCommentErrorMessageType {
   nonField?: string[]
-  parentId?: string[]
   body?: string[]
 }
 
 export interface PassingNoticeCommentRequestType {
-  /** 부모 댓글 ID */
-  parentId: number | null
   /**
    * 내용
    * @minLength 1
@@ -727,6 +802,7 @@ export interface PresignedRequestType {
   /**
    * * `board.Board.body` - 자유 게시글
    * * `notice.NoticeFile.file` - 파일
+   * * `news.News.thumbnail` - 썸네일
    * * `document.DocumentFile.file` - 자료
    * * `event.Event.thumbnail` - 썸네일
    * * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
@@ -1056,6 +1132,7 @@ export interface WeeklyBulletinType {
 /**
  * * `board.Board.body` - 자유 게시글
  * `notice.NoticeFile.file` - 파일
+ * `news.News.thumbnail` - 썸네일
  * `document.DocumentFile.file` - 자료
  * `event.Event.thumbnail` - 썸네일
  * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
@@ -1073,6 +1150,7 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
   'document.DocumentFile.file': '자료',
   'event.Event.thumbnail': '썸네일',
   'liturgy_flower.LiturgyFlowerImage.image': '이미지',
+  'news.News.thumbnail': '썸네일',
   'notice.NoticeFile.file': '파일',
   'passing_notice.PassingNotice.portrait': '고인 사진',
   'pastoral_guidelines.PastoralGuidelines.image': '이미지',

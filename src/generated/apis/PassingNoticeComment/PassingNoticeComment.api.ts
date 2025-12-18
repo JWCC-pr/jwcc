@@ -30,11 +30,6 @@ export class PassingNoticeCommentApi<
   passingNoticeCommentList = (variables: {
     passingNoticeId: number
     query?: {
-      /**
-       * 부모 댓글
-       * 부모 댓글 ID
-       */
-      parent_id?: number | null
       /** 페이지네이션 커서 값. */
       cursor?: string
       /** 페이지당 반환할 결과 수. */

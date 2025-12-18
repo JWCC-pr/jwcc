@@ -8,21 +8,21 @@ import { Text } from '@chakra-ui/react/text'
 import { Textarea } from '@chakra-ui/react/textarea'
 import { CaretRightIcon, ChatCircleDotsIcon } from '@phosphor-icons/react'
 
-import { QUERY_KEY_BOARD_API } from '@/generated/apis/Board/Board.query'
+import { QUERY_KEY_PASSING_NOTICE_API } from '@/generated/apis/PassingNotice/PassingNotice.query'
 import {
-  QUERY_KEY_BOARD_COMMENT_API,
-  useBoardCommentCreateMutation,
-} from '@/generated/apis/BoardComment/BoardComment.query'
+  QUERY_KEY_PASSING_NOTICE_COMMENT_API,
+  usePassingNoticeCommentCreateMutation,
+} from '@/generated/apis/PassingNoticeComment/PassingNoticeComment.query'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
 import useMe from '@/hooks/useMe'
 
-interface FreeBoardDetailCommentInputSectionProps {
-  boardId: number
+interface NewsPassingNoticeDetailCommentInputSectionProps {
+  passingNoticeId: number
 }
 
-const FreeBoardDetailCommentInputSection: React.FC<
-  FreeBoardDetailCommentInputSectionProps
-> = ({ boardId }) => {
+const NewsPassingNoticeDetailCommentInputSection: React.FC<
+  NewsPassingNoticeDetailCommentInputSectionProps
+> = ({ passingNoticeId }) => {
   const { data: me } = useMe()
 
   const [isOpen, setIsOpen] = useState(false)
@@ -30,7 +30,7 @@ const FreeBoardDetailCommentInputSection: React.FC<
 
   const [body, setBody] = useState('')
 
-  const { mutateAsync } = useBoardCommentCreateMutation({})
+  const { mutateAsync } = usePassingNoticeCommentCreateMutation({})
 
   const invalidateQueries = useInvalidateQueries()
 
@@ -43,15 +43,18 @@ const FreeBoardDetailCommentInputSection: React.FC<
 
     try {
       await mutateAsync({
-        boardId,
+        passingNoticeId,
         data: {
-          parentId: null,
-          body: body,
+          body,
         },
       })
 
-      invalidateQueries(QUERY_KEY_BOARD_COMMENT_API.LIST({ boardId }))
-      invalidateQueries(QUERY_KEY_BOARD_API.RETRIEVE({ id: boardId }))
+      invalidateQueries(
+        QUERY_KEY_PASSING_NOTICE_COMMENT_API.LIST({ passingNoticeId }),
+      )
+      invalidateQueries(
+        QUERY_KEY_PASSING_NOTICE_API.RETRIEVE({ id: passingNoticeId }),
+      )
 
       setBody('')
     } catch (error) {
@@ -142,4 +145,4 @@ const FreeBoardDetailCommentInputSection: React.FC<
   )
 }
 
-export default FreeBoardDetailCommentInputSection
+export default NewsPassingNoticeDetailCommentInputSection
