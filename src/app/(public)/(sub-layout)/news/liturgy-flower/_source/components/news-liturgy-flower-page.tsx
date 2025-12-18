@@ -43,10 +43,20 @@ const NewsLiturgyFlowerPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column">
       <Box py="20px" display="flex" justifyContent="flex-end">
-        <Button type="button" size="md" variant="solid" colorPalette="primary">
-          <ImageIcon size="20px" color="#FFF" />
-          이미지 업로드
-        </Button>
+        <Link
+          href={ROUTES.NEWS_LITURGY_FLOWER_CREATE}
+          _hover={{ textDecoration: 'none' }}
+        >
+          <Button
+            type="button"
+            size="md"
+            variant="solid"
+            colorPalette="primary"
+          >
+            <ImageIcon size="20px" color="#FFF" />
+            이미지 업로드
+          </Button>
+        </Link>
       </Box>
 
       <Box
@@ -81,7 +91,7 @@ const NewsLiturgyFlowerPage: React.FC = () => {
               />
 
               <Box py="12px" display="flex" flexDirection="column">
-                <Text textStyle="pre-heading-3" color="grey.10">
+                <Text textStyle="pre-heading-3" color="grey.10" lineClamp="1">
                   {liturgyFlower.title}
                 </Text>
                 <Box pt="6px" display="flex" flexDirection="column" gap="2px">
