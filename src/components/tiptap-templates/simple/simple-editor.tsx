@@ -2,19 +2,21 @@
 
 import { Box } from '@chakra-ui/react/box'
 import { Image } from '@tiptap/extension-image'
+import { Link } from '@tiptap/extension-link'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { EditorContent, EditorContext, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 
+import { uploadFile } from '@/apis/s3-file-uploader/S3FileUploaderApi.query'
 import '@/components/tiptap-node/image-node/image-node.scss'
 import { ImageUploadNode } from '@/components/tiptap-node/image-upload-node/image-upload-node-extension'
 import '@/components/tiptap-node/paragraph-node/paragraph-node.scss'
 import '@/components/tiptap-templates/simple/simple-editor.scss'
 import { Toolbar, ToolbarGroup } from '@/components/tiptap-ui-primitive/toolbar'
 import { ImageUploadButton } from '@/components/tiptap-ui/image-upload-button'
+import { LinkButton } from '@/components/tiptap-ui/link-button'
 import { MarkButton } from '@/components/tiptap-ui/mark-button'
 import { TextAlignButton } from '@/components/tiptap-ui/text-align-button'
-import { usePresignedUrlCreateMutation } from '@/generated/apis/PresignedUrl/PresignedUrl.query'
 import { MAX_FILE_SIZE } from '@/lib/tiptap-utils'
 
 interface SimpleEditorProps {
@@ -28,24 +30,20 @@ export function SimpleEditor({
   onChange,
   placeholder = '내용',
 }: SimpleEditorProps) {
-  const { mutateAsync: presignedUrlCreateMutateAsync } =
-    usePresignedUrlCreateMutation({})
-
   const handleImageUpload = async (
     file: File,
     onProgress?: (event: { progress: number }) => void,
     abortSignal?: AbortSignal,
   ) => {
-    // FIXME: API 연동 후 수정
-    // const { url, fields } = await presignedUrlCreateMutateAsync({
-    //   data: {
-    //     fileName: file.name,
-    //     fieldChoice: 'document.DocumentFile.file',
-    //     isDownload: false,
-    //   },
-    // })
+    try {
+      const result = await uploadFile({ file, fieldChoice: 'board.Board.body' })
 
-    return 'https://avatars.githubusercontent.com/u/63289318?v=4'
+      return result.url
+    } catch (error) {
+      console.error('error', error)
+    }
+
+    return ''
   }
 
   const editor = useEditor({
@@ -71,6 +69,12 @@ export function SimpleEditor({
         orderedList: false,
       }),
       TextAlign.configure({ types: ['paragraph'] }),
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: 'tiptap-link',
+        },
+      }),
       Image,
       ImageUploadNode.configure({
         accept: 'image/*',
@@ -119,6 +123,7 @@ export function SimpleEditor({
 
           <ToolbarGroup>
             <ImageUploadButton />
+            <LinkButton />
           </ToolbarGroup>
         </Toolbar>
 

@@ -10,13 +10,16 @@ const useMe = () => {
     },
   })
 
+  /** 로그인 여부 */
+  const isLoggedIn = !!data?.data
+
   /** 타본당 신자 여부 ( 7등급 이상 ) */
   const isNotParishMember =
-    !data.data || (data.data?.grade && data.data?.grade >= 7)
+    !isLoggedIn || (data.data?.grade && data.data?.grade >= 7)
   /** 타본당 신자 여부 ( 6등급 이하 ) */
   const isParishMember = data.data?.grade && data.data?.grade <= 6
 
-  return { ...data, isNotParishMember, isParishMember }
+  return { ...data, isLoggedIn, isNotParishMember, isParishMember }
 }
 
 export default useMe

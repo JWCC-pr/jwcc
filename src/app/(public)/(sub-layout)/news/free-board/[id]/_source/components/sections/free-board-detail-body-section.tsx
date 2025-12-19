@@ -19,6 +19,9 @@ const FreeBoardDetailBodySection: React.FC<FreeBoardDetailBodySectionProps> = ({
         '& em, & i': {
           fontStyle: 'italic',
         },
+        '& a': {
+          textDecoration: 'underline',
+        },
       }}
     />
   )
