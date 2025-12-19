@@ -28,7 +28,7 @@ const menuItems = [
     label: '본당 소식',
     subItems: [
       { label: '공지사항' },
-      { label: '본당 행사' },
+      { label: '본당 소식' },
       { label: '본당 주보' },
       { label: '서울 주보' },
       { label: '선종 안내' },

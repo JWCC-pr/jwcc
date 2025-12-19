@@ -45,7 +45,7 @@ const formatRemainTime = (seconds: number) => {
 const VERIFICATION_TIME = 5 * 60
 
 const EmailInputSection: React.FC = () => {
-  const { register, setValue, control, trigger } =
+  const { register, setValue, control, trigger, setError } =
     useFormContext<SignupFormDataType>()
   const [
     watchedEmailVerificationCode,
@@ -246,12 +246,15 @@ const EmailInputSection: React.FC = () => {
         type: 'success',
         duration: 2_000,
       })
-    } catch (error) {
-      console.error('error >> ', error)
-      setVerification((prev) => ({
-        ...prev,
-        verificationFailureMessage: `인증번호 전송에 실패했습니다. 다시 시도해 주세요.`,
-      }))
+    } catch (error: any) {
+      if (error?.status === 400) {
+        setError('email.value', { message: '이미 가입된 이메일입니다.' })
+      } else {
+        setVerification((prev) => ({
+          ...prev,
+          verificationFailureMessage: `인증번호 전송에 실패했습니다. 다시 시도해 주세요.`,
+        }))
+      }
     } finally {
       setVerification((prev) => ({
         ...prev,

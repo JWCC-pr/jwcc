@@ -9,22 +9,21 @@ import { ArrowRightIcon, CaretRightIcon } from '@phosphor-icons/react'
 import { format } from 'date-fns/format'
 
 import { ROUTES } from '@/constants/routes'
-
-// FIXME: API 연동 후 수정
-interface Mock {
-  id: number
-  title: string
-  publishedAt: string
-}
-
-// FIXME: API 연동 후 수정
-const mocks: Mock[] = Array.from({ length: 10 }, (_, index) => ({
-  id: index + 1,
-  title: `주일 미사 시간 안내 ${index + 1}`,
-  publishedAt: new Date(2025, 11, 10 + index).toISOString(),
-}))
+import { useNoticeListQuery } from '@/generated/apis/Notice/Notice.query'
 
 const NoticeSection: React.FC = () => {
+  const { data: notices } = useNoticeListQuery({
+    variables: {
+      query: {
+        offset: 0,
+        limit: 5,
+      },
+    },
+  })
+
+  // FIXME: 스켈레톤 UI 추가
+  if (!notices) return null
+
   return (
     <Box flex="1" display="flex" flexFlow="column nowrap" gap="40px">
       <Box py="10px" display="flex" alignItems="center" gap="10px">
@@ -41,7 +40,7 @@ const NoticeSection: React.FC = () => {
       <Box display="flex" flexFlow="column nowrap">
         <Box w="full" h="1.5px" bgColor="grey.10" />
         <Box as="ul" display="flex" flexFlow="column nowrap">
-          {mocks.slice(0, 5).map((mock) => (
+          {notices.results?.map((mock) => (
             <Link
               key={mock.id}
               href={`${ROUTES.NEWS_NOTICES}/${mock.id}`}
@@ -69,7 +68,7 @@ const NoticeSection: React.FC = () => {
                 {mock.title}
               </Text>
               <Text textStyle="pre-body-6" color="grey.7">
-                {format(new Date(mock.publishedAt), 'yyyy-MM-dd')}
+                {format(new Date(mock.createdAt), 'yyyy-MM-dd')}
               </Text>
               <CaretRightIcon size="20px" color="#9FA4A9" />
             </Link>

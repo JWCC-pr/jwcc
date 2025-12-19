@@ -8,22 +8,23 @@ import { Text } from '@chakra-ui/react/text'
 import { Textarea } from '@chakra-ui/react/textarea'
 import { CaretRightIcon, ChatCircleDotsIcon } from '@phosphor-icons/react'
 
-import { BoardType } from '@/generated/apis/@types/data-contracts'
 import { QUERY_KEY_BOARD_API } from '@/generated/apis/Board/Board.query'
 import {
   QUERY_KEY_BOARD_COMMENT_API,
   useBoardCommentCreateMutation,
 } from '@/generated/apis/BoardComment/BoardComment.query'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
+import useMe from '@/hooks/useMe'
 
 interface FreeBoardDetailCommentInputSectionProps {
   boardId: number
-  data: Pick<BoardType, 'id' | 'user'>
 }
 
 const FreeBoardDetailCommentInputSection: React.FC<
   FreeBoardDetailCommentInputSectionProps
-> = ({ boardId, data }) => {
+> = ({ boardId }) => {
+  const { data: me, isLoggedIn } = useMe()
+
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => setIsOpen(true)
 
@@ -57,6 +58,8 @@ const FreeBoardDetailCommentInputSection: React.FC<
       console.error(error)
     }
   }
+
+  if (!isLoggedIn) return null
 
   return (
     <>
@@ -93,6 +96,8 @@ const FreeBoardDetailCommentInputSection: React.FC<
           display="flex"
           flexFlow="column"
           gap="10px"
+          borderBottom="1px solid"
+          borderBottomColor="border.basic.1"
         >
           <Box display="flex" flexFlow="column" gap="6px">
             <Box
@@ -103,10 +108,10 @@ const FreeBoardDetailCommentInputSection: React.FC<
             >
               <Box display="flex" gap="6px" alignItems="center">
                 <Text textStyle="pre-body-5" color="grey.10">
-                  {data.user.name}
+                  {me?.name}
                 </Text>
                 <Text textStyle="pre-body-6" color="grey.7">
-                  {data.user.baptismalName}
+                  {me?.baptismalName}
                 </Text>
               </Box>
               <Text textStyle="pre-caption-2" color="grey.6">

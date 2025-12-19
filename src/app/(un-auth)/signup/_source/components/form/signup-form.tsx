@@ -29,19 +29,6 @@ const SignupForm: React.FC = () => {
   })
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    console.log('🐬 log >> ', {
-      email: data.email.value,
-      password: data.password,
-      name: data.name,
-      baptismalName: data.baptismName,
-      baseAddress: data.address,
-      detailAddress: data.addressDetail || '',
-      birth: `${data.birthDate.year}-${data.birthDate.month}-${data.birthDate.day}`,
-      emailVerifierToken: data.email.token,
-      postcode: data.postcode,
-      subDepartmentIds: data.department.map((department) => Number(department)),
-    })
-
     try {
       await userRegisterCreateMutateAsync({
         data: {

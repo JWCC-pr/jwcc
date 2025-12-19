@@ -38,7 +38,7 @@ const NewFreeBoardDetailPage: React.FC<NewFreeBoardDetailPageProps> = ({
 
       <FreeBoardDetailCommentListSection boardId={Number(id)} />
 
-      <FreeBoardDetailCommentInputSection boardId={Number(id)} data={data} />
+      <FreeBoardDetailCommentInputSection boardId={Number(id)} />
 
       <Box py="16px" display="flex" justifyContent="center">
         <Link href={ROUTES.NEWS_FREE_BOARD} _hover={{ textDecoration: 'none' }}>

@@ -14,6 +14,7 @@ import {
   useBoardCommentDestroyMutation,
 } from '@/generated/apis/BoardComment/BoardComment.query'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
+import useMe from '@/hooks/useMe'
 
 interface CommentSectionProps {
   boardId: number
@@ -28,6 +29,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   onOpenCommentEdit,
   onOpenReplyWrite,
 }) => {
+  const { isLoggedIn } = useMe()
+
   const { mutateAsync } = useBoardCommentDestroyMutation({})
   const invalidateQueries = useInvalidateQueries()
   const handleDeleteComment = async () => {
@@ -91,14 +94,16 @@ const CommentSection: React.FC<CommentSectionProps> = ({
             (수정됨)
           </Text>
         )}
-        <Button
-          size="sm"
-          variant="ghost"
-          colorPalette="primary"
-          onClick={onOpenReplyWrite}
-        >
-          답글쓰기
-        </Button>
+        {isLoggedIn && (
+          <Button
+            size="sm"
+            variant="ghost"
+            colorPalette="primary"
+            onClick={onOpenReplyWrite}
+          >
+            답글쓰기
+          </Button>
+        )}
       </Box>
     </Box>
   )

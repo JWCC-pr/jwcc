@@ -24,15 +24,15 @@ const labelMap = {
   [ROUTES.ABOUT_PRIESTS]: '본당 사제·수도자',
   [ROUTES.ABOUT_PAST_PRIESTS]: '역대 사제·수도자',
   [ROUTES.ABOUT_MASS_SCHEDULE]: '미사시간 안내 및 오시는 길',
-  [ROUTES.ABOUT_EVENTS]: '본당 행사 일정',
+  [ROUTES.ABOUT_EVENT_SCHEDULE]: '본당 행사 일정',
   // 본당 소식
   [ROUTES.NEWS_NOTICES]: '공지사항',
-  [ROUTES.NEWS_EVENTS]: '본당 행사',
+  [ROUTES.NEWS_EVENT]: '본당 소식',
   [ROUTES.NEWS_BULLETIN]: '주보',
-  [ROUTES.NEWS_OBITUARY]: '선종 안내',
-  [ROUTES.NEWS_LITERARY_FLOWERS]: '전례꽃 갤러리',
+  [ROUTES.NEWS_PASSING_NOTICE]: '선종 안내',
+  [ROUTES.NEWS_LITURGY_FLOWER]: '전례꽃 갤러리',
   [ROUTES.NEWS_FREE_BOARD]: '자유게시판',
-  [ROUTES.NEWS_RESOURCES]: '자료실',
+  [ROUTES.NEWS_DOCUMENT]: '자료실',
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '사목협의회 조직도',
   [ROUTES.COMMUNITY_PARISH_AREA]: '본당 관할 구역도',
@@ -54,15 +54,15 @@ const oneDepthLabelMap = {
   [ROUTES.ABOUT_PRIESTS]: '본당 소개',
   [ROUTES.ABOUT_PAST_PRIESTS]: '본당 소개',
   [ROUTES.ABOUT_MASS_SCHEDULE]: '본당 소개',
-  [ROUTES.ABOUT_EVENTS]: '본당 소개',
+  [ROUTES.ABOUT_EVENT_SCHEDULE]: '본당 소개',
   // 본당 소식
   [ROUTES.NEWS_NOTICES]: '본당 소식',
-  [ROUTES.NEWS_EVENTS]: '본당 소식',
+  [ROUTES.NEWS_EVENT]: '본당 소식',
   [ROUTES.NEWS_BULLETIN]: '본당 소식',
-  [ROUTES.NEWS_OBITUARY]: '본당 소식',
-  [ROUTES.NEWS_LITERARY_FLOWERS]: '본당 소식',
+  [ROUTES.NEWS_PASSING_NOTICE]: '본당 소식',
+  [ROUTES.NEWS_LITURGY_FLOWER]: '본당 소식',
   [ROUTES.NEWS_FREE_BOARD]: '본당 소식',
-  [ROUTES.NEWS_RESOURCES]: '본당 소식',
+  [ROUTES.NEWS_DOCUMENT]: '본당 소식',
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '신앙 공동체',
   [ROUTES.COMMUNITY_PARISH_AREA]: '신앙 공동체',
@@ -103,6 +103,9 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <Box display="flex" flexFlow="column nowrap">
       <Box
+        w="full"
+        maxW="1280px"
+        mx="auto"
         px="40px"
         h="180px"
         display="flex"
@@ -113,6 +116,9 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         {mainLabel}
       </Box>
       <Box
+        w="full"
+        maxW="1280px"
+        mx="auto"
         px="40px"
         display="flex"
         borderBlock="1px solid"
@@ -137,7 +143,9 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         <TwoDepthSelect options={options} />
         <Box w="1px" h="auto" bgColor="border.basic.1" />
       </Box>
-      <Box p="40px 40px 120px">{children}</Box>
+      <Box w="full" maxW="1280px" mx="auto" p="40px 40px 120px">
+        {children}
+      </Box>
     </Box>
   )
 }

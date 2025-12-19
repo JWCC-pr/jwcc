@@ -30,7 +30,12 @@ const SignupFormContainer: React.FC<SignupFormContainerProps> = ({
       flexDirection="column"
       gap="36px"
     >
-      <Text textStyle="pre-heading-2">회원가입 신청</Text>
+      <Box display="flex" flexDirection="column" gap="10px">
+        <Text textStyle="pre-heading-2">회원가입 신청</Text>
+        <Text textStyle="pre-body-6" color="grey.8">
+          ※ 잠원동 성당 교우만 게시글을 읽고 쓸 수 있습니다.
+        </Text>
+      </Box>
 
       {view}
 

@@ -42,9 +42,8 @@ export const FormHelper = ({
   ...basisProps
 }: FormHelperProps) => {
   const isShowErrorText = !!message?.error
-  const isShowSuccessText = !!message?.success && !isShowErrorText
-  const isShowHelperText =
-    !!message?.help && !isShowErrorText && !isShowSuccessText
+  const isShowSuccessText = !!message?.success
+  const isShowHelperText = !!message?.help
 
   return (
     <ChakraField.Root invalid={isShowErrorText || isError} {...basisProps}>
@@ -61,6 +60,13 @@ export const FormHelper = ({
         </ChakraField.Label>
       )}
       {children}
+      {isShowHelperText && (
+        <ChakraField.HelperText {...styles?.help}>
+          <Text textStyle="pre-caption-2" color="grey.6">
+            {message?.help}
+          </Text>
+        </ChakraField.HelperText>
+      )}
       {isShowErrorText && (
         <ChakraField.ErrorText
           textStyle="pre-caption-2"
@@ -74,13 +80,6 @@ export const FormHelper = ({
         <ChakraField.HelperText {...styles?.success}>
           <Text textStyle="pre-caption-2" color="accent.green.2" mt="8px">
             {message?.success}
-          </Text>
-        </ChakraField.HelperText>
-      )}
-      {isShowHelperText && (
-        <ChakraField.HelperText {...styles?.help}>
-          <Text textStyle="pre-caption-2" color="grey.6">
-            {message?.help}
           </Text>
         </ChakraField.HelperText>
       )}

@@ -28,19 +28,33 @@ export const ROUTES = {
   /** 미사시간 안내 및 오시는 길 */
   ABOUT_MASS_SCHEDULE: `/about/mass-schedule`,
   /** 본당 행사 일정 */
-  ABOUT_EVENTS: `/about/events`,
+  ABOUT_EVENT_SCHEDULE: `/about/event-schedule`,
 
   // ================================ 본당 소식 관련 라우트 ================================
   /** 공지사항 */
   NEWS_NOTICES: `/news/notices`,
-  /** 본당 행사 */
-  NEWS_EVENTS: `/news/events`,
+  /** 공지사항 상세 */
+  NEWS_NOTICES_DETAIL: (id: number) => `/news/notices/${id}`,
+  /** 본당 소식 */
+  NEWS_EVENT: `/news/event`,
+  /** 본당 소식 상세 */
+  NEWS_EVENT_DETAIL: (id: number) => `/news/event/${id}`,
   /** 주보 */
   NEWS_BULLETIN: `/news/bulletin`,
+  /** 주보 행사 상세 */
+  NEWS_BULLETIN_DETAIL: (id: number) => `/news/bulletin/${id}`,
   /** 선종 안내 */
-  NEWS_OBITUARY: `/news/obituary`,
+  NEWS_PASSING_NOTICE: `/news/passing-notice`,
+  /** 선종 안내 상세 */
+  NEWS_PASSING_NOTICE_DETAIL: (id: number) => `/news/passing-notice/${id}`,
   /** 전례꽃 갤러리 */
-  NEWS_LITERARY_FLOWERS: `/news/literary-flowers`,
+  NEWS_LITURGY_FLOWER: `/news/liturgy-flower`,
+  /** 전례꽃 갤러리 상세 */
+  NEWS_LITURGY_FLOWER_DETAIL: (id: number) => `/news/liturgy-flower/${id}`,
+  /** 전례꽃 갤러리 생성 */
+  NEWS_LITURGY_FLOWER_CREATE: `/news/liturgy-flower/create`,
+  /** 전례꽃 갤러리 수정 */
+  NEWS_LITURGY_FLOWER_EDIT: (id: number) => `/news/liturgy-flower/${id}/edit`,
   /** 자유게시판 */
   NEWS_FREE_BOARD: `/news/free-board`,
   /** 자유게시판 상세 */
@@ -50,7 +64,9 @@ export const ROUTES = {
   /** 자유게시판 수정 */
   NEWS_FREE_BOARD_EDIT: (id: number) => `/news/free-board/${id}/edit`,
   /** 자료실 */
-  NEWS_RESOURCES: `/news/resources`,
+  NEWS_DOCUMENT: `/news/document`,
+  /** 자료실 상세 */
+  NEWS_DOCUMENT_DETAIL: (id: number) => `/news/document/${id}`,
 
   // ================================ 신앙 공동체 관련 라우트 ================================
   /** 사목협의회 조직도 */

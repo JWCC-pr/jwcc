@@ -16,6 +16,7 @@ import {
 } from '@/generated/apis/Board/Board.query'
 import { useBoardLikeToggleCreateMutation } from '@/generated/apis/BoardLike/BoardLike.query'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
+import useMe from '@/hooks/useMe'
 
 interface FreeBoardDetailHeaderSectionProps {
   data: Pick<
@@ -35,6 +36,8 @@ interface FreeBoardDetailHeaderSectionProps {
 const FreeBoardDetailHeaderSection: React.FC<
   FreeBoardDetailHeaderSectionProps
 > = ({ data }) => {
+  const { isLoggedIn } = useMe()
+
   const router = useRouter()
   const invalidateQueries = useInvalidateQueries()
 
@@ -82,30 +85,34 @@ const FreeBoardDetailHeaderSection: React.FC<
         <Text textStyle="pre-heading-2" color="grey.10" lineClamp="1">
           {data.title}
         </Text>
-        <Box>
-          <IconButton
-            size="md"
-            variant="ghost"
-            colorPalette="grey"
-            onClick={handleClickLike}
-          >
-            <HeartIcon
-              size="20px"
-              color={data.isLiked ? '#AE3059' : '#6A6D71'}
-              weight={data.isLiked ? 'fill' : 'regular'}
-            />
-          </IconButton>
-          <Popover
-            options={[
-              { label: '수정', onClick: handleClickEdit },
-              {
-                label: '삭제',
-                onClick: handleClickDelete,
-                styles: { color: 'accent.red2' },
-              },
-            ]}
-          />
-        </Box>
+        {isLoggedIn && (
+          <Box>
+            <IconButton
+              size="md"
+              variant="ghost"
+              colorPalette="grey"
+              onClick={handleClickLike}
+            >
+              <HeartIcon
+                size="20px"
+                color={data.isLiked ? '#AE3059' : '#6A6D71'}
+                weight={data.isLiked ? 'fill' : 'regular'}
+              />
+            </IconButton>
+            {data.isOwned && (
+              <Popover
+                options={[
+                  { label: '수정', onClick: handleClickEdit },
+                  {
+                    label: '삭제',
+                    onClick: handleClickDelete,
+                    styles: { color: 'accent.red2' },
+                  },
+                ]}
+              />
+            )}
+          </Box>
+        )}
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" flexFlow="column" gap="2px">

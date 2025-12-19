@@ -10,7 +10,29 @@ const useMe = () => {
     },
   })
 
-  return { ...data }
+  /** 로그인 여부 */
+  const isLoggedIn = !!data?.data
+
+  /** 타본당 신자 여부 ( 7등급 이상 ) */
+  const isNotParishMember =
+    !isLoggedIn || (data.data.grade && data.data.grade >= 7)
+  /** 타본당 신자 여부 ( 6등급 이하 ) */
+  const isParishMember = data.data?.grade && data.data?.grade <= 6
+
+  /** 헌화회 소속인지 여부 */
+  const isHeonhwaMember =
+    isLoggedIn &&
+    data.data.subDepartmentSet.some(
+      (department) => department.name === '헌화회',
+    )
+
+  return {
+    ...data,
+    isLoggedIn,
+    isNotParishMember,
+    isParishMember,
+    isHeonhwaMember,
+  }
 }
 
 export default useMe
