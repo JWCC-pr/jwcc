@@ -3,6 +3,8 @@
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
+import { isSameDay } from 'date-fns'
+
 import type { CalendarDay } from '../schedule-section'
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'] as const
@@ -10,11 +12,15 @@ const DAYS = ['일', '월', '화', '수', '목', '금', '토'] as const
 interface MonthCalendarProps {
   calendarSectionRef: React.RefObject<HTMLDivElement | null>
   calendarDays: CalendarDay[]
+  selectedDate: Date
+  onDateClick: (date: Date) => void
 }
 
 const MonthCalendar: React.FC<MonthCalendarProps> = ({
   calendarSectionRef,
   calendarDays,
+  selectedDate,
+  onDateClick,
 }) => {
   return (
     <Box
@@ -62,6 +68,8 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
           ))}
         {/* 실제 달력 */}
         {calendarDays.map((dayInfo, i) => {
+          const isSelected = isSameDay(dayInfo.date, selectedDate)
+
           return (
             <Box
               as="li"
@@ -74,7 +82,17 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
               borderBottom="1px solid"
               borderBottomColor="border.basic.1"
               aspectRatio="1/1"
-              bgColor={dayInfo.hasSchedules ? 'primary.1' : 'transparent'}
+              bgColor={
+                isSelected ? 'primary.1'
+                : dayInfo.hasSchedules ?
+                  'primary.1'
+                : 'transparent'
+              }
+              cursor="pointer"
+              onClick={() => onDateClick(dayInfo.date)}
+              _hover={{
+                bgColor: 'primary.1',
+              }}
             >
               <Text
                 w="28px"

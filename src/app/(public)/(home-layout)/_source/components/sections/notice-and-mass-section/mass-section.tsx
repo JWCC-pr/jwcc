@@ -4,8 +4,6 @@ import { Text } from '@chakra-ui/react/text'
 import MassTime from './mass-time'
 
 /**
- * FIXME: API
- *
  * 1. `default`: 기본 미사시간
  * 2. `accent`: 특별 미사시간
  * 3. `middle-high`: 중고등부 미사시간
@@ -21,8 +19,7 @@ export type MassTimeType =
   | 'elementary'
   | 'young-adult'
 
-/** FIXME: API */
-interface Mock {
+interface MassTime {
   monday: {
     times: { type: MassTimeType; time: string }[]
   }
@@ -45,24 +42,53 @@ interface Mock {
     times: { type: MassTimeType; time: string }[]
   }
 }
-const times = [
-  { type: 'default', time: '9:00' } as const,
-  { type: 'accent', time: '10:00' } as const,
-  { type: 'middle-high', time: '11:00' } as const,
-  { type: 'parish-mass', time: '12:00' } as const,
-  { type: 'elementary', time: '13:00' } as const,
-  { type: 'young-adult', time: '14:00' } as const,
-  { type: 'default', time: '15:00' } as const,
-]
-/** FIXME: API */
-const mock: Mock = {
-  monday: { times: times.slice(0, 1) },
-  tuesday: { times: times.slice(0, 2) },
-  wednesday: { times: times.slice(0, 3) },
-  thursday: { times: times.slice(0, 4) },
-  friday: { times: times.slice(0, 5) },
-  saturday: { times: times.slice(0, 6) },
-  sunday: { times: times.slice(0, 7) },
+const massTime: MassTime = {
+  monday: { times: [{ type: 'default', time: '6:00' }] },
+  tuesday: {
+    times: [
+      { type: 'default', time: '6:00' },
+      { type: 'default', time: '10:00' },
+      { type: 'default', time: '19:00' },
+    ],
+  },
+  wednesday: {
+    times: [
+      { type: 'default', time: '6:00' },
+      { type: 'default', time: '10:00' },
+      { type: 'default', time: '19:00' },
+    ],
+  },
+  thursday: {
+    times: [
+      { type: 'default', time: '6:00' },
+      { type: 'default', time: '10:00' },
+      { type: 'default', time: '19:00' },
+    ],
+  },
+  friday: {
+    times: [
+      { type: 'default', time: '6:00' },
+      { type: 'default', time: '10:00' },
+      { type: 'default', time: '19:00' },
+    ],
+  },
+  saturday: {
+    times: [
+      { type: 'default', time: '6:00' },
+      { type: 'accent', time: '18:00' },
+    ],
+  },
+  sunday: {
+    times: [
+      { type: 'accent', time: '6:00' },
+      { type: 'accent', time: '9:00' },
+      { type: 'middle-high', time: '10:00*' },
+      { type: 'parish-mass', time: '11:00*' },
+      { type: 'elementary', time: '16:00*' },
+      { type: 'young-adult', time: '18:00*' },
+      { type: 'accent', time: '20:00' },
+    ],
+  },
 } as const
 
 const weekdayMassMap = {
@@ -118,7 +144,7 @@ const MassSection: React.FC = () => {
         <Box display="flex" flexFlow="column nowrap">
           <Box w="full" h="1.5px" bgColor="grey.10" />
           <Box as="ul" display="flex" flexFlow="column">
-            {Object.entries(mock).map(
+            {Object.entries(massTime).map(
               ([key, value]: [
                 string,
                 { times: { type: MassTimeType; time: string }[] },

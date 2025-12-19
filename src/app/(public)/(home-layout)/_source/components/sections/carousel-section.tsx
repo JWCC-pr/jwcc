@@ -16,16 +16,10 @@ import {
 
 import { animate, motion, useMotionValue } from 'motion/react'
 
+import { useBannerListQuery } from '@/generated/apis/Banner/Banner.query'
+
 const MotionBox = motion(Box)
 const MotionImage = motion(Image)
-
-const imageSrcs = [
-  '/images/home/1.jpg',
-  '/images/home/2.jpg',
-  '/images/home/3.jpg',
-  '/images/home/4.jpg',
-  '/images/home/5.jpg',
-]
 
 const AUTO_SWIPE_INTERVAL = 5000 // 5초
 const ANIMATION_DURATION = 0.5
@@ -35,10 +29,25 @@ const DRAG_VELOCITY_THRESHOLD = 300
 const DRAG_ELASTIC = 0.2
 
 const CarouselSection: React.FC = () => {
+  const { data: banners } = useBannerListQuery({})
+
+  const imageSrcs = useMemo(() => {
+    if (!banners) return []
+
+    return banners.map((banner) => banner.image)
+  }, [banners])
+
   // 무한 루프를 위해 이미지 배열 복제: [마지막, ...원본, 첫번째]
   const extendedImages = useMemo(
-    () => [imageSrcs[imageSrcs.length - 1], ...imageSrcs, imageSrcs[0]],
-    [],
+    () =>
+      imageSrcs.length > 0 ?
+        ([
+          imageSrcs[imageSrcs.length - 1],
+          ...imageSrcs,
+          imageSrcs[0],
+        ] as string[])
+      : [],
+    [imageSrcs],
   )
   const extendedTotal = extendedImages.length
   const FIRST_INDEX = 1
@@ -59,7 +68,7 @@ const CarouselSection: React.FC = () => {
     if (currentIndex <= FIRST_INDEX) return FIRST_INDEX
     if (currentIndex >= imageSrcs.length) return imageSrcs.length
     return currentIndex
-  }, [currentIndex])
+  }, [currentIndex, imageSrcs.length])
 
   // 컨테이너 너비 가져오기
   const getContainerWidth = useCallback(() => {

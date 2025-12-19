@@ -12,11 +12,11 @@ const NewsBulletinSection: React.FC = () => {
       w="100%"
       maxW="1280px"
       mx="auto"
-      h="100vh"
+      minH="100vh"
       p="64px 40px"
       display="flex"
+      alignItems="center"
       justifyContent="center"
-      alignItems="stretch"
       gap="40px"
     >
       <NewsSection />

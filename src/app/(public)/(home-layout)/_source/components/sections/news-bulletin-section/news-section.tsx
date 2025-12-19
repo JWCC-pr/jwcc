@@ -7,11 +7,29 @@ import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 import { ArrowRightIcon } from '@phosphor-icons/react'
 
+import { format } from 'date-fns/format'
+
 import { ROUTES } from '@/constants/routes'
+import { useNewsListQuery } from '@/generated/apis/News/News.query'
 
 const NewsSection: React.FC = () => {
+  const { data: news } = useNewsListQuery({
+    variables: {
+      query: {
+        offset: 0,
+        limit: 1,
+      },
+    },
+  })
+
+  // FIXME: 스켈레톤 UI 추가
+  if (!news) return null
+  if (!news.results) return null
+
+  const targetNews = news.results[0]
+
   return (
-    <Box flex="1" display="flex" flexFlow="column nowrap" gap="40px" h="100%">
+    <Box flex="1" display="flex" flexFlow="column nowrap" gap="40px">
       <Box
         py="10px"
         display="flex"
@@ -30,24 +48,48 @@ const NewsSection: React.FC = () => {
         </Link>
       </Box>
 
-      <Box
-        as="figure"
-        flex="1"
-        minH="0"
-        borderColor="border.basic.1"
-        rounded="6px"
-        boxShadow="shadow-bottom"
-        overflow="hidden"
+      <Link
+        href={ROUTES.NEWS_EVENT_DETAIL(targetNews.id)}
         display="flex"
+        flexFlow="column nowrap"
+        alignItems="flex-start"
+        gap="2px"
+        _hover={{
+          textDecoration: 'none',
+          '& .news-image-container': {
+            boxShadow: 'shadow-center',
+          },
+        }}
       >
-        <Image
-          src="/images/home/church-news-section/news.jpg"
-          alt="본당 소식 이미지"
-          aspectRatio="16/9"
-          objectFit="cover"
-          objectPosition="center"
-        />
-      </Box>
+        <Box
+          as="figure"
+          className="news-image-container"
+          flex="1"
+          minH="0"
+          border="1px solid"
+          borderColor="border.basic.1"
+          rounded="6px"
+          boxShadow="shadow-bottom"
+          overflow="hidden"
+          display="flex"
+        >
+          <Image
+            src={targetNews.thumbnail}
+            alt="본당 소식 이미지"
+            aspectRatio="16/9"
+            objectFit="cover"
+            objectPosition="center"
+          />
+        </Box>
+        <Box py="12px">
+          <Text textStyle="pre-heading-3" color="grey.10" lineClamp="1">
+            {targetNews.title}
+          </Text>
+          <Text textStyle="pre-caption-2" color="grey.7">
+            {format(new Date(targetNews.createdAt), 'yyyy-MM-dd')}
+          </Text>
+        </Box>
+      </Link>
     </Box>
   )
 }
