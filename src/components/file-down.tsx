@@ -9,10 +9,11 @@ import { FileArrowDownIcon } from '@phosphor-icons/react'
 
 import { toaster } from './ui/toaster'
 
-// URL에서 파일명 추출 (파일명.ext 형태)
+/** URL에서 파일명 추출 (파일명만 추출) */
 const getFileName = (fileUrl: string) => {
   const urlPath = new URL(fileUrl).pathname
-  const fileName = urlPath.split('/').pop() || 'download'
+  const fileFullPath = urlPath.split('/').pop() || 'download'
+  const [fileName] = fileFullPath.split('.')
   return decodeURIComponent(fileName)
 }
 

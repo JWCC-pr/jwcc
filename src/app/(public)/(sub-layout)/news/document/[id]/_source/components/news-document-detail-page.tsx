@@ -7,6 +7,7 @@ import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns/format'
 
+import AdminEditorContent from '@/app/(public)/(sub-layout)/_source/components/admin-editor-content'
 import AlertDialog from '@/components/dialogs/alert-dialog'
 import FileDown from '@/components/file-down'
 import { ROUTES } from '@/constants/routes'
@@ -72,6 +73,9 @@ const NewsDocumentDetailPage: React.FC<NewsDocumentDetailPageProps> = ({
           }
         </Box>
       </Box>
+
+      <AdminEditorContent body={document.body} />
+
       <Box py="16px" display="flex" justifyContent="center">
         <Link href={ROUTES.NEWS_DOCUMENT} _hover={{ textDecoration: 'none ' }}>
           <Button
