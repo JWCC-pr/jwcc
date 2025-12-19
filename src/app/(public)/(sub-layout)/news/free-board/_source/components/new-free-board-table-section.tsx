@@ -183,10 +183,7 @@ const NewFreeBoardTableSection: React.FC = () => {
           ))}
 
           {boards.results.length === 0 && (
-            <EmptySection
-              title="등록된 게시글이 없습니다."
-              colSpan={tableHeaders.length}
-            />
+            <EmptySection colSpan={tableHeaders.length} />
           )}
         </Table.Body>
       </Table.Root>

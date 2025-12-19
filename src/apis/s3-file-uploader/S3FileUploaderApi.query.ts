@@ -1,20 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import {
-  assertItemOf,
-  createS3UploadFlow,
-  removeStr,
-} from '@toktokhan-dev/universal'
+import { assertItemOf, createS3UploadFlow } from '@toktokhan-dev/universal'
 
-import { fetchExtended } from '@/configs/fetch/fetch-extend'
 import { PresignedRequestFieldChoiceEnumType } from '@/generated/apis/@types/data-contracts'
 import { presignedUrlApi } from '@/generated/apis/PresignedUrl/PresignedUrl.query'
 import { UseMutationParams } from '@/types/module/react-query/use-mutation-params'
-
-import { S3FileUploaderApi } from './S3FileUploaderApi'
-
-const s3FileUploaderApi = new S3FileUploaderApi({
-  customFetch: fetchExtended,
-})
 
 /**
  * presigned url s3 Flow
@@ -67,7 +56,6 @@ export const { uploadFile, uploadFiles } = createS3UploadFlow({
     })
     const formData = new FormData()
     Object.entries(fields).forEach(([k, v]) => formData.append(k, v as string))
-    formData.append('Content-Type', file.type)
     formData.append('file', file)
 
     return {
@@ -78,22 +66,10 @@ export const { uploadFile, uploadFiles } = createS3UploadFlow({
     }
   },
   uploadFileToS3: async ({ url, formData, file, fields }) => {
-    await s3FileUploaderApi.uploadFileToS3({ url, formData })
-    const removeMedia = removeStr(/\/?_media\//g)
+    await fetch(url, { method: 'POST', body: formData })
     return {
-      /**
-       * file 의 s3 full url 입니다.
-       */
-      url: url + fields.key,
-      /**
-       * 파일의 s3 path 입니다. 똑개 서버로 image 경로를 업로드 할 때 사용됩니다.
-       * 똑똑한 개발자의 서버는 s3 파일의 경로를 단순 string 으로 저장하지 않고, 특별한 field 로 구분하여 저장하기 때문에,
-       * 이후 서버로 요청 할때 해당 path 값을 사용하여 요청을 보내야 합니다.
-       *
-       * 특별한 field 로 구분하여 저장 하는 이유는 admin 페이지의 file field 구분, 파일의 실 사용 여부를 판단하기 위해 사용됩니다.
-       */
-      path: removeMedia(fields.key),
-      fields,
+      url: url + '/' + fields.key,
+      name: file.name,
       file,
     }
   },

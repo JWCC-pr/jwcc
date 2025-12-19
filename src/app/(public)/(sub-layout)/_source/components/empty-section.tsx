@@ -10,7 +10,7 @@ interface EmptySectionProps {
 }
 
 const EmptySection: React.FC<EmptySectionProps> = ({
-  title = '결과가 없습니다.',
+  title = '등록된 게시글이 없습니다.',
   colSpan = 2,
 }) => {
   return (

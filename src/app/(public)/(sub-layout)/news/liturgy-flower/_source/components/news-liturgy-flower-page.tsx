@@ -14,10 +14,13 @@ import { format } from 'date-fns/format'
 import Pagination from '@/components/pagination'
 import { ROUTES } from '@/constants/routes'
 import { useLiturgyFlowerListQuery } from '@/generated/apis/LiturgyFlower/LiturgyFlower.query'
+import useMe from '@/hooks/useMe'
 
 const LIMIT = 6
 
 const NewsLiturgyFlowerPage: React.FC = () => {
+  const { isHeonhwaMember } = useMe()
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const page = Number(searchParams.get('page') ?? 1)
@@ -43,20 +46,22 @@ const NewsLiturgyFlowerPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column">
       <Box py="20px" display="flex" justifyContent="flex-end">
-        <Link
-          href={ROUTES.NEWS_LITURGY_FLOWER_CREATE}
-          _hover={{ textDecoration: 'none' }}
-        >
-          <Button
-            type="button"
-            size="md"
-            variant="solid"
-            colorPalette="primary"
+        {isHeonhwaMember && (
+          <Link
+            href={ROUTES.NEWS_LITURGY_FLOWER_CREATE}
+            _hover={{ textDecoration: 'none' }}
           >
-            <ImageIcon size="20px" color="#FFF" />
-            이미지 업로드
-          </Button>
-        </Link>
+            <Button
+              type="button"
+              size="md"
+              variant="solid"
+              colorPalette="primary"
+            >
+              <ImageIcon size="20px" color="#FFF" />
+              이미지 업로드
+            </Button>
+          </Link>
+        )}
       </Box>
 
       <Box

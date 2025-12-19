@@ -31,8 +31,6 @@ const ForgotPasswordPage: React.FC = () => {
       await mutateAsync({ data: { email } })
     } catch (error) {
       console.error('🐬 error >> ', error)
-
-      // FIXME: "가입된 이메일이 아니에요" 경우 처리하기
     }
 
     router.replace('/forgot-password/complete')
