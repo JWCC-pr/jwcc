@@ -1,15 +1,13 @@
 import NewFreeBoardEditPage from './_source/components/NewFreeBoardEditPage'
 
-interface FreeBoardEditPageProps {
+interface PageProps {
   params: Promise<{ id: string }>
 }
 
-const FreeBoardEditPage: React.FC<FreeBoardEditPageProps> = async ({
-  params,
-}) => {
+const Page: React.FC<PageProps> = async ({ params }) => {
   const { id } = await params
 
   return <NewFreeBoardEditPage id={id} />
 }
 
-export default FreeBoardEditPage
+export default Page
