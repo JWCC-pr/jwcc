@@ -28,7 +28,7 @@ export const ROUTES = {
   /** 미사시간 안내 및 오시는 길 */
   ABOUT_MASS_SCHEDULE: `/about/mass-schedule`,
   /** 본당 행사 일정 */
-  ABOUT_EVENTS: `/about/events`,
+  ABOUT_EVENT_SCHEDULE: `/about/event-schedule`,
 
   // ================================ 본당 소식 관련 라우트 ================================
   /** 공지사항 */

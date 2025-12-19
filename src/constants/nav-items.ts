@@ -30,7 +30,7 @@ export const NAV_ITEMS: NavItem[] = [
         href: ROUTES.ABOUT_MASS_SCHEDULE,
         disabled: true,
       },
-      { label: '본당 행사 일정', href: ROUTES.ABOUT_EVENTS },
+      { label: '본당 행사 일정', href: ROUTES.ABOUT_EVENT_SCHEDULE },
     ],
   },
   {
