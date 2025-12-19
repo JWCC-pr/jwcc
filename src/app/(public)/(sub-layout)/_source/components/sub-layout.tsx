@@ -24,7 +24,7 @@ const labelMap = {
   [ROUTES.ABOUT_PRIESTS]: '본당 사제·수도자',
   [ROUTES.ABOUT_PAST_PRIESTS]: '역대 사제·수도자',
   [ROUTES.ABOUT_MASS_SCHEDULE]: '미사시간 안내 및 오시는 길',
-  [ROUTES.ABOUT_EVENTS]: '본당 행사 일정',
+  [ROUTES.ABOUT_EVENT_SCHEDULE]: '본당 행사 일정',
   // 본당 소식
   [ROUTES.NEWS_NOTICES]: '공지사항',
   [ROUTES.NEWS_EVENT]: '본당 행사',
@@ -54,7 +54,7 @@ const oneDepthLabelMap = {
   [ROUTES.ABOUT_PRIESTS]: '본당 소개',
   [ROUTES.ABOUT_PAST_PRIESTS]: '본당 소개',
   [ROUTES.ABOUT_MASS_SCHEDULE]: '본당 소개',
-  [ROUTES.ABOUT_EVENTS]: '본당 소개',
+  [ROUTES.ABOUT_EVENT_SCHEDULE]: '본당 소개',
   // 본당 소식
   [ROUTES.NEWS_NOTICES]: '본당 소식',
   [ROUTES.NEWS_EVENT]: '본당 소식',
