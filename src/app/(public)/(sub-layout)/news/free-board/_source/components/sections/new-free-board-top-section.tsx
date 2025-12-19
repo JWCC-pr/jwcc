@@ -10,6 +10,7 @@ import type { SelectRootProps } from '@chakra-ui/react/select'
 import Select from '@/components/select'
 import { ROUTES } from '@/constants/routes'
 import { NewsFreeBoardPencilSimpleLineIcon } from '@/generated/icons/MyIcons'
+import useMe from '@/hooks/useMe'
 
 const options = [
   {
@@ -23,6 +24,8 @@ const options = [
 ]
 
 const NewFreeBoardTopSection: React.FC = () => {
+  const { isParishMember } = useMe()
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const sort = searchParams.get('sort') || options[0].value
@@ -48,15 +51,17 @@ const NewFreeBoardTopSection: React.FC = () => {
         value={[sort]}
         onValueChange={handleSortChange}
       />
-      <Link
-        href={ROUTES.NEWS_FREE_BOARD_CREATE}
-        _hover={{ textDecoration: 'none' }}
-      >
-        <Button size="md" variant="solid" colorPalette="primary">
-          <NewsFreeBoardPencilSimpleLineIcon w="20px" h="20px" />
-          게시글 작성
-        </Button>
-      </Link>
+      {isParishMember && (
+        <Link
+          href={ROUTES.NEWS_FREE_BOARD_CREATE}
+          _hover={{ textDecoration: 'none' }}
+        >
+          <Button size="md" variant="solid" colorPalette="primary">
+            <NewsFreeBoardPencilSimpleLineIcon w="20px" h="20px" />
+            게시글 작성
+          </Button>
+        </Link>
+      )}
     </Box>
   )
 }

@@ -4,6 +4,15 @@
  * 스크립트가 실행될때, 파일을 항상 새로 쓰기 때문에 파일 수정시 작성내용이 제거 될 수 있습니다.
  */
 
+export interface BannerType {
+  readonly id: number
+  /**
+   * 이미지
+   * @format uri
+   */
+  image: string
+}
+
 export interface BoardType {
   readonly id: number
   /** 유저 */
@@ -363,10 +372,14 @@ export interface LiturgyFlowerType {
    * @maxLength 100
    */
   title: string
-  /** 댓글수 */
-  readonly commentCount: number
+  /** 소유 여부 */
+  readonly isOwned: boolean
+  /** 좋아요 여부 */
+  readonly isLiked: boolean
   /** 조회수 */
   readonly hitCount: number
+  /** 댓글수 */
+  readonly commentCount: number
   /** 좋아요수 */
   readonly likeCount: number
   /** 이미지 */

@@ -23,7 +23,7 @@ interface FreeBoardDetailCommentInputSectionProps {
 const FreeBoardDetailCommentInputSection: React.FC<
   FreeBoardDetailCommentInputSectionProps
 > = ({ boardId }) => {
-  const { data: me } = useMe()
+  const { data: me, isLoggedIn } = useMe()
 
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => setIsOpen(true)
@@ -58,6 +58,8 @@ const FreeBoardDetailCommentInputSection: React.FC<
       console.error(error)
     }
   }
+
+  if (!isLoggedIn) return null
 
   return (
     <>
@@ -94,6 +96,8 @@ const FreeBoardDetailCommentInputSection: React.FC<
           display="flex"
           flexFlow="column"
           gap="10px"
+          borderBottom="1px solid"
+          borderBottomColor="border.basic.1"
         >
           <Box display="flex" flexFlow="column" gap="6px">
             <Box

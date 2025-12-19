@@ -1,3 +1,5 @@
+'use client'
+
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
 import { Image } from '@chakra-ui/react/image'
@@ -6,10 +8,26 @@ import { Text } from '@chakra-ui/react/text'
 import { ArrowRightIcon } from '@phosphor-icons/react'
 
 import { ROUTES } from '@/constants/routes'
+import { useWeeklyBulletinListQuery } from '@/generated/apis/WeeklyBulletin/WeeklyBulletin.query'
 
 const BulletinSection: React.FC = () => {
+  const { data: bulletin } = useWeeklyBulletinListQuery({
+    variables: {
+      query: {
+        offset: 0,
+        limit: 1,
+      },
+    },
+  })
+
+  // FIXME: 스켈레톤 UI 추가
+  if (!bulletin) return null
+  if (!bulletin.results) return null
+
+  const targetBulletin = bulletin.results[0]
+
   return (
-    <Box w="330px" display="flex" flexFlow="column nowrap" gap="40px" h="100%">
+    <Box w="330px" display="flex" flexFlow="column nowrap" gap="40px">
       <Box
         py="10px"
         display="flex"
@@ -28,25 +46,36 @@ const BulletinSection: React.FC = () => {
         </Link>
       </Box>
 
-      <Box
-        as="figure"
-        flex="1"
-        minH="0"
-        border="1px solid"
-        borderColor="border.basic.1"
-        rounded="6px"
-        boxShadow="shadow-bottom"
-        overflow="hidden"
-        display="flex"
+      <Link
+        href={ROUTES.NEWS_BULLETIN_DETAIL(targetBulletin.id)}
+        _hover={{
+          textDecoration: 'none',
+          '& .bulletin-image-container': {
+            boxShadow: 'shadow-center',
+          },
+        }}
       >
-        <Image
-          src="/images/home/church-news-section/bulletin.png"
-          alt="bulletin"
-          aspectRatio="4/5"
-          objectFit="fill"
-          objectPosition="center"
-        />
-      </Box>
+        <Box
+          as="figure"
+          className="bulletin-image-container"
+          flex="1"
+          minH="0"
+          border="1px solid"
+          borderColor="border.basic.1"
+          rounded="6px"
+          boxShadow="shadow-bottom"
+          overflow="hidden"
+          display="flex"
+        >
+          <Image
+            src={targetBulletin.thumbnail}
+            alt="bulletin"
+            aspectRatio="4/5"
+            objectFit="fill"
+            objectPosition="center"
+          />
+        </Box>
+      </Link>
     </Box>
   )
 }

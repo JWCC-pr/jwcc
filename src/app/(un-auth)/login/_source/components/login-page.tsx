@@ -13,7 +13,9 @@ const LoginPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="36px">
       <Text textStyle="pre-heading-2" color="grey.10" textAlign="center">
-        잠원동 성당 로그인
+        찬미예수님!
+        <br />
+        로그인해주세요.
       </Text>
       <LoginForm />
       <Box display="flex" gap="10px" alignItems="center">

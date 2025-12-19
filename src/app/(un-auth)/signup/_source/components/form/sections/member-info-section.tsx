@@ -112,7 +112,7 @@ const MemberInfoSection: React.FC = () => {
 
         <FormHelper
           required
-          label="분과"
+          label="소속 단체"
           message={{
             error: errors.department?.message,
           }}

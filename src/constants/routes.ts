@@ -35,13 +35,13 @@ export const ROUTES = {
   NEWS_NOTICES: `/news/notices`,
   /** 공지사항 상세 */
   NEWS_NOTICES_DETAIL: (id: number) => `/news/notices/${id}`,
-  /** 본당 행사 */
+  /** 본당 소식 */
   NEWS_EVENT: `/news/event`,
-  /** 본당 행사 상세 */
+  /** 본당 소식 상세 */
   NEWS_EVENT_DETAIL: (id: number) => `/news/event/${id}`,
   /** 주보 */
   NEWS_BULLETIN: `/news/bulletin`,
-  /** 본당 행사 상세 */
+  /** 주보 행사 상세 */
   NEWS_BULLETIN_DETAIL: (id: number) => `/news/bulletin/${id}`,
   /** 선종 안내 */
   NEWS_PASSING_NOTICE: `/news/passing-notice`,

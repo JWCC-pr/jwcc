@@ -23,7 +23,7 @@ interface NewsLiturgyFlowerDetailCommentInputSectionProps {
 const NewsLiturgyFlowerDetailCommentInputSection: React.FC<
   NewsLiturgyFlowerDetailCommentInputSectionProps
 > = ({ liturgyFlowerId }) => {
-  const { data: me } = useMe()
+  const { isLoggedIn, data: me } = useMe()
 
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => setIsOpen(true)
@@ -62,6 +62,8 @@ const NewsLiturgyFlowerDetailCommentInputSection: React.FC<
       console.error(error)
     }
   }
+
+  if (!isLoggedIn) return null
 
   return (
     <>

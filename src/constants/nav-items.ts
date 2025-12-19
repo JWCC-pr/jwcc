@@ -37,7 +37,7 @@ export const NAV_ITEMS: NavItem[] = [
     label: '본당 소식',
     subItems: [
       { label: '공지사항', href: ROUTES.NEWS_NOTICES },
-      { label: '본당 행사', href: ROUTES.NEWS_EVENT },
+      { label: '본당 소식', href: ROUTES.NEWS_EVENT },
       { label: '주보', href: ROUTES.NEWS_BULLETIN },
       { label: '선종 안내', href: ROUTES.NEWS_PASSING_NOTICE },
       { label: '전례꽃 갤러리', href: ROUTES.NEWS_LITURGY_FLOWER },

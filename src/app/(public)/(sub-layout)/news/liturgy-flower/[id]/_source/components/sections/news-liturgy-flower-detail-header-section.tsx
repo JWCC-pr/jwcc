@@ -18,6 +18,7 @@ import {
 } from '@/generated/apis/LiturgyFlower/LiturgyFlower.query'
 import { useLiturgyFlowerLikeToggleCreateMutation } from '@/generated/apis/LiturgyFlowerLike/LiturgyFlowerLike.query'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
+import useMe from '@/hooks/useMe'
 
 interface NewsLiturgyFlowerDetailHeaderSectionProps {
   liturgyFlower: Pick<
@@ -29,12 +30,16 @@ interface NewsLiturgyFlowerDetailHeaderSectionProps {
     | 'hitCount'
     | 'commentCount'
     | 'likeCount'
+    | 'isLiked'
+    | 'isOwned'
   >
 }
 
 const NewsLiturgyFlowerDetailHeaderSection: React.FC<
   NewsLiturgyFlowerDetailHeaderSectionProps
 > = ({ liturgyFlower }) => {
+  const { isLoggedIn } = useMe()
+
   const router = useRouter()
   const invalidateQueries = useInvalidateQueries()
 
@@ -61,8 +66,7 @@ const NewsLiturgyFlowerDetailHeaderSection: React.FC<
   const { mutateAsync: liturgyFlowerDestroyMutateAsync } =
     useLiturgyFlowerDestroyMutation({})
   const handleClickDelete = async () => {
-    // FIXME: API
-    // if (!liturgyFlower.isOwned) return
+    if (!liturgyFlower.isOwned) return
 
     try {
       await liturgyFlowerDestroyMutateAsync({ id: liturgyFlower.id })
@@ -88,32 +92,34 @@ const NewsLiturgyFlowerDetailHeaderSection: React.FC<
         <Text textStyle="pre-heading-2" color="grey.10" lineClamp="1">
           {liturgyFlower.title}
         </Text>
-        <Box>
-          <IconButton
-            size="md"
-            variant="ghost"
-            colorPalette="grey"
-            onClick={handleClickLike}
-          >
-            <HeartIcon
-              size="20px"
-              // FIXME: 좋아요 상태에 따라 색상 변경
-              //   color={liturgyFlower.isLiked ? '#AE3059' : '#6A6D71'}
-              //   weight={liturgyFlower.isLiked ? 'fill' : 'regular'}
-            />
-          </IconButton>
-          {/* FIXME: 작성자인지 여부에 따라 보여주기 처리 */}
-          <Popover
-            options={[
-              { label: '수정', onClick: handleClickEdit },
-              {
-                label: '삭제',
-                onClick: handleClickDelete,
-                styles: { color: 'accent.red2' },
-              },
-            ]}
-          />
-        </Box>
+        {isLoggedIn && (
+          <Box>
+            <IconButton
+              size="md"
+              variant="ghost"
+              colorPalette="grey"
+              onClick={handleClickLike}
+            >
+              <HeartIcon
+                size="20px"
+                color={liturgyFlower.isLiked ? '#AE3059' : '#6A6D71'}
+                weight={liturgyFlower.isLiked ? 'fill' : 'regular'}
+              />
+            </IconButton>
+            {liturgyFlower.isOwned && (
+              <Popover
+                options={[
+                  { label: '수정', onClick: handleClickEdit },
+                  {
+                    label: '삭제',
+                    onClick: handleClickDelete,
+                    styles: { color: 'accent.red2' },
+                  },
+                ]}
+              />
+            )}
+          </Box>
+        )}
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" flexFlow="column" gap="2px">

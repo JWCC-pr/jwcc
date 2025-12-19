@@ -7,6 +7,7 @@ import { Table } from '@chakra-ui/react/table'
 
 import { format } from 'date-fns/format'
 
+import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import Pagination from '@/components/pagination'
 import { ROUTES } from '@/constants/routes'
 import { useBoardListQuery } from '@/generated/apis/Board/Board.query'
@@ -180,6 +181,10 @@ const NewFreeBoardTableSection: React.FC = () => {
               </Table.Cell>
             </Table.Row>
           ))}
+
+          {boards.results.length === 0 && (
+            <EmptySection colSpan={tableHeaders.length} />
+          )}
         </Table.Body>
       </Table.Root>
 

@@ -19,8 +19,6 @@ const NewsLiturgyFlowerEditPage: React.FC<NewsLiturgyFlowerEditPageProps> = ({
 
   if (!initialData) return
 
-  console.log('🐬 initialData >> ', initialData)
-
   return (
     <NewsLiturgyFlowerForm
       isEditMode

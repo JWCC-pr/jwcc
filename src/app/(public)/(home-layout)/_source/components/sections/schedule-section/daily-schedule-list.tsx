@@ -4,6 +4,7 @@ import { Badge } from '@chakra-ui/react/badge'
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
+import { isSameDay } from 'date-fns'
 import { format } from 'date-fns/format'
 
 import type { CalendarDay } from '../schedule-section'
@@ -11,11 +12,13 @@ import type { CalendarDay } from '../schedule-section'
 interface DailyScheduleListProps {
   calendarHeight: number
   calendarDays: CalendarDay[]
+  selectedDate: Date
 }
 
 const DailyScheduleList: React.FC<DailyScheduleListProps> = ({
   calendarHeight,
   calendarDays,
+  selectedDate,
 }) => {
   return (
     <Box
@@ -35,35 +38,54 @@ const DailyScheduleList: React.FC<DailyScheduleListProps> = ({
         flexFlow="column nowrap"
         overflowY="auto"
       >
-        {calendarDays
-          .filter((dayInfo) => dayInfo.hasSchedules)
-          .map((dayInfo, i) => {
-            const schedule = dayInfo.schedules[0]
+        {(() => {
+          const selectedDayInfo = calendarDays.find((dayInfo) =>
+            isSameDay(dayInfo.date, selectedDate),
+          )
 
+          if (!selectedDayInfo || !selectedDayInfo.hasSchedules) {
             return (
               <Box
-                as="li"
-                key={i}
-                p="16px 12px"
+                p="24px"
                 display="flex"
-                gap="12px"
-                borderBottom="1px solid"
-                borderBottomColor="border.basic.1"
+                justifyContent="center"
+                alignItems="center"
+                flex="1"
               >
-                <Text w="36px" textStyle="pre-body-5" color="primary.4">
-                  {format(dayInfo.date, 'yy.d')}
+                <Text textStyle="pre-body-5" color="grey.7">
+                  해당 날짜에 일정이 없습니다.
                 </Text>
-                <Box display="flex" flexFlow="column nowrap" gap="8px">
-                  <Text textStyle="pre-body-6" color="grey.10">
-                    {schedule.content}
-                  </Text>
-                  <Badge size="md" variant="subtle" colorPalette="grey">
-                    {schedule.startTime}~{schedule.endTime}
-                  </Badge>
-                </Box>
               </Box>
             )
-          })}
+          }
+
+          return selectedDayInfo.schedules.map((schedule, i) => (
+            <Box
+              as="li"
+              key={schedule.id || i}
+              p="16px 12px"
+              display="flex"
+              gap="12px"
+              borderBottom="1px solid"
+              borderBottomColor="border.basic.1"
+            >
+              <Text w="36px" textStyle="pre-body-5" color="primary.4">
+                {format(selectedDayInfo.date, 'M.d')}
+              </Text>
+              <Box display="flex" flexFlow="column nowrap" gap="8px">
+                <Text textStyle="pre-body-6" color="grey.10">
+                  {schedule.title}
+                </Text>
+
+                <Badge size="md" variant="subtle" colorPalette="grey">
+                  {schedule.startTime && schedule.endTime ?
+                    `${schedule.startTime.slice(0, 5)}~${schedule.endTime.slice(0, 5)}`
+                  : '하루종일'}
+                </Badge>
+              </Box>
+            </Box>
+          ))
+        })()}
       </Box>
 
       <Box

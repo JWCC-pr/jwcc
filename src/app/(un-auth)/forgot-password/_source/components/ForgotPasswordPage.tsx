@@ -10,6 +10,7 @@ import { Text } from '@chakra-ui/react/text'
 import { useFormState } from 'react-hook-form'
 
 import { FormHelper } from '@/components/form-helper'
+import { useUserPasswordResetCreateMutation } from '@/generated/apis/User/User.query'
 
 import { useForgotPasswordForm } from '../hooks/useForgotPasswordForm'
 
@@ -23,8 +24,14 @@ const ForgotPasswordPage: React.FC = () => {
   } = useForgotPasswordForm()
   const { isValid } = useFormState({ control })
 
-  const onSubmit = handleSubmit(async (data) => {
-    console.log('🐬 data >> ', data)
+  const { mutateAsync } = useUserPasswordResetCreateMutation({})
+
+  const onSubmit = handleSubmit(async ({ email }) => {
+    try {
+      await mutateAsync({ data: { email } })
+    } catch (error) {
+      console.error('🐬 error >> ', error)
+    }
 
     router.replace('/forgot-password/complete')
   })

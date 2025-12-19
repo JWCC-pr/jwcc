@@ -1,6 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
@@ -10,6 +12,7 @@ import { useFormState } from 'react-hook-form'
 
 import { FormHelper } from '@/components/form-helper'
 import { PasswordInput } from '@/components/ui/password-input'
+import { useUserPasswordResetConfirmCreateMutation } from '@/generated/apis/User/User.query'
 
 import { useResetPasswordForm } from '../hooks/useResetPasswordForm'
 
@@ -23,10 +26,36 @@ const ResetPasswordPage: React.FC = () => {
   } = useResetPasswordForm()
   const { isValid } = useFormState({ control })
 
-  const onSubmit = handleSubmit(async (data) => {
-    console.log('🐬 data >> ', data)
+  const searchParams = useSearchParams()
+  const uid = searchParams.get('uid')
+  const token = searchParams.get('token')
 
-    router.replace('/reset-password/complete')
+  useEffect(() => {
+    if (uid && token) return
+
+    router.replace('/')
+  }, [uid, token, router])
+
+  const { mutateAsync } = useUserPasswordResetConfirmCreateMutation({})
+  const onSubmit = handleSubmit(async (data) => {
+    if (!uid || !token) {
+      return router.replace('/')
+    }
+
+    try {
+      await mutateAsync({
+        data: {
+          password: data.password,
+          passwordConfirm: data.passwordConfirm,
+          uid,
+          token,
+        },
+      })
+
+      router.replace('/reset-password/complete')
+    } catch (error) {
+      console.error('🐬 error >> ', error)
+    }
   })
 
   return (

@@ -7,6 +7,7 @@ import { Table } from '@chakra-ui/react/table'
 
 import { format } from 'date-fns/format'
 
+import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import Pagination from '@/components/pagination'
 import { ROUTES } from '@/constants/routes'
 import { usePassingNoticeListQuery } from '@/generated/apis/PassingNotice/PassingNotice.query'
@@ -134,6 +135,8 @@ const NewsPassingNoticeTableSection: React.FC = () => {
               </Table.Cell>
             </Table.Row>
           ))}
+
+          {passingNotices.results.length === 0 && <EmptySection colSpan={3} />}
         </Table.Body>
       </Table.Root>
 

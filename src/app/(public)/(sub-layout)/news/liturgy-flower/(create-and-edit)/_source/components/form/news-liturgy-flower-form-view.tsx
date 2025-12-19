@@ -10,8 +10,8 @@ import { PlusIcon } from '@phosphor-icons/react'
 
 import { useFormContext, useWatch } from 'react-hook-form'
 
+import { uploadFiles } from '@/apis/s3-file-uploader/S3FileUploaderApi.query'
 import { FormHelper } from '@/components/form-helper'
-import { usePresignedUrlCreateMutation } from '@/generated/apis/PresignedUrl/PresignedUrl.query'
 import { NewsLiturgyFlowerCXCircleFillIcon } from '@/generated/icons/MyIcons'
 
 import { LiturgyFlowerFormDataType } from '../../hooks/useLiturgyFlowerForm'
@@ -24,9 +24,6 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [title, images] = useWatch({ control, name: ['title', 'images'] })
-
-  const { mutateAsync: createPresignedUrlMutateAsync } =
-    usePresignedUrlCreateMutation({})
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -51,29 +48,17 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
 
       const filesToAdd = imageFiles.slice(0, remainingSlots)
 
-      // TODO: presigned URL 로직 확인하기
-      const createdImages = await Promise.all(
-        filesToAdd.map(async (imageFile) => {
-          const { url, fields } = await createPresignedUrlMutateAsync({
-            data: {
-              fileName: imageFile.name,
-              fieldChoice: 'liturgy_flower.LiturgyFlowerImage.image',
-              isDownload: false,
-            },
-          })
-
-          const formData = new FormData()
-          Object.entries(fields).forEach(([key, value]) =>
-            formData.append(key, value as string),
-          )
-          formData.append('file', imageFile)
-          await fetch(url, { method: 'POST', body: formData })
-          return {
-            url: url + '/' + fields['key'],
-            name: imageFile.name,
-          }
-        }),
+      const { fulfilled } = await uploadFiles(
+        filesToAdd.map((file) => ({
+          file,
+          fieldChoice: 'liturgy_flower.LiturgyFlowerImage.image',
+        })),
       )
+
+      const createdImages = fulfilled.map((image) => ({
+        url: image.url,
+        name: image.name,
+      }))
 
       setValue('images', [...currentImages, ...createdImages], {
         shouldValidate: true,

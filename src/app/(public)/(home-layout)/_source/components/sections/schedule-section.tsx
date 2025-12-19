@@ -8,6 +8,7 @@ import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 import { ArrowRightIcon } from '@phosphor-icons/react'
 
+import { isSameDay, parseISO } from 'date-fns'
 import { format } from 'date-fns/format'
 import { getDay } from 'date-fns/getDay'
 import { getDaysInMonth } from 'date-fns/getDaysInMonth'
@@ -15,38 +16,19 @@ import { isToday } from 'date-fns/isToday'
 import { ko } from 'date-fns/locale'
 
 import { ROUTES } from '@/constants/routes'
+import type { ScheduleType } from '@/generated/apis/@types/data-contracts'
+import { useScheduleListQuery } from '@/generated/apis/Schedule/Schedule.query'
 
 import DailyScheduleList from './schedule-section/daily-schedule-list'
 import MonthCalendar from './schedule-section/month-calendar'
 
-// FIXME: API
-interface Mock {
-  day: number
-  content: string
-  startTime: string
-  endTime: string
-}
-
-// FIXME: API
-const mock: Mock[] = Array.from({ length: 30 }, (_, i) => {
-  if (i % 5 === 0) {
-    return {
-      day: i + 1,
-      content: '아침 찬조 ' + i,
-      startTime: `${i}:00`,
-      endTime: `${i + 1}:00`,
-    } as const
-  }
-}).filter(Boolean) as Mock[]
-
-// FIXME: API
 export interface CalendarDay {
   day: number
   dayOfWeek: number
   dayName: string
   hasSchedules: boolean
   date: Date
-  schedules: Mock[]
+  schedules: ScheduleType[]
   isToday: boolean
   isSunday: boolean
 }
@@ -56,6 +38,17 @@ const CURRENT_YEAR = TODAY.getFullYear()
 const CURRENT_MONTH = TODAY.getMonth() + 1
 
 const ScheduleSection: React.FC = () => {
+  const [selectedDate, setSelectedDate] = useState<Date>(TODAY)
+
+  const { data: schedules } = useScheduleListQuery({
+    variables: {
+      query: {
+        year: CURRENT_YEAR.toString(),
+        month: CURRENT_MONTH.toString(),
+      },
+    },
+  })
+
   // 해당 월의 모든 날짜 정보 생성
   const calendarDays: CalendarDay[] = useMemo(() => {
     const date = new Date(CURRENT_YEAR, CURRENT_MONTH - 1, 1)
@@ -69,20 +62,25 @@ const ScheduleSection: React.FC = () => {
       /** 월, 화, 수, 목, 금, 토, 일 */
       const dayName = format(dayDate, 'EEE', { locale: ko })
 
-      const schedules = mock.filter((schedule) => schedule.day === day)
+      // 해당 날짜의 일정 필터링
+      const daySchedules =
+        schedules?.filter((schedule) => {
+          const scheduleDate = parseISO(schedule.scheduledAt)
+          return isSameDay(scheduleDate, dayDate)
+        }) || []
 
       return {
         day,
         dayOfWeek,
         dayName,
         date: dayDate,
-        schedules,
-        hasSchedules: schedules.length > 0,
+        schedules: daySchedules,
+        hasSchedules: daySchedules.length > 0,
         isToday: isToday(dayDate),
         isSunday: dayOfWeek === 0,
       }
     })
-  }, [])
+  }, [schedules])
 
   const calendarSectionRef = useRef<HTMLDivElement>(null)
   const [calendarHeight, setCalendarHeight] = useState(0)
@@ -118,7 +116,7 @@ const ScheduleSection: React.FC = () => {
           본당 일정 안내
         </Text>
         <Link
-          href={ROUTES.ABOUT_MASS_SCHEDULE}
+          href={ROUTES.ABOUT_EVENT_SCHEDULE}
           _hover={{ textDecoration: 'none' }}
         >
           <Button variant="ghost" size="md" colorPalette="grey">
@@ -142,11 +140,14 @@ const ScheduleSection: React.FC = () => {
           <MonthCalendar
             calendarSectionRef={calendarSectionRef}
             calendarDays={calendarDays}
+            selectedDate={selectedDate}
+            onDateClick={setSelectedDate}
           />
 
           <DailyScheduleList
             calendarHeight={calendarHeight}
             calendarDays={calendarDays}
+            selectedDate={selectedDate}
           />
         </Box>
       </Box>
