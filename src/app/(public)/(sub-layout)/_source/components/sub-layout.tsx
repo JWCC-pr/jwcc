@@ -103,6 +103,9 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <Box display="flex" flexFlow="column nowrap">
       <Box
+        w="full"
+        maxW="1280px"
+        mx="auto"
         px="40px"
         h="180px"
         display="flex"
@@ -113,6 +116,9 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         {mainLabel}
       </Box>
       <Box
+        w="full"
+        maxW="1280px"
+        mx="auto"
         px="40px"
         display="flex"
         borderBlock="1px solid"
@@ -137,7 +143,9 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         <TwoDepthSelect options={options} />
         <Box w="1px" h="auto" bgColor="border.basic.1" />
       </Box>
-      <Box p="40px 40px 120px">{children}</Box>
+      <Box w="full" maxW="1280px" mx="auto" p="40px 40px 120px">
+        {children}
+      </Box>
     </Box>
   )
 }
