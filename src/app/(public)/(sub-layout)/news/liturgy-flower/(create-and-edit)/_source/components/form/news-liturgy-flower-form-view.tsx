@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 import { Box } from '@chakra-ui/react/box'
 import { Image } from '@chakra-ui/react/image'
@@ -22,6 +22,10 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
   const { register, control, setValue } =
     useFormContext<LiturgyFlowerFormDataType>()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
 
   const [title, images] = useWatch({ control, name: ['title', 'images'] })
 
@@ -89,6 +93,32 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
     fileInputRef.current?.click()
   }, [images.length])
 
+  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!scrollContainerRef.current) return
+    setIsDragging(true)
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft)
+    setScrollLeft(scrollContainerRef.current.scrollLeft)
+  }, [])
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!isDragging || !scrollContainerRef.current) return
+      e.preventDefault()
+      const x = e.pageX - scrollContainerRef.current.offsetLeft
+      const walk = (x - startX) * 2
+      scrollContainerRef.current.scrollLeft = scrollLeft - walk
+    },
+    [isDragging, startX, scrollLeft],
+  )
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false)
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    setIsDragging(false)
+  }, [])
+
   return (
     <Box py="24px" display="flex" flexDirection="column" gap="20px">
       <FormHelper
@@ -114,9 +144,23 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
             ({images.length}/{MAX_IMAGES})
           </Text>
         </Box>
-        <Box display="flex" gap="12px" flexWrap="wrap">
+        <Box
+          ref={scrollContainerRef}
+          display="flex"
+          gap="12px"
+          overflowX="auto"
+          cursor={isDragging ? 'grabbing' : 'grab'}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
           {images.length < MAX_IMAGES && (
-            <Box>
+            <Box flexShrink="0">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -148,7 +192,14 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
           )}
 
           {images.map((image, index) => (
-            <Box key={index} display="flex" flexDirection="column" gap="2px">
+            <Box
+              key={index}
+              flexShrink="0"
+              display="flex"
+              flexDirection="column"
+              gap="2px"
+              w="120px"
+            >
               <Image
                 src={image.url}
                 alt={image.name}
@@ -159,12 +210,13 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
                 border="1px solid"
                 borderColor="border.basic.3"
               />
-              <Box display="flex" gap="4px" alignItems="center">
+              <Box display="flex" gap="4px" alignItems="center" minW="0">
                 <Text
                   flex="1"
                   textStyle="pre-caption-2"
                   color="grey.7"
-                  lineClamp="1"
+                  lineClamp={1}
+                  minW="0"
                 >
                   {image.name}
                 </Text>
@@ -172,6 +224,7 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
                 <NewsLiturgyFlowerCXCircleFillIcon
                   w="16px"
                   h="16px"
+                  flexShrink="0"
                   cursor="pointer"
                   onClick={() => handleRemoveImage(index)}
                 />

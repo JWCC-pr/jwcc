@@ -37,7 +37,7 @@ const NewsLiturgyFlowerFormContainer: React.FC<
 
       {view}
 
-      <Box w="362px" py="16px" display="flex" gap="10px" mx="auto">
+      <Box w={['320px', '362px']} py="16px" display="flex" gap="10px" mx="auto">
         <Button
           type="button"
           size="lg"
