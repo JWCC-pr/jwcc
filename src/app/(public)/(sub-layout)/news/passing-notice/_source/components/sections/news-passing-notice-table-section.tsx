@@ -101,44 +101,48 @@ const NewsPassingNoticeTableSection: React.FC = () => {
 
   return (
     <>
-      <Table.Root size="sm" unstyled w="full">
-        <Table.Header borderTop="1.5px solid" borderColor="grey.10">
-          <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
-            {tableHeaders.map((header) => (
-              <Table.ColumnHeader key={header.label} {...header.styles}>
-                {header.label}
-              </Table.ColumnHeader>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {passingNotices.results.map((passingNotice) => (
-            <Table.Row
-              key={passingNotice.id}
-              bgColor="grey.0"
-              borderBottom="1px solid"
-              borderColor="border.basic.1"
-              cursor="pointer"
-              onClick={() => handleClick(passingNotice.id)}
-              _hover={{
-                bgColor: 'background.basic.2',
-              }}
-            >
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {passingNotice.name}
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {passingNotice.baptismalName}
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {format(new Date(passingNotice.funeralStartAt), 'yyyy-MM-dd')}
-              </Table.Cell>
+      <Table.ScrollArea maxW="1200px">
+        <Table.Root size="sm" unstyled w="full">
+          <Table.Header borderTop="1.5px solid" borderColor="grey.10">
+            <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
+              {tableHeaders.map((header) => (
+                <Table.ColumnHeader key={header.label} {...header.styles}>
+                  {header.label}
+                </Table.ColumnHeader>
+              ))}
             </Table.Row>
-          ))}
+          </Table.Header>
+          <Table.Body>
+            {passingNotices.results.map((passingNotice) => (
+              <Table.Row
+                key={passingNotice.id}
+                bgColor="grey.0"
+                borderBottom="1px solid"
+                borderColor="border.basic.1"
+                cursor="pointer"
+                onClick={() => handleClick(passingNotice.id)}
+                _hover={{
+                  bgColor: 'background.basic.2',
+                }}
+              >
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {passingNotice.name}
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {passingNotice.baptismalName}
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {format(new Date(passingNotice.funeralStartAt), 'yyyy-MM-dd')}
+                </Table.Cell>
+              </Table.Row>
+            ))}
 
-          {passingNotices.results.length === 0 && <EmptySection colSpan={3} />}
-        </Table.Body>
-      </Table.Root>
+            {passingNotices.results.length === 0 && (
+              <EmptySection colSpan={3} />
+            )}
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
 
       <Box py="24px" display="flex" justifyContent="center">
         <Pagination

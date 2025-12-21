@@ -11,7 +11,9 @@ const NewsPassingNoticePage: React.FC = () => {
       <Box display="flex" flexDirection="column" gap="24px">
         <NewsPassingNoticeTopSection />
 
-        <NewsPassingNoticeTableSection />
+        <Box display="flex" flexDirection="column">
+          <NewsPassingNoticeTableSection />
+        </Box>
       </Box>
     </Suspense>
   )

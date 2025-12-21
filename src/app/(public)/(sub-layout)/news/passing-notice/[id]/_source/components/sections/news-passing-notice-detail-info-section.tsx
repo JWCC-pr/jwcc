@@ -34,18 +34,18 @@ interface NewsPassingNoticeDetailInfoSectionProps {
 const NewsPassingNoticeDetailInfoSection: React.FC<
   NewsPassingNoticeDetailInfoSectionProps
 > = ({ passingNotice }) => {
-  const rename1 = [
+  const deceasedInfo = [
     { label: '고인 성함', value: passingNotice.name },
     { label: '세례명', value: passingNotice.baptismalName },
     { label: '나이', value: passingNotice.age + '세' },
   ]
-  const rename2 = [
+  const funeralInfo = [
     { label: '선종일시', value: formatDate(passingNotice.passingAt) },
     {
       label: '장례 기간',
       value:
         formatDate(passingNotice.funeralStartAt, 'yyyy년 MM월 dd일 (EEE)') +
-        ' ~ ' +
+        ' ~ \n' +
         formatDate(passingNotice.funeralEndAt, 'yyyy년 MM월 dd일 (EEE)'),
     },
     { label: '입관 일정', value: formatDate(passingNotice.encoffinmentAt) },
@@ -59,13 +59,13 @@ const NewsPassingNoticeDetailInfoSection: React.FC<
   return (
     <Box py="24px" display="flex" flexDirection="column" gap="20px">
       <Box display="flex" flexFlow="column" gap="8px">
-        {rename1.map((item) => (
-          <Box key={item.label} display="flex" gap="10px">
+        {deceasedInfo.map((deceased) => (
+          <Box key={deceased.label} display="flex" gap="10px">
             <Text w="80px" textStyle="pre-body-5" color="grey.7">
-              {item.label}
+              {deceased.label}
             </Text>
             <Text textStyle="pre-body-4" color="grey.10">
-              {item.value}
+              {deceased.value}
             </Text>
           </Box>
         ))}
@@ -79,13 +79,22 @@ const NewsPassingNoticeDetailInfoSection: React.FC<
         flexDirection="column"
         gap="8px"
       >
-        {rename2.map((item) => (
-          <Box key={item.label} display="flex" gap="10px">
-            <Text w="120px" textStyle="pre-body-5" color="grey.7">
-              {item.label}
+        {funeralInfo.map((funeral) => (
+          <Box key={funeral.label} display="flex" gap="10px">
+            <Text
+              flexShrink="0"
+              w="120px"
+              textStyle="pre-body-5"
+              color="grey.7"
+            >
+              {funeral.label}
             </Text>
-            <Text textStyle="pre-body-4" color="grey.10">
-              {item.value}
+            <Text
+              textStyle="pre-body-4"
+              color="grey.10"
+              whiteSpace={['pre-wrap', 'initial']}
+            >
+              {funeral.value}
             </Text>
           </Box>
         ))}
