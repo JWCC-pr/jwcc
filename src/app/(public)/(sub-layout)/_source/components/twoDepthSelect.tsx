@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react/select'
 
 interface TwoDepthSelectProps {
-  options: { label: string; value: string }[]
+  options: { label: string; value: string; disabled?: boolean }[]
 }
 
 const TwoDepthSelect: React.FC<TwoDepthSelectProps> = ({ options }) => {

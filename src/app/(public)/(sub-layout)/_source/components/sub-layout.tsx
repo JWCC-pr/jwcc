@@ -89,9 +89,10 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   }, [oneDepthLabel])
   const options = useMemo(
     () =>
-      NAV_ITEMS[index].subItems?.map(({ href, label }) => ({
+      NAV_ITEMS[index].subItems?.map(({ href, label, disabled }) => ({
         label,
         value: href,
+        disabled: disabled,
       })) ?? [],
     [index],
   )
