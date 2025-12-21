@@ -102,58 +102,63 @@ const NewNoticesTableSection: React.FC = () => {
 
   return (
     <>
-      <Table.Root size="sm" unstyled w="full">
-        <Table.Header borderTop="1.5px solid" borderColor="grey.10">
-          <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
-            {tableHeaders.map((header) => (
-              <Table.ColumnHeader key={header.label} {...header.styles}>
-                {header.label}
-              </Table.ColumnHeader>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {[
-            ...fixedNotices.results.map((notice) => ({
-              ...notice,
-              isFixed: true,
-            })),
-            ...notices.results.map((notice) => ({ ...notice, isFixed: false })),
-          ].map((notice) => (
-            <Table.Row
-              key={notice.id}
-              bgColor={notice.isFixed ? 'primary.1' : 'grey.0'}
-              borderBottom="1px solid"
-              borderColor="border.basic.1"
-              cursor="pointer"
-              onClick={() => handleClick(notice.id)}
-              _hover={{
-                bgColor: 'background.basic.2',
-                '& > *:first-of-type': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              <Table.Cell
-                {...tableBodyRowCellStyle}
-                display="flex"
-                alignItems="center"
-                justifyContent="flex-start"
-              >
-                <Box display="flex" alignItems="center" gap="6px">
-                  {notice.isFixed && (
-                    <PushPinIcon size="16px" color="#780536" />
-                  )}
-                  {notice.title}
-                </Box>
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {format(new Date(notice.createdAt), 'yyyy-MM-dd')}
-              </Table.Cell>
+      <Table.ScrollArea maxW="1200px">
+        <Table.Root size="sm" unstyled w="full">
+          <Table.Header borderTop="1.5px solid" borderColor="grey.10">
+            <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
+              {tableHeaders.map((header) => (
+                <Table.ColumnHeader key={header.label} {...header.styles}>
+                  {header.label}
+                </Table.ColumnHeader>
+              ))}
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+          </Table.Header>
+          <Table.Body>
+            {[
+              ...fixedNotices.results.map((notice) => ({
+                ...notice,
+                isFixed: true,
+              })),
+              ...notices.results.map((notice) => ({
+                ...notice,
+                isFixed: false,
+              })),
+            ].map((notice) => (
+              <Table.Row
+                key={notice.id}
+                bgColor={notice.isFixed ? 'primary.1' : 'grey.0'}
+                borderBottom="1px solid"
+                borderColor="border.basic.1"
+                cursor="pointer"
+                onClick={() => handleClick(notice.id)}
+                _hover={{
+                  bgColor: 'background.basic.2',
+                  '& > *:first-of-type': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                <Table.Cell
+                  {...tableBodyRowCellStyle}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="flex-start"
+                >
+                  <Box display="flex" alignItems="center" gap="6px">
+                    {notice.isFixed && (
+                      <PushPinIcon size="16px" color="#780536" />
+                    )}
+                    {notice.title}
+                  </Box>
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {format(new Date(notice.createdAt), 'yyyy-MM-dd')}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
 
       <Box py="24px" display="flex" justifyContent="center">
         <Pagination

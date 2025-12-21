@@ -43,20 +43,14 @@ const NoticesDetailPage: React.FC<NoticesDetailPageProps> = ({ noticeId }) => {
         <Text textStyle="pre-caption-2" color="grey.7">
           {format(new Date(notice.createdAt), 'yyyy-MM-dd')}
         </Text>
-        <Box display="flex" gap="4px">
+        <Box display="flex" gap="4px" flexFlow="row wrap">
           {notice.fileSet.map(({ file }) => (
             <FileDown key={file} path={file} />
           ))}
         </Box>
       </Box>
 
-      <Box
-        py="20px"
-        borderBottom="1px solid"
-        borderBottomColor="border.basic.1"
-      >
-        <AdminEditorContent body={notice.body} />
-      </Box>
+      <AdminEditorContent body={notice.body} />
 
       <Box py="16px" display="flex" justifyContent="center">
         <Link href={ROUTES.NEWS_NOTICES} _hover={{ textDecoration: 'none' }}>

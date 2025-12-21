@@ -122,6 +122,9 @@ const FileDown: React.FC<FileDownProps> = ({
             color="transparent"
             visibility="hidden"
             aria-hidden="true"
+            lineClamp={1}
+            minW="0"
+            flex="1"
           >
             {getFileName(path)}
           </Text>
@@ -131,6 +134,9 @@ const FileDown: React.FC<FileDownProps> = ({
           <Text
             textStyle={isLarge ? 'pre-body-6' : 'pre-caption-2'}
             color="grey.10"
+            lineClamp={1}
+            minW="0"
+            flex="1"
           >
             {getFileName(path)}
           </Text>
