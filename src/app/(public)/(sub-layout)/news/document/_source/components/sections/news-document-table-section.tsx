@@ -96,74 +96,80 @@ const NewsDocumentTableSection: React.FC = () => {
 
   return (
     <>
-      <Table.Root size="sm" unstyled w="full">
-        <Table.Header borderTop="1.5px solid" borderColor="grey.10">
-          <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
-            {tableHeaders.map((header) => (
-              <Table.ColumnHeader key={header.label} {...header.styles}>
-                {header.label}
-              </Table.ColumnHeader>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {documents.results?.map((notice) => (
-            <Table.Row
-              key={notice.id}
-              bgColor="grey.0"
-              borderBottom="1px solid"
-              borderColor="border.basic.1"
-              cursor="pointer"
-              onClick={() => handleClick(notice.id)}
-              _hover={{
-                bgColor: 'background.basic.2',
-                '& .title': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              <Table.Cell
-                {...tableBodyRowCellStyle}
-                display="flex"
-                alignItems="center"
-                justifyContent="flex-start"
+      <Table.ScrollArea maxW="1200px">
+        <Table.Root size="sm" unstyled w="full">
+          <Table.Header borderTop="1.5px solid" borderColor="grey.10">
+            <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
+              {tableHeaders.map((header) => (
+                <Table.ColumnHeader key={header.label} {...header.styles}>
+                  {header.label}
+                </Table.ColumnHeader>
+              ))}
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {documents.results?.map((notice) => (
+              <Table.Row
+                key={notice.id}
+                bgColor="grey.0"
+                borderBottom="1px solid"
+                borderColor="border.basic.1"
+                cursor="pointer"
+                onClick={() => handleClick(notice.id)}
+                _hover={{
+                  bgColor: 'background.basic.2',
+                  '& .title': {
+                    textDecoration: 'underline',
+                  },
+                }}
               >
-                <Box
+                <Table.Cell
+                  {...tableBodyRowCellStyle}
                   display="flex"
-                  flexFlow="column nowrap"
-                  gap="4px"
-                  alignItems="flex-start"
+                  alignItems="center"
+                  justifyContent="flex-start"
                 >
-                  <Text textStyle="pre-body-6" lineClamp="1" className="title">
-                    {notice.title}
-                  </Text>
-                  <Box display="flex" flexFlow="row nowrap" gap="4px">
-                    {notice.fileSet.map(({ file }) => (
-                      <FileDown
-                        key={file}
-                        path={file}
-                        size="s"
-                        enableDownload={false}
-                      />
-                    ))}
+                  <Box
+                    display="flex"
+                    flexFlow="column nowrap"
+                    gap="4px"
+                    alignItems="flex-start"
+                  >
+                    <Text
+                      textStyle="pre-body-6"
+                      lineClamp="1"
+                      className="title"
+                    >
+                      {notice.title}
+                    </Text>
+                    <Box display="flex" flexFlow="row nowrap" gap="4px">
+                      {notice.fileSet.map(({ file }) => (
+                        <FileDown
+                          key={file}
+                          path={file}
+                          size="s"
+                          enableDownload={false}
+                        />
+                      ))}
+                    </Box>
                   </Box>
-                </Box>
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {format(new Date(notice.createdAt), 'yyyy-MM-dd')}
-              </Table.Cell>
-            </Table.Row>
-          ))}
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {format(new Date(notice.createdAt), 'yyyy-MM-dd')}
+                </Table.Cell>
+              </Table.Row>
+            ))}
 
-          {isNoSearchResult && (
-            <Table.Row>
-              <Table.Cell colSpan={2} p="0">
-                <NewsDocumentNoSearchSection />
-              </Table.Cell>
-            </Table.Row>
-          )}
-        </Table.Body>
-      </Table.Root>
+            {isNoSearchResult && (
+              <Table.Row>
+                <Table.Cell colSpan={2} p="0">
+                  <NewsDocumentNoSearchSection />
+                </Table.Cell>
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
 
       <Box py="24px" display="flex" justifyContent="center">
         <Pagination
