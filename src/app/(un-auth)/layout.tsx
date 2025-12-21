@@ -16,6 +16,7 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        px={['20px', 0]}
       >
         {children}
       </Box>
