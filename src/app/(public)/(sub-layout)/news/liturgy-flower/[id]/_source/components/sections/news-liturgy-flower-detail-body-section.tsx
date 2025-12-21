@@ -288,7 +288,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
 
   return (
     <Box
-      py="20px"
+      py="24px"
       display="flex"
       flexDirection="column"
       gap="10px"
@@ -298,6 +298,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
         ref={containerRef}
         maxW="800px"
         mx="auto"
+        px="12px"
         display="flex"
         alignItems="center"
         gap="12px"
@@ -308,6 +309,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
             size="lg"
             variant="outline"
             colorPalette="grey"
+            display={['none', 'flex']}
             rounded="8px"
             onClick={goToPrev}
             aria-label="이전 이미지"
@@ -370,6 +372,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
             size="lg"
             variant="outline"
             colorPalette="grey"
+            display={['none', 'flex']}
             rounded="8px"
             onClick={goToNext}
             aria-label="다음 이미지"

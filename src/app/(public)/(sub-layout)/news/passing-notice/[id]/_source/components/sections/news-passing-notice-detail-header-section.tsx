@@ -28,9 +28,6 @@ const NewsPassingNoticeDetailHeaderSection: React.FC<
         {passingNotice.name}
       </Text>
       <Box>
-        <Text textStyle="pre-caption-2" color="grey.7">
-          {format(new Date(passingNotice.createdAt), 'yyyy-MM-dd')}
-        </Text>
         <Box display="flex" justifyContent="space-between">
           <Text textStyle="pre-caption-2" color="grey.7">
             {format(new Date(passingNotice.createdAt), 'yyyy-MM-dd')}

@@ -35,7 +35,7 @@ const NewsDocumentSearchSection: React.FC = () => {
   return (
     <Box py="20px">
       <InputGroup
-        w="280px"
+        w={['full', '280px']}
         endElement={
           <MagnifyingGlassIcon
             size="20px"

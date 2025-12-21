@@ -74,7 +74,7 @@ const Footer: React.FC = () => {
   return (
     <Box as="footer" bg="grey.1">
       <Box
-        p="20px 40px"
+        p={['20px', '20px 40px']}
         display="flex"
         gap="12px"
         alignItems="center"
@@ -91,8 +91,13 @@ const Footer: React.FC = () => {
           이용약관
         </Text>
       </Box>
-      <Box p="24px 40px 36px" display="flex" gap="36px">
-        <Box flex="1" display="flex" gap="16px">
+      <Box
+        p={['24px 20px 36px', '24px 40px 36px']}
+        display="flex"
+        flexFlow={['column nowrap', 'column nowrap', 'row nowrap']}
+        gap="36px"
+      >
+        <Box flex="1" display={['none', 'flex']} gap="16px">
           {menuItems.map((item) => (
             <Box
               key={item.label}
@@ -119,9 +124,16 @@ const Footer: React.FC = () => {
             </Box>
           ))}
         </Box>
-        <Box w="1px" h="100%" />
+
         <Box
-          w="300px"
+          w="1px"
+          h="auto"
+          display={['none', 'none', 'block']}
+          bgColor="border.basic.1"
+        />
+
+        <Box
+          w={['full', 'full', '300px']}
           display="flex"
           flexFlow="column nowrap"
           justifyContent="space-between"

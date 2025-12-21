@@ -67,7 +67,11 @@ const NewsLiturgyFlowerPage: React.FC = () => {
       <Box
         py="20px"
         display="grid"
-        gridTemplateColumns="repeat(3, 1fr)"
+        gridTemplateColumns={[
+          'repeat(1, 1fr)',
+          'repeat(2, 1fr)',
+          'repeat(3, 1fr)',
+        ]}
         gap="16px"
         borderTop="1.5px solid"
         borderTopColor="grey.10"
@@ -83,11 +87,15 @@ const NewsLiturgyFlowerPage: React.FC = () => {
               flexDirection="column"
               alignItems="start"
               gap="0px"
+              _hover={{
+                textDecoration: 'none',
+              }}
             >
               <Image
                 src={thumbnail}
                 alt={liturgyFlower.title + ' 썸네일 이미지'}
                 flex="1"
+                w="full"
                 aspectRatio="16/9"
                 rounded="6px"
                 border="1px solid"

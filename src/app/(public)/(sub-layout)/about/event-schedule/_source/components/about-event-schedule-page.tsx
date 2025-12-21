@@ -187,14 +187,20 @@ const AboutEventSchedulePage: React.FC = () => {
           </Box>
 
           {/* 캘린더 그리드 */}
-          <Box as="ul" display="grid" gridTemplateColumns="repeat(7, 1fr)">
+          <Box
+            as="ul"
+            display="grid"
+            gridTemplateColumns="repeat(7, 1fr)"
+            gap="0"
+            w="100%"
+          >
             {/* 빈칸 (첫 주 시작 전) */}
             {calendarDays.length > 0 &&
               Array.from({ length: calendarDays[0].dayOfWeek }, (_, i) => (
                 <Box
                   as="li"
                   key={`empty-${i}`}
-                  aspectRatio="1/1"
+                  aspectRatio={['1/1', '1/2', '1/1']}
                   borderBottom="1px solid"
                   borderBottomColor="border.basic.1"
                 />
@@ -209,29 +215,31 @@ const AboutEventSchedulePage: React.FC = () => {
                 <Box
                   as="li"
                   key={i}
-                  p="10px"
+                  aspectRatio={['1/1', '1/2', '1/1']}
+                  p={['6px', '10px']}
                   display="flex"
                   flexFlow="column nowrap"
-                  justifyContent="center"
+                  justifyContent="space-between"
                   alignItems="center"
                   borderBottom="1px solid"
                   borderBottomColor="border.basic.1"
-                  aspectRatio="1/1"
                   bgColor="grey.0"
                   cursor="pointer"
                   onClick={() => handleDateClick(dayInfo.date)}
                   _hover={{
                     bgColor: 'background.basic.2',
                   }}
+                  overflow="hidden"
                 >
                   <Text
                     w="28px"
-                    aspectRatio="1/1"
+                    h="28px"
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
                     textStyle="cat-body-3"
                     color="grey.10"
+                    flexShrink={0}
                     {...(dayInfo.isSunday && { color: 'accent.red2' })}
                     {...(dayInfo.isToday && {
                       bgColor: 'primary.4',
@@ -241,9 +249,11 @@ const AboutEventSchedulePage: React.FC = () => {
                   >
                     {dayInfo.day}
                   </Text>
+
                   <Box
                     flex="1"
-                    display="flex"
+                    w="100%"
+                    display={['none', 'flex']}
                     flexFlow="column nowrap"
                     justifyContent="flex-end"
                     gap="2px"
@@ -251,23 +261,26 @@ const AboutEventSchedulePage: React.FC = () => {
                     {dayInfo.schedules.slice(0, 3).map((schedule) => (
                       <Box
                         key={schedule.id}
-                        p="2px 6px"
+                        p="1px 4px"
                         display="flex"
                         alignItems="center"
-                        gap="6px"
+                        gap="4px"
                         bgColor="primary.1"
-                        rounded="4px"
+                        rounded="2px"
+                        minH="16px"
                       >
                         <Box
-                          w="4px"
-                          h="4px"
+                          w="3px"
+                          h="3px"
                           bgColor="primary.3"
                           rounded="full"
+                          flexShrink={0}
                         />
                         <Text
-                          textStyle="pre-caption-2"
+                          textStyle="pre-caption-3"
                           color="grey.10"
                           lineClamp="1"
+                          fontSize="10px"
                         >
                           {schedule.title}
                         </Text>
@@ -277,11 +290,18 @@ const AboutEventSchedulePage: React.FC = () => {
                     {hasFourOrMoreSchedules && (
                       <Text
                         p="2px 6px"
-                        textStyle="pre-caption-2"
+                        textStyle="pre-caption-3"
                         color="grey.8"
+                        fontSize="10px"
                       >
                         더보기 ({moreSchedulesCount}개)
                       </Text>
+                    )}
+                  </Box>
+
+                  <Box display={['flex', 'none']} justifyContent="flex-end">
+                    {dayInfo.schedules.length > 0 && (
+                      <Box w="4px" h="4px" bgColor="primary.3" rounded="full" />
                     )}
                   </Box>
                 </Box>
@@ -298,7 +318,7 @@ const AboutEventSchedulePage: React.FC = () => {
                   <Box
                     as="li"
                     key={`empty-end-${i}`}
-                    aspectRatio="1/1"
+                    aspectRatio={['1/1', '1/2', '1/1']}
                     borderBottom="1px solid"
                     borderBottomColor="border.basic.1"
                   />

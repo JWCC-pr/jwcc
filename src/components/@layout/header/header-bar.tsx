@@ -11,6 +11,7 @@ import { LogoDefaultIcon, LogoHoverIcon } from '@/generated/icons/MyIcons'
 
 import HeaderMenu from './header-menu'
 import HeaderUserMenu from './header-user-menu'
+import MobileMenuButton from './mobile-menu-button'
 
 const styleMap = {
   default: {
@@ -53,15 +54,10 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
         zIndex="-1"
       />
 
-      <Box maxW="1280px" mx="auto" px="40px">
+      <Box maxW="1280px" mx="auto" px={['20px', '40px']}>
         <Box h="64px" display="flex" alignItems="center" position="relative">
           {/* 로고 섹션 */}
-          <Box
-            w="180px"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Box display="flex" justifyContent="center" alignItems="center">
             <Link href={ROUTES.HOME}>
               {isScrolled || hasHoveredNav ?
                 <LogoHoverIcon w="122px" h="36px" />
@@ -71,37 +67,52 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
 
           {/* 네비게이션 링크들 */}
           <Box
-            w="1200px"
-            display="flex"
-            justifyContent="center"
-            position="relative"
+            flex="1"
+            display={['none', 'none', 'flex']}
             alignItems="center"
+            justifyContent="center"
           >
-            {NAV_ITEMS.map((item, index) => (
-              <Box
-                key={item.label}
-                position="relative"
-                onMouseEnter={() => setHoveredNavIndex(index)}
-                onMouseLeave={() => {
-                  if (hasHoveredNav) return
-
-                  setHoveredNavIndex(null)
-                }}
-              >
-                <HeaderMenu
-                  href={item.href || '#'}
+            <Box
+              flex="1"
+              display="flex"
+              justifyContent="center"
+              position="relative"
+              alignItems="center"
+            >
+              {NAV_ITEMS.map((item, index) => (
+                <Box
+                  key={item.label}
                   position="relative"
-                  transition="color 0.2s"
-                  hasHoveredNav={hasHoveredNav}
-                  isScrolled={isScrolled}
+                  onMouseEnter={() => setHoveredNavIndex(index)}
+                  onMouseLeave={() => {
+                    if (hasHoveredNav) return
+
+                    setHoveredNavIndex(null)
+                  }}
                 >
-                  {item.label}
-                </HeaderMenu>
-              </Box>
-            ))}
+                  <HeaderMenu
+                    href={item.href || '#'}
+                    position="relative"
+                    transition="color 0.2s"
+                    hasHoveredNav={hasHoveredNav}
+                    isScrolled={isScrolled}
+                  >
+                    {item.label}
+                  </HeaderMenu>
+                </Box>
+              ))}
+            </Box>
+
+            <HeaderUserMenu isScrolled={isScrolled} />
           </Box>
 
-          <HeaderUserMenu isScrolled={isScrolled} />
+          <Box
+            flex="1"
+            display={['flex', 'flex', 'none']}
+            justifyContent="flex-end"
+          >
+            <MobileMenuButton isScrolled={isScrolled} />
+          </Box>
         </Box>
       </Box>
     </>
