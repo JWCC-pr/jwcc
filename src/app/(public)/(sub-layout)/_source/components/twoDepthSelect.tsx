@@ -41,6 +41,10 @@ const TwoDepthSelect: React.FC<TwoDepthSelectProps> = ({ options }) => {
         collection={collection}
         value={currentValue}
         onValueChange={handleValueChange}
+        positioning={{
+          placement: 'bottom-start',
+          strategy: 'fixed',
+        }}
       >
         <ChakraSelect.HiddenSelect />
         <ChakraSelect.Control w="100%" h="100%">
@@ -71,10 +75,12 @@ const TwoDepthSelect: React.FC<TwoDepthSelectProps> = ({ options }) => {
         </ChakraSelect.Control>
         <Portal>
           <ChakraSelect.Positioner>
-            <ChakraSelect.Content maxH="200px">
+            <ChakraSelect.Content maxH="200px" maxW="400px" minW="fit-content">
               {collection.items.map((item) => (
                 <ChakraSelect.Item item={item} key={item.label + item.value}>
-                  {item.label}
+                  <Box lineClamp={1} flex="1" minW="0">
+                    {item.label}
+                  </Box>
                   <ChakraSelect.ItemIndicator />
                 </ChakraSelect.Item>
               ))}

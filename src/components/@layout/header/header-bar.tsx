@@ -57,12 +57,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
       <Box maxW="1280px" mx="auto" px={['20px', '40px']}>
         <Box h="64px" display="flex" alignItems="center" position="relative">
           {/* 로고 섹션 */}
-          <Box
-            w="180px"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Box display="flex" justifyContent="center" alignItems="center">
             <Link href={ROUTES.HOME}>
               {isScrolled || hasHoveredNav ?
                 <LogoHoverIcon w="122px" h="36px" />

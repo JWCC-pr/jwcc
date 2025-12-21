@@ -97,7 +97,11 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   )
 
   if (!mainLabel || !oneDepthLabel) {
-    return <Box p="40px 40px 120px">{children}</Box>
+    return (
+      <Box p={['40px 20px 96px', '40px 40px 96px', '40px 40px 120px']}>
+        {children}
+      </Box>
+    )
   }
 
   return (
@@ -106,7 +110,7 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         w="full"
         maxW="1280px"
         mx="auto"
-        px="40px"
+        px={['20px', '40px']}
         h="180px"
         display="flex"
         alignItems="center"
@@ -119,7 +123,7 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         w="full"
         maxW="1280px"
         mx="auto"
-        px="40px"
+        px={['0px', '40px']}
         display="flex"
         borderBlock="1px solid"
         borderColor="border.basic.1"
@@ -143,7 +147,12 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         <TwoDepthSelect options={options} />
         <Box w="1px" h="auto" bgColor="border.basic.1" />
       </Box>
-      <Box w="full" maxW="1280px" mx="auto" p="40px 40px 120px">
+      <Box
+        w="full"
+        maxW="1280px"
+        mx="auto"
+        p={['40px 20px 96px', '40px 40px 96px', '40px 40px 120px']}
+      >
         {children}
       </Box>
     </Box>
