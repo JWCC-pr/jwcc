@@ -95,7 +95,7 @@ export function SimpleEditor({
   }
 
   return (
-    <Box w="full" overflow="hidden">
+    <Box w="full" overflowX="auto" overflowY="hidden">
       <EditorContext.Provider value={{ editor }}>
         <Toolbar
           style={{

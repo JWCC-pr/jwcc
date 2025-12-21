@@ -131,62 +131,64 @@ const NewFreeBoardTableSection: React.FC = () => {
 
   return (
     <>
-      <Table.Root size="sm" unstyled>
-        <Table.Header borderTop="1.5px solid" borderColor="grey.10">
-          <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
-            {tableHeaders.map((header) => (
-              <Table.ColumnHeader key={header.label} {...header.styles}>
-                {header.label}
-              </Table.ColumnHeader>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {boards.results.map((board) => (
-            <Table.Row
-              key={board.id}
-              borderBottom="1px solid"
-              borderColor="border.basic.1"
-              cursor="pointer"
-              onClick={() => handleClick(board.id)}
-              _hover={{
-                bgColor: 'background.basic.2',
-                '& > *:first-of-type': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              <Table.Cell
-                {...tableBodyRowCellStyle}
-                display="flex"
-                alignItems="center"
-                justifyContent="flex-start"
-              >
-                {board.title}
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {board.user.name}
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {format(new Date(board.createdAt), 'yyyy-MM-dd')}
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {board.hitCount.toLocaleString()}
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {board.commentCount.toLocaleString()}
-              </Table.Cell>
-              <Table.Cell {...tableBodyRowCellStyle}>
-                {board.likeCount.toLocaleString()}
-              </Table.Cell>
+      <Table.ScrollArea maxW="1200px">
+        <Table.Root size="sm" unstyled>
+          <Table.Header borderTop="1.5px solid" borderColor="grey.10">
+            <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
+              {tableHeaders.map((header) => (
+                <Table.ColumnHeader key={header.label} {...header.styles}>
+                  {header.label}
+                </Table.ColumnHeader>
+              ))}
             </Table.Row>
-          ))}
+          </Table.Header>
+          <Table.Body>
+            {boards.results.map((board) => (
+              <Table.Row
+                key={board.id}
+                borderBottom="1px solid"
+                borderColor="border.basic.1"
+                cursor="pointer"
+                onClick={() => handleClick(board.id)}
+                _hover={{
+                  bgColor: 'background.basic.2',
+                  '& > *:first-of-type': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                <Table.Cell
+                  {...tableBodyRowCellStyle}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="flex-start"
+                >
+                  {board.title}
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {board.user.name}
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {format(new Date(board.createdAt), 'yyyy-MM-dd')}
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {board.hitCount.toLocaleString()}
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {board.commentCount.toLocaleString()}
+                </Table.Cell>
+                <Table.Cell {...tableBodyRowCellStyle}>
+                  {board.likeCount.toLocaleString()}
+                </Table.Cell>
+              </Table.Row>
+            ))}
 
-          {boards.results.length === 0 && (
-            <EmptySection colSpan={tableHeaders.length} />
-          )}
-        </Table.Body>
-      </Table.Root>
+            {boards.results.length === 0 && (
+              <EmptySection colSpan={tableHeaders.length} />
+            )}
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
 
       <Box py="24px" display="flex" justifyContent="center">
         <Pagination
