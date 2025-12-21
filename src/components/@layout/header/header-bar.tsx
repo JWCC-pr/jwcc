@@ -54,7 +54,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
         zIndex="-1"
       />
 
-      <Box maxW="1280px" mx="auto" px="40px">
+      <Box maxW="1280px" mx="auto" px={['20px', '40px']}>
         <Box h="64px" display="flex" alignItems="center" position="relative">
           {/* 로고 섹션 */}
           <Box

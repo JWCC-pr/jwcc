@@ -8,7 +8,7 @@ const SimpleHeader: React.FC = () => {
   return (
     <Box
       as="header"
-      px="40px"
+      px={['20px', '40px']}
       position="sticky"
       top="0"
       zIndex="100"
