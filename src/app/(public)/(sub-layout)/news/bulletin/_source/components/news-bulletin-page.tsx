@@ -41,7 +41,7 @@ const NewsBulletinPage: React.FC = () => {
       <Box
         py="20px"
         display="grid"
-        gridTemplateColumns="repeat(4, 1fr)"
+        gridTemplateColumns={['repeat(2, 1fr)', 'repeat(4, 1fr)']}
         gap="20px 16px"
         borderTop="1.5px solid"
         borderTopColor="grey.10"
