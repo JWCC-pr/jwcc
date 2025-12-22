@@ -7,7 +7,10 @@ import { format } from 'date-fns/format'
 import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import Table, { type TableColumn } from '@/components/table'
 import { ROUTES } from '@/constants/routes'
-import { BoardType } from '@/generated/apis/@types/data-contracts'
+import {
+  BoardListParamsOrderingEnumType,
+  BoardType,
+} from '@/generated/apis/@types/data-contracts'
 import { useBoardListQuery } from '@/generated/apis/Board/Board.query'
 
 const LIMIT = 10
@@ -61,6 +64,8 @@ const NewFreeBoardTableSection: React.FC = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const page = Number(searchParams.get('page') ?? 1)
+  const ordering = (searchParams.get('ordering') ??
+    '-created_at') as BoardListParamsOrderingEnumType
 
   const handleClick = (board: BoardType) => {
     router.push(ROUTES.NEWS_FREE_BOARD_DETAIL(board.id))
@@ -78,6 +83,7 @@ const NewFreeBoardTableSection: React.FC = () => {
       query: {
         offset: (page - 1) * LIMIT,
         limit: LIMIT,
+        ordering: [ordering],
       },
     },
   })

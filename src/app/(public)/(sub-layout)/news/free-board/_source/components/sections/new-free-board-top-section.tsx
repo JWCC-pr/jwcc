@@ -9,6 +9,7 @@ import type { SelectRootProps } from '@chakra-ui/react/select'
 
 import Select from '@/components/select'
 import { ROUTES } from '@/constants/routes'
+import { BoardListParamsOrderingEnumType } from '@/generated/apis/@types/data-contracts'
 import { NewsFreeBoardPencilSimpleLineIcon } from '@/generated/icons/MyIcons'
 import useMe from '@/hooks/useMe'
 
@@ -28,14 +29,15 @@ const NewFreeBoardTopSection: React.FC = () => {
 
   const router = useRouter()
   const searchParams = useSearchParams()
-  const sort = searchParams.get('sort') || options[0].value
+  const ordering = (searchParams.get('ordering') ||
+    options[0].value) as BoardListParamsOrderingEnumType
 
-  const handleSortChange: SelectRootProps['onValueChange'] = (e) => {
+  const handleOrderingChange: SelectRootProps['onValueChange'] = (e) => {
     const selectedValue = e.value[0]
     if (!selectedValue) return
 
     const params = new URLSearchParams(searchParams.toString())
-    params.set('sort', selectedValue)
+    params.set('ordering', selectedValue)
     router.replace(`?${params.toString()}`)
   }
 
@@ -48,8 +50,8 @@ const NewFreeBoardTopSection: React.FC = () => {
         variant="outline"
         colorPalette="grey"
         options={options}
-        value={[sort]}
-        onValueChange={handleSortChange}
+        value={[ordering]}
+        onValueChange={handleOrderingChange}
       />
       {isParishMember && (
         <Link
