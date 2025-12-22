@@ -36,7 +36,7 @@ export function SimpleEditor({
     abortSignal?: AbortSignal,
   ) => {
     try {
-      const result = await uploadFile({ file, fieldChoice: 'board.Board.body' })
+      const result = await uploadFile({ file })
 
       return result.url
     } catch (error) {

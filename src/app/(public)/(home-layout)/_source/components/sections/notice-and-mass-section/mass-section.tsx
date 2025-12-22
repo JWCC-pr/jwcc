@@ -110,13 +110,24 @@ const MASS_CATEGORIES = [
 
 const MassSection: React.FC = () => {
   return (
-    <Box flex="1" display="flex" flexFlow="column nowrap" gap="9px">
+    <Box
+      flex="1"
+      display="flex"
+      flexFlow="column nowrap"
+      gap={['24px', '24px', '9px']}
+    >
       <Text py="10px" textStyle="pre-heading-1" color="grey.10">
         미사시간 안내
       </Text>
 
       <Box display="flex" flexFlow="column nowrap" gap="12px">
-        <Box as="ul" display="flex" gap="24px" justifyContent="flex-end">
+        <Box
+          as="ul"
+          display="flex"
+          gap="24px"
+          flexFlow="row wrap"
+          justifyContent={['flex-start', 'flex-end']}
+        >
           {MASS_CATEGORIES.map((category) => (
             <Box
               as="li"

@@ -61,6 +61,7 @@ const NewsEventsPage: React.FC = () => {
             flexDirection="column"
             alignItems="start"
             gap="0px"
+            onContextMenu={(e) => e.preventDefault()}
             _hover={{
               textDecoration: 'none',
             }}

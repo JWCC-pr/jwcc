@@ -37,7 +37,7 @@ export const { uploadFile, uploadFiles } = createS3UploadFlow({
     isDownload = false,
   }: {
     file: File
-    fieldChoice: PresignedRequestFieldChoiceEnumType
+    fieldChoice?: PresignedRequestFieldChoiceEnumType
     isDownload?: boolean
   }) => {
     const { name, type } = file

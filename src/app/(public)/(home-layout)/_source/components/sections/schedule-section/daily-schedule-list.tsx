@@ -24,6 +24,7 @@ const DailyScheduleList: React.FC<DailyScheduleListProps> = ({
     <Box
       position="relative"
       flex="1"
+      w={['full', 'auto']}
       pt="24px"
       display="flex"
       flexFlow="column nowrap"

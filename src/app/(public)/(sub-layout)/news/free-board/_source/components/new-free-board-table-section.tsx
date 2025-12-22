@@ -2,113 +2,75 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 
-import { Box } from '@chakra-ui/react/box'
-import { Table } from '@chakra-ui/react/table'
-
 import { format } from 'date-fns/format'
 
 import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
-import Pagination from '@/components/pagination'
+import Table, { type TableColumn } from '@/components/table'
 import { ROUTES } from '@/constants/routes'
+import {
+  BoardListParamsOrderingEnumType,
+  BoardType,
+} from '@/generated/apis/@types/data-contracts'
 import { useBoardListQuery } from '@/generated/apis/Board/Board.query'
 
 const LIMIT = 10
 
-// 컬럼 너비 비율 (원본 값)
-const COLUMN_WIDTHS = {
-  title: 72,
-  writer: 10,
-  createdAt: 12,
-  viewCount: 8,
-  commentCount: 8,
-  likeCount: 8,
-} as const
-
-// 총합 계산
-const TOTAL_WIDTH =
-  COLUMN_WIDTHS.title +
-  COLUMN_WIDTHS.writer +
-  COLUMN_WIDTHS.createdAt +
-  COLUMN_WIDTHS.viewCount +
-  COLUMN_WIDTHS.commentCount +
-  COLUMN_WIDTHS.likeCount
-
-// 100% 기준으로 정규화된 비율 계산
-const getWidthPercentage = (width: number) =>
-  `${((width / TOTAL_WIDTH) * 100).toFixed(2)}%`
-
-const tableHeaderStyles = {
-  h: '40px',
-  p: '0 10px',
-  textStyle: 'pre-caption-1',
-  color: 'grey.8',
-}
-const tableHeaders = [
+const columns: TableColumn<BoardType>[] = [
   {
+    key: 'title',
     label: '제목',
-    styles: {
-      ...tableHeaderStyles,
-      htmlWidth: getWidthPercentage(COLUMN_WIDTHS.title),
-      textAlign: 'left',
-    },
+    width: { type: 'flex', value: 72, minWidth: 200 },
+    textAlign: 'left',
+    render: (board) => board.title,
   },
   {
+    key: 'writer',
     label: '작성자',
-    styles: {
-      ...tableHeaderStyles,
-      htmlWidth: getWidthPercentage(COLUMN_WIDTHS.writer),
-      textAlign: 'center',
-    },
+    width: { type: 'fixed', value: 120 },
+    textAlign: 'center',
+    render: (board) => board.user.name,
   },
   {
+    key: 'createdAt',
     label: '작성일',
-    styles: {
-      ...tableHeaderStyles,
-      htmlWidth: getWidthPercentage(COLUMN_WIDTHS.createdAt),
-      textAlign: 'center',
-    },
+    width: { type: 'fixed', value: 120 },
+    textAlign: 'center',
+    render: (board) => format(new Date(board.createdAt), 'yyyy-MM-dd'),
   },
   {
+    key: 'viewCount',
     label: '조회수',
-    styles: {
-      ...tableHeaderStyles,
-      htmlWidth: getWidthPercentage(COLUMN_WIDTHS.viewCount),
-      textAlign: 'center',
-    },
+    width: { type: 'fixed', value: 80 },
+    textAlign: 'center',
+    render: (board) => board.hitCount.toLocaleString(),
   },
   {
+    key: 'commentCount',
     label: '댓글',
-    styles: {
-      ...tableHeaderStyles,
-      htmlWidth: getWidthPercentage(COLUMN_WIDTHS.commentCount),
-      textAlign: 'center',
-    },
+    width: { type: 'fixed', value: 80 },
+    textAlign: 'center',
+    render: (board) => board.commentCount.toLocaleString(),
   },
   {
+    key: 'likeCount',
     label: '좋아요',
-    styles: {
-      ...tableHeaderStyles,
-      htmlWidth: getWidthPercentage(COLUMN_WIDTHS.likeCount),
-      textAlign: 'center',
-    },
+    width: { type: 'fixed', value: 80 },
+    textAlign: 'center',
+    render: (board) => board.likeCount.toLocaleString(),
   },
 ]
-const tableBodyRowCellStyle = {
-  h: '64px',
-  p: '10px',
-  textStyle: 'pre-body-6',
-  color: 'grey.10',
-  textAlign: 'center',
-}
 
 const NewFreeBoardTableSection: React.FC = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const page = Number(searchParams.get('page') ?? 1)
+  const ordering = (searchParams.get('ordering') ??
+    '-created_at') as BoardListParamsOrderingEnumType
 
-  const handleClick = (id: number) => {
-    router.push(ROUTES.NEWS_FREE_BOARD_DETAIL(id))
+  const handleClick = (board: BoardType) => {
+    router.push(ROUTES.NEWS_FREE_BOARD_DETAIL(board.id))
   }
+
   const handlePageChange = (page: number) => {
     const newSearchParams = new URLSearchParams(searchParams)
     newSearchParams.set('page', page.toString())
@@ -121,6 +83,7 @@ const NewFreeBoardTableSection: React.FC = () => {
       query: {
         offset: (page - 1) * LIMIT,
         limit: LIMIT,
+        ordering: [ordering],
       },
     },
   })
@@ -130,76 +93,19 @@ const NewFreeBoardTableSection: React.FC = () => {
   if (!boards.results) return
 
   return (
-    <>
-      <Table.ScrollArea maxW="1200px">
-        <Table.Root size="sm" unstyled>
-          <Table.Header borderTop="1.5px solid" borderColor="grey.10">
-            <Table.Row borderBottom="1px solid" borderColor="border.basic.1">
-              {tableHeaders.map((header) => (
-                <Table.ColumnHeader key={header.label} {...header.styles}>
-                  {header.label}
-                </Table.ColumnHeader>
-              ))}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {boards.results.map((board) => (
-              <Table.Row
-                key={board.id}
-                borderBottom="1px solid"
-                borderColor="border.basic.1"
-                cursor="pointer"
-                onClick={() => handleClick(board.id)}
-                _hover={{
-                  bgColor: 'background.basic.2',
-                  '& > *:first-of-type': {
-                    textDecoration: 'underline',
-                  },
-                }}
-              >
-                <Table.Cell
-                  {...tableBodyRowCellStyle}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="flex-start"
-                >
-                  {board.title}
-                </Table.Cell>
-                <Table.Cell {...tableBodyRowCellStyle}>
-                  {board.user.name}
-                </Table.Cell>
-                <Table.Cell {...tableBodyRowCellStyle}>
-                  {format(new Date(board.createdAt), 'yyyy-MM-dd')}
-                </Table.Cell>
-                <Table.Cell {...tableBodyRowCellStyle}>
-                  {board.hitCount.toLocaleString()}
-                </Table.Cell>
-                <Table.Cell {...tableBodyRowCellStyle}>
-                  {board.commentCount.toLocaleString()}
-                </Table.Cell>
-                <Table.Cell {...tableBodyRowCellStyle}>
-                  {board.likeCount.toLocaleString()}
-                </Table.Cell>
-              </Table.Row>
-            ))}
-
-            {boards.results.length === 0 && (
-              <EmptySection colSpan={tableHeaders.length} />
-            )}
-          </Table.Body>
-        </Table.Root>
-      </Table.ScrollArea>
-
-      <Box py="24px" display="flex" justifyContent="center">
-        <Pagination
-          size="sm"
-          count={boards.count ?? 0}
-          pageSize={LIMIT}
-          defaultPage={page ? Number(page) : 1}
-          onPageChange={(details) => handlePageChange(details.page)}
-        />
-      </Box>
-    </>
+    <Table
+      columns={columns}
+      data={boards.results}
+      getRowKey={(board) => board.id}
+      onRowClick={handleClick}
+      pagination={{
+        totalCount: boards.count ?? 0,
+        pageSize: LIMIT,
+        currentPage: page,
+        onPageChange: handlePageChange,
+      }}
+      emptyContent={<EmptySection colSpan={columns.length} />}
+    />
   )
 }
 

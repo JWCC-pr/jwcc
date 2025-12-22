@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Box } from '@chakra-ui/react/box'
 import { Link } from '@chakra-ui/react/link'
@@ -106,6 +106,43 @@ const MotionBox = motion(Box)
 
 const QuickMenuSection: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [shouldCenter, setShouldCenter] = useState(true)
+  const containerRef = useRef<HTMLUListElement>(null)
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    const checkScroll = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.clientWidth
+        const contentWidth = containerRef.current.scrollWidth
+        setShouldCenter(contentWidth <= containerWidth)
+      }
+    }
+
+    // 초기 체크 (렌더링 완료 후)
+    requestAnimationFrame(() => {
+      setTimeout(checkScroll, 0)
+    })
+
+    // 리사이즈 이벤트 리스너
+    window.addEventListener('resize', checkScroll)
+
+    // MutationObserver로 컨텐츠 변경 감지
+    const observer = new MutationObserver(checkScroll)
+    if (containerRef.current) {
+      observer.observe(containerRef.current, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+      })
+    }
+
+    return () => {
+      window.removeEventListener('resize', checkScroll)
+      observer.disconnect()
+    }
+  }, [isOpen])
 
   return (
     <Box position="fixed" bottom="0" left="0" right="0" zIndex="1000">
@@ -189,10 +226,19 @@ const QuickMenuSection: React.FC = () => {
 
             <Box
               as="ul"
+              ref={containerRef}
               p="12px 40px"
               display="flex"
-              justifyContent="center"
+              justifyContent={shouldCenter ? 'center' : 'flex-start'}
               gap="10px"
+              overflowX="auto"
+              css={{
+                '&::-webkit-scrollbar': {
+                  display: 'none',
+                },
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+              }}
             >
               {QuickMenuItems.map((item) => (
                 <Link
@@ -202,6 +248,7 @@ const QuickMenuSection: React.FC = () => {
                     rel: 'noopener noreferrer',
                   })}
                   key={item.label}
+                  flexShrink="0"
                   p="12px"
                   w="140px"
                   display="flex"

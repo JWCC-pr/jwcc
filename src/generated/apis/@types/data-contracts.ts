@@ -938,7 +938,7 @@ export interface PresignedRequestType {
    * * `banner.Banner.image` - 이미지
    * * `pastoral_guidelines.PastoralGuidelines.image` - 이미지
    */
-  fieldChoice: PresignedRequestFieldChoiceEnumType
+  fieldChoice?: PresignedRequestFieldChoiceEnumType
   /** @minLength 1 */
   fileName: string
   isDownload: boolean
@@ -1062,6 +1062,10 @@ export interface UserLoginRequestType {
 export interface UserPasswordResetType {
   /** @format email */
   email: string
+}
+
+export interface UserPasswordResetConfirmType {
+  uid: string
 }
 
 export interface UserPasswordResetConfirmErrorMessageType {

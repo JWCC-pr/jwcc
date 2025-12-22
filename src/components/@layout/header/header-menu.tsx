@@ -26,18 +26,22 @@ interface HeaderMenuProps extends LinkProps {
   href: string
   hasHoveredNav: boolean
   isScrolled?: boolean
+  matchPaths?: string[]
 }
 
 const HeaderMenu: React.FC<HeaderMenuProps> = ({
   children,
   hasHoveredNav,
   isScrolled,
+  matchPaths,
   ...props
 }) => {
   const pathname = usePathname()
   const [isHovered, setIsHovered] = useState(false)
 
-  const isActive = matchingPath([props.href], pathname)
+  const pathsToMatch =
+    matchPaths && matchPaths.length > 0 ? matchPaths : [props.href]
+  const isActive = matchingPath(pathsToMatch, pathname)
   const showUnderline = isHovered || isActive
 
   return (
@@ -67,12 +71,14 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({
 
       {/* underline animation */}
       <MotionBox
-        initial={{ scaleX: 0 }}
+        key={isActive ? 'active' : 'inactive'}
+        initial={{ scaleX: isActive ? 1 : 0 }}
         animate={{ scaleX: showUnderline ? 1 : 0 }}
-        transition={{
-          duration: 0.3,
-          ease: [0.4, 0, 0.2, 1],
-        }}
+        transition={
+          isActive && !isHovered ?
+            { duration: 0 }
+          : { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+        }
         zIndex="1002"
         position="absolute"
         bottom="-1px"

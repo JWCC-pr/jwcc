@@ -10,26 +10,23 @@ import { ArrowRightIcon } from '@phosphor-icons/react'
 import { format } from 'date-fns/format'
 
 import { ROUTES } from '@/constants/routes'
-import { useNewsListQuery } from '@/generated/apis/News/News.query'
+import { useNewsLatestRetrieveQuery } from '@/generated/apis/News/News.query'
 
 const NewsSection: React.FC = () => {
-  const { data: news } = useNewsListQuery({
-    variables: {
-      query: {
-        offset: 0,
-        limit: 1,
-      },
-    },
-  })
+  const { data: news } = useNewsLatestRetrieveQuery({})
 
   // FIXME: 스켈레톤 UI 추가
   if (!news) return null
-  if (!news.results) return null
 
-  const targetNews = news.results[0]
+  const targetNews = news
 
   return (
-    <Box flex="1" display="flex" flexFlow="column nowrap" gap="40px">
+    <Box
+      flex="1"
+      display="flex"
+      flexFlow="column nowrap"
+      gap={['24px', '40px']}
+    >
       <Box
         py="10px"
         display="flex"

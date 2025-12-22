@@ -79,28 +79,37 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               position="relative"
               alignItems="center"
             >
-              {NAV_ITEMS.map((item, index) => (
-                <Box
-                  key={item.label}
-                  position="relative"
-                  onMouseEnter={() => setHoveredNavIndex(index)}
-                  onMouseLeave={() => {
-                    if (hasHoveredNav) return
+              {NAV_ITEMS.map((item, index) => {
+                // 각 메인 메뉴의 모든 하위 경로를 수집
+                const matchPaths =
+                  item.subItems
+                    ?.map((subItem) => subItem.href)
+                    .filter((href): href is string => !!href) || []
 
-                    setHoveredNavIndex(null)
-                  }}
-                >
-                  <HeaderMenu
-                    href={item.href || '#'}
+                return (
+                  <Box
+                    key={item.label}
                     position="relative"
-                    transition="color 0.2s"
-                    hasHoveredNav={hasHoveredNav}
-                    isScrolled={isScrolled}
+                    onMouseEnter={() => setHoveredNavIndex(index)}
+                    onMouseLeave={() => {
+                      if (hasHoveredNav) return
+
+                      setHoveredNavIndex(null)
+                    }}
                   >
-                    {item.label}
-                  </HeaderMenu>
-                </Box>
-              ))}
+                    <HeaderMenu
+                      href={item.href || '#'}
+                      position="relative"
+                      transition="color 0.2s"
+                      hasHoveredNav={hasHoveredNav}
+                      isScrolled={isScrolled}
+                      matchPaths={matchPaths}
+                    >
+                      {item.label}
+                    </HeaderMenu>
+                  </Box>
+                )
+              })}
             </Box>
 
             <HeaderUserMenu isScrolled={isScrolled} />
