@@ -274,13 +274,11 @@ const NewsBullentinDetailPdfSection: React.FC<
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 dragMomentum={false}
+                bgColor="background.basic.2"
               >
                 {numPages &&
                   Array.from(new Array(numPages), (_, index) => {
                     const pageIndex = index + 1
-                    // 현재 페이지와 뒤 3페이지만 렌더링 (미리 로드)
-                    const shouldRender =
-                      pageIndex >= pageNumber && pageIndex <= pageNumber + 3
 
                     return (
                       <Box
@@ -294,51 +292,47 @@ const NewsBullentinDetailPdfSection: React.FC<
                         position="relative"
                         overflow="hidden"
                       >
-                        {
-                          shouldRender ?
-                            <Box
-                              w="100%"
-                              h="100%"
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                              css={{
-                                '& > .react-pdf__Page': {
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                },
-                                '& > .react-pdf__Page > canvas': {
-                                  maxWidth: '100%',
-                                  maxHeight: '100%',
-                                  width: 'auto !important',
-                                  height: 'auto !important',
-                                  objectFit: 'contain',
-                                },
-                              }}
-                            >
-                              <Page
-                                pageNumber={pageIndex}
-                                renderTextLayer={false}
-                                renderAnnotationLayer={false}
-                                height={containerHeight}
-                                loading={
-                                  <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    h="100%"
-                                  >
-                                    <Text textStyle="pre-body-4" color="grey.7">
-                                      페이지 로딩 중...
-                                    </Text>
-                                  </Box>
-                                }
-                              />
-                            </Box>
-                            // Placeholder to maintain layout
-                          : <Box w="100%" h="100%" />
-                        }
+                        <Box
+                          w="100%"
+                          h="100%"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          bgColor="background.basic.2"
+                          css={{
+                            '& > .react-pdf__Page': {
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            },
+                            '& > .react-pdf__Page > canvas': {
+                              maxWidth: '100%',
+                              maxHeight: '100%',
+                              width: 'auto !important',
+                              height: 'auto !important',
+                              objectFit: 'contain',
+                            },
+                          }}
+                        >
+                          <Page
+                            pageNumber={pageIndex}
+                            renderTextLayer={false}
+                            renderAnnotationLayer={false}
+                            height={containerHeight}
+                            loading={
+                              <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                h="100%"
+                              >
+                                <Text textStyle="pre-body-4" color="grey.7">
+                                  페이지 로딩 중...
+                                </Text>
+                              </Box>
+                            }
+                          />
+                        </Box>
                       </Box>
                     )
                   })}
