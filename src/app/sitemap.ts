@@ -21,9 +21,18 @@ const DEFAULT_SITEMAP = {
 // 동적으로 사이트맵 생성
 export const dynamic = 'force-dynamic'
 
+const excludeRoutes: (typeof ROUTES)[keyof typeof ROUTES][] = [
+  ROUTES.FORGOT_PASSWORD,
+  ROUTES.FORGOT_PASSWORD_COMPLETE,
+  ROUTES.RESET_PASSWORD,
+  ROUTES.RESET_PASSWORD_COMPLETE,
+  ROUTES.SIGNUP_COMPLETE,
+]
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = Object.values(ROUTES)
     .filter((route) => typeof route !== 'function')
+    .filter((route) => !excludeRoutes.includes(route))
     .map((route) => ({
       url: `${BASE_URL}${route}`,
       ...DEFAULT_SITEMAP,

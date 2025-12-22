@@ -1,6 +1,12 @@
-import type { NextPage } from 'next'
+import type { Metadata, NextPage } from 'next'
+
+import { getSharedMetadata } from '@/utils/metadata/shared-metadata'
 
 import NewsDocumentDetailPage from './_source/components/news-document-detail-page'
+
+export const metadata: Metadata = getSharedMetadata({
+  title: '자료실 상세',
+})
 
 interface PageProps {
   params: Promise<{

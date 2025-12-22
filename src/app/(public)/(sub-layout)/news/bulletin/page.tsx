@@ -1,8 +1,14 @@
 import { Suspense } from 'react'
 
-import { NextPage } from 'next'
+import { Metadata, NextPage } from 'next'
+
+import { getSharedMetadata } from '@/utils/metadata/shared-metadata'
 
 import NewsBulletinPage from './_source/components/news-bulletin-page'
+
+export const metadata: Metadata = getSharedMetadata({
+  title: '주보',
+})
 
 const Page: NextPage = () => {
   return (

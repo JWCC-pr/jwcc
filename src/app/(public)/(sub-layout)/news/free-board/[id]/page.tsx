@@ -1,6 +1,12 @@
-import type { NextPage } from 'next'
+import type { Metadata, NextPage } from 'next'
+
+import { getSharedMetadata } from '@/utils/metadata/shared-metadata'
 
 import NewFreeBoardDetailPage from './_source/components/new-free-board-detail-page'
+
+export const metadata: Metadata = getSharedMetadata({
+  title: '자유게시판 상세',
+})
 
 interface PageProps {
   params: Promise<{ id: string }>
