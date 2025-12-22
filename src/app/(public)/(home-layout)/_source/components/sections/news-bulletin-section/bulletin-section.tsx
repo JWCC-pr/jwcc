@@ -27,7 +27,13 @@ const BulletinSection: React.FC = () => {
   const targetBulletin = bulletin.results[0]
 
   return (
-    <Box w="330px" display="flex" flexFlow="column nowrap" gap="40px">
+    <Box
+      flex={['1', '1', 'initial']}
+      w={['full', '330px']}
+      display="flex"
+      flexFlow="column nowrap"
+      gap={['24px', '40px']}
+    >
       <Box
         py="10px"
         display="flex"

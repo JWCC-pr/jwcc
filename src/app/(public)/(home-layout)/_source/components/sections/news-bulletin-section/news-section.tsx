@@ -29,7 +29,12 @@ const NewsSection: React.FC = () => {
   const targetNews = news.results[0]
 
   return (
-    <Box flex="1" display="flex" flexFlow="column nowrap" gap="40px">
+    <Box
+      flex="1"
+      display="flex"
+      flexFlow="column nowrap"
+      gap={['24px', '40px']}
+    >
       <Box
         py="10px"
         display="flex"

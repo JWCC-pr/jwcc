@@ -25,7 +25,8 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
   return (
     <Box
       ref={calendarSectionRef}
-      w="480px"
+      w="full"
+      maxW={['initial', '480px']}
       display="flex"
       flexFlow="column nowrap"
     >

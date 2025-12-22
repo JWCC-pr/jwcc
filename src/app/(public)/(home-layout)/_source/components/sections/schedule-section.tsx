@@ -109,7 +109,7 @@ const ScheduleSection: React.FC = () => {
       flexFlow="column nowrap"
       justifyContent="center"
       alignItems="center"
-      gap="40px"
+      gap={['24px', '40px']}
     >
       <Box py="10px" w="full" display="flex" alignItems="center" gap="10px">
         <Text flex="1" textStyle="pre-heading-1" color="grey.10">
@@ -133,8 +133,8 @@ const ScheduleSection: React.FC = () => {
 
         <Box
           display="flex"
-          flexFlow="row nowrap"
-          gap="40px"
+          flexFlow={['column nowrap', 'row nowrap']}
+          gap={['10px', '40px']}
           alignItems="flex-start"
         >
           <MonthCalendar
