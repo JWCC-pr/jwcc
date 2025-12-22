@@ -10,18 +10,11 @@ import { ArrowRightIcon } from '@phosphor-icons/react'
 import { format } from 'date-fns/format'
 
 import { ROUTES } from '@/constants/routes'
-import { useNewsListQuery } from '@/generated/apis/News/News.query'
+import { useNewsLatestRetrieveQuery } from '@/generated/apis/News/News.query'
 import { useWeeklyBulletinListQuery } from '@/generated/apis/WeeklyBulletin/WeeklyBulletin.query'
 
 const NewsBulletinSection: React.FC = () => {
-  const { data: news } = useNewsListQuery({
-    variables: {
-      query: {
-        offset: 0,
-        limit: 1,
-      },
-    },
-  })
+  const { data: news } = useNewsLatestRetrieveQuery({})
 
   const { data: bulletin } = useWeeklyBulletinListQuery({
     variables: {
@@ -34,13 +27,12 @@ const NewsBulletinSection: React.FC = () => {
 
   // FIXME: 스켈레톤 UI 추가
   if (!news) return null
-  if (!news.results) return null
 
   // FIXME: 스켈레톤 UI 추가
   if (!bulletin) return null
   if (!bulletin.results) return null
 
-  const targetNews = news.results[0]
+  const targetNews = news
   const targetBulletin = bulletin.results[0]
 
   return (
