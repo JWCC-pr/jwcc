@@ -232,12 +232,12 @@ const AboutEventSchedulePage: React.FC = () => {
                   overflow="hidden"
                 >
                   <Text
-                    w="28px"
-                    h="28px"
+                    w={['18px', '28px']}
+                    h={['18px', '28px']}
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
-                    textStyle="cat-body-3"
+                    textStyle={['cat-caption-2', 'cat-body-3']}
                     color="grey.10"
                     flexShrink={0}
                     {...(dayInfo.isSunday && { color: 'accent.red2' })}

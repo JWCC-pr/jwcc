@@ -55,8 +55,17 @@
   }
 
   p {
+    color: #1b1c1d;
+
     margin: 0;
     margin-bottom: 8px;
+
+    font-family: 'Pretendard Variable';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%;
+    letter-spacing: -0.32px;
 
     &:last-child {
       margin-bottom: 0;
@@ -71,5 +80,10 @@
   i,
   em {
     font-style: italic;
+  }
+
+  a {
+    color: #1d7afc;
+    text-decoration: underline;
   }
 }

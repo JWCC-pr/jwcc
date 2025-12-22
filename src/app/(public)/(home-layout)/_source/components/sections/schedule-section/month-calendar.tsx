@@ -96,12 +96,12 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
               }}
             >
               <Text
-                w="28px"
+                w={['18px', '28px']}
                 aspectRatio="1/1"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                textStyle="cat-body-3"
+                textStyle={['cat-caption-2', 'cat-body-3']}
                 color="grey.10"
                 {...(dayInfo.isSunday && { color: 'accent.red2' })}
                 {...(dayInfo.isToday && {
