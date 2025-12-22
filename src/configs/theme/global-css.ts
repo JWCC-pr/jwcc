@@ -29,6 +29,8 @@ export const globalCss = defineGlobalStyles({
     '--global-font-mono': 'fonts.mono',
     '--global-font-body': 'fonts.body',
     '--global-color-border': 'colors.border',
+
+    outline: 'none !important',
   },
   html: {
     color: 'fg',
