@@ -6,6 +6,7 @@ import {
   UserLoginType,
   UserPasswordResetConfirmErrorMessageType,
   UserPasswordResetConfirmRequestType,
+  UserPasswordResetConfirmType,
   UserPasswordResetErrorMessageType,
   UserPasswordResetRequestType,
   UserPasswordResetType,
@@ -90,7 +91,7 @@ export class UserApi<
     params?: RequestParams
   }) =>
     this.request<
-      void,
+      UserPasswordResetConfirmType,
       UserPasswordResetConfirmErrorMessageType | CommonErrorType
     >({
       path: `/v1/user/password_reset_confirm/`,
@@ -98,6 +99,7 @@ export class UserApi<
       body: variables.data,
       secure: true,
       type: ContentType.Json,
+      format: 'json',
       ...variables.params,
     }) /**
    * No description

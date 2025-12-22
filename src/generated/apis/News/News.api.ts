@@ -69,6 +69,23 @@ export class NewsApi<
    * No description
    *
    * @tags news
+   * @name NewsLatestRetrieve
+   * @summary 최신 News 1건 조회 (비로그인 허용)
+   * @request GET:/v1/news/latest/
+   * @secure
+   */
+
+  newsLatestRetrieve = (variables?: { params?: RequestParams }) =>
+    this.request<NewsType, CommonErrorType>({
+      path: `/v1/news/latest/`,
+      method: 'GET',
+      secure: true,
+      format: 'json',
+      ...variables?.params,
+    }) /**
+   * No description
+   *
+   * @tags news
    * @name NewsRetrieve
    * @summary News 상세 조회
    * @request GET:/v1/news/{id}/

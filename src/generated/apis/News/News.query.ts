@@ -42,6 +42,8 @@ export const QUERY_KEY_NEWS_API = {
   LIST_INFINITE: (variables?: Parameter<typeof newsApi.newsList>) =>
     ['NEWS_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['NEWS_CREATE'],
+  LATEST_RETRIEVE: (variables?: Parameter<typeof newsApi.newsLatestRetrieve>) =>
+    ['NEWS_LATEST_RETRIEVE', variables].filter(isDefined),
   RETRIEVE: (variables?: Parameter<typeof newsApi.newsRetrieve>) =>
     ['NEWS_RETRIEVE', variables].filter(isDefined),
   UPDATE: () => ['NEWS_UPDATE'],
@@ -134,6 +136,32 @@ export const useNewsCreateMutation = (
   return useMutation({
     mutationKey,
     mutationFn: newsApi.newsCreate,
+    ...params?.options,
+  })
+}
+
+/**
+ * No description
+ *
+ * @tags news
+ * @name NewsLatestRetrieve
+ * @summary 최신 News 1건 조회 (비로그인 허용)
+ * @request GET:/v1/news/latest/
+ * @secure    */
+
+export const useNewsLatestRetrieveQuery = <
+  TData = RequestFnReturn<typeof newsApi.newsLatestRetrieve>,
+>(
+  params?: QueryHookParams<
+    typeof newsApi.newsLatestRetrieve,
+    { error: CommonErrorType },
+    TData
+  >,
+) => {
+  const queryKey = QUERY_KEY_NEWS_API.LATEST_RETRIEVE(params?.variables)
+  return useQuery({
+    queryKey,
+    queryFn: () => newsApi.newsLatestRetrieve(params?.variables),
     ...params?.options,
   })
 }
