@@ -43,7 +43,7 @@ const NewsBulletinSection: React.FC = () => {
       maxW="1280px"
       mx="auto"
       minH="100vh"
-      p="64px 40px"
+      p={['64px 20px', '64px 40px']}
       display="flex"
       flexFlow="column nowrap"
       alignItems="center"

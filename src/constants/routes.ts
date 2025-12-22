@@ -4,11 +4,11 @@ export const ROUTES = {
   // ================================ 인증 관련 라우트 ================================
   LOGIN: `/login`,
   SIGNUP: `/signup`,
-  SIGNUP_COMPLETE: `/signup-complete`,
+  SIGNUP_COMPLETE: `/signup/complete`,
   FORGOT_PASSWORD: `/forgot-password`,
-  FORGOT_PASSWORD_COMPLETE: `/forgot-password-complete`,
+  FORGOT_PASSWORD_COMPLETE: `/forgot-password/complete`,
   RESET_PASSWORD: `/reset-password`,
-  RESET_PASSWORD_COMPLETE: `/reset-password-complete`,
+  RESET_PASSWORD_COMPLETE: `/reset-password/complete`,
 
   // ================================ 본당 소개 관련 라우트 ================================
   /** 본당 소개 */

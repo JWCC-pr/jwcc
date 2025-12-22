@@ -13,7 +13,7 @@ const NoticeAndMassSection: React.FC = () => {
       maxW="1280px"
       mx="auto"
       h="100vh"
-      p="64px 40px"
+      p={['64px 20px', '64px 40px']}
       display="flex"
       justifyContent="center"
       alignItems="center"

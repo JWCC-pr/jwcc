@@ -45,7 +45,7 @@ const NewsPassingNoticeTopSection: React.FC = () => {
       </Box>
 
       <Box
-        p="20px 40px"
+        p={['20px 40px', '20px 16px']}
         display="flex"
         gap="10px"
         bgColor="background.basic.2"

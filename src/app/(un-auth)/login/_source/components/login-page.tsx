@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
       </Text>
       <LoginForm />
       <Box display="flex" gap="10px" alignItems="center">
-        <Box w="72.5px" h="1px" bgColor="border.basic.2" />
+        <Box w={['51.5px', '72.5px']} h="1px" bgColor="border.basic.2" />
         <Box display="flex" alignItems="center">
           <Text textStyle="pre-body-6" color="grey.7">
             아직 회원이 아니신가요?
@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
             </Button>
           </Link>
         </Box>
-        <Box w="72.5px" h="1px" bgColor="border.basic.2" />
+        <Box w={['51.5px', '72.5px']} h="1px" bgColor="border.basic.2" />
       </Box>
     </Box>
   )
