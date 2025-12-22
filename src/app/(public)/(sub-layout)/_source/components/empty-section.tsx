@@ -1,14 +1,15 @@
-import { Box } from '@chakra-ui/react/box'
+import { Box, BoxProps } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
 import { EmptyCDoveIcon } from '@/generated/icons/MyIcons'
 
-interface EmptySectionProps {
+interface EmptySectionProps extends BoxProps {
   title?: string
 }
 
 const EmptySection: React.FC<EmptySectionProps> = ({
   title = '등록된 게시글이 없습니다.',
+  ...props
 }) => {
   return (
     <Box
@@ -20,6 +21,7 @@ const EmptySection: React.FC<EmptySectionProps> = ({
       alignItems="center"
       borderBlock="1px solid"
       borderColor="border.basic.1"
+      {...props}
     >
       <EmptyCDoveIcon w="64px" h="64px" />
       <Text textStyle="pre-body-6" color="grey.6">
