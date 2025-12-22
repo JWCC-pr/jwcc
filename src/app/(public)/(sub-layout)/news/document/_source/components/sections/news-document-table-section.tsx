@@ -7,6 +7,7 @@ import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns/format'
 
+import TableEmptySection from '@/app/(public)/(sub-layout)/_source/components/table-empty-section'
 import FileDown from '@/components/file-down'
 import Table, { type TableColumn } from '@/components/table'
 import { ROUTES } from '@/constants/routes'
@@ -97,7 +98,9 @@ const NewsDocumentTableSection: React.FC = () => {
         onPageChange: handlePageChange,
       }}
       emptyContent={
-        isNoSearchResult ? <NewsDocumentNoSearchSection /> : undefined
+        isNoSearchResult ?
+          <NewsDocumentNoSearchSection colSpan={columns.length} />
+        : <TableEmptySection colSpan={columns.length} />
       }
     />
   )

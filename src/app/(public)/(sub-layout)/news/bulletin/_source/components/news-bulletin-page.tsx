@@ -9,6 +9,7 @@ import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns/format'
 
+import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import Pagination from '@/components/pagination'
 import { ROUTES } from '@/constants/routes'
 import { useWeeklyBulletinListQuery } from '@/generated/apis/WeeklyBulletin/WeeklyBulletin.query'
@@ -36,6 +37,9 @@ const NewsBulletinPage: React.FC = () => {
     },
   })
 
+  if (!bulletins) return null
+  if (!bulletins.results) return null
+
   return (
     <Box display="flex" flexDirection="column">
       <Box
@@ -46,7 +50,7 @@ const NewsBulletinPage: React.FC = () => {
         borderTop="1.5px solid"
         borderTopColor="grey.10"
       >
-        {bulletins?.results?.map((bulletin) => {
+        {bulletins.results.map((bulletin) => {
           const thumbnail = bulletin.thumbnail
 
           return (
@@ -91,6 +95,8 @@ const NewsBulletinPage: React.FC = () => {
           )
         })}
       </Box>
+
+      {bulletins.results.length === 0 && <EmptySection />}
 
       <Box py="24px" display="flex" justifyContent="center">
         <Pagination

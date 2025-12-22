@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 import { format } from 'date-fns/format'
 
-import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
+import TableEmptySection from '@/app/(public)/(sub-layout)/_source/components/table-empty-section'
 import Table, { type TableColumn } from '@/components/table'
 import { ROUTES } from '@/constants/routes'
 import {
@@ -104,7 +104,7 @@ const NewFreeBoardTableSection: React.FC = () => {
         currentPage: page,
         onPageChange: handlePageChange,
       }}
-      emptyContent={<EmptySection colSpan={columns.length} />}
+      emptyContent={<TableEmptySection colSpan={columns.length} />}
     />
   )
 }

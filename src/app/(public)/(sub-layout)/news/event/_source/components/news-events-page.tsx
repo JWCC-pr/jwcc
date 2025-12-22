@@ -9,6 +9,7 @@ import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns/format'
 
+import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import Pagination from '@/components/pagination'
 import { ROUTES } from '@/constants/routes'
 import { useNewsListQuery } from '@/generated/apis/News/News.query'
@@ -38,6 +39,7 @@ const NewsEventsPage: React.FC = () => {
 
   // FIXME: 스켈레톤 UI, 빈 데이터 UI 추가
   if (!news) return null
+  if (!news.results) return null
 
   return (
     <Box>
@@ -53,7 +55,7 @@ const NewsEventsPage: React.FC = () => {
         borderTop="1.5px solid"
         borderTopColor="grey.10"
       >
-        {news?.results?.map((news) => (
+        {news.results.map((news) => (
           <Link
             key={news.id}
             href={ROUTES.NEWS_EVENT_DETAIL(news.id)}
@@ -89,6 +91,8 @@ const NewsEventsPage: React.FC = () => {
           </Link>
         ))}
       </Box>
+
+      {news.results.length === 0 && <EmptySection />}
 
       <Box py="24px" display="flex" justifyContent="center">
         <Pagination
