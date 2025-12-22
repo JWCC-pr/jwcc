@@ -6,7 +6,7 @@ import { ROUTES } from '@/constants/routes'
 
 const NewsBullentinDetailBottonSection: React.FC = () => {
   return (
-    <Box py="16px">
+    <Box py="16px" display="flex" justifyContent="center">
       <Link href={ROUTES.NEWS_BULLETIN} _hover={{ textDecoration: 'none' }}>
         <Button size="md" variant="outline" colorPalette="grey">
           목록으로
