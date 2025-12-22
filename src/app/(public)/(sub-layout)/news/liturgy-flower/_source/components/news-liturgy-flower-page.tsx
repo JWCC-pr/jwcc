@@ -11,6 +11,7 @@ import { ImageIcon } from '@phosphor-icons/react'
 
 import { format } from 'date-fns/format'
 
+import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import Pagination from '@/components/pagination'
 import { ROUTES } from '@/constants/routes'
 import { useLiturgyFlowerListQuery } from '@/generated/apis/LiturgyFlower/LiturgyFlower.query'
@@ -42,6 +43,9 @@ const NewsLiturgyFlowerPage: React.FC = () => {
       },
     },
   })
+
+  if (!liturgyFlowerList) return null
+  if (!liturgyFlowerList.results) return null
 
   return (
     <Box display="flex" flexDirection="column">
@@ -76,7 +80,7 @@ const NewsLiturgyFlowerPage: React.FC = () => {
         borderTop="1.5px solid"
         borderTopColor="grey.10"
       >
-        {liturgyFlowerList?.results?.map((liturgyFlower) => {
+        {liturgyFlowerList.results.map((liturgyFlower) => {
           const thumbnail = liturgyFlower.imageSet[0].image
 
           return (
@@ -131,10 +135,12 @@ const NewsLiturgyFlowerPage: React.FC = () => {
         })}
       </Box>
 
+      {liturgyFlowerList.results.length === 0 && <EmptySection />}
+
       <Box py="24px" display="flex" justifyContent="center">
         <Pagination
           size="sm"
-          count={liturgyFlowerList?.count || 1}
+          count={liturgyFlowerList.count || 1}
           pageSize={LIMIT}
           defaultPage={page ? Number(page) : 1}
           onPageChange={(details) => handlePageChange(details.page)}

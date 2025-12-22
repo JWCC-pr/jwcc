@@ -9,6 +9,7 @@ import { ArrowRightIcon } from '@phosphor-icons/react'
 
 import { format } from 'date-fns/format'
 
+import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import { ROUTES } from '@/constants/routes'
 import { useNewsLatestRetrieveQuery } from '@/generated/apis/News/News.query'
 import { useWeeklyBulletinListQuery } from '@/generated/apis/WeeklyBulletin/WeeklyBulletin.query'
@@ -42,7 +43,7 @@ const NewsBulletinSection: React.FC = () => {
       maxW="1280px"
       mx="auto"
       minH="100vh"
-      p="64px 40px"
+      p={['64px 20px', '64px 40px']}
       display="flex"
       flexFlow="column nowrap"
       alignItems="center"
@@ -90,83 +91,103 @@ const NewsBulletinSection: React.FC = () => {
         </Box>
       </Box>
 
-      <Box display="flex" gap={['24px', '40px']} alignItems="flex-start">
-        <Link
-          flex="1"
-          href={ROUTES.NEWS_EVENT_DETAIL(targetNews.id)}
-          display="flex"
-          flexFlow="column nowrap"
-          alignItems="flex-start"
-          gap="2px"
-          _hover={{
-            textDecoration: 'none',
-            '& .news-image-container': {
-              boxShadow: 'shadow-center',
-            },
-          }}
-        >
-          <Box
-            as="figure"
-            className="news-image-container"
+      <Box
+        w="full"
+        display="flex"
+        gap={['24px', '40px']}
+        alignItems="flex-start"
+      >
+        {targetNews ?
+          <Link
             flex="1"
-            minH="0"
-            border="1px solid"
-            borderColor="border.basic.1"
-            rounded="6px"
-            boxShadow="shadow-bottom"
-            overflow="hidden"
+            href={ROUTES.NEWS_EVENT_DETAIL(targetNews.id)}
             display="flex"
+            flexFlow="column nowrap"
+            alignItems="flex-start"
+            gap="2px"
+            _hover={{
+              textDecoration: 'none',
+              '& .news-image-container': {
+                boxShadow: 'shadow-center',
+              },
+            }}
           >
-            <Image
-              src={targetNews.thumbnail}
-              alt="본당 소식 이미지"
-              aspectRatio="16/9"
-              objectFit="cover"
-              objectPosition="center"
-            />
-          </Box>
-          <Box py="12px">
-            <Text textStyle="pre-heading-3" color="grey.10" lineClamp="1">
-              {targetNews.title}
-            </Text>
-            <Text textStyle="pre-caption-2" color="grey.7">
-              {format(new Date(targetNews.createdAt), 'yyyy-MM-dd')}
-            </Text>
-          </Box>
-        </Link>
+            <Box
+              as="figure"
+              className="news-image-container"
+              flex="1"
+              minH="0"
+              border="1px solid"
+              borderColor="border.basic.1"
+              rounded="6px"
+              boxShadow="shadow-bottom"
+              overflow="hidden"
+              display="flex"
+            >
+              <Image
+                src={targetNews.thumbnail}
+                alt="본당 소식 이미지"
+                aspectRatio="16/9"
+                objectFit="cover"
+                objectPosition="center"
+              />
+            </Box>
+            <Box py="12px">
+              <Text textStyle="pre-heading-3" color="grey.10" lineClamp="1">
+                {targetNews.title}
+              </Text>
+              <Text textStyle="pre-caption-2" color="grey.7">
+                {format(new Date(targetNews.createdAt), 'yyyy-MM-dd')}
+              </Text>
+            </Box>
+          </Link>
+        : <EmptySection
+            flex="1"
+            h="388px"
+            title="등록된 본당 소식이 없습니다."
+          />
+        }
 
-        <Link
-          flex={['1', '1', 'initial']}
-          w={['full', '330px']}
-          href={ROUTES.NEWS_BULLETIN_DETAIL(targetBulletin.id)}
-          _hover={{
-            textDecoration: 'none',
-            '& .bulletin-image-container': {
-              boxShadow: 'shadow-center',
-            },
-          }}
-        >
-          <Box
-            as="figure"
-            className="bulletin-image-container"
-            flex="1"
-            minH="0"
-            border="1px solid"
-            borderColor="border.basic.1"
-            rounded="6px"
-            boxShadow="shadow-bottom"
-            overflow="hidden"
-            display="flex"
+        {targetBulletin ?
+          <Link
+            flex={['1', '1', 'initial']}
+            w={['full', '330px']}
+            href={ROUTES.NEWS_BULLETIN_DETAIL(targetBulletin.id)}
+            _hover={{
+              textDecoration: 'none',
+              '& .bulletin-image-container': {
+                boxShadow: 'shadow-center',
+              },
+            }}
           >
-            <Image
-              src={targetBulletin.thumbnail}
-              alt="bulletin"
-              aspectRatio="4/5"
-              objectFit="fill"
-              objectPosition="center"
-            />
-          </Box>
-        </Link>
+            <Box
+              as="figure"
+              className="bulletin-image-container"
+              flex="1"
+              minH="0"
+              border="1px solid"
+              borderColor="border.basic.1"
+              rounded="6px"
+              boxShadow="shadow-bottom"
+              overflow="hidden"
+              display="flex"
+            >
+              <Image
+                src={targetBulletin.thumbnail}
+                alt="bulletin"
+                aspectRatio="4/5"
+                objectFit="fill"
+                objectPosition="center"
+              />
+            </Box>
+          </Link>
+        : <EmptySection
+            flex={['1', '1', 'initial']}
+            w={['full', '330px']}
+            h="388px"
+            title="등록된 주보가 없습니다."
+          />
+        }
       </Box>
     </Box>
   )

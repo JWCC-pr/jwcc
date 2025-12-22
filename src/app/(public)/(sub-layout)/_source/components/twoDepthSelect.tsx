@@ -75,7 +75,12 @@ const TwoDepthSelect: React.FC<TwoDepthSelectProps> = ({ options }) => {
         </ChakraSelect.Control>
         <Portal>
           <ChakraSelect.Positioner>
-            <ChakraSelect.Content maxH="200px" maxW="400px" minW="fit-content">
+            <ChakraSelect.Content
+              maxH="200px"
+              w="180px"
+              minW="180px"
+              maxW="180px"
+            >
               {collection.items.map((item) => (
                 <ChakraSelect.Item item={item} key={item.label + item.value}>
                   <Box lineClamp={1} flex="1" minW="0">

@@ -123,7 +123,7 @@ const Table = <T,>({
   }
 
   const tableBodyRowCellStyle = {
-    h: '64px',
+    minH: '64px',
     p: '10px',
     textStyle: 'pre-body-6',
     color: 'grey.10',
@@ -190,7 +190,7 @@ const Table = <T,>({
                       className="cell-content"
                       display="flex"
                       alignItems="center"
-                      h="64px"
+                      minH="64px"
                       p="10px"
                       justifyContent={
                         column.textAlign === 'left' ? 'flex-start'
@@ -212,13 +212,7 @@ const Table = <T,>({
               </ChakraTable.Row>
             ))}
 
-            {data.length === 0 && emptyContent && (
-              <ChakraTable.Row>
-                <ChakraTable.Cell colSpan={columns.length} p="0">
-                  {emptyContent}
-                </ChakraTable.Cell>
-              </ChakraTable.Row>
-            )}
+            {data.length === 0 && emptyContent ? emptyContent : null}
           </ChakraTable.Body>
         </ChakraTable.Root>
       </ChakraTable.ScrollArea>

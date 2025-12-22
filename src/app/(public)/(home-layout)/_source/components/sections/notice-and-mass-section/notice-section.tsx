@@ -8,6 +8,7 @@ import { ArrowRightIcon, CaretRightIcon } from '@phosphor-icons/react'
 
 import { format } from 'date-fns/format'
 
+import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import { ROUTES } from '@/constants/routes'
 import { useNoticeListQuery } from '@/generated/apis/Notice/Notice.query'
 
@@ -23,6 +24,7 @@ const NoticeSection: React.FC = () => {
 
   // FIXME: 스켈레톤 UI 추가
   if (!notices) return null
+  if (!notices.results) return null
 
   return (
     <Box flex="1" display="flex" flexFlow="column nowrap" gap="40px">
@@ -40,7 +42,7 @@ const NoticeSection: React.FC = () => {
       <Box display="flex" flexFlow="column nowrap">
         <Box w="full" h="1.5px" bgColor="grey.10" />
         <Box as="ul" display="flex" flexFlow="column nowrap">
-          {notices.results?.map((mock) => (
+          {notices.results.map((mock) => (
             <Link
               key={mock.id}
               href={`${ROUTES.NEWS_NOTICES}/${mock.id}`}
@@ -73,6 +75,10 @@ const NoticeSection: React.FC = () => {
               <CaretRightIcon size="20px" color="#9FA4A9" />
             </Link>
           ))}
+
+          {notices.results.length === 0 && (
+            <EmptySection h="388px" title="등록된 공지사항이 없습니다." />
+          )}
         </Box>
       </Box>
     </Box>

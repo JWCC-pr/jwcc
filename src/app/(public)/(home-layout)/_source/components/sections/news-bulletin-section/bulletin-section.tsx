@@ -7,6 +7,7 @@ import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 import { ArrowRightIcon } from '@phosphor-icons/react'
 
+import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import { ROUTES } from '@/constants/routes'
 import { useWeeklyBulletinListQuery } from '@/generated/apis/WeeklyBulletin/WeeklyBulletin.query'
 
@@ -52,36 +53,38 @@ const BulletinSection: React.FC = () => {
         </Link>
       </Box>
 
-      <Link
-        href={ROUTES.NEWS_BULLETIN_DETAIL(targetBulletin.id)}
-        _hover={{
-          textDecoration: 'none',
-          '& .bulletin-image-container': {
-            boxShadow: 'shadow-center',
-          },
-        }}
-      >
-        <Box
-          as="figure"
-          className="bulletin-image-container"
-          flex="1"
-          minH="0"
-          border="1px solid"
-          borderColor="border.basic.1"
-          rounded="6px"
-          boxShadow="shadow-bottom"
-          overflow="hidden"
-          display="flex"
+      {targetBulletin ?
+        <Link
+          href={ROUTES.NEWS_BULLETIN_DETAIL(targetBulletin.id)}
+          _hover={{
+            textDecoration: 'none',
+            '& .bulletin-image-container': {
+              boxShadow: 'shadow-center',
+            },
+          }}
         >
-          <Image
-            src={targetBulletin.thumbnail}
-            alt="bulletin"
-            aspectRatio="4/5"
-            objectFit="fill"
-            objectPosition="center"
-          />
-        </Box>
-      </Link>
+          <Box
+            as="figure"
+            className="bulletin-image-container"
+            flex="1"
+            minH="0"
+            border="1px solid"
+            borderColor="border.basic.1"
+            rounded="6px"
+            boxShadow="shadow-bottom"
+            overflow="hidden"
+            display="flex"
+          >
+            <Image
+              src={targetBulletin.thumbnail}
+              alt="bulletin"
+              aspectRatio="4/5"
+              objectFit="fill"
+              objectPosition="center"
+            />
+          </Box>
+        </Link>
+      : <EmptySection h="388px" title="등록된 주보가 없습니다." />}
     </Box>
   )
 }
