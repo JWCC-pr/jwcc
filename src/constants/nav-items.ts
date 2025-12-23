@@ -57,11 +57,7 @@ export const NAV_ITEMS: NavItem[] = [
     label: '본당 업무',
     subItems: [
       { label: '사무실 안내', href: ROUTES.SERVICES_OFFICE },
-      {
-        label: '예비신자 안내',
-        href: ROUTES.SERVICES_CATECHUMEN,
-        disabled: true,
-      },
+      { label: '예비신자 안내', href: ROUTES.SERVICES_CATECHUMEN },
       {
         label: '혼인성사 예약 안내',
         href: ROUTES.SERVICES_MARRIAGE,

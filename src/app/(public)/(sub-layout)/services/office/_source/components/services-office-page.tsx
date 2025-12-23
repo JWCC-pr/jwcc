@@ -1,23 +1,25 @@
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
+import InfoList from '../../../_source/components/info-list'
+
 const officeWorkTimes = [
   {
-    day: '평일',
-    time: '오전 9시 ~ 오후 6시',
+    label: '평일',
+    value: '오전 9시 ~ 오후 6시',
   },
   {
-    day: '토요일',
-    time: '오전 9시 ~ 미사 종료 시',
+    label: '토요일',
+    value: '오전 9시 ~ 미사 종료 시',
   },
   {
-    day: '주일',
-    time: '오전 9시 ~ 미사 종료 시',
+    label: '주일',
+    value: '오전 9시 ~ 미사 종료 시',
   },
   {
-    day: '휴게시간 및 휴무일',
-    time: (
-      <Box py="10px" display="flex" flexDirection="column" gap="6px">
+    label: '휴게시간 및 휴무일',
+    value: (
+      <Box display="flex" flexDirection="column" gap="6px">
         <Text textStyle="pre-body-4" color="grey.10">
           점심시간 낮 12시 30분 ~ 오후 2시
           <br />
@@ -36,46 +38,7 @@ const ServicesOfficePage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="56px">
       <Box display="flex" flexDirection="column" gap="24px">
-        <Box as="ul" borderTop="1.5px solid" borderTopColor="grey.10">
-          {officeWorkTimes.map((officeWorkTimeItem) => (
-            <Box
-              key={officeWorkTimeItem.day}
-              as="li"
-              display="flex"
-              gap="20px"
-              borderBottom="1px solid"
-              borderBottomColor="border.basic.1"
-            >
-              <Text
-                flexShrink="0"
-                w="140px"
-                h="auto"
-                px="10px"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                textStyle="pre-body-5"
-                color="grey.7"
-                bgColor="background.basic.2"
-              >
-                {officeWorkTimeItem.day}
-              </Text>
-              {typeof officeWorkTimeItem.time === 'string' ?
-                <Text
-                  flex="1"
-                  py="10px"
-                  h="full"
-                  display="flex"
-                  alignItems="center"
-                  textStyle="pre-body-4"
-                  color="grey.10"
-                >
-                  {officeWorkTimeItem.time}
-                </Text>
-              : officeWorkTimeItem.time}
-            </Box>
-          ))}
-        </Box>
+        <InfoList items={officeWorkTimes} />
 
         <Box
           p="20px 24px"
