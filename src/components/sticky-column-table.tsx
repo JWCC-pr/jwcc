@@ -12,19 +12,35 @@ export type ColumnWidth =
   | { type: 'fixed'; value: number } // 고정 px 값
   | { type: 'flex'; value: number; minWidth?: number } // flex 비율 + 최소 너비
 
-export interface TableColumn<T = unknown> {
+export interface StickyColumnTableColumn<T = unknown> {
   key: string
   label: React.ReactNode
   width?: ColumnWidth
   textAlign?: 'left' | 'center' | 'right'
   render: (item: T) => React.ReactNode
+  // Sticky 옵션 추가
+  sticky?: 'start' | 'end' // start: 왼쪽 고정, end: 오른쪽 고정
+  stickyLeft?: number // sticky start일 때 left 위치 (px)
+  stickyRight?: number // sticky end일 때 right 위치 (px)
+  // 셀 병합 옵션
+  getRowSpan?: (item: T, index: number, data: T[]) => number // rowspan 계산
+  getColSpan?: (item: T, index: number, data: T[]) => number // colspan 계산
+  shouldSkipRender?: (item: T, index: number, data: T[]) => boolean // 병합된 셀은 렌더링 스킵
+  // 셀 스타일 커스터마이징
+  getCellProps?: (
+    item: T,
+    index: number,
+    data: T[],
+    rowSpan?: number,
+    colSpan?: number,
+  ) => Record<string, unknown> // 각 셀에 적용할 추가 props
 }
 
-export interface TableProps<T = unknown> extends Omit<
+export interface StickyColumnTableProps<T = unknown> extends Omit<
   ChakraTable.RootProps,
   'columns'
 > {
-  columns: TableColumn<T>[]
+  columns: StickyColumnTableColumn<T>[]
   data: T[]
   getRowKey: (item: T) => string | number
   onRowClick?: (item: T) => void
@@ -41,12 +57,12 @@ export interface TableProps<T = unknown> extends Omit<
   striped?: boolean
   interactive?: boolean
   // Row 커스터마이징
-  getRowProps?: (item: T) => Record<string, any>
+  getRowProps?: (item: T) => Record<string, unknown>
   // 빈 데이터 처리
   emptyContent?: React.ReactNode
 }
 
-const Table = <T,>({
+const StickyColumnTable = <T,>({
   columns,
   data,
   getRowKey,
@@ -59,7 +75,7 @@ const Table = <T,>({
   getRowProps,
   emptyContent,
   ...rootProps
-}: TableProps<T>) => {
+}: StickyColumnTableProps<T>) => {
   // 컬럼 너비 계산
   const { columnStyles, minTableWidth } = useMemo(() => {
     let totalFixed = 0
@@ -145,6 +161,35 @@ const Table = <T,>({
           w="full"
           minW={minTableWidth > 0 ? `${minTableWidth}px` : undefined}
           tableLayout="fixed"
+          css={{
+            '& [data-sticky]': {
+              position: 'sticky',
+              zIndex: 1,
+              bg: 'bg',
+              _after: {
+                content: '""',
+                position: 'absolute',
+                pointerEvents: 'none',
+                top: '0',
+                bottom: '-1px',
+                width: '32px',
+              },
+            },
+            '& [data-sticky=end]': {
+              _after: {
+                insetInlineEnd: '0',
+                translate: '100% 0',
+                shadow: 'inset 8px 0px 8px -8px rgba(0, 0, 0, 0.16)',
+              },
+            },
+            '& [data-sticky=start]': {
+              _after: {
+                insetInlineStart: '0',
+                translate: '-100% 0',
+                shadow: 'inset -8px 0px 8px -8px rgba(0, 0, 0, 0.16)',
+              },
+            },
+          }}
           {...rootProps}
         >
           <ChakraTable.Header borderTop="1.5px solid" borderColor="grey.10">
@@ -158,6 +203,18 @@ const Table = <T,>({
                   {...tableHeaderStyles}
                   {...columnStyles[index]}
                   textAlign={column.textAlign || 'center'}
+                  data-sticky={column.sticky}
+                  left={
+                    column.sticky === 'start' ?
+                      `${column.stickyLeft || 0}px`
+                    : undefined
+                  }
+                  right={
+                    column.sticky === 'end' ?
+                      `${column.stickyRight || 0}px`
+                    : undefined
+                  }
+                  bgColor="grey.0"
                 >
                   {column.label}
                 </ChakraTable.ColumnHeader>
@@ -165,7 +222,7 @@ const Table = <T,>({
             </ChakraTable.Row>
           </ChakraTable.Header>
           <ChakraTable.Body>
-            {data.map((item) => (
+            {data.map((item, rowIndex) => (
               <ChakraTable.Row
                 key={getRowKey(item)}
                 borderBottom="1px solid"
@@ -184,36 +241,71 @@ const Table = <T,>({
                 }
                 {...(getRowProps ? getRowProps(item) : {})}
               >
-                {columns.map((column, index) => (
-                  <ChakraTable.Cell
-                    key={column.key}
-                    {...tableBodyRowCellStyle}
-                    {...columnStyles[index]}
-                    p="0"
-                  >
-                    <Box
-                      className="cell-content"
-                      display="flex"
-                      alignItems="center"
-                      minH="64px"
-                      p="10px"
-                      justifyContent={
-                        column.textAlign === 'left' ? 'flex-start'
-                        : column.textAlign === 'right' ?
-                          'flex-end'
-                        : 'center'
+                {columns.map((column, index) => {
+                  // 병합된 셀은 렌더링 스킵
+                  const shouldSkip =
+                    column.shouldSkipRender?.(item, rowIndex, data) || false
+                  if (shouldSkip) return null
+
+                  // rowspan, colspan 계산
+                  const rowSpan = column.getRowSpan?.(item, rowIndex, data)
+                  const colSpan = column.getColSpan?.(item, rowIndex, data)
+
+                  // 커스텀 셀 props 가져오기
+                  const customCellProps =
+                    column.getCellProps?.(
+                      item,
+                      rowIndex,
+                      data,
+                      rowSpan,
+                      colSpan,
+                    ) || {}
+
+                  return (
+                    <ChakraTable.Cell
+                      key={column.key}
+                      {...tableBodyRowCellStyle}
+                      {...columnStyles[index]}
+                      p="0"
+                      data-sticky={column.sticky}
+                      left={
+                        column.sticky === 'start' ?
+                          `${column.stickyLeft || 0}px`
+                        : undefined
                       }
+                      right={
+                        column.sticky === 'end' ?
+                          `${column.stickyRight || 0}px`
+                        : undefined
+                      }
+                      rowSpan={rowSpan}
+                      colSpan={colSpan}
+                      {...customCellProps}
                     >
                       <Box
-                        lineClamp="1"
-                        w="full"
-                        textAlign={column.textAlign || 'center'}
+                        className="cell-content"
+                        display="flex"
+                        alignItems="center"
+                        minH="64px"
+                        p="10px"
+                        justifyContent={
+                          column.textAlign === 'left' ? 'flex-start'
+                          : column.textAlign === 'right' ?
+                            'flex-end'
+                          : 'center'
+                        }
                       >
-                        {column.render(item)}
+                        <Box
+                          lineClamp="1"
+                          w="full"
+                          textAlign={column.textAlign || 'center'}
+                        >
+                          {column.render(item)}
+                        </Box>
                       </Box>
-                    </Box>
-                  </ChakraTable.Cell>
-                ))}
+                    </ChakraTable.Cell>
+                  )
+                })}
               </ChakraTable.Row>
             ))}
 
@@ -237,4 +329,4 @@ const Table = <T,>({
   )
 }
 
-export default Table
+export default StickyColumnTable
