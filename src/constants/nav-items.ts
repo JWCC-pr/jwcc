@@ -21,11 +21,7 @@ export const NAV_ITEMS: NavItem[] = [
       { label: '사목지침', href: ROUTES.ABOUT_PASTORAL },
       { label: '본당 사제·수도자', href: ROUTES.ABOUT_PRIESTS, disabled: true },
       { label: '역대 사제·수도자', href: ROUTES.ABOUT_PAST_PRIESTS },
-      {
-        label: '미사시간 안내 및 오시는 길',
-        href: ROUTES.ABOUT_MASS_SCHEDULE,
-        disabled: true,
-      },
+      { label: '오시는 길', href: ROUTES.ABOUT_DIRECTION },
       { label: '본당 행사 일정', href: ROUTES.ABOUT_EVENT_SCHEDULE },
     ],
   },
@@ -49,11 +45,7 @@ export const NAV_ITEMS: NavItem[] = [
         href: ROUTES.COMMUNITY_PASTORAL_COUNCIL,
         disabled: true,
       },
-      {
-        label: '본당 관할 구역도',
-        href: ROUTES.COMMUNITY_PARISH_AREA,
-        disabled: true,
-      },
+      { label: '본당 관할 구역도', href: ROUTES.COMMUNITY_PARISH_AREA },
       {
         label: '분과 바로가기',
         href: ROUTES.COMMUNITY_DEPARTMENTS,

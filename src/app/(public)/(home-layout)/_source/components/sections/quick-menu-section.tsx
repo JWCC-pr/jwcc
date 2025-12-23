@@ -98,7 +98,7 @@ const QuickMenuItems = [
       />
     ),
     label: '오시는 길',
-    value: ROUTES.ABOUT_MASS_SCHEDULE,
+    value: ROUTES.ABOUT_DIRECTION,
   },
 ]
 

@@ -2,14 +2,14 @@ import { Metadata, NextPage } from 'next'
 
 import { getSharedMetadata } from '@/utils/metadata/shared-metadata'
 
-import AboutMassSchedulePage from './_source/components/about-mass-schedule-page'
+import AboutDirectionPage from './_source/components/about-direction-page'
 
 export const metadata: Metadata = getSharedMetadata({
-  title: '미사시간 안내 및 오시는 길',
+  title: '오시는 길',
 })
 
 const Page: NextPage = () => {
-  return <AboutMassSchedulePage />
+  return <AboutDirectionPage />
 }
 
 export default Page
