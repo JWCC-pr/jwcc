@@ -208,6 +208,8 @@ const Table = <T,>({
                         lineClamp="1"
                         w="full"
                         textAlign={column.textAlign || 'center'}
+                        textStyle="pre-body-4"
+                        color="grey.10"
                       >
                         {column.render(item)}
                       </Box>

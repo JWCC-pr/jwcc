@@ -83,7 +83,7 @@ const NewsPassingNoticeDetailInfoSection: React.FC<
           <Box key={funeral.label} display="flex" gap="10px">
             <Text
               flexShrink="0"
-              w="120px"
+              w={['80px', '120px']}
               textStyle="pre-body-5"
               color="grey.7"
             >

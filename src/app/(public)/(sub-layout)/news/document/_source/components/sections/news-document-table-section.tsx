@@ -87,6 +87,7 @@ const NewsDocumentTableSection: React.FC = () => {
 
   return (
     <Table
+      minW="700px"
       columns={columns}
       data={documents.results}
       getRowKey={(document) => document.id}

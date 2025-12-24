@@ -12,7 +12,7 @@ const NewsPassingNoticeTopSection: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="12px">
       <Box
-        h="160px"
+        h={['200px', '160px']}
         px="40px"
         display="flex"
         flexDirection="column"
@@ -41,12 +41,14 @@ const NewsPassingNoticeTopSection: React.FC = () => {
           pos="absolute"
           right="0"
           w="480px"
+          h={['200px', '160px']}
         />
       </Box>
 
       <Box
-        p={['20px 40px', '20px 16px']}
+        p={['20px 16px', '20px 40px']}
         display="flex"
+        flexDirection={['column', 'row']}
         gap="10px"
         bgColor="background.basic.2"
         rounded="6px"
