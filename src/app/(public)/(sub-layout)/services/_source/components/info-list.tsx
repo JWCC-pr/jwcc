@@ -26,6 +26,7 @@ const InfoList: React.FC<InfoListProps> = ({
         >
           <Text
             flexShrink="0"
+            minW="56px"
             w={[isFlexibleWidth ? 'fit-content' : '140px', '140px']}
             h="auto"
             px="10px"
