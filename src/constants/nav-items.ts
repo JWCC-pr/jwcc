@@ -15,7 +15,7 @@ export const NAV_ITEMS: NavItem[] = [
     label: '본당 소개',
     subItems: [
       { label: '본당 소개', href: ROUTES.ABOUT_INTRODUCTION },
-      { label: '본당 역사', href: ROUTES.ABOUT_HISTORY, disabled: true },
+      { label: '본당 역사', href: ROUTES.ABOUT_HISTORY },
       { label: '주보 성인', href: ROUTES.ABOUT_PATRON_SAINT },
       { label: '본당 상징 및 로고', href: ROUTES.ABOUT_SYMBOL },
       { label: '사목지침', href: ROUTES.ABOUT_PASTORAL },
