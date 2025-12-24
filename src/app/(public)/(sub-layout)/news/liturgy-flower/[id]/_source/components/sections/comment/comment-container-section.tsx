@@ -39,19 +39,12 @@ const CommentContainerSection: React.FC<CommentContainerSectionProps> = ({
   })
 
   const isDeleted = comment.isDeleted
-  const hasReply =
-    (replies?.results?.filter((reply) => !reply.isDeleted).length ?? 0) > 0
-
-  /** 댓글이 삭제되었고, 답글이 있는 경우 "(삭제된 댓글입니다)" 표시 */
-  const isDeletedAndHasReply = isDeleted && hasReply
-
-  if (!isDeletedAndHasReply && isDeleted) return null
 
   return (
     <Box as="li" display="flex" flexFlow="column">
       {/* 댓글 영역 */}
-      {isDeletedAndHasReply ?
-        /* 댓글이 삭제되었고, 답글이 있는 경우 "(삭제된 댓글입니다)" 표시 */
+      {isDeleted ?
+        /* 댓글이 삭제된 경우 "(삭제된 댓글입니다)" 표시 */
         <CommentDeleteSection />
       : /* 일반 댓글 영역 */
         !isOpenCommentEdit && (
@@ -74,16 +67,14 @@ const CommentContainerSection: React.FC<CommentContainerSectionProps> = ({
       )}
 
       {/* 답글 영역 */}
-      {replies?.results
-        ?.filter((reply) => !reply.isDeleted)
-        .map((reply) => (
-          <ReplyContainerSection
-            key={reply.id}
-            liturgyFlowerId={liturgyFlowerId}
-            comment={comment}
-            reply={reply}
-          />
-        ))}
+      {replies?.results?.map((reply) => (
+        <ReplyContainerSection
+          key={reply.id}
+          liturgyFlowerId={liturgyFlowerId}
+          comment={comment}
+          reply={reply}
+        />
+      ))}
 
       {/* 답글 쓰기 영역 */}
       {isOpenReplyWrite && (

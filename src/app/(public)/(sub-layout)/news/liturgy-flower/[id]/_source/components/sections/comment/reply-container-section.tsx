@@ -6,6 +6,7 @@ import { Box } from '@chakra-ui/react/box'
 
 import { LiturgyFlowerCommentType } from '@/generated/apis/@types/data-contracts'
 
+import ReplyDeleteSection from './reply-delete-section'
 import ReplyInputEditSection from './reply-input-edit-section'
 import ReplySection from './reply-section'
 
@@ -23,6 +24,9 @@ const ReplyContainerSection: React.FC<ReplyContainerSectionProps> = ({
   const [isOpenReplyEdit, setIsOpenReplyEdit] = useState(false)
   const handleOpenReplyEdit = () => setIsOpenReplyEdit(true)
   const handleCloseReplyEdit = () => setIsOpenReplyEdit(false)
+
+  const isDeleted = reply.isDeleted
+  if (isDeleted) return <ReplyDeleteSection />
 
   return (
     <Box display="flex" flexFlow="column">
