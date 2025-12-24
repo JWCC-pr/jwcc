@@ -4,6 +4,66 @@
  * 스크립트가 실행될때, 파일을 항상 새로 쓰기 때문에 파일 수정시 작성내용이 제거 될 수 있습니다.
  */
 
+export interface AssociateType {
+  readonly id: number
+  /**
+   * 이미지
+   * @format uri
+   */
+  image: string
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 수품일
+   * @format date
+   */
+  ordinationDate: string
+  /** 퇴임 여부 */
+  isRetired?: boolean
+  readonly roleDisplay: string
+  readonly order: number
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+  /**
+   * 구분
+   * 예: 제1대 주임신부
+   * @maxLength 50
+   */
+  division?: string | null
+  /**
+   * 재임 시작일
+   * @format date
+   */
+  startDate?: string | null
+  /**
+   * 재임 종료일
+   * @format date
+   */
+  endDate?: string | null
+  /**
+   * 보좌 체제
+   * 부주임신부에게만 사용
+   * @maxLength 50
+   */
+  assistantSystem?: string | null
+}
+
 export interface BannerType {
   readonly id: number
   /**
@@ -337,32 +397,6 @@ export interface EmailVerifierCreateRequestType {
   email: string
 }
 
-export interface EventType {
-  readonly id: number
-  /**
-   * 썸네일
-   * @format uri
-   */
-  thumbnail: string
-  /**
-   * 제목
-   * @maxLength 100
-   */
-  title: string
-  /** 본문 */
-  body: string
-  /**
-   * 생성일시
-   * @format date-time
-   */
-  readonly createdAt: string
-  /**
-   * 수정일시
-   * @format date-time
-   */
-  readonly updatedAt: string
-}
-
 export interface LiturgyFlowerType {
   readonly id: number
   /** 유저 */
@@ -685,12 +719,6 @@ export interface PaginatedDocumentListType {
   results?: DocumentType[]
 }
 
-export interface PaginatedEventListType {
-  count?: number
-  isNext?: boolean
-  results?: EventType[]
-}
-
 export interface PaginatedLiturgyFlowerCommentListType {
   count?: number
   cursor?: string | null
@@ -731,6 +759,18 @@ export interface PaginatedPassingNoticeListType {
   count?: number
   isNext?: boolean
   results?: PassingNoticeType[]
+}
+
+export interface PaginatedPriestListType {
+  count?: number
+  isNext?: boolean
+  results?: PriestType[]
+}
+
+export interface PaginatedReligiousListType {
+  count?: number
+  isNext?: boolean
+  results?: ReligiousType[]
 }
 
 export interface PaginatedWeeklyBulletinListType {
@@ -903,12 +943,146 @@ export interface PassingNoticeCommentUserRequestType {
   subDepartmentSet: PassingNoticeCommentSubDepartmentRequestType[]
 }
 
+export interface PastorType {
+  readonly id: number
+  /**
+   * 이미지
+   * @format uri
+   */
+  image: string
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 수품일
+   * @format date
+   */
+  ordinationDate: string
+  /** 퇴임 여부 */
+  isRetired?: boolean
+  readonly roleDisplay: string
+  readonly order: number
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+  /**
+   * 구분
+   * 예: 제1대 주임신부
+   * @maxLength 50
+   */
+  division?: string | null
+  /**
+   * 재임 시작일
+   * @format date
+   */
+  startDate?: string | null
+  /**
+   * 재임 종료일
+   * @format date
+   */
+  endDate?: string | null
+}
+
 export interface PastoralGuidelinesType {
   readonly id: number
+  /**
+   * 이미지
+   * @format uri
+   */
+  image: string
+  /**
+   * 카테고리명
+   * @maxLength 100
+   */
+  category: string
+  /**
+   * 제목
+   * @maxLength 100
+   */
+  title: string
+  /**
+   * 서브 제목
+   * @maxLength 500
+   */
+  subtitle?: string | null
+  /** 내용 */
+  body: string
+  /**
+   * 서명 텍스트
+   * @maxLength 100
+   */
+  signatureText: string
+  /**
+   * 서명 이미지
+   * @format uri
+   */
+  signatureImage: string
 }
 
 export interface PastoralGuidelinesErrorMessageType {
   nonField?: string[]
+  image?: string[]
+  category?: string[]
+  title?: string[]
+  subtitle?: string[]
+  body?: string[]
+  signatureText?: string[]
+  signatureImage?: string[]
+}
+
+export interface PatchedPastoralGuidelinesRequestType {
+  /**
+   * 이미지
+   * @format binary
+   */
+  image?: File
+  /**
+   * 카테고리명
+   * @minLength 1
+   * @maxLength 100
+   */
+  category?: string
+  /**
+   * 제목
+   * @minLength 1
+   * @maxLength 100
+   */
+  title?: string
+  /**
+   * 서브 제목
+   * @maxLength 500
+   */
+  subtitle?: string | null
+  /**
+   * 내용
+   * @minLength 1
+   */
+  body?: string
+  /**
+   * 서명 텍스트
+   * @minLength 1
+   * @maxLength 100
+   */
+  signatureText?: string
+  /**
+   * 서명 이미지
+   * @format binary
+   */
+  signatureImage?: File
 }
 
 export interface PresignedType {
@@ -930,18 +1104,192 @@ export interface PresignedRequestType {
    * * `notice.NoticeFile.file` - 파일
    * * `news.News.thumbnail` - 썸네일
    * * `document.DocumentFile.file` - 자료
-   * * `event.Event.thumbnail` - 썸네일
    * * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
    * * `weekly_bulletin.WeeklyBulletin.file` - 주보 파일
    * * `passing_notice.PassingNotice.portrait` - 고인 사진
    * * `liturgy_flower.LiturgyFlowerImage.image` - 이미지
    * * `banner.Banner.image` - 이미지
    * * `pastoral_guidelines.PastoralGuidelines.image` - 이미지
+   * * `pastoral_guidelines.PastoralGuidelines.signature_image` - 서명 이미지
+   * * `priest.Priest.image` - 이미지
+   * * `priest.Pastor.image` - 이미지
+   * * `priest.Associate.image` - 이미지
+   * * `religious.Religious.image` - 이미지
    */
   fieldChoice?: PresignedRequestFieldChoiceEnumType
   /** @minLength 1 */
   fileName: string
   isDownload: boolean
+}
+
+export interface PriestType {
+  readonly id: number
+  /**
+   * 이미지
+   * @format uri
+   */
+  image: string
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 수품일
+   * @format date
+   */
+  ordinationDate: string
+  /** 퇴임 여부 */
+  isRetired?: boolean
+  readonly roleDisplay: string
+  readonly order: number
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
+export interface PriestErrorMessageType {
+  nonField?: string[]
+  image?: string[]
+  name?: string[]
+  baptismalName?: string[]
+  ordinationDate?: string[]
+  isRetired?: string[]
+}
+
+export interface PriestRequestType {
+  /**
+   * 이미지
+   * @format binary
+   */
+  image: File
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 수품일
+   * @format date
+   */
+  ordinationDate: string
+  /** 퇴임 여부 */
+  isRetired?: boolean
+}
+
+export interface ReligiousType {
+  readonly id: number
+  /**
+   * 이미지
+   * @format uri
+   */
+  image: string
+  /**
+   * 구분
+   * @maxLength 50
+   */
+  category: string
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 재임 시작일
+   * @format date
+   */
+  startDate: string
+  /** 퇴임 여부 */
+  isRetired?: boolean
+  /**
+   * 재임 종료일
+   * @format date
+   */
+  endDate?: string | null
+  readonly order: number
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
+export interface ReligiousErrorMessageType {
+  nonField?: string[]
+  image?: string[]
+  category?: string[]
+  name?: string[]
+  baptismalName?: string[]
+  startDate?: string[]
+  isRetired?: string[]
+  endDate?: string[]
+}
+
+export interface ReligiousRequestType {
+  /**
+   * 이미지
+   * @format binary
+   */
+  image: File
+  /**
+   * 구분
+   * @minLength 1
+   * @maxLength 50
+   */
+  category: string
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 재임 시작일
+   * @format date
+   */
+  startDate: string
+  /** 퇴임 여부 */
+  isRetired?: boolean
+  /**
+   * 재임 종료일
+   * @format date
+   */
+  endDate?: string | null
 }
 
 export interface ScheduleType {
@@ -1275,13 +1623,17 @@ export interface WeeklyBulletinType {
  * `notice.NoticeFile.file` - 파일
  * `news.News.thumbnail` - 썸네일
  * `document.DocumentFile.file` - 자료
- * `event.Event.thumbnail` - 썸네일
  * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
  * `weekly_bulletin.WeeklyBulletin.file` - 주보 파일
  * `passing_notice.PassingNotice.portrait` - 고인 사진
  * `liturgy_flower.LiturgyFlowerImage.image` - 이미지
  * `banner.Banner.image` - 이미지
  * `pastoral_guidelines.PastoralGuidelines.image` - 이미지
+ * `pastoral_guidelines.PastoralGuidelines.signature_image` - 서명 이미지
+ * `priest.Priest.image` - 이미지
+ * `priest.Pastor.image` - 이미지
+ * `priest.Associate.image` - 이미지
+ * `religious.Religious.image` - 이미지
  */
 export type PresignedRequestFieldChoiceEnumType =
   keyof typeof PresignedRequestFieldChoiceEnumTypeMap
@@ -1289,12 +1641,16 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
   'banner.Banner.image': '이미지',
   'board.Board.body': '자유 게시글',
   'document.DocumentFile.file': '자료',
-  'event.Event.thumbnail': '썸네일',
   'liturgy_flower.LiturgyFlowerImage.image': '이미지',
   'news.News.thumbnail': '썸네일',
   'notice.NoticeFile.file': '파일',
   'passing_notice.PassingNotice.portrait': '고인 사진',
   'pastoral_guidelines.PastoralGuidelines.image': '이미지',
+  'pastoral_guidelines.PastoralGuidelines.signature_image': '서명 이미지',
+  'priest.Associate.image': '이미지',
+  'priest.Pastor.image': '이미지',
+  'priest.Priest.image': '이미지',
+  'religious.Religious.image': '이미지',
   'weekly_bulletin.WeeklyBulletin.file': '주보 파일',
   'weekly_bulletin.WeeklyBulletin.thumbnail': '썸네일',
 } as const

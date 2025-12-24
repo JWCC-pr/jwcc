@@ -1,15 +1,23 @@
-import { Box } from '@chakra-ui/react/box'
+import { Box, BoxProps } from '@chakra-ui/react/box'
 
-interface AdminEditorContentProps {
+interface AdminEditorContentProps extends BoxProps {
   body: string
+  hasBorderBottom?: boolean
 }
 
-const AdminEditorContent: React.FC<AdminEditorContentProps> = ({ body }) => {
+const AdminEditorContent: React.FC<AdminEditorContentProps> = ({
+  body,
+  hasBorderBottom = true,
+  ...props
+}) => {
   return (
     <Box
       py="24px"
-      borderBottom="1px solid"
-      borderBottomColor="border.basic.1"
+      textStyle="pre-body-4"
+      {...(hasBorderBottom && {
+        borderBottom: '1px solid',
+        borderBottomColor: 'border.basic.1',
+      })}
       dangerouslySetInnerHTML={{ __html: body }}
       css={{
         '& em, & i': {
@@ -31,6 +39,7 @@ const AdminEditorContent: React.FC<AdminEditorContentProps> = ({ body }) => {
           justifyContent: 'center',
         },
       }}
+      {...props}
     />
   )
 }
