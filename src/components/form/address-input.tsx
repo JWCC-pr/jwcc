@@ -10,26 +10,6 @@ import { useFormContext, useFormState } from 'react-hook-form'
 
 import { FormHelper } from '../form-helper'
 
-// 카카오 우편번호 서비스 타입 정의
-declare global {
-  interface Window {
-    daum: {
-      Postcode: new (options: {
-        oncomplete: (data: {
-          zonecode: string
-          address: string
-          addressEnglish: string
-          addressType: 'R' | 'J'
-          bname: string
-          buildingName: string
-        }) => void
-      }) => {
-        open: () => void
-      }
-    }
-  }
-}
-
 const AddressInput: React.FC = () => {
   const { register, control, setValue, clearErrors } = useFormContext()
   const { errors } = useFormState({ control })
