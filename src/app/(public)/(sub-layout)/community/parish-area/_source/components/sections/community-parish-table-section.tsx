@@ -1,3 +1,5 @@
+import { Text } from '@chakra-ui/react/text'
+
 import StickyColumnTable, {
   StickyColumnTableColumn,
 } from '@/components/sticky-column-table'
@@ -74,7 +76,9 @@ const communityParishTableColumns: StickyColumnTableColumn<CommunityParishTable>
       label: '상세 주소',
       width: { type: 'flex', value: 1 },
       textAlign: 'left',
-      render: (communityParishTable) => communityParishTable.detailAddress,
+      render: (communityParishTable) => (
+        <Text whiteSpace="pre-wrap">{communityParishTable.detailAddress}</Text>
+      ),
     },
   ]
 
@@ -85,12 +89,33 @@ interface CommunityParishTableSectionProps {
 const CommunityParishTableSection: React.FC<
   CommunityParishTableSectionProps
 > = ({ data }) => {
+  // 구역이 구분되는 지점 감지 (이전 구역의 마지막 행)
+  const getRowProps = (
+    item: CommunityParishTable,
+    index: number,
+    data: CommunityParishTable[],
+  ) => {
+    // 이전 구역의 마지막 행인지 확인 (다음 행이 있고, 다음 행의 구역이 현재 행과 다를 때)
+    const isLastOfArea =
+      index < data.length - 1 && data[index + 1].area !== item.area
+
+    if (isLastOfArea) {
+      return {
+        borderBottom: '1px solid',
+        borderBottomColor: 'grey.10',
+      }
+    }
+
+    return {}
+  }
+
   return (
     <StickyColumnTable
-      minW={['680px', '680px', '580px']}
+      minW={['460px', '460px', '580px']}
       columns={communityParishTableColumns}
       data={data}
       getRowKey={(assistantPastor) => assistantPastor.detailAddress}
+      getRowProps={getRowProps}
     />
   )
 }

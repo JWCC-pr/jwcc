@@ -57,7 +57,7 @@ export interface StickyColumnTableProps<T = unknown> extends Omit<
   striped?: boolean
   interactive?: boolean
   // Row 커스터마이징
-  getRowProps?: (item: T) => Record<string, unknown>
+  getRowProps?: (item: T, index: number, data: T[]) => Record<string, unknown>
   // 빈 데이터 처리
   emptyContent?: React.ReactNode
 }
@@ -239,7 +239,7 @@ const StickyColumnTable = <T,>({
                     }
                   : undefined
                 }
-                {...(getRowProps ? getRowProps(item) : {})}
+                {...(getRowProps ? getRowProps(item, rowIndex, data) : {})}
               >
                 {columns.map((column, index) => {
                   // 병합된 셀은 렌더링 스킵
@@ -260,6 +260,8 @@ const StickyColumnTable = <T,>({
                       rowSpan,
                       colSpan,
                     ) || {}
+
+                  const isString = typeof column.render(item) === 'string'
 
                   return (
                     <ChakraTable.Cell
@@ -295,13 +297,15 @@ const StickyColumnTable = <T,>({
                           : 'center'
                         }
                       >
-                        <Box
-                          lineClamp="1"
-                          w="full"
-                          textAlign={column.textAlign || 'center'}
-                        >
-                          {column.render(item)}
-                        </Box>
+                        {isString ?
+                          <Box
+                            lineClamp="1"
+                            w="full"
+                            textAlign={column.textAlign || 'center'}
+                          >
+                            {column.render(item)}
+                          </Box>
+                        : column.render(item)}
                       </Box>
                     </ChakraTable.Cell>
                   )
