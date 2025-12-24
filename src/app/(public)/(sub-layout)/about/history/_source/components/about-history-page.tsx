@@ -151,7 +151,7 @@ const historyData: HistoryEvent[] = [
 
 const AboutHistoryPage: React.FC = () => {
   return (
-    <Timeline.Root size="lg" variant="solid" colorPalette="blue">
+    <Timeline.Root>
       {historyData.map((item, index) => (
         <Timeline.Item key={`${item.year}-${index}`}>
           <Box
