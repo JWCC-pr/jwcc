@@ -166,19 +166,19 @@ const MassSection: React.FC = () => {
                   <Box
                     key={key}
                     as="li"
-                    h="56px"
+                    minH="56px"
                     display="flex"
-                    alignItems="center"
+                    alignItems="stretch"
                     gap="10px"
                     borderBottom="1px solid"
                     borderBottomColor="border.basic.1"
                   >
                     <Text
+                      w="40px"
                       px="10px"
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
-                      h="full"
                       textStyle="pre-body-3"
                       color="grey.10"
                       bgColor="background.basic.2"
@@ -189,7 +189,13 @@ const MassSection: React.FC = () => {
                     >
                       {weekdayMassMap[key as keyof typeof weekdayMassMap]}
                     </Text>
-                    <Box flex="1" py="10px" display="flex" gap="6px">
+                    <Box
+                      flex="1"
+                      py="10px"
+                      display="flex"
+                      gap="6px"
+                      flexWrap="wrap"
+                    >
                       {value.times.map((time) => (
                         <MassTime
                           key={time.time}
