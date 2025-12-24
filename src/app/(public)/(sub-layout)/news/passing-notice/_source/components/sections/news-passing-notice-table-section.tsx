@@ -70,6 +70,7 @@ const NewsPassingNoticeTableSection: React.FC = () => {
 
   return (
     <Table
+      minW="340px"
       columns={columns}
       data={passingNotices.results}
       getRowKey={(passingNotice) => passingNotice.id}

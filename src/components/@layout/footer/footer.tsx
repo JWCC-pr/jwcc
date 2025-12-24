@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react/box'
 import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
+import { NAV_ITEMS } from '@/constants/nav-items'
 import {
   LayoutFooterFacebookIcon,
   LayoutFooterInstagramIcon,
@@ -9,52 +10,6 @@ import {
   LayoutFooterYoutubeIcon,
 } from '@/generated/icons/MyIcons'
 
-const menuItems = [
-  {
-    label: '본당 소개',
-    subItems: [
-      { label: '본당 소개' },
-      { label: '본당 역사' },
-      { label: '주보 성인' },
-      { label: '본당 상징 및 로고' },
-      { label: '사목지침' },
-      { label: '본당 사제 · 수도자' },
-      { label: '역대 사제 · 수도자' },
-      { label: '오시는 길' },
-      { label: '본당 행사 일정' },
-    ],
-  },
-  {
-    label: '본당 소식',
-    subItems: [
-      { label: '공지사항' },
-      { label: '본당 소식' },
-      { label: '본당 주보' },
-      { label: '서울 주보' },
-      { label: '선종 안내' },
-      { label: '전례꽃 갤러리' },
-      { label: '자유게시판' },
-      { label: '자료실' },
-    ],
-  },
-  {
-    label: '신앙 공동체',
-    subItems: [
-      { label: '사목협의회 조직도' },
-      { label: '본당 관할 구역도' },
-      { label: '분과 바로가기' },
-    ],
-  },
-  {
-    label: '본당 업무',
-    subItems: [
-      { label: '사무실 안내' },
-      { label: '예비신자 안내' },
-      { label: '혼인성사 예약 안내' },
-      { label: '전입 교우 안내' },
-    ],
-  },
-]
 const snsItems = [
   {
     icon: <LayoutFooterYoutubeIcon w="24px" h="24px" />,
@@ -99,7 +54,7 @@ const Footer: React.FC = () => {
           gap="36px"
         >
           <Box flex="1" display={['none', 'flex']} gap="16px">
-            {menuItems.map((item) => (
+            {NAV_ITEMS.map((item) => (
               <Box
                 key={item.label}
                 flex="1"
@@ -112,14 +67,25 @@ const Footer: React.FC = () => {
                 </Text>
 
                 <Box display="flex" flexFlow="column nowrap" gap="6px">
-                  {item.subItems.map((subItem) => (
-                    <Text
+                  {item.subItems?.map((subItem) => (
+                    <Link
                       key={subItem.label}
+                      href={subItem.disabled ? undefined : subItem.href}
                       textStyle="pre-body-6"
-                      color="grey.6"
+                      color={subItem.disabled ? 'grey.5' : 'grey.6'}
+                      cursor={subItem.disabled ? 'not-allowed' : 'pointer'}
+                      pointerEvents={subItem.disabled ? 'none' : 'auto'}
+                      _hover={
+                        subItem.disabled ? undefined : (
+                          {
+                            color: 'grey.10',
+                            textDecoration: 'underline',
+                          }
+                        )
+                      }
                     >
                       {subItem.label}
-                    </Text>
+                    </Link>
                   ))}
                 </Box>
               </Box>

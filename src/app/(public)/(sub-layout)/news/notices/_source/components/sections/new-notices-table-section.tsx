@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Box } from '@chakra-ui/react/box'
+import { Text } from '@chakra-ui/react/text'
 import { PushPinIcon } from '@phosphor-icons/react'
 
 import { format } from 'date-fns/format'
@@ -27,8 +28,21 @@ const columns: TableColumn<NoticeWithFixed>[] = [
     textAlign: 'left',
     render: (notice) => (
       <Box display="flex" alignItems="center" gap="6px">
-        {notice.isFixed && <PushPinIcon size="16px" color="#780536" />}
-        {notice.title}
+        {notice.isFixed && (
+          <Box
+            flexShrink="0"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            w="16px"
+            h="16px"
+          >
+            <PushPinIcon size="16px" color="#780536" />
+          </Box>
+        )}
+        <Text textStyle="pre-body-4" color="grey.10" lineClamp="1">
+          {notice.title}
+        </Text>
       </Box>
     ),
   },

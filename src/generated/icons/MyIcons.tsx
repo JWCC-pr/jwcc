@@ -224,6 +224,62 @@ export const EmptyCDoveIcon = (props: IconProps) => (
   </Icon>
 )
 
+export const HomeCalendarXIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <svg viewBox="0 0 64 64" fill="none">
+      <g clipPath="url(#clip0_14307_18047)">
+        <path
+          d="M52 10H12C10.8954 10 10 10.8954 10 12V52C10 53.1046 10.8954 54 12 54H52C53.1046 54 54 53.1046 54 52V12C54 10.8954 53.1046 10 52 10Z"
+          stroke="#CFD2D5"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M44 6V14"
+          stroke="#CFD2D5"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M20 6V14"
+          stroke="#CFD2D5"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 22H54"
+          stroke="#CFD2D5"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M38 32L26 44"
+          stroke="#CFD2D5"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M38 44L26 32"
+          stroke="#CFD2D5"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_14307_18047">
+          <rect width="64" height="64" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  </Icon>
+)
+
 export const HomeQuickMenuSection1Icon = (props: IconProps) => (
   <Icon {...props}>
     <svg viewBox="0 0 64 64" fill="none">

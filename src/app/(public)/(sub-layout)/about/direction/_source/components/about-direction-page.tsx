@@ -1,18 +1,14 @@
+'use client'
+
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
+
+import AboutDirectionMap from './about-direction-map'
 
 const AboutDirectionPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="56px">
-      <Box w="full" h={['240px', '420px', '420px']}>
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.7717681530453!2d127.00466957632746!3d37.5133007720525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca3e826356787%3A0xcd9976ae83d3473a!2z7LKc7KO86rWQIOyeoOybkOuPmSDshLHri7k!5e0!3m2!1sko!2skr!4v1766480410866!5m2!1sko!2skr"
-          width="100%"
-          height="100%"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
-      </Box>
+      <AboutDirectionMap />
 
       <Box display="flex" flexFlow="column nowrap" gap="16px">
         <Text textStyle="pre-heading-4" color="grey.10">

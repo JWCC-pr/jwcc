@@ -75,7 +75,7 @@ export class ReligiousApi<
    */
 
   religiousHistoryRetrieve = (variables?: { params?: RequestParams }) =>
-    this.request<ReligiousType, CommonErrorType>({
+    this.request<ReligiousType[], CommonErrorType>({
       path: `/v1/religious/history/`,
       method: 'GET',
       secure: true,

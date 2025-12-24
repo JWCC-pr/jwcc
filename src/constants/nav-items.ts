@@ -15,11 +15,11 @@ export const NAV_ITEMS: NavItem[] = [
     label: '본당 소개',
     subItems: [
       { label: '본당 소개', href: ROUTES.ABOUT_INTRODUCTION },
-      { label: '본당 역사', href: ROUTES.ABOUT_HISTORY, disabled: true },
+      { label: '본당 역사', href: ROUTES.ABOUT_HISTORY },
       { label: '주보 성인', href: ROUTES.ABOUT_PATRON_SAINT },
       { label: '본당 상징 및 로고', href: ROUTES.ABOUT_SYMBOL },
       { label: '사목지침', href: ROUTES.ABOUT_PASTORAL },
-      { label: '본당 사제·수도자', href: ROUTES.ABOUT_PRIESTS, disabled: true },
+      { label: '본당 사제·수도자', href: ROUTES.ABOUT_PRIESTS },
       { label: '역대 사제·수도자', href: ROUTES.ABOUT_PAST_PRIESTS },
       { label: '오시는 길', href: ROUTES.ABOUT_DIRECTION },
       { label: '본당 행사 일정', href: ROUTES.ABOUT_EVENT_SCHEDULE },
