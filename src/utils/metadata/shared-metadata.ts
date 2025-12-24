@@ -3,19 +3,30 @@ import type { Metadata } from 'next'
 import { ENV } from '@/configs/env'
 
 const sharedTitle: Metadata['title'] = {
-  template: '%s | 잠원동성당',
-  default: '잠원동성당',
+  template: '%s | 천주교 잠원동성당 - 파티마 성모',
+  default: '천주교 잠원동성당 - 파티마 성모',
 }
 // FIXME: 클라이언트와 소통 후 수정 필요
-const sharedDescription = `천주교 서울대교구 잠원동성당 공식 홈페이지입니다. 미사시간 안내, 공지사항, 주보, 본당소식, 본당행사일정, 예비신자 안내, 혼인미사 예약 등 본당 정보를 제공합니다.`
+const sharedDescription = `1947년에 설립된 잠원동성당은 서울 강남·서초 지역에서 가장 오래된 성당으로 오랜 시간 신앙의 중심지 역할을 해왔습니다.`
 const sharedKeywords = [
+  '잠원동',
   '잠원동성당',
   '천주교',
   '가톨릭',
+  '카톨릭',
+  '천주교 잠원동성당',
   '서울대교구',
-  '잠원동',
-  '성당',
-  '서울 성당',
+  '서초',
+  '서초성당',
+  '반포성당',
+  '파티마성모',
+  '예비신자',
+  '혼배',
+  '한신공영',
+  '천주교잠원동',
+  '잠원성당',
+  '천주교회',
+  '잠원천주교회',
 ]
 const sharedImages = ['/images/og.png']
 

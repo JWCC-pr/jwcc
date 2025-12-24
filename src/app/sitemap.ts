@@ -6,7 +6,7 @@ import { ROUTES } from '@/constants/routes'
 import { BoardApi } from '@/generated/apis/Board/Board.api'
 import { DocumentApi } from '@/generated/apis/Document/Document.api'
 import { LiturgyFlowerApi } from '@/generated/apis/LiturgyFlower/LiturgyFlower.api'
-import { NewsApi } from '@/generated/apis/News/News.api'
+// import { NewsApi } from '@/generated/apis/News/News.api'
 import { NoticeApi } from '@/generated/apis/Notice/Notice.api'
 import { PassingNoticeApi } from '@/generated/apis/PassingNotice/PassingNotice.api'
 import { WeeklyBulletinApi } from '@/generated/apis/WeeklyBulletin/WeeklyBulletin.api'
@@ -45,8 +45,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 공지사항
   const noticeApi = new NoticeApi({ customFetch: fetchExtended })
-  // 본당소식
-  const newsApi = new NewsApi({ customFetch: fetchExtended })
+  // // 본당소식
+  // const newsApi = new NewsApi({ customFetch: fetchExtended })
   // 주보
   const weeklyBulletinApi = new WeeklyBulletinApi({
     customFetch: fetchExtended,
@@ -63,7 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const [
       notices,
-      newsList,
+      // newsList,
       weeklyBulletins,
       passingNotices,
       liturgyFlowers,
@@ -76,12 +76,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           limit: LIMIT,
         },
       }),
-      newsApi.newsList({
-        query: {
-          offset: OFFSET,
-          limit: LIMIT,
-        },
-      }),
+      // newsApi.newsList({
+      //   query: {
+      //     offset: OFFSET,
+      //     limit: LIMIT,
+      //   },
+      // }),
       weeklyBulletinApi.weeklyBulletinList({
         query: {
           offset: OFFSET,
@@ -120,12 +120,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ...DEFAULT_SITEMAP,
       })) ?? []),
     )
-    dynamicRoutes.push(
-      ...(newsList.results?.map((news) => ({
-        url: `${BASE_URL}${ROUTES.NEWS_EVENT}/${news.id}`,
-        ...DEFAULT_SITEMAP,
-      })) ?? []),
-    )
+    // dynamicRoutes.push(
+    //   ...(newsList.results?.map((news) => ({
+    //     url: `${BASE_URL}${ROUTES.NEWS_EVENT}/${news.id}`,
+    //     ...DEFAULT_SITEMAP,
+    //   })) ?? []),
+    // )
     dynamicRoutes.push(
       ...(weeklyBulletins.results?.map((weeklyBulletin) => ({
         url: `${BASE_URL}${ROUTES.NEWS_BULLETIN}/${weeklyBulletin.id}`,
