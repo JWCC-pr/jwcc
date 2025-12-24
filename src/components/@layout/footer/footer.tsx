@@ -20,7 +20,7 @@ const menuItems = [
       { label: '사목지침' },
       { label: '본당 사제 · 수도자' },
       { label: '역대 사제 · 수도자' },
-      { label: '미사시간 안내 및 오시는 길' },
+      { label: '오시는 길' },
       { label: '본당 행사 일정' },
     ],
   },

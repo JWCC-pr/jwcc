@@ -18,8 +18,15 @@ import {
 } from '@/generated/icons/MyIcons'
 
 export const toaster = createToaster({
-  placement: 'bottom',
+  placement: 'bottom-end',
   pauseOnPageIdle: true,
+  duration: 3_000,
+  offsets: {
+    top: '40px',
+    bottom: '40px',
+    right: '20px',
+    left: '20px',
+  },
 })
 
 const getToastIcon = (type?: 'success' | 'error' | 'info' | (string & {})) => {
@@ -42,12 +49,7 @@ export const Toaster = () => {
     <Portal>
       <ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }}>
         {(toast) => (
-          <Toast.Root
-            display="flex"
-            alignItems="center"
-            gap="24px"
-            w="fit-content"
-          >
+          <Toast.Root display="flex" alignItems="center" gap="24px">
             <Box display="flex" alignItems="center" gap="8px">
               {toast.type === 'loading' ?
                 <Spinner size="sm" color="blue.solid" />

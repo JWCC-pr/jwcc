@@ -20,7 +20,10 @@ export interface TableColumn<T = unknown> {
   render: (item: T) => React.ReactNode
 }
 
-export interface TableProps<T = unknown> {
+export interface TableProps<T = unknown> extends Omit<
+  ChakraTable.RootProps,
+  'columns'
+> {
   columns: TableColumn<T>[]
   data: T[]
   getRowKey: (item: T) => string | number
@@ -55,6 +58,7 @@ const Table = <T,>({
   interactive = true,
   getRowProps,
   emptyContent,
+  ...rootProps
 }: TableProps<T>) => {
   // 컬럼 너비 계산
   const { columnStyles, minTableWidth } = useMemo(() => {
@@ -141,6 +145,7 @@ const Table = <T,>({
           w="full"
           minW={minTableWidth > 0 ? `${minTableWidth}px` : undefined}
           tableLayout="fixed"
+          {...rootProps}
         >
           <ChakraTable.Header borderTop="1.5px solid" borderColor="grey.10">
             <ChakraTable.Row

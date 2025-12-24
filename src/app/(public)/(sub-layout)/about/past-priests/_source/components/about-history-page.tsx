@@ -1,10 +1,22 @@
+'use client'
+
 import { Box } from '@chakra-ui/react/box'
-import { Text } from '@chakra-ui/react/text'
+
+import AboutHistoryAssistantPastorSection from './sections/about-history-assisant-pastor-section'
+import AboutHistoryNativePriestSection from './sections/about-history-native-priest-section'
+import AboutHistoryPastorSection from './sections/about-history-pastor-section'
+import AboutHistoryReligiousSection from './sections/about-history-religious-section'
 
 const AboutPastPriestsPage: React.FC = () => {
   return (
-    <Box>
-      <Text>역대 사제·수도자</Text>
+    <Box display="flex" flexDirection="column" gap="56px">
+      <AboutHistoryPastorSection />
+
+      <AboutHistoryAssistantPastorSection />
+
+      <AboutHistoryNativePriestSection />
+
+      <AboutHistoryReligiousSection />
     </Box>
   )
 }

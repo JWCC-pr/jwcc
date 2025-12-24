@@ -25,8 +25,8 @@ export const ROUTES = {
   ABOUT_PRIESTS: `/about/priests`,
   /** 역대 사제·수도자 */
   ABOUT_PAST_PRIESTS: `/about/past-priests`,
-  /** 미사시간 안내 및 오시는 길 */
-  ABOUT_MASS_SCHEDULE: `/about/mass-schedule`,
+  /** 오시는 길 */
+  ABOUT_DIRECTION: `/about/direction`,
   /** 본당 행사 일정 */
   ABOUT_EVENT_SCHEDULE: `/about/event-schedule`,
 

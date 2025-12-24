@@ -12,7 +12,7 @@ export const toastSlotRecipe = defineSlotRecipe({
   className: 'chakra-toast',
   base: {
     root: {
-      width: 'full',
+      width: ['full', '362px'],
       display: 'flex',
       alignItems: 'flex-start',
       position: 'relative',
