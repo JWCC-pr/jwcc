@@ -77,7 +77,7 @@ export class PriestApi<
    */
 
   priestAssociateHistoryRetrieve = (variables?: { params?: RequestParams }) =>
-    this.request<AssociateType, CommonErrorType>({
+    this.request<AssociateType[], CommonErrorType>({
       path: `/v1/priest/associate-history/`,
       method: 'GET',
       secure: true,
@@ -94,7 +94,7 @@ export class PriestApi<
    */
 
   priestHistoryRetrieve = (variables?: { params?: RequestParams }) =>
-    this.request<PriestType, CommonErrorType>({
+    this.request<PriestType[], CommonErrorType>({
       path: `/v1/priest/history/`,
       method: 'GET',
       secure: true,
@@ -111,7 +111,7 @@ export class PriestApi<
    */
 
   priestPastorHistoryRetrieve = (variables?: { params?: RequestParams }) =>
-    this.request<PastorType, CommonErrorType>({
+    this.request<PastorType[], CommonErrorType>({
       path: `/v1/priest/pastor-history/`,
       method: 'GET',
       secure: true,

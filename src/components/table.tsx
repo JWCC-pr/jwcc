@@ -13,7 +13,7 @@ export type ColumnWidth =
   | { type: 'flex'; value: number; minWidth?: number } // flex 비율 + 최소 너비
 
 export interface TableColumn<T = unknown> {
-  key: string
+  key: Extract<keyof T, string | number>
   label: React.ReactNode
   width?: ColumnWidth
   textAlign?: 'left' | 'center' | 'right'
@@ -41,9 +41,26 @@ export interface TableProps<T = unknown> extends Omit<
   striped?: boolean
   interactive?: boolean
   // Row 커스터마이징
-  getRowProps?: (item: T) => Record<string, any>
+  getRowProps?: (
+    item: T,
+  ) => Partial<
+    Omit<React.ComponentPropsWithoutRef<typeof ChakraTable.Row>, 'children'>
+  >
   // 빈 데이터 처리
   emptyContent?: React.ReactNode
+}
+
+type ColumnStyle = {
+  flex?: number
+  minWidth?: string
+  width?: string
+  flexShrink?: number
+}
+
+type FlexColumn = {
+  index: number
+  value: number
+  minWidth?: number
 }
 
 const Table = <T,>({
@@ -61,13 +78,12 @@ const Table = <T,>({
   ...rootProps
 }: TableProps<T>) => {
   // 컬럼 너비 계산
-  const { columnStyles, minTableWidth } = useMemo(() => {
+  const { columnStyles, minTableWidth } = useMemo<{
+    columnStyles: ColumnStyle[]
+    minTableWidth: number
+  }>(() => {
     let totalFixed = 0
-    const flexColumns: Array<{
-      index: number
-      value: number
-      minWidth?: number
-    }> = []
+    const flexColumns: FlexColumn[] = []
 
     columns.forEach((col, index) => {
       if (!col.width) {
@@ -92,7 +108,7 @@ const Table = <T,>({
     const calculatedMinWidth = totalFixed + minFlexWidth
 
     // 각 컬럼의 스타일 계산
-    const styles = columns.map((col) => {
+    const styles: ColumnStyle[] = columns.map((col) => {
       if (!col.width) {
         return {
           flex: 1,
@@ -132,6 +148,8 @@ const Table = <T,>({
     textStyle: 'pre-body-6',
     color: 'grey.10',
   }
+
+  console.log('🐬 columnStyles >> ', columnStyles)
 
   return (
     <>
@@ -208,7 +226,7 @@ const Table = <T,>({
                         lineClamp="1"
                         w="full"
                         textAlign={column.textAlign || 'center'}
-                        textStyle="pre-body-4"
+                        textStyle="pre-body-6"
                         color="grey.10"
                       >
                         {column.render(item)}

@@ -1,54 +1,19 @@
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
+import { format } from 'date-fns'
+
 import Table, { TableColumn } from '@/components/table'
+import { PastorType } from '@/generated/apis/@types/data-contracts'
+import { usePriestPastorHistoryRetrieveQuery } from '@/generated/apis/Priest/Priest.query'
 
-/** 역대 주임신부 */
-interface Pastor {
-  /** 구분 */
-  type: string
-  /** 이름 */
-  name: string
-  /** 세례명 */
-  baptismName: string
-  /** 재임기간 */
-  tenure: string
-}
-/** 역대 주임신부 데이터 */
-const PASTORS: Pastor[] = [
+const pastorsColumns: TableColumn<PastorType>[] = [
   {
-    type: '제1대',
-    name: '이우철',
-    baptismName: '시몬',
-    tenure: '1947.07.15 - 1980.05.15',
-  },
-  {
-    type: '제2대',
-    name: '이우철',
-    baptismName: '시몬',
-    tenure: '1947.07.15 - 1980.05.15',
-  },
-  {
-    type: '제3대',
-    name: '이우철',
-    baptismName: '시몬',
-    tenure: '1947.07.15 - 1980.05.15',
-  },
-  {
-    type: '제4대',
-    name: '이우철',
-    baptismName: '시몬',
-    tenure: '1947.07.15 - 1980.05.15',
-  },
-]
-
-const pastorsColumns: TableColumn<Pastor>[] = [
-  {
-    key: 'type',
+    key: 'division',
     label: '구분',
     width: { type: 'fixed', value: 120 },
     textAlign: 'center',
-    render: (pastor) => pastor.type,
+    render: (pastor) => pastor.division,
   },
   {
     key: 'name',
@@ -58,22 +23,27 @@ const pastorsColumns: TableColumn<Pastor>[] = [
     render: (pastor) => pastor.name,
   },
   {
-    key: 'baptismName',
+    key: 'baptismalName',
     label: '세례명',
     width: { type: 'flex', value: 1 },
     textAlign: 'center',
-    render: (pastor) => pastor.baptismName,
+    render: (pastor) => pastor.baptismalName,
   },
   {
-    key: 'tenure',
+    key: 'startDate',
     label: '재임기간',
     width: { type: 'flex', value: 1 },
     textAlign: 'center',
-    render: (pastor) => pastor.tenure,
+    render: (pastor) =>
+      `${format(new Date(pastor.startDate ?? ''), 'yyyy.MM.dd')} - ${format(new Date(pastor.endDate ?? ''), 'yyyy.MM.dd')}`,
   },
 ]
 
 const AboutHistoryPastorSection: React.FC = () => {
+  const { data: pastorHistory } = usePriestPastorHistoryRetrieveQuery({})
+
+  if (!pastorHistory) return
+
   return (
     <Box display="flex" flexDirection="column" gap="24px">
       <Text textStyle="pre-heading-1" color="grey.10">
@@ -82,8 +52,8 @@ const AboutHistoryPastorSection: React.FC = () => {
       <Table
         minW="680px"
         columns={pastorsColumns}
-        data={PASTORS}
-        getRowKey={(pastor) => pastor.type}
+        data={pastorHistory}
+        getRowKey={(pastor) => pastor.id}
       />
     </Box>
   )

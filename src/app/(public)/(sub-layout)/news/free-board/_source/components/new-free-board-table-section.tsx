@@ -24,7 +24,7 @@ const columns: TableColumn<BoardType>[] = [
     render: (board) => board.title,
   },
   {
-    key: 'writer',
+    key: 'user',
     label: '작성자',
     width: { type: 'fixed', value: 120 },
     textAlign: 'center',
@@ -38,7 +38,7 @@ const columns: TableColumn<BoardType>[] = [
     render: (board) => format(new Date(board.createdAt), 'yyyy-MM-dd'),
   },
   {
-    key: 'viewCount',
+    key: 'hitCount',
     label: '조회수',
     width: { type: 'fixed', value: 80 },
     textAlign: 'center',
