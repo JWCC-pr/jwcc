@@ -39,6 +39,14 @@ export default function RootLayout({
       className={`${pretendard.variable} ${catholic.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* 네이버 Saerch Advisor 인증 */}
+        <meta
+          name="naver-site-verification"
+          content="e557363d16d49a9ed9f978ce37e7ab58ba2ba66e"
+        />
+      </head>
+
       <body>
         <AppProvider>
           <ThemeProvider>
