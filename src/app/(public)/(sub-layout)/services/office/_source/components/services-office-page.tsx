@@ -1,6 +1,8 @@
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
+import Banner from '@/app/(public)/(sub-layout)/_source/components/banner'
+
 import InfoList from '../../../_source/components/info-list'
 
 const officeWorkTimes = [
@@ -37,6 +39,23 @@ const officeWorkTimes = [
 const ServicesOfficePage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="56px">
+      <Banner
+        content={
+          <Text textStyle="pre-caption-1" color="grey.0">
+            교회법에 근거하여 본당 공동체를 위해 운영되고 있으며,
+            <br />
+            세례, 견진, 혼인, 병자, 고해성사 관련 교적을 관리하고
+            <br />
+            본당의 각종 기록을 체계적으로 등록, 보관 및 보존합니다.
+          </Text>
+        }
+        image={{
+          pc: '/images/services/office/p-banner.png',
+          tablet: '/images/services/office/t-banner.png',
+          mobile: '/images/services/office/m-banner.png',
+        }}
+      />
+
       <Box display="flex" flexDirection="column" gap="24px">
         <InfoList items={officeWorkTimes} />
 
@@ -72,13 +91,6 @@ const ServicesOfficePage: React.FC = () => {
           </Text>
         </Box>
       </Box>
-
-      <Text>
-        교회법에 근거하여 본당 공동체를 위해 운영되고 있으며,
-        <br />
-        세례, 견진, 혼인, 병자, 고해성사 관련 교적을 관리하고 본당의 각종 기록을
-        체계적으로 등록, 보관 및 보존합니다.
-      </Text>
     </Box>
   )
 }

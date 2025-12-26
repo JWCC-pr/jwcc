@@ -2,6 +2,8 @@ import { Box } from '@chakra-ui/react/box'
 import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
+import Banner from '@/app/(public)/(sub-layout)/_source/components/banner'
+
 import InfoList from '../../../_source/components/info-list'
 
 const infoList = [
@@ -80,8 +82,29 @@ const infoList = [
 const ServicesMarriagePage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="56px">
+      <Banner
+        content={
+          <Text textStyle="caption-1" color="grey.0">
+            혼인미사를 받고자 하시는 예비 부부를 진심으로 축하드리오며
+            <br />
+            주님의 은총이 충만하시길 기원합니다.
+            <br />
+            일생을 두고 잊지 못할 거룩하고 기쁜 순간이 될 하느님 안에서
+            <br />
+            사랑의 언약을 성대하고 거룩하게 거행하려는 두 분의 뜻에
+            <br />
+            합당하도록 본당에서는 아래와 같이 안내드립니다.
+          </Text>
+        }
+        image={{
+          pc: '/images/services/marriage/p-banner.png',
+          tablet: '/images/services/marriage/t-banner.png',
+          mobile: '/images/services/marriage/m-banner.png',
+        }}
+      />
+
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           1. 혼인미사 신청
         </Text>
         <Text textStyle="pre-body-4" color="grey.10">
@@ -115,7 +138,7 @@ const ServicesMarriagePage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           2. 예약 시 이행 조건
         </Text>
         <Box display="flex" flexDirection="column" gap="8px">
@@ -221,7 +244,7 @@ const ServicesMarriagePage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           3. 혼인 당사자 준비사항
         </Text>
         <Box display="flex" flexDirection="column" gap="8px">
@@ -292,7 +315,7 @@ const ServicesMarriagePage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           4. 서류 작성 절차
         </Text>
         <Box display="flex" flexDirection="column" gap="8px">
@@ -316,7 +339,7 @@ const ServicesMarriagePage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           5. 유의 사항
         </Text>
         <Box display="flex" flexDirection="column" gap="8px">

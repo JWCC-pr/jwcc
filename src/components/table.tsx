@@ -149,8 +149,6 @@ const Table = <T,>({
     color: 'grey.10',
   }
 
-  console.log('🐬 columnStyles >> ', columnStyles)
-
   return (
     <>
       <ChakraTable.ScrollArea w="full">

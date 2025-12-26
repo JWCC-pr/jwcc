@@ -62,7 +62,8 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
             <Box
               as="li"
               key={`empty-${i}`}
-              aspectRatio="1/1"
+              h={['48px', 'initial']}
+              aspectRatio={['initial', '1/1']}
               borderBottom="1px solid"
               borderBottomColor="border.basic.1"
             />
@@ -76,13 +77,14 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
               as="li"
               key={i}
               p="10px"
+              h={['48px', 'initial']}
               display="flex"
               flexFlow="column nowrap"
               justifyContent="center"
               alignItems="center"
               borderBottom="1px solid"
               borderBottomColor="border.basic.1"
-              aspectRatio="1/1"
+              aspectRatio={['initial', '1/1']}
               bgColor={
                 isSelected ? 'primary.1'
                 : dayInfo.hasSchedules ?
@@ -135,7 +137,8 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
               <Box
                 as="li"
                 key={`empty-end-${i}`}
-                aspectRatio="1/1"
+                h={['48px', 'initial']}
+                aspectRatio={['initial', '1/1']}
                 borderBottom="1px solid"
                 borderBottomColor="border.basic.1"
               />
