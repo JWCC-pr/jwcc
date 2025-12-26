@@ -45,15 +45,6 @@ export const QUERY_KEY_PRIEST_API = {
   LIST_INFINITE: (variables?: Parameter<typeof priestApi.priestList>) =>
     ['PRIEST_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['PRIEST_CREATE'],
-  ASSOCIATE_HISTORY_RETRIEVE: (
-    variables?: Parameter<typeof priestApi.priestAssociateHistoryRetrieve>,
-  ) => ['PRIEST_ASSOCIATE_HISTORY_RETRIEVE', variables].filter(isDefined),
-  HISTORY_RETRIEVE: (
-    variables?: Parameter<typeof priestApi.priestHistoryRetrieve>,
-  ) => ['PRIEST_HISTORY_RETRIEVE', variables].filter(isDefined),
-  PASTOR_HISTORY_RETRIEVE: (
-    variables?: Parameter<typeof priestApi.priestPastorHistoryRetrieve>,
-  ) => ['PRIEST_PASTOR_HISTORY_RETRIEVE', variables].filter(isDefined),
   RETRIEVE: (variables?: Parameter<typeof priestApi.priestRetrieve>) =>
     ['PRIEST_RETRIEVE', variables].filter(isDefined),
   UPDATE: () => ['PRIEST_UPDATE'],
@@ -65,7 +56,7 @@ export const QUERY_KEY_PRIEST_API = {
  *
  * @tags priest
  * @name PriestList
- * @summary 사제 목록 조회 (재임 중)
+ * @summary 사제 목록 조회
  * @request GET:/v1/priest/
  * @secure    */
 
@@ -89,7 +80,7 @@ export const usePriestListQuery = <
 /**
  * No description    *      * @tags priest
  * @name PriestList
- * @summary 사제 목록 조회 (재임 중)
+ * @summary 사제 목록 조회
  * @request GET:/v1/priest/
  * @secure    */
 export const usePriestListInfiniteQuery = <
@@ -132,6 +123,7 @@ export const usePriestListInfiniteQuery = <
  *
  * @tags priest
  * @name PriestCreate
+ * @summary 사제 등록
  * @request POST:/v1/priest/
  * @secure  */
 
@@ -153,89 +145,8 @@ export const usePriestCreateMutation = (
  * No description
  *
  * @tags priest
- * @name PriestAssociateHistoryRetrieve
- * @summary 역대 부주임/보좌신부 목록 조회
- * @request GET:/v1/priest/associate-history/
- * @secure    */
-
-export const usePriestAssociateHistoryRetrieveQuery = <
-  TData = RequestFnReturn<typeof priestApi.priestAssociateHistoryRetrieve>,
->(
-  params?: QueryHookParams<
-    typeof priestApi.priestAssociateHistoryRetrieve,
-    { error: CommonErrorType },
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_PRIEST_API.ASSOCIATE_HISTORY_RETRIEVE(
-    params?.variables,
-  )
-  return useQuery({
-    queryKey,
-    queryFn: () => priestApi.priestAssociateHistoryRetrieve(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description
- *
- * @tags priest
- * @name PriestHistoryRetrieve
- * @summary 역대 사제 목록 조회
- * @request GET:/v1/priest/history/
- * @secure    */
-
-export const usePriestHistoryRetrieveQuery = <
-  TData = RequestFnReturn<typeof priestApi.priestHistoryRetrieve>,
->(
-  params?: QueryHookParams<
-    typeof priestApi.priestHistoryRetrieve,
-    { error: CommonErrorType },
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_PRIEST_API.HISTORY_RETRIEVE(params?.variables)
-  return useQuery({
-    queryKey,
-    queryFn: () => priestApi.priestHistoryRetrieve(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description
- *
- * @tags priest
- * @name PriestPastorHistoryRetrieve
- * @summary 역대 주임신부 목록 조회
- * @request GET:/v1/priest/pastor-history/
- * @secure    */
-
-export const usePriestPastorHistoryRetrieveQuery = <
-  TData = RequestFnReturn<typeof priestApi.priestPastorHistoryRetrieve>,
->(
-  params?: QueryHookParams<
-    typeof priestApi.priestPastorHistoryRetrieve,
-    { error: CommonErrorType },
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_PRIEST_API.PASTOR_HISTORY_RETRIEVE(
-    params?.variables,
-  )
-  return useQuery({
-    queryKey,
-    queryFn: () => priestApi.priestPastorHistoryRetrieve(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description
- *
- * @tags priest
  * @name PriestRetrieve
+ * @summary 사제 상세 조회
  * @request GET:/v1/priest/{id}/
  * @secure    */
 

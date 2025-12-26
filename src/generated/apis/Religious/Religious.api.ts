@@ -69,24 +69,7 @@ export class ReligiousApi<
    * No description
    *
    * @tags religious
-   * @name ReligiousHistoryRetrieve
-   * @request GET:/v1/religious/history/
-   * @secure
-   */
-
-  religiousHistoryRetrieve = (variables?: { params?: RequestParams }) =>
-    this.request<ReligiousType[], CommonErrorType>({
-      path: `/v1/religious/history/`,
-      method: 'GET',
-      secure: true,
-      format: 'json',
-      ...variables?.params,
-    }) /**
-   * No description
-   *
-   * @tags religious
    * @name ReligiousRetrieve
-   * @summary 수도자 상세 조회
    * @request GET:/v1/religious/{id}/
    * @secure
    */

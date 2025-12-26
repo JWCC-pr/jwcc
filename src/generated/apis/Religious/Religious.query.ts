@@ -45,9 +45,6 @@ export const QUERY_KEY_RELIGIOUS_API = {
   LIST_INFINITE: (variables?: Parameter<typeof religiousApi.religiousList>) =>
     ['RELIGIOUS_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['RELIGIOUS_CREATE'],
-  HISTORY_RETRIEVE: (
-    variables?: Parameter<typeof religiousApi.religiousHistoryRetrieve>,
-  ) => ['RELIGIOUS_HISTORY_RETRIEVE', variables].filter(isDefined),
   RETRIEVE: (variables?: Parameter<typeof religiousApi.religiousRetrieve>) =>
     ['RELIGIOUS_RETRIEVE', variables].filter(isDefined),
   UPDATE: () => ['RELIGIOUS_UPDATE'],
@@ -148,33 +145,7 @@ export const useReligiousCreateMutation = (
  * No description
  *
  * @tags religious
- * @name ReligiousHistoryRetrieve
- * @request GET:/v1/religious/history/
- * @secure    */
-
-export const useReligiousHistoryRetrieveQuery = <
-  TData = RequestFnReturn<typeof religiousApi.religiousHistoryRetrieve>,
->(
-  params?: QueryHookParams<
-    typeof religiousApi.religiousHistoryRetrieve,
-    { error: CommonErrorType },
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_RELIGIOUS_API.HISTORY_RETRIEVE(params?.variables)
-  return useQuery({
-    queryKey,
-    queryFn: () => religiousApi.religiousHistoryRetrieve(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description
- *
- * @tags religious
  * @name ReligiousRetrieve
- * @summary 수도자 상세 조회
  * @request GET:/v1/religious/{id}/
  * @secure    */
 
