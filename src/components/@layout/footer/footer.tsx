@@ -17,7 +17,7 @@ const snsItems = [
   },
   {
     icon: <LayoutFooterFacebookIcon w="24px" h="24px" />,
-    href: `#TODO: 링크 수정`,
+    href: `https://www.facebook.com/profile.php?id=61585123053041`,
   },
   {
     icon: <LayoutFooterInstagramIcon w="24px" h="24px" />,
@@ -105,14 +105,14 @@ const Footer: React.FC = () => {
             flexFlow="column nowrap"
             justifyContent="space-between"
           >
-            <Box display="flex" flexFlow="column nowrap" gap="24px">
+            <Box display="flex" flexFlow="column nowrap" gap="20px">
               <Box display="flex" flexFlow="column nowrap" gap="8px">
                 <Text textStyle="pre-body-5" color="grey.8">
                   Contact
                 </Text>
                 <Box display="flex" flexFlow="column nowrap" gap="4px">
                   <Text textStyle="pre-body-6" color="grey.6">
-                    서울 종로구 창신동 236-2 잠원동 성당
+                    (06520) 서울특별시 서초구 잠원로 110 (잠원동)
                   </Text>
                   <Text textStyle="pre-body-6" color="grey.6">
                     02-742-3311

@@ -24,6 +24,9 @@ const AboutPastoralPage: React.FC = () => {
         w={['450px', 'full']}
         h={['120px', '183.47px', '320px']}
         aspectRatio={['15/4', '688.00/183.47', '15/4']}
+        rounded="6px"
+        border="1px solid"
+        borderColor="border.basic.1"
       />
       <Box display="flex" flexDirection="column" gap="36px">
         <Box display="flex" flexDirection="column" gap="8px">
@@ -48,6 +51,7 @@ const AboutPastoralPage: React.FC = () => {
           body={pastoralGuidelines.body}
           hasBorderBottom={false}
           textStyle="pre-body-6"
+          py="0px"
         />
         <Box
           display="flex"

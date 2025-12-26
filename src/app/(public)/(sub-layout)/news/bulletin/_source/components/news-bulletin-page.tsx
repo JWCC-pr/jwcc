@@ -61,6 +61,9 @@ const NewsBulletinPage: React.FC = () => {
               flexDirection="column"
               alignItems="start"
               gap="0px"
+              _hover={{
+                textDecoration: 'none',
+              }}
             >
               <Image
                 src={thumbnail}

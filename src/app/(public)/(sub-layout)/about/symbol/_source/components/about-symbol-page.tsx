@@ -111,7 +111,7 @@ const AboutSymbolPage: React.FC = () => {
             borderColor="border.basic.1"
             rounded="6px"
             w={['767px', 'initial']}
-            h={['120px', 'initial']}
+            h={['120px', '240px', 'initial']}
           />
           <Box display="flex" justifyContent="center" gap="10px">
             <Button
@@ -153,7 +153,7 @@ const AboutSymbolPage: React.FC = () => {
           <br />
           십자가의 양각은 죽음, 십자가의 음각은 부활을 상징합니다.
         </Text>
-        <Text px="40px" textStyle="pre-body-6" color="grey.8">
+        <Text px={['20px', '40px']} textStyle="pre-body-6" color="grey.8">
           “메시아가 십자가에 달렸다는 것은 유다인들에게는 걸림돌이고
           이방인들에게는 어리석음입니다.
           <br />
@@ -161,8 +161,8 @@ const AboutSymbolPage: React.FC = () => {
           사람에게는 그가 곧 메시아이며 하느님의 힘이며 지혜입니다.”
           <br />
           (1코린 1, 23-24).
-          <br />
-          <br />
+        </Text>
+        <Text textStyle="pre-body-4" color="grey.10">
           볼 눈이 없는 사람들에게는 십자가는 패배의 상징이요 무력함 그
           자체입니다.
           <br />
@@ -183,8 +183,8 @@ const AboutSymbolPage: React.FC = () => {
           세상 끝날까지 앞으로도 교회는 계속 같은 복음을 전할 것입니다.
           <br />
           그리고 주님께서는 성령을 통하여 언제나 교회와 함께 계실 것입니다.
-          <br />
-          <br />
+        </Text>
+        <Text px={['20px', '40px']} textStyle="pre-body-6" color="grey.8">
           너희는 가서 이 세상 모든 사람을 내 제자로 삼아 아버지와 아들과 성령의
           이름으로 그들에게 세례를 베풀고 내가 너희에게 명한 모든 것을 지키도록
           가르쳐라.
@@ -210,7 +210,7 @@ const AboutSymbolPage: React.FC = () => {
           borderColor="border.basic.1"
           rounded="6px"
           w={['767px', 'initial']}
-          h={['120px', 'initial']}
+          h={['120px', '240px', 'initial']}
         />
       </Box>
 
@@ -221,14 +221,19 @@ const AboutSymbolPage: React.FC = () => {
         뽕나무밭(지리적 위치) ▲파티마 성모님 (주보성인)의 정신을 담았습니다.
       </Text>
 
-      <Box display="flex" gap="56px">
+      <Box
+        p={['20px', '36px 40px']}
+        display="flex"
+        flexDirection={['column', 'row']}
+        gap={['28px', '28px', '56px']}
+      >
         {lists.map((list, index) => (
           <Box
             key={index}
             display="flex"
             flexDirection={['column', 'column', 'row']}
             gap="16px"
-            w="0"
+            w={['100%', '0']}
             flex="1"
           >
             {list.svg}

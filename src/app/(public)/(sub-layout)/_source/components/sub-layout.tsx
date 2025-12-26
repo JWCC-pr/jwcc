@@ -124,10 +124,11 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         w="full"
         maxW="1280px"
         mx="auto"
-        px={['0px', '40px']}
+        px={['0 20px', '40px']}
         display="flex"
         borderBlock="1px solid"
         borderColor="border.basic.1"
+        h="48px"
       >
         <Link
           href={ROUTES.HOME}

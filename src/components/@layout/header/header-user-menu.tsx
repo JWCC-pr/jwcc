@@ -58,7 +58,7 @@ const HeaderUserMenu: React.FC<HeaderUserMenuProps> = ({ isScrolled }) => {
                   textStyle="pre-body-5"
                   color={styleMap[isScrolled ? 'scrolled' : 'default'].color}
                 >
-                  {me.name}
+                  {me.name} 님
                 </Text>
                 <Text
                   textStyle="pre-caption-4"

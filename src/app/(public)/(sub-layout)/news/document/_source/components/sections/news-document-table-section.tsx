@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
+import { keepPreviousData } from '@tanstack/react-query'
 
 import { format } from 'date-fns/format'
 
@@ -31,7 +32,7 @@ const columns: TableColumn<DocumentType>[] = [
         gap="4px"
         alignItems="flex-start"
       >
-        <Text textStyle="pre-body-6" lineClamp="1" className="title">
+        <Text textStyle="pre-body-6" lineClamp="1" className="hover-underline">
           {document.title}
         </Text>
         <Box display="flex" flexFlow="row nowrap" gap="4px">
@@ -75,6 +76,9 @@ const NewsDocumentTableSection: React.FC = () => {
         limit: LIMIT,
         title,
       },
+    },
+    options: {
+      placeholderData: keepPreviousData,
     },
   })
 

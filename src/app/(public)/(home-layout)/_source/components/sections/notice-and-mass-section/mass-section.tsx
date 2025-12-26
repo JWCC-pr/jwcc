@@ -108,7 +108,13 @@ const MASS_CATEGORIES = [
   { label: '교중 미사', value: 'primary.4' },
 ]
 
-const MassSection: React.FC = () => {
+interface MassSectionProps {
+  hasTitlePadding?: boolean
+}
+
+const MassSection: React.FC<MassSectionProps> = ({
+  hasTitlePadding = true,
+}) => {
   return (
     <Box
       flex="1"
@@ -116,7 +122,11 @@ const MassSection: React.FC = () => {
       flexFlow="column nowrap"
       gap={['24px', '24px', '9px']}
     >
-      <Text py="10px" textStyle="pre-heading-1" color="grey.10">
+      <Text
+        py={hasTitlePadding ? '10px' : '0'}
+        textStyle="pre-heading-1"
+        color="grey.10"
+      >
         미사시간 안내
       </Text>
 
@@ -124,7 +134,7 @@ const MassSection: React.FC = () => {
         <Box
           as="ul"
           display="flex"
-          gap="24px"
+          gap="8px 20px"
           flexFlow="row wrap"
           justifyContent={['flex-start', 'flex-end']}
         >

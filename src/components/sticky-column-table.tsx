@@ -225,6 +225,7 @@ const StickyColumnTable = <T,>({
             {data.map((item, rowIndex) => (
               <ChakraTable.Row
                 key={getRowKey(item)}
+                h="64px"
                 borderBottom="1px solid"
                 borderColor="border.basic.1"
                 cursor={onRowClick ? 'pointer' : undefined}
@@ -288,7 +289,6 @@ const StickyColumnTable = <T,>({
                         className="cell-content"
                         display="flex"
                         alignItems="center"
-                        minH="64px"
                         p="10px"
                         justifyContent={
                           column.textAlign === 'left' ? 'flex-start'

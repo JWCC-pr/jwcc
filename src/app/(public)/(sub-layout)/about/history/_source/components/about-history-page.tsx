@@ -157,8 +157,9 @@ const AboutHistoryPage: React.FC = () => {
           <Box
             minW={['80px', '180px']}
             textAlign="right"
-            textStyle="cat-headubg-2"
+            textStyle="cat-heading-2"
             color="primary.4"
+            pb="40px"
           >
             {item.year}
           </Box>

@@ -17,6 +17,7 @@ const NewsDocumentSearchSection: React.FC = () => {
   const initialTitle = searchParams.get('title') ?? undefined
 
   const [title, setTitle] = useState(() => initialTitle)
+  const [isFocused, setIsFocused] = useState(false)
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setTitle(e.target.value)
@@ -31,6 +32,8 @@ const NewsDocumentSearchSection: React.FC = () => {
     newSearchParams.set('title', title?.trim() ?? '')
     router.replace(`${ROUTES.NEWS_DOCUMENT}?${newSearchParams.toString()}`)
   }
+  const handleFocus = () => setIsFocused(true)
+  const handleBlur = () => setIsFocused(false)
 
   return (
     <Box py="20px">
@@ -39,7 +42,7 @@ const NewsDocumentSearchSection: React.FC = () => {
         endElement={
           <MagnifyingGlassIcon
             size="20px"
-            color="#9FA4A9"
+            color={isFocused ? '#780536' : '#9FA4A9'}
             onClick={handleSearch}
             cursor="pointer"
           />
@@ -54,6 +57,8 @@ const NewsDocumentSearchSection: React.FC = () => {
           value={title}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
       </InputGroup>
     </Box>

@@ -42,6 +42,8 @@ const AboutDirectionMap: React.FC = () => {
           #daumRoughmapContainer1766567029490 iframe {
             width: 100% !important;
             max-width: 100% !important;
+            height: 100% !important;
+            min-height: 100% !important;
           }
         `
       document.head.appendChild(style)
@@ -98,6 +100,7 @@ const AboutDirectionMap: React.FC = () => {
           id="daumRoughmapContainer1766567029490"
           className="root_daum_roughmap root_daum_roughmap_landing"
           w="full"
+          h="full"
         />
       </Box>
     </>
