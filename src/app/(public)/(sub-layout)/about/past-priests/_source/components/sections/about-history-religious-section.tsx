@@ -6,10 +6,10 @@ import { Text } from '@chakra-ui/react/text'
 import { format } from 'date-fns'
 
 import Table, { TableColumn } from '@/components/table'
-import { ReligiousType } from '@/generated/apis/@types/data-contracts'
-import { useReligiousHistoryRetrieveQuery } from '@/generated/apis/Religious/Religious.query'
+import { ReligiousHistoryType } from '@/generated/apis/@types/data-contracts'
+import { useReligiousHistoryListQuery } from '@/generated/apis/ReligiousHistory/ReligiousHistory.query'
 
-const religiousColumns: TableColumn<ReligiousType>[] = [
+const religiousColumns: TableColumn<ReligiousHistoryType>[] = [
   {
     key: 'category',
     label: '구분',
@@ -42,9 +42,10 @@ const religiousColumns: TableColumn<ReligiousType>[] = [
 ]
 
 const AboutHistoryReligiousSection: React.FC = () => {
-  const { data: religiouses } = useReligiousHistoryRetrieveQuery({})
+  const { data: religiouses } = useReligiousHistoryListQuery({})
 
   if (!religiouses) return
+  if (!religiouses.results) return
 
   return (
     <Box display="flex" flexDirection="column" gap="24px">
@@ -54,7 +55,7 @@ const AboutHistoryReligiousSection: React.FC = () => {
       <Table
         minW="680px"
         columns={religiousColumns}
-        data={religiouses}
+        data={religiouses.results}
         getRowKey={(religious) => religious.id}
       />
     </Box>

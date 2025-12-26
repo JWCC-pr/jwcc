@@ -4,10 +4,10 @@ import { Text } from '@chakra-ui/react/text'
 import { format } from 'date-fns'
 
 import Table, { TableColumn } from '@/components/table'
-import { AssociateType } from '@/generated/apis/@types/data-contracts'
-import { usePriestAssociateHistoryRetrieveQuery } from '@/generated/apis/Priest/Priest.query'
+import { AssistantPriestHistoryType } from '@/generated/apis/@types/data-contracts'
+import { useAssistantPriestHistoryListQuery } from '@/generated/apis/AssistantPriestHistory/AssistantPriestHistory.query'
 
-const assistantPastorsColumns: TableColumn<AssociateType>[] = [
+const assistantPastorsColumns: TableColumn<AssistantPriestHistoryType>[] = [
   {
     key: 'assistantSystem',
     label: '보좌체제',
@@ -16,11 +16,11 @@ const assistantPastorsColumns: TableColumn<AssociateType>[] = [
     render: (assistantPastor) => assistantPastor.assistantSystem,
   },
   {
-    key: 'division',
+    key: 'category',
     label: '구분',
     width: { type: 'fixed', value: 120 },
     textAlign: 'center',
-    render: (assistantPastor) => assistantPastor.division,
+    render: (assistantPastor) => assistantPastor.category,
   },
   {
     key: 'name',
@@ -47,9 +47,10 @@ const assistantPastorsColumns: TableColumn<AssociateType>[] = [
 ]
 
 const AboutHistoryAssistantPastorSection: React.FC = () => {
-  const { data: assistantPastors } = usePriestAssociateHistoryRetrieveQuery({})
+  const { data: assistantPastors } = useAssistantPriestHistoryListQuery({})
 
   if (!assistantPastors) return
+  if (!assistantPastors.results) return
 
   return (
     <Box display="flex" flexDirection="column" gap="24px">
@@ -59,7 +60,7 @@ const AboutHistoryAssistantPastorSection: React.FC = () => {
       <Table
         minW="680px"
         columns={assistantPastorsColumns}
-        data={assistantPastors}
+        data={assistantPastors.results}
         getRowKey={(assistantPastor) => assistantPastor.id}
       />
     </Box>

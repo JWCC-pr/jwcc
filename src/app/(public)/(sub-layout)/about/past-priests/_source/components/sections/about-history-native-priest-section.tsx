@@ -2,10 +2,10 @@ import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
 import Table, { TableColumn } from '@/components/table'
-import { PriestType } from '@/generated/apis/@types/data-contracts'
-import { usePriestHistoryRetrieveQuery } from '@/generated/apis/Priest/Priest.query'
+import { PriestHistoryType } from '@/generated/apis/@types/data-contracts'
+import { usePriestHistoryListQuery } from '@/generated/apis/PriestHistory/PriestHistory.query'
 
-const nativePriestsColumns: TableColumn<PriestType>[] = [
+const nativePriestsColumns: TableColumn<PriestHistoryType>[] = [
   {
     key: 'name',
     label: '이름',
@@ -30,9 +30,10 @@ const nativePriestsColumns: TableColumn<PriestType>[] = [
 ]
 
 const AboutHistoryNativePriestSection: React.FC = () => {
-  const { data: pastors } = usePriestHistoryRetrieveQuery({})
+  const { data: nativePriests } = usePriestHistoryListQuery({})
 
-  if (!pastors) return
+  if (!nativePriests) return
+  if (!nativePriests.results) return
 
   return (
     <Box display="flex" flexDirection="column" gap="24px">
@@ -42,7 +43,7 @@ const AboutHistoryNativePriestSection: React.FC = () => {
       <Table
         minW="680px"
         columns={nativePriestsColumns}
-        data={pastors}
+        data={nativePriests.results}
         getRowKey={(pastor) => pastor.id}
       />
     </Box>
