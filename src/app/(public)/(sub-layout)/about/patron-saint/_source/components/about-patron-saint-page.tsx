@@ -31,7 +31,7 @@ const AboutPatronSaintPage: React.FC = () => {
           gap="20px"
           justifyContent="center"
         >
-          <Box display="flex" flexDirection="column">
+          <Box display="flex" flexDirection="column" maxW="570px" mx="auto">
             <AboutPatronSaintQuotationMarkLeftIcon w="24px" h="16px" />
             <Text textStyle="cat-heading-2" color="grey.10" textAlign="center">
               저의 하느님,

@@ -1,9 +1,7 @@
 import { ContentType, HttpClient, RequestParams } from '../@http-client'
 import {
-  AssociateType,
   CommonErrorType,
   PaginatedPriestListType,
-  PastorType,
   PriestErrorMessageType,
   PriestRequestType,
   PriestType,
@@ -24,7 +22,7 @@ export class PriestApi<
    *
    * @tags priest
    * @name PriestList
-   * @summary 사제 목록 조회 (재임 중)
+   * @summary 사제 목록 조회
    * @request GET:/v1/priest/
    * @secure
    */
@@ -50,6 +48,7 @@ export class PriestApi<
    *
    * @tags priest
    * @name PriestCreate
+   * @summary 사제 등록
    * @request POST:/v1/priest/
    * @secure
    */
@@ -70,58 +69,8 @@ export class PriestApi<
    * No description
    *
    * @tags priest
-   * @name PriestAssociateHistoryRetrieve
-   * @summary 역대 부주임/보좌신부 목록 조회
-   * @request GET:/v1/priest/associate-history/
-   * @secure
-   */
-
-  priestAssociateHistoryRetrieve = (variables?: { params?: RequestParams }) =>
-    this.request<AssociateType[], CommonErrorType>({
-      path: `/v1/priest/associate-history/`,
-      method: 'GET',
-      secure: true,
-      format: 'json',
-      ...variables?.params,
-    }) /**
-   * No description
-   *
-   * @tags priest
-   * @name PriestHistoryRetrieve
-   * @summary 역대 사제 목록 조회
-   * @request GET:/v1/priest/history/
-   * @secure
-   */
-
-  priestHistoryRetrieve = (variables?: { params?: RequestParams }) =>
-    this.request<PriestType[], CommonErrorType>({
-      path: `/v1/priest/history/`,
-      method: 'GET',
-      secure: true,
-      format: 'json',
-      ...variables?.params,
-    }) /**
-   * No description
-   *
-   * @tags priest
-   * @name PriestPastorHistoryRetrieve
-   * @summary 역대 주임신부 목록 조회
-   * @request GET:/v1/priest/pastor-history/
-   * @secure
-   */
-
-  priestPastorHistoryRetrieve = (variables?: { params?: RequestParams }) =>
-    this.request<PastorType[], CommonErrorType>({
-      path: `/v1/priest/pastor-history/`,
-      method: 'GET',
-      secure: true,
-      format: 'json',
-      ...variables?.params,
-    }) /**
-   * No description
-   *
-   * @tags priest
    * @name PriestRetrieve
+   * @summary 사제 상세 조회
    * @request GET:/v1/priest/{id}/
    * @secure
    */

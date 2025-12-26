@@ -49,8 +49,8 @@ export const getSharedMetadata = ({
   description,
   keywords: [...new Set([...sharedKeywords, ...keywords])],
   icons: [
-    { rel: 'shortcut icon', url: '/favicon-16x16.ico', sizes: '16x16' },
-    { rel: 'shortcut icon', url: '/favicon-32x32.ico', sizes: '32x32' },
+    { rel: 'shortcut icon', url: '/favicon-16x16.png', sizes: '16x16' },
+    { rel: 'shortcut icon', url: '/favicon-32x32.png', sizes: '32x32' },
     { rel: 'apple-touch-icon', url: '/apple-touch-icon.png' },
     {
       rel: 'android-chrome',

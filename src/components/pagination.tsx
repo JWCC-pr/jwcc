@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { Box } from '@chakra-ui/react/box'
 import { ButtonGroup, IconButton } from '@chakra-ui/react/button'
 import { Pagination as ChakraPagination } from '@chakra-ui/react/pagination'
 import {
@@ -74,29 +75,30 @@ const Pagination: React.FC<PaginationProps> = ({
         size={size}
         gap={PAGINATION_BUTTON_GAP[size]}
       >
-        <IconButton
-          variant="ghost"
-          rounded={ICON_BUTTON_RADIUS[size]}
-          color="grey.8"
-          onClick={handleFirstPage}
-          disabled={isFirstPage}
-          _disabled={{
-            opacity: 0.4,
-            cursor: 'not-allowed',
-          }}
-        >
-          <CaretDoubleLeftIcon />
-        </IconButton>
-
-        <ChakraPagination.PrevTrigger asChild>
+        <Box display="flex" alignItems="center">
           <IconButton
             variant="ghost"
             rounded={ICON_BUTTON_RADIUS[size]}
             color="grey.8"
+            onClick={handleFirstPage}
+            disabled={isFirstPage}
+            _disabled={{
+              opacity: 0.4,
+              cursor: 'not-allowed',
+            }}
           >
-            <CaretLeftIcon />
+            <CaretDoubleLeftIcon />
           </IconButton>
-        </ChakraPagination.PrevTrigger>
+          <ChakraPagination.PrevTrigger asChild>
+            <IconButton
+              variant="ghost"
+              rounded={ICON_BUTTON_RADIUS[size]}
+              color="grey.8"
+            >
+              <CaretLeftIcon />
+            </IconButton>
+          </ChakraPagination.PrevTrigger>
+        </Box>
 
         <ChakraPagination.Items
           render={(page) => (
@@ -111,29 +113,30 @@ const Pagination: React.FC<PaginationProps> = ({
           )}
         />
 
-        <ChakraPagination.NextTrigger asChild>
+        <Box display="flex" alignItems="center">
+          <ChakraPagination.NextTrigger asChild>
+            <IconButton
+              variant="ghost"
+              rounded={ICON_BUTTON_RADIUS[size]}
+              color="grey.8"
+            >
+              <CaretRightIcon />
+            </IconButton>
+          </ChakraPagination.NextTrigger>
           <IconButton
             variant="ghost"
             rounded={ICON_BUTTON_RADIUS[size]}
             color="grey.8"
+            onClick={handleLastPage}
+            disabled={isLastPage}
+            _disabled={{
+              opacity: 0.4,
+              cursor: 'not-allowed',
+            }}
           >
-            <CaretRightIcon />
+            <CaretDoubleRightIcon />
           </IconButton>
-        </ChakraPagination.NextTrigger>
-
-        <IconButton
-          variant="ghost"
-          rounded={ICON_BUTTON_RADIUS[size]}
-          color="grey.8"
-          onClick={handleLastPage}
-          disabled={isLastPage}
-          _disabled={{
-            opacity: 0.4,
-            cursor: 'not-allowed',
-          }}
-        >
-          <CaretDoubleRightIcon />
-        </IconButton>
+        </Box>
       </ButtonGroup>
     </ChakraPagination.Root>
   )

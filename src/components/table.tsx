@@ -17,7 +17,7 @@ export interface TableColumn<T = unknown> {
   label: React.ReactNode
   width?: ColumnWidth
   textAlign?: 'left' | 'center' | 'right'
-  render: (item: T) => React.ReactNode
+  render: (item: T) => React.ReactNode | string
 }
 
 export interface TableProps<T = unknown> extends Omit<
@@ -149,8 +149,6 @@ const Table = <T,>({
     color: 'grey.10',
   }
 
-  console.log('🐬 columnStyles >> ', columnStyles)
-
   return (
     <>
       <ChakraTable.ScrollArea w="full">
@@ -186,6 +184,7 @@ const Table = <T,>({
             {data.map((item) => (
               <ChakraTable.Row
                 key={getRowKey(item)}
+                h="64px"
                 borderBottom="1px solid"
                 borderColor="border.basic.1"
                 cursor={onRowClick ? 'pointer' : undefined}
@@ -194,7 +193,7 @@ const Table = <T,>({
                   onRowClick ?
                     {
                       bgColor: 'background.basic.2',
-                      '& > *:first-of-type .cell-content': {
+                      '& > *:first-of-type .hover-underline': {
                         textDecoration: 'underline',
                       },
                     }
@@ -202,38 +201,44 @@ const Table = <T,>({
                 }
                 {...(getRowProps ? getRowProps(item) : {})}
               >
-                {columns.map((column, index) => (
-                  <ChakraTable.Cell
-                    key={column.key}
-                    {...tableBodyRowCellStyle}
-                    {...columnStyles[index]}
-                    p="0"
-                  >
-                    <Box
-                      className="cell-content"
-                      display="flex"
-                      alignItems="center"
-                      minH="64px"
-                      p="10px"
-                      justifyContent={
-                        column.textAlign === 'left' ? 'flex-start'
-                        : column.textAlign === 'right' ?
-                          'flex-end'
-                        : 'center'
-                      }
+                {columns.map((column, index) => {
+                  const renderedContent = column.render(item)
+                  const isString = typeof renderedContent === 'string'
+
+                  return (
+                    <ChakraTable.Cell
+                      key={column.key}
+                      {...tableBodyRowCellStyle}
+                      {...columnStyles[index]}
+                      p="0"
                     >
                       <Box
-                        lineClamp="1"
-                        w="full"
-                        textAlign={column.textAlign || 'center'}
-                        textStyle="pre-body-6"
-                        color="grey.10"
+                        display="flex"
+                        alignItems="center"
+                        p="10px"
+                        justifyContent={
+                          column.textAlign === 'left' ? 'flex-start'
+                          : column.textAlign === 'right' ?
+                            'flex-end'
+                          : 'center'
+                        }
                       >
-                        {column.render(item)}
+                        {isString ?
+                          <Box
+                            className="hover-underline"
+                            lineClamp="1"
+                            w="full"
+                            textAlign={column.textAlign || 'center'}
+                            textStyle="pre-body-6"
+                            color="grey.10"
+                          >
+                            {renderedContent}
+                          </Box>
+                        : <Box w="full">{renderedContent}</Box>}
                       </Box>
-                    </Box>
-                  </ChakraTable.Cell>
-                ))}
+                    </ChakraTable.Cell>
+                  )
+                })}
               </ChakraTable.Row>
             ))}
 

@@ -261,17 +261,17 @@ const AboutEventSchedulePage: React.FC = () => {
                     {dayInfo.schedules.slice(0, 3).map((schedule) => (
                       <Box
                         key={schedule.id}
-                        p="1px 4px"
+                        p="2px 6px"
                         display="flex"
                         alignItems="center"
-                        gap="4px"
+                        gap="6px"
                         bgColor="primary.1"
-                        rounded="2px"
+                        rounded="4px"
                         minH="16px"
                       >
                         <Box
-                          w="3px"
-                          h="3px"
+                          w="4px"
+                          h="4px"
                           bgColor="primary.3"
                           rounded="full"
                           flexShrink={0}

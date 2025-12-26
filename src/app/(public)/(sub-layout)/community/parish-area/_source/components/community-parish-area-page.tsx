@@ -208,7 +208,7 @@ const tableTwoData = [
     {
       area: `16구역`,
       class: `1반`,
-      detailAddress: `한강 1동,\n세인트빌, 서전빌라, 리버빌라, 잠원동포스코오티에르 (신반포18차 재건축)`,
+      detailAddress: `한강 1동,\n세인트빌, 서전빌라, 리버빌라, 잠원동포스코오티에르`,
     },
     {
       area: `16구역`,

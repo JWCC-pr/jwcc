@@ -157,7 +157,7 @@ const ServicesTransfersPage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <MassSection />
+        <MassSection hasTitlePadding={false} />
         <Box
           p="20px 24px"
           display="flex"
@@ -181,7 +181,13 @@ const ServicesTransfersPage: React.FC = () => {
             },
           ].map((item) => (
             <Box key={item.label} display="flex" gap="10px" alignItems="center">
-              <Text w="120px" textStyle="pre-body-5" color="grey.7">
+              <Text
+                alignSelf="flex-start"
+                flexShrink="0"
+                w={['90px', '120px']}
+                textStyle="pre-body-5"
+                color="grey.7"
+              >
                 {item.label}
               </Text>
               <Text textStyle="pre-body-4" color="grey.10">
@@ -226,7 +232,7 @@ const ServicesTransfersPage: React.FC = () => {
         <Text textStyle="pre-heading-1" color="grey.10">
           사무실 안내
         </Text>
-        <InfoList items={officeInfos} isFlexibleWidth />
+        <InfoList items={officeInfos} />
         <Box
           p="20px 24px"
           display="flex"
@@ -237,7 +243,12 @@ const ServicesTransfersPage: React.FC = () => {
         >
           <Box display="flex" flexFlow="column nowrap" gap="8px">
             <Box display="flex" gap="10px">
-              <Text w="120px" textStyle="pre-body-5" color="grey.7">
+              <Text
+                flexShrink="0"
+                w={['90px', '120px']}
+                textStyle="pre-body-5"
+                color="grey.7"
+              >
                 사무실 연락처
               </Text>
               <Text textStyle="pre-body-4" color="grey.10">
@@ -245,7 +256,12 @@ const ServicesTransfersPage: React.FC = () => {
               </Text>
             </Box>
             <Box display="flex" gap="10px">
-              <Text w="120px" textStyle="pre-body-5" color="grey.7">
+              <Text
+                flexShrink="0"
+                w={['90px', '120px']}
+                textStyle="pre-body-5"
+                color="grey.7"
+              >
                 선종, 장례 문의
               </Text>
               <Text textStyle="pre-body-4" color="grey.10">

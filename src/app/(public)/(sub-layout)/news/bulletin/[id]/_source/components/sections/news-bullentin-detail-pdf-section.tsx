@@ -39,39 +39,64 @@ const NewsBullentinDetailPdfSection: React.FC<
   const [isDragging, setIsDragging] = useState(false)
 
   const pdfContainerRef = useRef<HTMLDivElement>(null)
+  const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map())
   const x = useMotionValue(0)
   const animationRef = useRef<ReturnType<typeof animate> | null>(null)
 
-  // 컨테이너 크기 계산 (디바이스별 비율 적용)
+  // 컨테이너 크기 계산 및 canvas 높이 측정
   useEffect(() => {
+    if (!pdfContainerRef.current) return
+
     const updateSize = () => {
       if (!pdfContainerRef.current) return
 
       const width = pdfContainerRef.current.offsetWidth
       setContainerWidth(width)
-
-      // 디바이스별 비율 계산
-      // mobile (< 768px): 5:7
-      // tablet (768px ~ 1024px): 6:7
-      // pc (>= 1024px): 5:4
-      const screenWidth = window.innerWidth
-      let aspectRatio = 5 / 4 // pc 기본값
-
-      if (screenWidth < 768) {
-        aspectRatio = 5 / 7 // mobile
-      } else if (screenWidth < 1024) {
-        aspectRatio = 6 / 7 // tablet
-      }
-
-      const height = width / aspectRatio
-      setContainerHeight(height)
     }
 
-    // 약간의 지연을 두어 DOM이 완전히 렌더링된 후 크기 계산
-    setTimeout(updateSize, 100)
-    window.addEventListener('resize', updateSize)
-    return () => window.removeEventListener('resize', updateSize)
-  }, [])
+    // canvas 높이 측정
+    const measureCanvasHeight = () => {
+      // 첫 번째 페이지의 canvas 높이를 측정
+      const firstPageElement = pageRefs.current.get(1)
+      if (firstPageElement) {
+        const canvas = firstPageElement.querySelector('canvas')
+        if (canvas) {
+          const canvasHeight = canvas.offsetHeight || canvas.height
+          if (canvasHeight > 0) {
+            setContainerHeight(canvasHeight)
+          }
+        }
+      }
+    }
+
+    // 초기 크기 계산
+    updateSize()
+
+    // ResizeObserver로 컨테이너 크기 변경 감지
+    const resizeObserver = new ResizeObserver(() => {
+      updateSize()
+      // 크기 변경 후 canvas 높이 재측정
+      setTimeout(measureCanvasHeight, 100)
+    })
+
+    resizeObserver.observe(pdfContainerRef.current)
+
+    // window resize 이벤트도 감지
+    window.addEventListener('resize', () => {
+      updateSize()
+      setTimeout(measureCanvasHeight, 100)
+    })
+
+    // canvas 높이 측정 (PDF 로드 후)
+    if (numPages && containerWidth > 0) {
+      setTimeout(measureCanvasHeight, 200)
+    }
+
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', updateSize)
+    }
+  }, [numPages, containerWidth])
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages)
@@ -173,7 +198,7 @@ const NewsBullentinDetailPdfSection: React.FC<
       <Box
         position="relative"
         display="flex"
-        alignItems="center"
+        alignItems="flex-start"
         justifyContent="center"
         gap="10px"
         w={['100%', '100%', '800px']}
@@ -181,7 +206,7 @@ const NewsBullentinDetailPdfSection: React.FC<
         px={['12px', '12px', '0']}
       >
         {/* 왼쪽 버튼 */}
-        <Box flexShrink="0" display={['none', 'flex']}>
+        <Box flexShrink="0" display={['none', 'flex']} alignSelf="center">
           <IconButton
             size="lg"
             variant="outline"
@@ -199,9 +224,8 @@ const NewsBullentinDetailPdfSection: React.FC<
         {/* PDF Container */}
         <Box
           ref={pdfContainerRef}
-          flexShrink="0"
-          w={['100%', `calc(100% - 120px)`, '680px']}
-          maxW="100%"
+          flex="1"
+          minW="0"
           display="flex"
           flexDirection="column"
           alignItems="center"
@@ -215,10 +239,10 @@ const NewsBullentinDetailPdfSection: React.FC<
             h={containerHeight > 0 ? `${containerHeight}px` : 'auto'}
             minH="400px"
             display="flex"
-            alignItems="center"
+            alignItems="flex-start"
             justifyContent="flex-start"
             rounded="6px"
-            overflow="hidden"
+            overflow="visible"
             bgColor="background.basic.1"
             cursor={isDragging ? 'grabbing' : 'grab'}
           >
@@ -283,34 +307,41 @@ const NewsBullentinDetailPdfSection: React.FC<
                     return (
                       <Box
                         key={`page_${pageIndex}`}
+                        ref={(el: HTMLDivElement | null) => {
+                          if (el) {
+                            pageRefs.current.set(pageIndex, el)
+                          } else {
+                            pageRefs.current.delete(pageIndex)
+                          }
+                        }}
                         flexShrink="0"
                         w={`${containerWidth}px`}
-                        h={`${containerHeight}px`}
+                        h={
+                          containerHeight > 0 ? `${containerHeight}px` : 'auto'
+                        }
                         display="flex"
-                        alignItems="center"
+                        alignItems="flex-start"
                         justifyContent="center"
                         position="relative"
-                        overflow="hidden"
+                        overflow="visible"
                       >
                         <Box
                           w="100%"
-                          h="100%"
+                          h="auto"
                           display="flex"
-                          alignItems="center"
+                          alignItems="flex-start"
                           justifyContent="center"
                           bgColor="background.basic.2"
                           css={{
                             '& > .react-pdf__Page': {
                               display: 'flex',
-                              alignItems: 'center',
+                              alignItems: 'flex-start',
                               justifyContent: 'center',
                             },
                             '& > .react-pdf__Page > canvas': {
-                              maxWidth: '100%',
-                              maxHeight: '100%',
-                              width: 'auto !important',
+                              width: '100% !important',
                               height: 'auto !important',
-                              objectFit: 'contain',
+                              maxWidth: '100%',
                             },
                           }}
                         >
@@ -318,7 +349,23 @@ const NewsBullentinDetailPdfSection: React.FC<
                             pageNumber={pageIndex}
                             renderTextLayer={false}
                             renderAnnotationLayer={false}
-                            height={containerHeight}
+                            width={containerWidth}
+                            onRenderSuccess={() => {
+                              // canvas 렌더링 후 높이 측정
+                              const pageElement =
+                                pageRefs.current.get(pageIndex)
+                              if (pageElement && pageIndex === 1) {
+                                const canvas =
+                                  pageElement.querySelector('canvas')
+                                if (canvas) {
+                                  const canvasHeight =
+                                    canvas.offsetHeight || canvas.height
+                                  if (canvasHeight > 0) {
+                                    setContainerHeight(canvasHeight)
+                                  }
+                                }
+                              }
+                            }}
                             loading={
                               <Box
                                 display="flex"
@@ -342,7 +389,7 @@ const NewsBullentinDetailPdfSection: React.FC<
         </Box>
 
         {/* 오른쪽 버튼 */}
-        <Box flexShrink="0" display={['none', 'flex']}>
+        <Box flexShrink="0" display={['none', 'flex']} alignSelf="center">
           <IconButton
             size="lg"
             variant="outline"

@@ -5,6 +5,7 @@ interface AdminEditorContentProps extends BoxProps {
   hasBorderBottom?: boolean
 }
 
+// FIXME: [Prose](https://chakra-ui.com/docs/components/prose)
 const AdminEditorContent: React.FC<AdminEditorContentProps> = ({
   body,
   hasBorderBottom = true,

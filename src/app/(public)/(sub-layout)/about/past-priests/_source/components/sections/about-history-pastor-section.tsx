@@ -4,16 +4,16 @@ import { Text } from '@chakra-ui/react/text'
 import { format } from 'date-fns'
 
 import Table, { TableColumn } from '@/components/table'
-import { PastorType } from '@/generated/apis/@types/data-contracts'
-import { usePriestPastorHistoryRetrieveQuery } from '@/generated/apis/Priest/Priest.query'
+import { PastorHistoryType } from '@/generated/apis/@types/data-contracts'
+import { usePastorHistoryListQuery } from '@/generated/apis/PastorHistory/PastorHistory.query'
 
-const pastorsColumns: TableColumn<PastorType>[] = [
+const pastorsColumns: TableColumn<PastorHistoryType>[] = [
   {
-    key: 'division',
+    key: 'category',
     label: '구분',
     width: { type: 'fixed', value: 120 },
     textAlign: 'center',
-    render: (pastor) => pastor.division,
+    render: (pastor) => pastor.category,
   },
   {
     key: 'name',
@@ -40,9 +40,10 @@ const pastorsColumns: TableColumn<PastorType>[] = [
 ]
 
 const AboutHistoryPastorSection: React.FC = () => {
-  const { data: pastorHistory } = usePriestPastorHistoryRetrieveQuery({})
+  const { data: pastorHistory } = usePastorHistoryListQuery({})
 
   if (!pastorHistory) return
+  if (!pastorHistory.results) return
 
   return (
     <Box display="flex" flexDirection="column" gap="24px">
@@ -52,7 +53,7 @@ const AboutHistoryPastorSection: React.FC = () => {
       <Table
         minW="680px"
         columns={pastorsColumns}
-        data={pastorHistory}
+        data={pastorHistory.results}
         getRowKey={(pastor) => pastor.id}
       />
     </Box>

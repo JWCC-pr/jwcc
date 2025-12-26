@@ -21,7 +21,7 @@ const InfoList: React.FC<InfoListProps> = ({
       display="grid"
       gridTemplateColumns={
         isFlexibleWidth ?
-          ['max-content 1fr', 'max-content 1fr']
+          ['max-content 1fr', '140px 1fr']
         : ['140px 1fr', '140px 1fr']
       }
     >

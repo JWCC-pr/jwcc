@@ -58,7 +58,12 @@ const NewFreeBoardTopSection: React.FC = () => {
           href={ROUTES.NEWS_FREE_BOARD_CREATE}
           _hover={{ textDecoration: 'none' }}
         >
-          <Button size="md" variant="solid" colorPalette="primary">
+          <Button
+            size="md"
+            variant="solid"
+            colorPalette="primary"
+            w={['initial', '140px']}
+          >
             <NewsFreeBoardPencilSimpleLineIcon w="20px" h="20px" />
             게시글 작성
           </Button>

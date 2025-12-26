@@ -131,7 +131,7 @@ const ServicesCatechumenPage: React.FC = () => {
       </Text>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           1. 예비신자 교리반
         </Text>
         <Text textStyle="pre-body-4" color="grey.10">
@@ -155,7 +155,7 @@ const ServicesCatechumenPage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           2. 예비 기간의 의의
         </Text>
         {stepTwoList.map((item) => (
@@ -168,7 +168,7 @@ const ServicesCatechumenPage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           3. 교회의 일원인 예비신자
         </Text>
         {stepThreeList.map((item) => (
@@ -181,7 +181,7 @@ const ServicesCatechumenPage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           4. 익혀가야 할 내용들
         </Text>
         {stepFourList.map((item) => (
@@ -194,7 +194,7 @@ const ServicesCatechumenPage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           5. 세례 받기 전에 준비할 사항
         </Text>
         {stepFiveList.map((item) => (
@@ -207,7 +207,7 @@ const ServicesCatechumenPage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
+        <Text textStyle="pre-heading-2" color="grey.10">
           예비자 교리반 운영 안내
         </Text>
         <Text textStyle="pre-body-4" color="grey.10">

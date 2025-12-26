@@ -4,13 +4,18 @@
  * 스크립트가 실행될때, 파일을 항상 새로 쓰기 때문에 파일 수정시 작성내용이 제거 될 수 있습니다.
  */
 
-export interface AssociateType {
+export interface AssistantPriestHistoryType {
   readonly id: number
   /**
-   * 이미지
-   * @format uri
+   * 보좌 체제
+   * @maxLength 50
    */
-  image: string
+  assistantSystem: string
+  /**
+   * 구분
+   * @maxLength 50
+   */
+  category: string
   /**
    * 이름
    * @maxLength 20
@@ -22,13 +27,15 @@ export interface AssociateType {
    */
   baptismalName: string
   /**
-   * 수품일
+   * 재임 시작일
    * @format date
    */
-  ordinationDate: string
-  /** 퇴임 여부 */
-  isRetired?: boolean
-  readonly roleDisplay: string
+  startDate: string
+  /**
+   * 재임 종료일
+   * @format date
+   */
+  endDate: string
   readonly order: number
   /**
    * 생성일시
@@ -40,28 +47,53 @@ export interface AssociateType {
    * @format date-time
    */
   readonly updatedAt: string
+}
+
+export interface AssistantPriestHistoryErrorMessageType {
+  nonField?: string[]
+  assistantSystem?: string[]
+  category?: string[]
+  name?: string[]
+  baptismalName?: string[]
+  startDate?: string[]
+  endDate?: string[]
+}
+
+export interface AssistantPriestHistoryRequestType {
   /**
-   * 구분
-   * 예: 제1대 주임신부
+   * 보좌 체제
+   * @minLength 1
    * @maxLength 50
    */
-  division?: string | null
+  assistantSystem: string
+  /**
+   * 구분
+   * @minLength 1
+   * @maxLength 50
+   */
+  category: string
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
   /**
    * 재임 시작일
    * @format date
    */
-  startDate?: string | null
+  startDate: string
   /**
    * 재임 종료일
    * @format date
    */
-  endDate?: string | null
-  /**
-   * 보좌 체제
-   * 부주임신부에게만 사용
-   * @maxLength 50
-   */
-  assistantSystem?: string | null
+  endDate: string
 }
 
 export interface BannerType {
@@ -701,6 +733,12 @@ export interface NoticeNoticeFileType {
   file: string
 }
 
+export interface PaginatedAssistantPriestHistoryListType {
+  count?: number
+  isNext?: boolean
+  results?: AssistantPriestHistoryType[]
+}
+
 export interface PaginatedBoardCommentListType {
   count?: number
   cursor?: string | null
@@ -761,10 +799,28 @@ export interface PaginatedPassingNoticeListType {
   results?: PassingNoticeType[]
 }
 
+export interface PaginatedPastorHistoryListType {
+  count?: number
+  isNext?: boolean
+  results?: PastorHistoryType[]
+}
+
+export interface PaginatedPriestHistoryListType {
+  count?: number
+  isNext?: boolean
+  results?: PriestHistoryType[]
+}
+
 export interface PaginatedPriestListType {
   count?: number
   isNext?: boolean
   results?: PriestType[]
+}
+
+export interface PaginatedReligiousHistoryListType {
+  count?: number
+  isNext?: boolean
+  results?: ReligiousHistoryType[]
 }
 
 export interface PaginatedReligiousListType {
@@ -943,13 +999,13 @@ export interface PassingNoticeCommentUserRequestType {
   subDepartmentSet: PassingNoticeCommentSubDepartmentRequestType[]
 }
 
-export interface PastorType {
+export interface PastorHistoryType {
   readonly id: number
   /**
-   * 이미지
-   * @format uri
+   * 구분
+   * @maxLength 50
    */
-  image: string
+  category: string
   /**
    * 이름
    * @maxLength 20
@@ -961,13 +1017,15 @@ export interface PastorType {
    */
   baptismalName: string
   /**
-   * 수품일
+   * 재임 시작일
    * @format date
    */
-  ordinationDate: string
-  /** 퇴임 여부 */
-  isRetired?: boolean
-  readonly roleDisplay: string
+  startDate: string
+  /**
+   * 재임 종료일
+   * @format date
+   */
+  endDate: string
   readonly order: number
   /**
    * 생성일시
@@ -979,22 +1037,46 @@ export interface PastorType {
    * @format date-time
    */
   readonly updatedAt: string
+}
+
+export interface PastorHistoryErrorMessageType {
+  nonField?: string[]
+  category?: string[]
+  name?: string[]
+  baptismalName?: string[]
+  startDate?: string[]
+  endDate?: string[]
+}
+
+export interface PastorHistoryRequestType {
   /**
    * 구분
-   * 예: 제1대 주임신부
+   * @minLength 1
    * @maxLength 50
    */
-  division?: string | null
+  category: string
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
   /**
    * 재임 시작일
    * @format date
    */
-  startDate?: string | null
+  startDate: string
   /**
    * 재임 종료일
    * @format date
    */
-  endDate?: string | null
+  endDate: string
 }
 
 export interface PastoralGuidelinesType {
@@ -1112,8 +1194,6 @@ export interface PresignedRequestType {
    * * `pastoral_guidelines.PastoralGuidelines.image` - 이미지
    * * `pastoral_guidelines.PastoralGuidelines.signature_image` - 서명 이미지
    * * `priest.Priest.image` - 이미지
-   * * `priest.Pastor.image` - 이미지
-   * * `priest.Associate.image` - 이미지
    * * `religious.Religious.image` - 이미지
    */
   fieldChoice?: PresignedRequestFieldChoiceEnumType
@@ -1144,9 +1224,6 @@ export interface PriestType {
    * @format date
    */
   ordinationDate: string
-  /** 퇴임 여부 */
-  isRetired?: boolean
-  readonly roleDisplay: string
   readonly order: number
   /**
    * 생성일시
@@ -1166,7 +1243,63 @@ export interface PriestErrorMessageType {
   name?: string[]
   baptismalName?: string[]
   ordinationDate?: string[]
-  isRetired?: string[]
+}
+
+export interface PriestHistoryType {
+  readonly id: number
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 수품일
+   * @format date
+   */
+  ordinationDate: string
+  readonly order: number
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
+export interface PriestHistoryErrorMessageType {
+  nonField?: string[]
+  name?: string[]
+  baptismalName?: string[]
+  ordinationDate?: string[]
+}
+
+export interface PriestHistoryRequestType {
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 수품일
+   * @format date
+   */
+  ordinationDate: string
 }
 
 export interface PriestRequestType {
@@ -1192,8 +1325,6 @@ export interface PriestRequestType {
    * @format date
    */
   ordinationDate: string
-  /** 퇴임 여부 */
-  isRetired?: boolean
 }
 
 export interface ReligiousType {
@@ -1223,13 +1354,6 @@ export interface ReligiousType {
    * @format date
    */
   startDate: string
-  /** 퇴임 여부 */
-  isRetired?: boolean
-  /**
-   * 재임 종료일
-   * @format date
-   */
-  endDate?: string | null
   readonly order: number
   /**
    * 생성일시
@@ -1250,8 +1374,86 @@ export interface ReligiousErrorMessageType {
   name?: string[]
   baptismalName?: string[]
   startDate?: string[]
-  isRetired?: string[]
+}
+
+export interface ReligiousHistoryType {
+  readonly id: number
+  /**
+   * 구분
+   * @maxLength 50
+   */
+  category: string
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 재임 시작일
+   * @format date
+   */
+  startDate: string
+  /**
+   * 재임 종료일
+   * @format date
+   */
+  endDate: string
+  readonly order: number
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
+export interface ReligiousHistoryErrorMessageType {
+  nonField?: string[]
+  category?: string[]
+  name?: string[]
+  baptismalName?: string[]
+  startDate?: string[]
   endDate?: string[]
+}
+
+export interface ReligiousHistoryRequestType {
+  /**
+   * 구분
+   * @minLength 1
+   * @maxLength 50
+   */
+  category: string
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 재임 시작일
+   * @format date
+   */
+  startDate: string
+  /**
+   * 재임 종료일
+   * @format date
+   */
+  endDate: string
 }
 
 export interface ReligiousRequestType {
@@ -1283,13 +1485,6 @@ export interface ReligiousRequestType {
    * @format date
    */
   startDate: string
-  /** 퇴임 여부 */
-  isRetired?: boolean
-  /**
-   * 재임 종료일
-   * @format date
-   */
-  endDate?: string | null
 }
 
 export interface ScheduleType {
@@ -1631,8 +1826,6 @@ export interface WeeklyBulletinType {
  * `pastoral_guidelines.PastoralGuidelines.image` - 이미지
  * `pastoral_guidelines.PastoralGuidelines.signature_image` - 서명 이미지
  * `priest.Priest.image` - 이미지
- * `priest.Pastor.image` - 이미지
- * `priest.Associate.image` - 이미지
  * `religious.Religious.image` - 이미지
  */
 export type PresignedRequestFieldChoiceEnumType =
@@ -1647,8 +1840,6 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
   'passing_notice.PassingNotice.portrait': '고인 사진',
   'pastoral_guidelines.PastoralGuidelines.image': '이미지',
   'pastoral_guidelines.PastoralGuidelines.signature_image': '서명 이미지',
-  'priest.Associate.image': '이미지',
-  'priest.Pastor.image': '이미지',
   'priest.Priest.image': '이미지',
   'religious.Religious.image': '이미지',
   'weekly_bulletin.WeeklyBulletin.file': '주보 파일',
