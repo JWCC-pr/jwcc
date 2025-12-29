@@ -25,9 +25,9 @@ const QuickMenuItems = [
   {
     icon: (
       <HomeQuickMenuSection1Icon
-        w="84px"
-        h="84px"
-        p="10px"
+        w={['36px', '60px', '84px']}
+        h={['36px', '60px', '84px']}
+        p={['6px', '10px']}
         bgColor="#fff"
         rounded="8px"
       />
@@ -38,9 +38,9 @@ const QuickMenuItems = [
   {
     icon: (
       <HomeQuickMenuSection2Icon
-        w="84px"
-        h="84px"
-        p="10px"
+        w={['36px', '60px', '84px']}
+        h={['36px', '60px', '84px']}
+        p={['6px', '10px']}
         bgColor="#fff"
         rounded="8px"
       />
@@ -51,9 +51,9 @@ const QuickMenuItems = [
   {
     icon: (
       <HomeQuickMenuSection3Icon
-        w="84px"
-        h="84px"
-        p="10px"
+        w={['36px', '60px', '84px']}
+        h={['36px', '60px', '84px']}
+        p={['6px', '10px']}
         bgColor="#fff"
         rounded="8px"
       />
@@ -64,9 +64,9 @@ const QuickMenuItems = [
   {
     icon: (
       <HomeQuickMenuSection4Icon
-        w="84px"
-        h="84px"
-        p="10px"
+        w={['36px', '60px', '84px']}
+        h={['36px', '60px', '84px']}
+        p={['6px', '10px']}
         bgColor="#fff"
         rounded="8px"
       />
@@ -77,9 +77,9 @@ const QuickMenuItems = [
   {
     icon: (
       <HomeQuickMenuSection5Icon
-        w="84px"
-        h="84px"
-        p="10px"
+        w={['36px', '60px', '84px']}
+        h={['36px', '60px', '84px']}
+        p={['6px', '10px']}
         bgColor="#fff"
         rounded="8px"
       />
@@ -90,9 +90,9 @@ const QuickMenuItems = [
   {
     icon: (
       <HomeQuickMenuSection6Icon
-        w="84px"
-        h="84px"
-        p="10px"
+        w={['36px', '60px', '84px']}
+        h={['36px', '60px', '84px']}
+        p={['6px', '10px']}
         bgColor="#fff"
         rounded="8px"
       />
@@ -196,7 +196,6 @@ const QuickMenuSection: React.FC = () => {
               stiffness: 300,
             }}
             bgColor="primary.4"
-            minH="200px"
             position="relative"
             zIndex={2}
           >
@@ -227,10 +226,13 @@ const QuickMenuSection: React.FC = () => {
             <Box
               as="ul"
               ref={containerRef}
+              h={['auto', '163px']}
               p="12px 40px"
-              display="flex"
+              display={['grid', 'flex']}
+              gridTemplateColumns={['repeat(3, 1fr)', 'initial']}
+              alignItems="center"
               justifyContent={shouldCenter ? 'center' : 'flex-start'}
-              gap="10px"
+              gap={['0px', '0px', '10px']}
               overflowX="auto"
               css={{
                 '&::-webkit-scrollbar': {
@@ -250,11 +252,12 @@ const QuickMenuSection: React.FC = () => {
                   key={item.label}
                   flexShrink="0"
                   p="12px"
-                  w="140px"
+                  w={['full', '0px', '140px']}
+                  flex={['initial', '1', 'initial']}
                   display="flex"
                   flexDirection="column"
                   alignItems="center"
-                  gap="12px"
+                  gap={['8px', '12px']}
                   rounded="8px"
                   _hover={{
                     bgColor: 'white-transparent.300',
@@ -262,7 +265,11 @@ const QuickMenuSection: React.FC = () => {
                   }}
                 >
                   {item.icon}
-                  <Text color="grey.0" textStyle="pre-caption-1">
+                  <Text
+                    color="grey.0"
+                    textStyle="pre-caption-1"
+                    whiteSpace="nowrap"
+                  >
                     {item.label}
                   </Text>
                 </Link>
