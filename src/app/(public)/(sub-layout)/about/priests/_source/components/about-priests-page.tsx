@@ -1,10 +1,7 @@
 'use client'
 
-import { Image } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
-
-import { format } from 'date-fns'
 
 import { usePriestListQuery } from '@/generated/apis/Priest/Priest.query'
 import { useReligiousListQuery } from '@/generated/apis/Religious/Religious.query'
@@ -39,7 +36,12 @@ const AboutPriestsPage: React.FC = () => {
         <Text textStyle="pre-heading-1" color="grey.10">
           본당 사제
         </Text>
-        <AboutPriestsList lists={priests.results} />
+        <AboutPriestsList
+          lists={priests.results.map((priest) => ({
+            ...priest,
+            startDate: priest.ordinationDate,
+          }))}
+        />
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
