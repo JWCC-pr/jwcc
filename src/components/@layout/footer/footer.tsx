@@ -27,7 +27,7 @@ const snsItems = [
 
 const Footer: React.FC = () => {
   return (
-    <Box as="footer" bg="grey.1">
+    <Box as="footer" bg="grey.1" position="relative" zIndex={100}>
       <Box maxW="1280px" mx="auto">
         <Box
           p={['20px', '20px 40px']}
