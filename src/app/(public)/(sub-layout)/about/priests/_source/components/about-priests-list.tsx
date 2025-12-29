@@ -7,16 +7,9 @@ import { format } from 'date-fns'
 import { PriestType } from '@/generated/apis/@types/data-contracts'
 
 interface AboutPriestsListProps {
-  lists: Pick<
-    PriestType,
-    | 'id'
-    | 'image'
-    | 'name'
-    | 'baptismalName'
-    // FIXME: API 요청 후 시간값 변경 필요
-    | 'createdAt'
-    | 'updatedAt'
-  >[]
+  lists: (Pick<PriestType, 'id' | 'image' | 'name' | 'baptismalName'> & {
+    startDate: string
+  })[]
 }
 
 const AboutPriestsList: React.FC<AboutPriestsListProps> = ({ lists }) => {
@@ -59,8 +52,8 @@ const AboutPriestsList: React.FC<AboutPriestsListProps> = ({ lists }) => {
                 </Text>
               </Box>
               <Text textStyle="pre-body-6" color="grey.8">
-                {format(list.createdAt, 'yyyy.MM.dd')} ~{' '}
-                {format(list.updatedAt, 'yyyy.MM.dd')}
+                {format(list.startDate, 'yyyy.MM.dd')} ~{' '}
+                {format(new Date(), 'yyyy.MM.dd')}
               </Text>
             </Box>
           </Box>

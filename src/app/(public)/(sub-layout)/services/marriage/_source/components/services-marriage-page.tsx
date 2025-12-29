@@ -133,7 +133,12 @@ const ServicesMarriagePage: React.FC = () => {
           bgColor="background.basic.2"
         >
           <Box display="flex" gap="10px">
-            <Text w="120px" textStyle="pre-body-5" color="grey.7">
+            <Text
+              flexShrink="0"
+              w="120px"
+              textStyle="pre-body-5"
+              color="grey.7"
+            >
               예식 일정
             </Text>
             <Text textStyle="pre-body-4" color="grey.10">
@@ -141,7 +146,12 @@ const ServicesMarriagePage: React.FC = () => {
             </Text>
           </Box>
           <Box display="flex" gap="10px">
-            <Text w="120px" textStyle="pre-body-5" color="grey.7">
+            <Text
+              flexShrink="0"
+              w="120px"
+              textStyle="pre-body-5"
+              color="grey.7"
+            >
               피로연장 사용 안내
             </Text>
             <Text textStyle="pre-body-4" color="grey.10">
