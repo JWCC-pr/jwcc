@@ -59,28 +59,30 @@ const BulletinSection: React.FC = () => {
           _hover={{
             textDecoration: 'none',
             '& .bulletin-image-container': {
-              boxShadow: 'shadow-center',
+              boxShadow: 'shadow-bottom',
             },
           }}
         >
           <Box
             as="figure"
-            className="bulletin-image-container"
             flex="1"
             minH="0"
-            border="1px solid"
-            borderColor="border.basic.1"
-            rounded="6px"
-            boxShadow="shadow-bottom"
-            overflow="hidden"
             display="flex"
+            justifyContent="center"
+            alignItems="center"
           >
             <Image
+              className="bulletin-image-container"
               src={targetBulletin.thumbnail}
               alt="bulletin"
-              aspectRatio="4/5"
+              aspectRatio="2/3"
+              maxH="500px"
               objectFit="fill"
               objectPosition="center"
+              border="1px solid"
+              borderColor="border.basic.1"
+              rounded="6px"
+              overflow="hidden"
             />
           </Box>
         </Link>

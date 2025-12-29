@@ -99,7 +99,12 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   if (!mainLabel || !oneDepthLabel) {
     return (
-      <Box p={['40px 20px 96px', '40px 40px 96px', '40px 40px 120px']}>
+      <Box
+        w="full"
+        maxW="1280px"
+        mx="auto"
+        p={['40px 20px 96px', '40px 40px 96px', '40px 40px 120px']}
+      >
         {children}
       </Box>
     )
@@ -120,34 +125,34 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
       >
         {mainLabel}
       </Box>
-      <Box
-        w="full"
-        maxW="1280px"
-        mx="auto"
-        px={['0 20px', '40px']}
-        display="flex"
-        borderBlock="1px solid"
-        borderColor="border.basic.1"
-        h="48px"
-      >
-        <Link
-          href={ROUTES.HOME}
-          p="12px"
-          _hover={{
-            textDecoration: 'none',
-          }}
+      <Box borderBlock="1px solid" borderColor="border.basic.1">
+        <Box
+          w="full"
+          maxW="1280px"
+          mx="auto"
+          px={['0 20px', '40px']}
+          display="flex"
+          h="48px"
         >
-          <HouseIcon size="24px" color="#780536" />
-        </Link>
-        <Box w="1px" h="auto" bgColor="border.basic.1" />
-        <Box p="12px 16px" w="180px" h="48px">
-          <Text lineClamp="1" textStyle="pre-body-6" color="grey.8">
-            {oneDepthLabel}
-          </Text>
+          <Link
+            href={ROUTES.HOME}
+            p="12px"
+            _hover={{
+              textDecoration: 'none',
+            }}
+          >
+            <HouseIcon size="24px" color="#780536" />
+          </Link>
+          <Box w="1px" h="auto" bgColor="border.basic.1" />
+          <Box p="12px 16px" w="180px" h="48px">
+            <Text lineClamp="1" textStyle="pre-body-6" color="grey.8">
+              {oneDepthLabel}
+            </Text>
+          </Box>
+          <Box w="1px" h="auto" bgColor="border.basic.1" />
+          <TwoDepthSelect options={options} />
+          <Box w="1px" h="auto" bgColor="border.basic.1" />
         </Box>
-        <Box w="1px" h="auto" bgColor="border.basic.1" />
-        <TwoDepthSelect options={options} />
-        <Box w="1px" h="auto" bgColor="border.basic.1" />
       </Box>
       <Box
         w="full"

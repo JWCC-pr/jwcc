@@ -24,8 +24,8 @@ export const toaster = createToaster({
   offsets: {
     top: '40px',
     bottom: '40px',
-    right: '20px',
-    left: '20px',
+    right: '40px',
+    left: '40px',
   },
 })
 

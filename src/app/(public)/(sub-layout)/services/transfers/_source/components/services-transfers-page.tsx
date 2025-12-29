@@ -94,7 +94,7 @@ const ServicesTransfersPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="56px">
       <Text textStyle="pre-body-4" color="grey.10">
-        잠원동 성당에 전입해 오신 교우 여러분, 환영합니다.
+        잠원동성당에 전입해 오신 교우 여러분, 환영합니다.
         <br />
         전입교우께서는 본당 사무실을 방문해 전입신고를 해주시기 바랍니다.
       </Text>

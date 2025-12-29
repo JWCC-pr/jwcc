@@ -58,6 +58,23 @@ export function getLinkHref(editor: Editor | null): string | null {
 }
 
 /**
+ * Normalizes a URL by adding https:// prefix if needed
+ */
+function normalizeUrl(url: string): string {
+  if (!url || url.trim() === '') return url
+
+  const trimmedUrl = url.trim()
+
+  // 이미 http:// 또는 https://로 시작하면 그대로 반환
+  if (/^https?:\/\//i.test(trimmedUrl)) {
+    return trimmedUrl
+  }
+
+  // 그 외의 경우 https://를 접두사로 추가
+  return `https://${trimmedUrl}`
+}
+
+/**
  * Sets a link in the editor
  */
 export function setLink(editor: Editor | null, href: string): boolean {
@@ -65,7 +82,8 @@ export function setLink(editor: Editor | null, href: string): boolean {
   if (!canSetLink(editor)) return false
 
   if (href) {
-    return editor.chain().focus().setLink({ href }).run()
+    const normalizedHref = normalizeUrl(href)
+    return editor.chain().focus().setLink({ href: normalizedHref }).run()
   } else {
     return editor.chain().focus().unsetLink().run()
   }
@@ -83,7 +101,8 @@ export function toggleLink(editor: Editor | null, href?: string): boolean {
   } else {
     const url = href || window.prompt('Enter URL:')
     if (url) {
-      return editor.chain().focus().setLink({ href: url }).run()
+      // setLink에서 normalizeUrl을 처리하므로 여기서는 그대로 전달
+      return setLink(editor, url)
     }
     return false
   }

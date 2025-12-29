@@ -227,7 +227,7 @@ const StickyColumnTable = <T,>({
                 key={getRowKey(item)}
                 h="64px"
                 borderBottom="1px solid"
-                borderColor="border.basic.1"
+                borderBottomColor="border.basic.1"
                 cursor={onRowClick ? 'pointer' : undefined}
                 onClick={() => onRowClick?.(item)}
                 _hover={

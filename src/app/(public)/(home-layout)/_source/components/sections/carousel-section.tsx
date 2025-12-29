@@ -388,6 +388,8 @@ const CarouselSection: React.FC = () => {
         gap="64px"
         px="40px"
         pointerEvents="none"
+        maxW="1280px"
+        mx="auto"
       >
         <Box display="flex" flexFlow="column nowrap" gap="16px">
           <Box display="flex" flexFlow="column nowrap" gap="6px">
