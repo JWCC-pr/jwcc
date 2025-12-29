@@ -1,9 +1,4 @@
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { fetchExtended } from '@/configs/fetch/fetch-extend'
 
@@ -12,7 +7,6 @@ import {
   ReligiousHistoryErrorMessageType,
 } from '../@types/data-contracts'
 import {
-  InfiniteQueryHookParams,
   MutationHookParams,
   Parameter,
   QueryHookParams,
@@ -45,9 +39,6 @@ export const QUERY_KEY_RELIGIOUS_HISTORY_API = {
   LIST: (
     variables?: Parameter<typeof religiousHistoryApi.religiousHistoryList>,
   ) => ['RELIGIOUS_HISTORY_LIST', variables].filter(isDefined),
-  LIST_INFINITE: (
-    variables?: Parameter<typeof religiousHistoryApi.religiousHistoryList>,
-  ) => ['RELIGIOUS_HISTORY_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['RELIGIOUS_HISTORY_CREATE'],
   UPDATE: () => ['RELIGIOUS_HISTORY_UPDATE'],
   DESTROY: () => ['RELIGIOUS_HISTORY_DESTROY'],
@@ -75,49 +66,6 @@ export const useReligiousHistoryListQuery = <
   return useQuery({
     queryKey,
     queryFn: () => religiousHistoryApi.religiousHistoryList(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description    *      * @tags religious_history
- * @name ReligiousHistoryList
- * @summary 본당 출신 수도자 목록 조회
- * @request GET:/v1/religious_history/
- * @secure    */
-export const useReligiousHistoryListInfiniteQuery = <
-  TData = InfiniteData<
-    RequestFnReturn<typeof religiousHistoryApi.religiousHistoryList>,
-    Parameter<typeof religiousHistoryApi.religiousHistoryList>
-  >,
->(
-  params?: InfiniteQueryHookParams<
-    typeof religiousHistoryApi.religiousHistoryList,
-    CommonErrorType,
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_RELIGIOUS_HISTORY_API.LIST_INFINITE(
-    params?.variables,
-  )
-  return useInfiniteQuery({
-    queryKey,
-    initialPageParam: null,
-    queryFn: ({ pageParam }) => {
-      const offset = pageParam ?? params?.variables?.query?.offset ?? 0
-      return religiousHistoryApi.religiousHistoryList({
-        ...params?.variables,
-        query: { ...params?.variables?.query, offset },
-      })
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage?.isNext) return null
-      const fetchedLength = allPages?.length || 0
-      const initialOffset = params?.variables?.query?.offset || 0
-      const limit = params?.variables?.query?.limit || 0
-
-      return initialOffset + fetchedLength * limit
-    },
     ...params?.options,
   })
 }

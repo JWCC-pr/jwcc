@@ -33,7 +33,6 @@ const AboutHistoryNativePriestSection: React.FC = () => {
   const { data: nativePriests } = usePriestHistoryListQuery({})
 
   if (!nativePriests) return
-  if (!nativePriests.results) return
 
   return (
     <Box display="flex" flexDirection="column" gap="24px">
@@ -43,7 +42,7 @@ const AboutHistoryNativePriestSection: React.FC = () => {
       <Table
         minW="680px"
         columns={nativePriestsColumns}
-        data={nativePriests.results}
+        data={nativePriests}
         getRowKey={(pastor) => pastor.id}
       />
     </Box>

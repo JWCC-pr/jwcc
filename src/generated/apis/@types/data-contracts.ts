@@ -733,12 +733,6 @@ export interface NoticeNoticeFileType {
   file: string
 }
 
-export interface PaginatedAssistantPriestHistoryListType {
-  count?: number
-  isNext?: boolean
-  results?: AssistantPriestHistoryType[]
-}
-
 export interface PaginatedBoardCommentListType {
   count?: number
   cursor?: string | null
@@ -797,36 +791,6 @@ export interface PaginatedPassingNoticeListType {
   count?: number
   isNext?: boolean
   results?: PassingNoticeType[]
-}
-
-export interface PaginatedPastorHistoryListType {
-  count?: number
-  isNext?: boolean
-  results?: PastorHistoryType[]
-}
-
-export interface PaginatedPriestHistoryListType {
-  count?: number
-  isNext?: boolean
-  results?: PriestHistoryType[]
-}
-
-export interface PaginatedPriestListType {
-  count?: number
-  isNext?: boolean
-  results?: PriestType[]
-}
-
-export interface PaginatedReligiousHistoryListType {
-  count?: number
-  isNext?: boolean
-  results?: ReligiousHistoryType[]
-}
-
-export interface PaginatedReligiousListType {
-  count?: number
-  isNext?: boolean
-  results?: ReligiousType[]
 }
 
 export interface PaginatedWeeklyBulletinListType {
@@ -1338,7 +1302,7 @@ export interface ReligiousType {
    * 구분
    * @maxLength 50
    */
-  category: string
+  category?: string | null
   /**
    * 이름
    * @maxLength 20
@@ -1382,7 +1346,7 @@ export interface ReligiousHistoryType {
    * 구분
    * @maxLength 50
    */
-  category: string
+  category?: string | null
   /**
    * 이름
    * @maxLength 20
@@ -1428,10 +1392,9 @@ export interface ReligiousHistoryErrorMessageType {
 export interface ReligiousHistoryRequestType {
   /**
    * 구분
-   * @minLength 1
    * @maxLength 50
    */
-  category: string
+  category?: string | null
   /**
    * 이름
    * @minLength 1
@@ -1464,10 +1427,9 @@ export interface ReligiousRequestType {
   image: File
   /**
    * 구분
-   * @minLength 1
    * @maxLength 50
    */
-  category: string
+  category?: string | null
   /**
    * 이름
    * @minLength 1

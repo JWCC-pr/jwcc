@@ -1,9 +1,4 @@
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { fetchExtended } from '@/configs/fetch/fetch-extend'
 
@@ -12,7 +7,6 @@ import {
   ReligiousErrorMessageType,
 } from '../@types/data-contracts'
 import {
-  InfiniteQueryHookParams,
   MutationHookParams,
   Parameter,
   QueryHookParams,
@@ -42,8 +36,6 @@ const isDefined = (v: unknown) => typeof v !== 'undefined'
 export const QUERY_KEY_RELIGIOUS_API = {
   LIST: (variables?: Parameter<typeof religiousApi.religiousList>) =>
     ['RELIGIOUS_LIST', variables].filter(isDefined),
-  LIST_INFINITE: (variables?: Parameter<typeof religiousApi.religiousList>) =>
-    ['RELIGIOUS_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['RELIGIOUS_CREATE'],
   RETRIEVE: (variables?: Parameter<typeof religiousApi.religiousRetrieve>) =>
     ['RELIGIOUS_RETRIEVE', variables].filter(isDefined),
@@ -73,47 +65,6 @@ export const useReligiousListQuery = <
   return useQuery({
     queryKey,
     queryFn: () => religiousApi.religiousList(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description    *      * @tags religious
- * @name ReligiousList
- * @summary 수도자 목록 조회 (재임 중)
- * @request GET:/v1/religious/
- * @secure    */
-export const useReligiousListInfiniteQuery = <
-  TData = InfiniteData<
-    RequestFnReturn<typeof religiousApi.religiousList>,
-    Parameter<typeof religiousApi.religiousList>
-  >,
->(
-  params?: InfiniteQueryHookParams<
-    typeof religiousApi.religiousList,
-    CommonErrorType,
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_RELIGIOUS_API.LIST_INFINITE(params?.variables)
-  return useInfiniteQuery({
-    queryKey,
-    initialPageParam: null,
-    queryFn: ({ pageParam }) => {
-      const offset = pageParam ?? params?.variables?.query?.offset ?? 0
-      return religiousApi.religiousList({
-        ...params?.variables,
-        query: { ...params?.variables?.query, offset },
-      })
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage?.isNext) return null
-      const fetchedLength = allPages?.length || 0
-      const initialOffset = params?.variables?.query?.offset || 0
-      const limit = params?.variables?.query?.limit || 0
-
-      return initialOffset + fetchedLength * limit
-    },
     ...params?.options,
   })
 }

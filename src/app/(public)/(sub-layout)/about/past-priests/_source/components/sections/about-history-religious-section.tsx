@@ -45,7 +45,6 @@ const AboutHistoryReligiousSection: React.FC = () => {
   const { data: religiouses } = useReligiousHistoryListQuery({})
 
   if (!religiouses) return
-  if (!religiouses.results) return
 
   return (
     <Box display="flex" flexDirection="column" gap="24px">
@@ -55,7 +54,7 @@ const AboutHistoryReligiousSection: React.FC = () => {
       <Table
         minW="680px"
         columns={religiousColumns}
-        data={religiouses.results}
+        data={religiouses}
         getRowKey={(religious) => religious.id}
       />
     </Box>

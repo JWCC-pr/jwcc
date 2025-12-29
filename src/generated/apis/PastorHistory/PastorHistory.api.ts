@@ -1,7 +1,6 @@
 import { ContentType, HttpClient, RequestParams } from '../@http-client'
 import {
   CommonErrorType,
-  PaginatedPastorHistoryListType,
   PastorHistoryErrorMessageType,
   PastorHistoryRequestType,
   PastorHistoryType,
@@ -27,19 +26,10 @@ export class PastorHistoryApi<
    * @secure
    */
 
-  pastorHistoryList = (variables?: {
-    query?: {
-      /** 페이지당 반환할 결과 수. */
-      limit?: number
-      /** 결과를 반환할 초기 인덱스. */
-      offset?: number
-    }
-    params?: RequestParams
-  }) =>
-    this.request<PaginatedPastorHistoryListType, CommonErrorType>({
+  pastorHistoryList = (variables?: { params?: RequestParams }) =>
+    this.request<PastorHistoryType[], CommonErrorType>({
       path: `/v1/pastor_history/`,
       method: 'GET',
-      query: variables?.query,
       secure: true,
       format: 'json',
       ...variables?.params,

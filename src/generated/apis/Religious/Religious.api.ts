@@ -1,7 +1,6 @@
 import { ContentType, HttpClient, RequestParams } from '../@http-client'
 import {
   CommonErrorType,
-  PaginatedReligiousListType,
   ReligiousErrorMessageType,
   ReligiousRequestType,
   ReligiousType,
@@ -27,19 +26,10 @@ export class ReligiousApi<
    * @secure
    */
 
-  religiousList = (variables?: {
-    query?: {
-      /** 페이지당 반환할 결과 수. */
-      limit?: number
-      /** 결과를 반환할 초기 인덱스. */
-      offset?: number
-    }
-    params?: RequestParams
-  }) =>
-    this.request<PaginatedReligiousListType, CommonErrorType>({
+  religiousList = (variables?: { params?: RequestParams }) =>
+    this.request<ReligiousType[], CommonErrorType>({
       path: `/v1/religious/`,
       method: 'GET',
-      query: variables?.query,
       secure: true,
       format: 'json',
       ...variables?.params,

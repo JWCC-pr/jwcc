@@ -4,7 +4,6 @@ import {
   AssistantPriestHistoryRequestType,
   AssistantPriestHistoryType,
   CommonErrorType,
-  PaginatedAssistantPriestHistoryListType,
 } from '../@types/data-contracts'
 import { DeepOmitReadOnly } from '../@types/util-types'
 
@@ -27,19 +26,10 @@ export class AssistantPriestHistoryApi<
    * @secure
    */
 
-  assistantPriestHistoryList = (variables?: {
-    query?: {
-      /** 페이지당 반환할 결과 수. */
-      limit?: number
-      /** 결과를 반환할 초기 인덱스. */
-      offset?: number
-    }
-    params?: RequestParams
-  }) =>
-    this.request<PaginatedAssistantPriestHistoryListType, CommonErrorType>({
+  assistantPriestHistoryList = (variables?: { params?: RequestParams }) =>
+    this.request<AssistantPriestHistoryType[], CommonErrorType>({
       path: `/v1/assistant_priest_history/`,
       method: 'GET',
-      query: variables?.query,
       secure: true,
       format: 'json',
       ...variables?.params,

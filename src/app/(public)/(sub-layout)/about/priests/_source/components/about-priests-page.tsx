@@ -9,26 +9,11 @@ import { useReligiousListQuery } from '@/generated/apis/Religious/Religious.quer
 import AboutPriestsList from './about-priests-list'
 
 const AboutPriestsPage: React.FC = () => {
-  const { data: priests } = usePriestListQuery({
-    variables: {
-      query: {
-        offset: 0,
-        limit: 3,
-      },
-    },
-  })
-  const { data: religiouses } = useReligiousListQuery({
-    variables: {
-      query: {
-        offset: 0,
-        limit: 3,
-      },
-    },
-  })
+  const { data: priests } = usePriestListQuery({})
+  const { data: religiouses } = useReligiousListQuery({})
 
   // FIXME: 스켈레톤
   if (!priests || !religiouses) return null
-  if (!priests.results || !religiouses.results) return null
 
   return (
     <Box display="flex" flexDirection="column" gap="56px">
@@ -37,7 +22,7 @@ const AboutPriestsPage: React.FC = () => {
           본당 사제
         </Text>
         <AboutPriestsList
-          lists={priests.results.map((priest) => ({
+          lists={priests.map((priest) => ({
             ...priest,
             startDate: priest.ordinationDate,
           }))}
@@ -48,7 +33,7 @@ const AboutPriestsPage: React.FC = () => {
         <Text textStyle="pre-heading-1" color="grey.10">
           본당 수도자
         </Text>
-        <AboutPriestsList lists={religiouses.results} />
+        <AboutPriestsList lists={religiouses} />
       </Box>
     </Box>
   )

@@ -1,9 +1,4 @@
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { fetchExtended } from '@/configs/fetch/fetch-extend'
 
@@ -12,7 +7,6 @@ import {
   CommonErrorType,
 } from '../@types/data-contracts'
 import {
-  InfiniteQueryHookParams,
   MutationHookParams,
   Parameter,
   QueryHookParams,
@@ -47,11 +41,6 @@ export const QUERY_KEY_ASSISTANT_PRIEST_HISTORY_API = {
       typeof assistantPriestHistoryApi.assistantPriestHistoryList
     >,
   ) => ['ASSISTANT_PRIEST_HISTORY_LIST', variables].filter(isDefined),
-  LIST_INFINITE: (
-    variables?: Parameter<
-      typeof assistantPriestHistoryApi.assistantPriestHistoryList
-    >,
-  ) => ['ASSISTANT_PRIEST_HISTORY_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['ASSISTANT_PRIEST_HISTORY_CREATE'],
   UPDATE: () => ['ASSISTANT_PRIEST_HISTORY_UPDATE'],
   DESTROY: () => ['ASSISTANT_PRIEST_HISTORY_DESTROY'],
@@ -84,51 +73,6 @@ export const useAssistantPriestHistoryListQuery = <
     queryKey,
     queryFn: () =>
       assistantPriestHistoryApi.assistantPriestHistoryList(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description    *      * @tags assistant_priest_history
- * @name AssistantPriestHistoryList
- * @summary 역대 부주임/보좌신 목록 조회
- * @request GET:/v1/assistant_priest_history/
- * @secure    */
-export const useAssistantPriestHistoryListInfiniteQuery = <
-  TData = InfiniteData<
-    RequestFnReturn<
-      typeof assistantPriestHistoryApi.assistantPriestHistoryList
-    >,
-    Parameter<typeof assistantPriestHistoryApi.assistantPriestHistoryList>
-  >,
->(
-  params?: InfiniteQueryHookParams<
-    typeof assistantPriestHistoryApi.assistantPriestHistoryList,
-    CommonErrorType,
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_ASSISTANT_PRIEST_HISTORY_API.LIST_INFINITE(
-    params?.variables,
-  )
-  return useInfiniteQuery({
-    queryKey,
-    initialPageParam: null,
-    queryFn: ({ pageParam }) => {
-      const offset = pageParam ?? params?.variables?.query?.offset ?? 0
-      return assistantPriestHistoryApi.assistantPriestHistoryList({
-        ...params?.variables,
-        query: { ...params?.variables?.query, offset },
-      })
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage?.isNext) return null
-      const fetchedLength = allPages?.length || 0
-      const initialOffset = params?.variables?.query?.offset || 0
-      const limit = params?.variables?.query?.limit || 0
-
-      return initialOffset + fetchedLength * limit
-    },
     ...params?.options,
   })
 }
