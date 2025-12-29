@@ -1,4 +1,5 @@
 import { Box } from '@chakra-ui/react/box'
+import { Image } from '@chakra-ui/react/image'
 import { Text } from '@chakra-ui/react/text'
 
 import {
@@ -10,20 +11,13 @@ const AboutPatronSaintPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="56px">
       <Box display="flex" gap="40px" flexFlow={['column', 'row']}>
-        {/* FIXME: 이미지 결정되면 교체하기 */}
-        {/* <Image border="1px solid" borderColor="border.basic.1" /> */}
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          p="237px 149px"
-          h="500px"
-          bgColor="grey.1"
-        >
-          <Text textStyle="pre-body-3" color="grey.8">
-            주보 성인 이미지
-          </Text>
-        </Box>
+        <Image
+          src="/images/about/patron-saint/image.jpg"
+          border="1px solid"
+          borderColor="border.basic.1"
+          rounded="6px"
+          h={['400px', '405px', '500px']}
+        />
         <Box
           flex="1"
           display="flex"
