@@ -162,6 +162,8 @@ const StickyColumnTable = <T,>({
           minW={minTableWidth > 0 ? `${minTableWidth}px` : undefined}
           tableLayout="fixed"
           css={{
+            borderCollapse: 'separate',
+            borderSpacing: 0,
             '& [data-sticky]': {
               position: 'sticky',
               zIndex: 1,
@@ -188,6 +190,14 @@ const StickyColumnTable = <T,>({
                 translate: '-100% 0',
                 shadow: 'inset -8px 0px 8px -8px rgba(0, 0, 0, 0.16)',
               },
+            },
+            // 아이폰에서 border 렌더링 개선
+            '& td, & th': {
+              WebkitTapHighlightColor: 'transparent',
+              // 아이폰에서 border가 제대로 렌더링되도록
+              WebkitBackfaceVisibility: 'hidden',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)',
             },
           }}
           {...rootProps}
@@ -222,96 +232,111 @@ const StickyColumnTable = <T,>({
             </ChakraTable.Row>
           </ChakraTable.Header>
           <ChakraTable.Body>
-            {data.map((item, rowIndex) => (
-              <ChakraTable.Row
-                key={getRowKey(item)}
-                h="64px"
-                borderBottom="1px solid"
-                borderBottomColor="border.basic.1"
-                cursor={onRowClick ? 'pointer' : undefined}
-                onClick={() => onRowClick?.(item)}
-                _hover={
-                  onRowClick ?
-                    {
-                      bgColor: 'background.basic.2',
-                      '& > *:first-of-type .cell-content': {
-                        textDecoration: 'underline',
-                      },
-                    }
-                  : undefined
-                }
-                {...(getRowProps ? getRowProps(item, rowIndex, data) : {})}
-              >
-                {columns.map((column, index) => {
-                  // 병합된 셀은 렌더링 스킵
-                  const shouldSkip =
-                    column.shouldSkipRender?.(item, rowIndex, data) || false
-                  if (shouldSkip) return null
+            {data.map((item, rowIndex) => {
+              // getRowProps에서 반환된 props 가져오기
+              const rowProps =
+                getRowProps ? getRowProps(item, rowIndex, data) : {}
 
-                  // rowspan, colspan 계산
-                  const rowSpan = column.getRowSpan?.(item, rowIndex, data)
-                  const colSpan = column.getColSpan?.(item, rowIndex, data)
-
-                  // 커스텀 셀 props 가져오기
-                  const customCellProps =
-                    column.getCellProps?.(
-                      item,
-                      rowIndex,
-                      data,
-                      rowSpan,
-                      colSpan,
-                    ) || {}
-
-                  const isString = typeof column.render(item) === 'string'
-
-                  return (
-                    <ChakraTable.Cell
-                      key={column.key}
-                      {...tableBodyRowCellStyle}
-                      {...columnStyles[index]}
-                      p="0"
-                      data-sticky={column.sticky}
-                      left={
-                        column.sticky === 'start' ?
-                          `${column.stickyLeft || 0}px`
-                        : undefined
+              return (
+                <ChakraTable.Row
+                  key={getRowKey(item)}
+                  h="64px"
+                  cursor={onRowClick ? 'pointer' : undefined}
+                  onClick={() => onRowClick?.(item)}
+                  _hover={
+                    onRowClick ?
+                      {
+                        bgColor: 'background.basic.2',
+                        '& > *:first-of-type .cell-content': {
+                          textDecoration: 'underline',
+                        },
                       }
-                      right={
-                        column.sticky === 'end' ?
-                          `${column.stickyRight || 0}px`
-                        : undefined
-                      }
-                      rowSpan={rowSpan}
-                      colSpan={colSpan}
-                      {...customCellProps}
-                    >
-                      <Box
-                        className="cell-content"
-                        display="flex"
-                        alignItems="center"
-                        p="10px"
-                        justifyContent={
-                          column.textAlign === 'left' ? 'flex-start'
-                          : column.textAlign === 'right' ?
-                            'flex-end'
-                          : 'center'
+                    : undefined
+                  }
+                  {...rowProps}
+                >
+                  {columns.map((column, index) => {
+                    // 병합된 셀은 렌더링 스킵
+                    const shouldSkip =
+                      column.shouldSkipRender?.(item, rowIndex, data) || false
+                    if (shouldSkip) return null
+
+                    // rowspan, colspan 계산
+                    const rowSpan = column.getRowSpan?.(item, rowIndex, data)
+                    const colSpan = column.getColSpan?.(item, rowIndex, data)
+
+                    // 커스텀 셀 props 가져오기
+                    const customCellProps =
+                      column.getCellProps?.(
+                        item,
+                        rowIndex,
+                        data,
+                        rowSpan,
+                        colSpan,
+                      ) || {}
+
+                    const isString = typeof column.render(item) === 'string'
+
+                    return (
+                      <ChakraTable.Cell
+                        key={column.key}
+                        {...tableBodyRowCellStyle}
+                        {...columnStyles[index]}
+                        p="0"
+                        data-sticky={column.sticky}
+                        left={
+                          column.sticky === 'start' ?
+                            `${column.stickyLeft || 0}px`
+                          : undefined
                         }
+                        right={
+                          column.sticky === 'end' ?
+                            `${column.stickyRight || 0}px`
+                          : undefined
+                        }
+                        rowSpan={rowSpan}
+                        colSpan={colSpan}
+                        // 기본 border 설정 (getCellProps에서 override 가능)
+                        borderBottom={
+                          customCellProps.borderBottom === undefined ?
+                            '1px solid'
+                          : undefined
+                        }
+                        borderBottomColor={
+                          customCellProps.borderBottom === undefined ?
+                            'border.basic.1'
+                          : undefined
+                        }
+                        {...customCellProps}
                       >
-                        {isString ?
-                          <Box
-                            lineClamp="1"
-                            w="full"
-                            textAlign={column.textAlign || 'center'}
-                          >
-                            {column.render(item)}
-                          </Box>
-                        : column.render(item)}
-                      </Box>
-                    </ChakraTable.Cell>
-                  )
-                })}
-              </ChakraTable.Row>
-            ))}
+                        <Box
+                          className="cell-content"
+                          display="flex"
+                          alignItems="center"
+                          p="10px"
+                          justifyContent={
+                            column.textAlign === 'left' ? 'flex-start'
+                            : column.textAlign === 'right' ?
+                              'flex-end'
+                            : 'center'
+                          }
+                        >
+                          {isString ?
+                            <Box
+                              lineClamp="1"
+                              w="full"
+                              textAlign={column.textAlign || 'center'}
+                            >
+                              {column.render(item)}
+                            </Box>
+                          : column.render(item)}
+                        </Box>
+                      </ChakraTable.Cell>
+                    )
+                  })}
+                </ChakraTable.Row>
+              )
+            })}
 
             {data.length === 0 && emptyContent ? emptyContent : null}
           </ChakraTable.Body>

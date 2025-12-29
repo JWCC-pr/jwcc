@@ -61,6 +61,8 @@ const communityParishTableColumns: StickyColumnTableColumn<CommunityParishTable>
       getCellProps: () => {
         return {
           bgColor: 'background.basic.2',
+          borderBottom: '1px solid',
+          borderBottomColor: 'grey.10',
         }
       },
     },
@@ -70,6 +72,16 @@ const communityParishTableColumns: StickyColumnTableColumn<CommunityParishTable>
       width: { type: 'fixed', value: 120 },
       textAlign: 'center',
       render: (communityParishTable) => communityParishTable.class,
+      getCellProps: (item, index, data) => {
+        // 구역의 마지막 행인지 확인
+        const isLastOfArea =
+          index === data.length - 1 || data[index + 1].area !== item.area
+
+        return {
+          borderBottom: '1px solid',
+          borderBottomColor: isLastOfArea ? 'grey.10' : 'border.basic.1',
+        }
+      },
     },
     {
       key: 'detailAddress',
@@ -79,6 +91,16 @@ const communityParishTableColumns: StickyColumnTableColumn<CommunityParishTable>
       render: (communityParishTable) => (
         <Text whiteSpace="pre-wrap">{communityParishTable.detailAddress}</Text>
       ),
+      getCellProps: (item, index, data) => {
+        // 구역의 마지막 행인지 확인
+        const isLastOfArea =
+          index === data.length - 1 || data[index + 1].area !== item.area
+
+        return {
+          borderBottom: '1px solid',
+          borderBottomColor: isLastOfArea ? 'grey.10' : 'border.basic.1',
+        }
+      },
     },
   ]
 
@@ -89,32 +111,12 @@ interface CommunityParishTableSectionProps {
 const CommunityParishTableSection: React.FC<
   CommunityParishTableSectionProps
 > = ({ data }) => {
-  // 구역이 구분되는 지점 감지 (이전 구역의 마지막 행)
-  const getRowProps = (
-    item: CommunityParishTable,
-    index: number,
-    data: CommunityParishTable[],
-  ) => {
-    // 이전 구역의 마지막 행인지 확인 (다음 행이 있고, 다음 행의 구역이 현재 행과 다를 때)
-    const isLastOfArea =
-      index < data.length - 1 && data[index + 1].area !== item.area
-
-    if (isLastOfArea) {
-      return {
-        borderBottomColor: 'grey.10',
-      }
-    }
-
-    return {}
-  }
-
   return (
     <StickyColumnTable
       minW={['460px', '460px', '580px']}
       columns={communityParishTableColumns}
       data={data}
       getRowKey={(assistantPastor) => assistantPastor.detailAddress}
-      getRowProps={getRowProps}
     />
   )
 }

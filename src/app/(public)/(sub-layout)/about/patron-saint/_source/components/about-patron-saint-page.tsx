@@ -12,7 +12,7 @@ const AboutPatronSaintPage: React.FC = () => {
     <Box display="flex" flexDirection="column" gap="56px">
       <Box display="flex" gap="40px" flexFlow={['column', 'row']}>
         <Image
-          src="/images/about/patron-saint/image.jpg"
+          src="/images/about/patron-saint/image.png"
           border="1px solid"
           borderColor="border.basic.1"
           rounded="6px"

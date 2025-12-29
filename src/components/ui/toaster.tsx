@@ -17,12 +17,14 @@ import {
   ToastCXCircleFillIcon,
 } from '@/generated/icons/MyIcons'
 
+const HEADER_HEIGHT = 64
+
 export const toaster = createToaster({
-  placement: 'bottom-end',
+  placement: 'top-end',
   pauseOnPageIdle: true,
   duration: 3_000,
   offsets: {
-    top: '40px',
+    top: HEADER_HEIGHT + 20 + 'px',
     bottom: '40px',
     right: '40px',
     left: '40px',

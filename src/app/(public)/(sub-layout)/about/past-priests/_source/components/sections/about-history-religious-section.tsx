@@ -13,7 +13,7 @@ const religiousColumns: TableColumn<ReligiousHistoryType>[] = [
   {
     key: 'category',
     label: '구분',
-    width: { type: 'fixed', value: 120 },
+    width: { type: 'fixed', value: 160 },
     textAlign: 'center',
     render: (religious) => religious.category || '',
   },
