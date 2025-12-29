@@ -17,6 +17,7 @@ const styleMap = {
   scrolled: {
     borderBottom: '1px solid',
     borderBottomColor: 'border.basic.1',
+    bgColor: 'white.trnsparent.5',
   },
 } as const
 

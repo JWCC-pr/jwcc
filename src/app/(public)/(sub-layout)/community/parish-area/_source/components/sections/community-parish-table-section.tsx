@@ -101,7 +101,6 @@ const CommunityParishTableSection: React.FC<
 
     if (isLastOfArea) {
       return {
-        borderBottom: '1px solid',
         borderBottomColor: 'grey.10',
       }
     }

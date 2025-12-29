@@ -8,7 +8,7 @@ const NewsBullentinDetailBottonSection: React.FC = () => {
   return (
     <Box py="16px" display="flex" justifyContent="center">
       <Link href={ROUTES.NEWS_BULLETIN} _hover={{ textDecoration: 'none' }}>
-        <Button size="md" variant="outline" colorPalette="grey">
+        <Button size="md" variant="solid" colorPalette="grey">
           목록으로
         </Button>
       </Link>

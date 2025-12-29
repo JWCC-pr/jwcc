@@ -37,6 +37,7 @@ interface CalendarDay {
   schedules: ScheduleType[]
   isToday: boolean
   isSunday: boolean
+  isSelected: boolean
 }
 
 const NOW = new Date()
@@ -86,9 +87,10 @@ const AboutEventSchedulePage: React.FC = () => {
         hasSchedules: daySchedules.length > 0,
         isToday: isToday(dayDate),
         isSunday: dayOfWeek === 0,
+        isSelected: selectedDate ? isSameDay(dayDate, selectedDate) : false,
       }
     })
-  }, [currentMonth, schedules])
+  }, [currentMonth, schedules, selectedDate])
 
   // 선택된 날짜의 일정 목록
   const selectedDaySchedules = useMemo(() => {
@@ -188,7 +190,6 @@ const AboutEventSchedulePage: React.FC = () => {
 
           {/* 캘린더 그리드 */}
           <Box
-            as="ul"
             display="grid"
             gridTemplateColumns="repeat(7, 1fr)"
             gap="0"
@@ -198,7 +199,7 @@ const AboutEventSchedulePage: React.FC = () => {
             {calendarDays.length > 0 &&
               Array.from({ length: calendarDays[0].dayOfWeek }, (_, i) => (
                 <Box
-                  as="li"
+                  as="button"
                   key={`empty-${i}`}
                   aspectRatio={['1/1', '1/2', '1/1']}
                   borderBottom="1px solid"
@@ -213,7 +214,7 @@ const AboutEventSchedulePage: React.FC = () => {
 
               return (
                 <Box
-                  as="li"
+                  as="button"
                   key={i}
                   aspectRatio={['1/1', '1/2', '1/1']}
                   p={['6px', '10px']}
@@ -223,7 +224,7 @@ const AboutEventSchedulePage: React.FC = () => {
                   alignItems="center"
                   borderBottom="1px solid"
                   borderBottomColor="border.basic.1"
-                  bgColor="grey.0"
+                  bgColor={dayInfo.isSelected ? 'background.basic.2' : 'grey.0'}
                   cursor="pointer"
                   onClick={() => handleDateClick(dayInfo.date)}
                   _hover={{
@@ -316,7 +317,7 @@ const AboutEventSchedulePage: React.FC = () => {
                 },
                 (_, i) => (
                   <Box
-                    as="li"
+                    as="button"
                     key={`empty-end-${i}`}
                     aspectRatio={['1/1', '1/2', '1/1']}
                     borderBottom="1px solid"
