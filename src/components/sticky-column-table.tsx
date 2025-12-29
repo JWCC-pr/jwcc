@@ -162,7 +162,6 @@ const StickyColumnTable = <T,>({
           minW={minTableWidth > 0 ? `${minTableWidth}px` : undefined}
           tableLayout="fixed"
           css={{
-            borderCollapse: 'separate',
             borderSpacing: 0,
             '& [data-sticky]': {
               position: 'sticky',
@@ -202,11 +201,13 @@ const StickyColumnTable = <T,>({
           }}
           {...rootProps}
         >
-          <ChakraTable.Header borderTop="1.5px solid" borderColor="grey.10">
-            <ChakraTable.Row
-              borderBottom="1px solid"
-              borderColor="border.basic.1"
-            >
+          <ChakraTable.Header
+            borderTop="1.5px solid"
+            borderTopColor="grey.10"
+            borderBottom="1px solid"
+            borderBottomColor="border.basic.1"
+          >
+            <ChakraTable.Row>
               {columns.map((column, index) => (
                 <ChakraTable.ColumnHeader
                   key={column.key}
