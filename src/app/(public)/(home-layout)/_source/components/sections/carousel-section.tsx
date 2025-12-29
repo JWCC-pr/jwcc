@@ -394,12 +394,11 @@ const CarouselSection: React.FC = () => {
         <Box display="flex" flexFlow="column nowrap" gap="16px">
           <Box display="flex" flexFlow="column nowrap" gap="6px">
             <Text textStyle="pre-body-6" color="grey.0">
-              2025년 본당 사목목표
+              2026년 본당 사목목표
             </Text>
             <Text textStyle="cat-display-2" color="grey.0">
-              희망의 순례자,
-              <br />
-              길을 나서며
+              모두가 주인공인 교회
+              <br />- 젊은이와 함께 하는 교회
             </Text>
           </Box>
           <Text textStyle="cat-body-4" color="white-transparent.600">
