@@ -1,9 +1,4 @@
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { fetchExtended } from '@/configs/fetch/fetch-extend'
 
@@ -12,7 +7,6 @@ import {
   PriestErrorMessageType,
 } from '../@types/data-contracts'
 import {
-  InfiniteQueryHookParams,
   MutationHookParams,
   Parameter,
   QueryHookParams,
@@ -42,8 +36,6 @@ const isDefined = (v: unknown) => typeof v !== 'undefined'
 export const QUERY_KEY_PRIEST_API = {
   LIST: (variables?: Parameter<typeof priestApi.priestList>) =>
     ['PRIEST_LIST', variables].filter(isDefined),
-  LIST_INFINITE: (variables?: Parameter<typeof priestApi.priestList>) =>
-    ['PRIEST_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['PRIEST_CREATE'],
   RETRIEVE: (variables?: Parameter<typeof priestApi.priestRetrieve>) =>
     ['PRIEST_RETRIEVE', variables].filter(isDefined),
@@ -73,47 +65,6 @@ export const usePriestListQuery = <
   return useQuery({
     queryKey,
     queryFn: () => priestApi.priestList(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description    *      * @tags priest
- * @name PriestList
- * @summary 사제 목록 조회
- * @request GET:/v1/priest/
- * @secure    */
-export const usePriestListInfiniteQuery = <
-  TData = InfiniteData<
-    RequestFnReturn<typeof priestApi.priestList>,
-    Parameter<typeof priestApi.priestList>
-  >,
->(
-  params?: InfiniteQueryHookParams<
-    typeof priestApi.priestList,
-    CommonErrorType,
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_PRIEST_API.LIST_INFINITE(params?.variables)
-  return useInfiniteQuery({
-    queryKey,
-    initialPageParam: null,
-    queryFn: ({ pageParam }) => {
-      const offset = pageParam ?? params?.variables?.query?.offset ?? 0
-      return priestApi.priestList({
-        ...params?.variables,
-        query: { ...params?.variables?.query, offset },
-      })
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage?.isNext) return null
-      const fetchedLength = allPages?.length || 0
-      const initialOffset = params?.variables?.query?.offset || 0
-      const limit = params?.variables?.query?.limit || 0
-
-      return initialOffset + fetchedLength * limit
-    },
     ...params?.options,
   })
 }

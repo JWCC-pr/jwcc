@@ -43,7 +43,6 @@ const AboutHistoryPastorSection: React.FC = () => {
   const { data: pastorHistory } = usePastorHistoryListQuery({})
 
   if (!pastorHistory) return
-  if (!pastorHistory.results) return
 
   return (
     <Box display="flex" flexDirection="column" gap="24px">
@@ -53,7 +52,7 @@ const AboutHistoryPastorSection: React.FC = () => {
       <Table
         minW="680px"
         columns={pastorsColumns}
-        data={pastorHistory.results}
+        data={pastorHistory}
         getRowKey={(pastor) => pastor.id}
       />
     </Box>

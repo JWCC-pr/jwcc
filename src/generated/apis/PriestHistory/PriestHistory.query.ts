@@ -1,9 +1,4 @@
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { fetchExtended } from '@/configs/fetch/fetch-extend'
 
@@ -12,7 +7,6 @@ import {
   PriestHistoryErrorMessageType,
 } from '../@types/data-contracts'
 import {
-  InfiniteQueryHookParams,
   MutationHookParams,
   Parameter,
   QueryHookParams,
@@ -44,9 +38,6 @@ const isDefined = (v: unknown) => typeof v !== 'undefined'
 export const QUERY_KEY_PRIEST_HISTORY_API = {
   LIST: (variables?: Parameter<typeof priestHistoryApi.priestHistoryList>) =>
     ['PRIEST_HISTORY_LIST', variables].filter(isDefined),
-  LIST_INFINITE: (
-    variables?: Parameter<typeof priestHistoryApi.priestHistoryList>,
-  ) => ['PRIEST_HISTORY_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['PRIEST_HISTORY_CREATE'],
   UPDATE: () => ['PRIEST_HISTORY_UPDATE'],
   DESTROY: () => ['PRIEST_HISTORY_DESTROY'],
@@ -74,47 +65,6 @@ export const usePriestHistoryListQuery = <
   return useQuery({
     queryKey,
     queryFn: () => priestHistoryApi.priestHistoryList(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description    *      * @tags priest_history
- * @name PriestHistoryList
- * @summary 본당 출신 사제 목록 조회
- * @request GET:/v1/priest_history/
- * @secure    */
-export const usePriestHistoryListInfiniteQuery = <
-  TData = InfiniteData<
-    RequestFnReturn<typeof priestHistoryApi.priestHistoryList>,
-    Parameter<typeof priestHistoryApi.priestHistoryList>
-  >,
->(
-  params?: InfiniteQueryHookParams<
-    typeof priestHistoryApi.priestHistoryList,
-    CommonErrorType,
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_PRIEST_HISTORY_API.LIST_INFINITE(params?.variables)
-  return useInfiniteQuery({
-    queryKey,
-    initialPageParam: null,
-    queryFn: ({ pageParam }) => {
-      const offset = pageParam ?? params?.variables?.query?.offset ?? 0
-      return priestHistoryApi.priestHistoryList({
-        ...params?.variables,
-        query: { ...params?.variables?.query, offset },
-      })
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage?.isNext) return null
-      const fetchedLength = allPages?.length || 0
-      const initialOffset = params?.variables?.query?.offset || 0
-      const limit = params?.variables?.query?.limit || 0
-
-      return initialOffset + fetchedLength * limit
-    },
     ...params?.options,
   })
 }
