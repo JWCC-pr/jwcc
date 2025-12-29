@@ -53,9 +53,9 @@ const infoList = [
               스타일엔(김성아)
             </Text>
             <Text textStyle="pre-body-4" color="grey.10">
-              <a href="tel:010-2783-8789">010-2783-8789</a> 생화
+              <a href="tel:010-2783-8789">010-2783-8789</a>
               <br />
-              60만원
+              생화 60만원
             </Text>
           </Box>
         </Box>
@@ -290,7 +290,7 @@ const ServicesMarriagePage: React.FC = () => {
         </Box>
 
         <Box
-          p="28px 36px"
+          p={['20px 24px', '20px 24px', '28px 36px']}
           display="flex"
           flexDirection="column"
           gap="12px"
@@ -304,7 +304,7 @@ const ServicesMarriagePage: React.FC = () => {
           <Box display="flex" gap="8px" flexDirection={['column', 'row']}>
             <Box
               flex="1"
-              p="28px 36px"
+              p={['20px', '20px', '28px 36px']}
               display="flex"
               flexDirection="column"
               gap="12px"
@@ -324,7 +324,7 @@ const ServicesMarriagePage: React.FC = () => {
                 >
                   {[
                     <>
-                      혼인관계증명서(상세) : 거주지 주민센터 발행 또는 정부24(
+                      혼인관계증명서(상세) : 거주지 주민센터 또는 정부24(
                       <Link
                         href="https://www.gov.kr"
                         target="_blank"
@@ -359,7 +359,7 @@ const ServicesMarriagePage: React.FC = () => {
             </Box>
             <Box
               flex="1"
-              p="28px 36px"
+              p={['20px', '20px', '28px 36px']}
               display="flex"
               flexDirection="column"
               gap="12px"
@@ -543,16 +543,13 @@ const ServicesMarriagePage: React.FC = () => {
               >
                 <Text as="li">10만원 (쌀 2포 + 리본값)을 지정 계좌로 입금</Text>
                 <Text as="li">
-                  우리은행 1005-003-407909 (천주교 잠원동성당)
+                  입금계좌: 우리은행 1005-003-407909 (천주교 잠원동성당)
                 </Text>
                 <Text as="li">
                   입금증에 송금인 이름을 적어 팩스(02-534-9591) 송부 또는 사무실
                   직접 제출
                 </Text>
               </Box>
-              <Text textStyle="pre-body-6" color="grey.8">
-                ※ 입금계좌 : 우리은행 1005-003-407909 (천주교 잠원동성당)
-              </Text>
             </Box>
             <Text as="li">
               기부한 헌미(사랑의 쌀)은 본당 빈첸시오회를 통해 불우이웃을 돕는데
