@@ -6,7 +6,6 @@ const sharedTitle: Metadata['title'] = {
   template: '%s | 천주교 잠원동성당 - 파티마 성모',
   default: '천주교 잠원동성당 - 파티마 성모',
 }
-// FIXME: 클라이언트와 소통 후 수정 필요
 const sharedDescription = `1947년에 설립된 잠원동성당은 서울 강남·서초 지역에서 가장 오래된 성당으로 오랜 시간 신앙의 중심지 역할을 해왔습니다.`
 const sharedKeywords = [
   '잠원동',
