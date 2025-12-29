@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Badge } from '@chakra-ui/react/badge'
 import { Box } from '@chakra-ui/react/box'
@@ -13,6 +13,7 @@ import {
   addMonths,
   isSameDay,
   parseISO,
+  startOfDay,
   startOfMonth,
   subMonths,
 } from 'date-fns'
@@ -40,7 +41,7 @@ interface CalendarDay {
   isSelected: boolean
 }
 
-const NOW = new Date()
+const NOW = startOfDay(new Date())
 
 const AboutEventSchedulePage: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState<Date>(NOW)
@@ -63,10 +64,8 @@ const AboutEventSchedulePage: React.FC = () => {
 
     return Array.from({ length: daysInMonth }, (_, i) => {
       const day = i + 1
-      const dayDate = new Date(
-        currentMonth.getFullYear(),
-        currentMonth.getMonth(),
-        day,
+      const dayDate = startOfDay(
+        new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day),
       )
       const dayOfWeek = getDay(dayDate)
       const dayName = format(dayDate, 'EEE', { locale: ko })
@@ -95,25 +94,12 @@ const AboutEventSchedulePage: React.FC = () => {
   // 선택된 날짜의 일정 목록
   const selectedDaySchedules = useMemo(() => {
     if (!selectedDate) return []
+
     const dayInfo = calendarDays.find((day) =>
       isSameDay(day.date, selectedDate),
     )
     return dayInfo?.schedules || []
   }, [selectedDate, calendarDays])
-
-  const calendarSectionRef = useRef<HTMLDivElement>(null)
-  const [calendarHeight, setCalendarHeight] = useState(0)
-
-  useEffect(() => {
-    const updateHeight = () => {
-      if (!calendarSectionRef.current) return
-      setCalendarHeight(calendarSectionRef.current.offsetHeight)
-    }
-
-    updateHeight()
-    window.addEventListener('resize', updateHeight)
-    return () => window.removeEventListener('resize', updateHeight)
-  }, [calendarDays])
 
   const handlePrevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1))
@@ -126,7 +112,7 @@ const AboutEventSchedulePage: React.FC = () => {
   }
 
   const handleDateClick = (date: Date) => {
-    setSelectedDate(date)
+    setSelectedDate(startOfDay(date))
   }
 
   // FIXME: 스켈레톤 UI, 빈 데이터 UI 추가
@@ -160,7 +146,7 @@ const AboutEventSchedulePage: React.FC = () => {
       {/* 캘린더 & 상세 일정 목록 */}
       <Box display="flex" flexFlow="column nowrap" gap="40px">
         {/* 캘린더 */}
-        <Box ref={calendarSectionRef} display="flex" flexFlow="column nowrap">
+        <Box display="flex" flexFlow="column nowrap">
           {/* 요일 헤더 */}
           <Box position="relative" display="flex">
             {DAYS.map((day) => {
@@ -335,8 +321,6 @@ const AboutEventSchedulePage: React.FC = () => {
           pt="24px"
           display="flex"
           flexFlow="column nowrap"
-          h={calendarHeight ? `${calendarHeight}px` : 'auto'}
-          overflow="hidden"
         >
           <Box w="full" h="1.5px" bgColor="grey.10" flexShrink={0} />
           <Box
