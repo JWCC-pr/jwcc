@@ -36,7 +36,7 @@ const MemberInfoSection: React.FC = () => {
           label="이름"
           message={{
             error: errors.name?.message,
-            help: '교적에 등록된 실명을 입력해주세요.',
+            help: '교적에 등록된 실명을 입력해 주세요.',
           }}
         >
           <Input
