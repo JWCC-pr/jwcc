@@ -36,8 +36,18 @@ const religiousColumns: TableColumn<ReligiousHistoryType>[] = [
     label: '재임기간',
     width: { type: 'flex', value: 1 },
     textAlign: 'center',
-    render: (religious) =>
-      `${format(new Date(religious.startDate ?? ''), 'yyyy.MM.dd')} - ${format(new Date(religious.endDate ?? ''), 'yyyy.MM.dd')}`,
+    render: (religious) => {
+      const startDate = format(
+        new Date(religious.startDate ?? ''),
+        'yyyy.MM.dd',
+      )
+      const endDate =
+        religious.endDate === '9999-12-31' ?
+          '현재'
+        : format(new Date(religious.endDate ?? ''), 'yyyy.MM.dd')
+
+      return `${startDate} - ${endDate}`
+    },
   },
 ]
 
