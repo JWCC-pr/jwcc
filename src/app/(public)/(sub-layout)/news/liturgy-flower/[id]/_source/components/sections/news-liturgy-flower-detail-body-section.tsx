@@ -358,7 +358,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
         display="flex"
         alignItems="center"
         gap="12px"
-        aspectRatio="16/9"
+        w="100%"
       >
         {totalImages > 1 && (
           <IconButton
@@ -369,60 +369,72 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
             rounded="8px"
             onClick={goToPrev}
             aria-label="이전 이미지"
+            flexShrink={0}
           >
             <CaretLeftIcon size="24px" />
           </IconButton>
         )}
 
         <Box
-          ref={imageContainerRef}
           flex="1"
+          w="100%"
           position="relative"
-          overflow="hidden"
-          rounded="6px"
-          aspectRatio="16/9"
-          minH="0"
           style={{
-            opacity: isInitialized ? 1 : 0,
-            transition: isInitialized ? 'opacity 0.2s ease-in-out' : 'none',
+            paddingBottom: '56.25%', // 16:9 비율
           }}
         >
-          <MotionBox
-            display="flex"
-            w={`${extendedTotal * 100}%`}
+          <Box
+            ref={imageContainerRef}
+            position="absolute"
+            top="0"
+            left="0"
+            w="100%"
             h="100%"
-            style={{ x }}
-            drag={totalImages > 1 ? 'x' : false}
-            dragElastic={DRAG_ELASTIC}
-            dragMomentum={false}
-            onDragStart={handleDragStart}
-            onDrag={handleDrag}
-            onDragEnd={handleDragEnd}
-            whileDrag={{ cursor: 'grabbing' }}
-            cursor={totalImages > 1 ? 'grab' : 'default'}
+            overflow="hidden"
+            rounded="6px"
+            style={{
+              opacity: isInitialized ? 1 : 0,
+              transition: isInitialized ? 'opacity 0.2s ease-in-out' : 'none',
+            }}
           >
-            {extendedImages.map((image, index) => (
-              <Box
-                key={`${image.id}-${index}`}
-                w={`${100 / extendedTotal}%`}
-                h="100%"
-                flexShrink={0}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Image
-                  src={image.image}
-                  alt="미사꽃 이미지"
-                  maxW="100%"
-                  maxH="100%"
-                  objectFit="contain"
-                  draggable={false}
-                  userSelect="none"
-                />
-              </Box>
-            ))}
-          </MotionBox>
+            <MotionBox
+              display="flex"
+              w={`${extendedTotal * 100}%`}
+              h="100%"
+              style={{ x }}
+              drag={totalImages > 1 ? 'x' : false}
+              dragElastic={DRAG_ELASTIC}
+              dragMomentum={false}
+              onDragStart={handleDragStart}
+              onDrag={handleDrag}
+              onDragEnd={handleDragEnd}
+              whileDrag={{ cursor: 'grabbing' }}
+              cursor={totalImages > 1 ? 'grab' : 'default'}
+            >
+              {extendedImages.map((image, index) => (
+                <Box
+                  key={`${image.id}-${index}`}
+                  w={`${100 / extendedTotal}%`}
+                  h="100%"
+                  flexShrink={0}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  position="relative"
+                >
+                  <Image
+                    src={image.image}
+                    alt="미사꽃 이미지"
+                    maxW="100%"
+                    maxH="100%"
+                    objectFit="contain"
+                    draggable={false}
+                    userSelect="none"
+                  />
+                </Box>
+              ))}
+            </MotionBox>
+          </Box>
         </Box>
 
         {totalImages > 1 && (
@@ -434,6 +446,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
             rounded="8px"
             onClick={goToNext}
             aria-label="다음 이미지"
+            flexShrink={0}
           >
             <CaretRightIcon size="24px" />
           </IconButton>

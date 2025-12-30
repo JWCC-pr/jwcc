@@ -27,8 +27,7 @@ const LoginFormView: React.FC = () => {
       </FormHelper>
       <FormHelper
         message={{
-          error:
-            hasError ? '아이디와 비밀번호를 정확히 입력해 주세요.' : undefined,
+          error: errors.password?.message,
         }}
       >
         <PasswordInput placeholder="비밀번호" {...register('password')} />
