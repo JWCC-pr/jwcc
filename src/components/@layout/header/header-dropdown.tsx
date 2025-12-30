@@ -62,11 +62,12 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
               }}
             >
               <Box
-                bgColor="white-transparent.500"
+                bgColor="grey.0"
                 backdropFilter="blur(12px)"
                 px="40px"
                 borderTop="1px solid"
-                borderColor="grey.200"
+                borderBottom="1px solid"
+                borderColor="border.basic.1"
                 boxShadow="0 4px 24px rgba(0, 0, 0, 0.08)"
               >
                 <Box maxW="1280px" mx="auto">

@@ -20,7 +20,7 @@ const StickyHeader: React.FC = () => {
       zIndex="sticky"
       borderBottom="1px solid"
       borderBottomColor="border.basic.1"
-      bgColor="white.trnsparent.5"
+      bgColor="grey.0"
       onMouseLeave={() => setHoveredNavIndex(null)}
     >
       <HeaderBar
