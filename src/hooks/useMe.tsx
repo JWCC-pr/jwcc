@@ -22,8 +22,8 @@ const useMe = () => {
   /** 헌화회 소속인지 여부 */
   const isHeonhwaMember =
     isLoggedIn &&
-    data.data.subDepartmentSet.some(
-      (department) => department.name === '헌화회',
+    data.data.subDepartmentSet.some((department) =>
+      department.name.includes('헌화회'),
     )
 
   return {
