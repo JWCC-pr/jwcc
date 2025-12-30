@@ -12,6 +12,11 @@ import { useLoginForm } from '../../hooks/useLoginForm'
 import LoginFormContainer from './login-form-container'
 import LoginFormView from './login-form-view'
 
+const mapper: Record<string, string> = {
+  '인증정보가 일치하지 않습니다.': '아이디와 비밀번호를 정확히 입력해 주세요.',
+  '가입승인이 되지 않았습니다.': '관리자의 승인 후 로그인이 가능합니다.',
+}
+
 const LoginForm: React.FC = () => {
   const router = useRouter()
 
@@ -37,7 +42,15 @@ const LoginForm: React.FC = () => {
       clientCookie.set('refreshToken', refreshToken)
 
       router.replace(ROUTES.HOME)
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = error?.error?.nonField?.[0]
+
+      if (errorMessage) {
+        return methods.setError('password', {
+          message: mapper[errorMessage as string],
+        })
+      }
+
       methods.setError('password', {
         message: '아이디와 비밀번호를 정확히 입력해 주세요.',
       })

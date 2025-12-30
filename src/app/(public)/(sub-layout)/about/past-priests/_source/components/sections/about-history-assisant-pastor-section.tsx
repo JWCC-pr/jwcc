@@ -13,7 +13,7 @@ const assistantPastorsColumns: TableColumn<AssistantPriestHistoryType>[] = [
     label: '보좌체제',
     width: { type: 'fixed', value: 120 },
     textAlign: 'center',
-    render: (assistantPastor) => assistantPastor.assistantSystem,
+    render: (assistantPastor) => assistantPastor?.assistantSystem || '',
   },
   {
     key: 'category',

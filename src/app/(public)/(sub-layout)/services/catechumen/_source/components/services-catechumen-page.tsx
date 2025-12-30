@@ -104,7 +104,7 @@ const ServicesCatechumenPage: React.FC = () => {
           고생하며 무거운 짐을 진 너희는 모두 나에게 오너라.
         </Text>
         <Text textStyle="pre-body-6" color="grey.6">
-          마태오 복음 11장 28절
+          (마태 11,28)
         </Text>
       </Box>
 
