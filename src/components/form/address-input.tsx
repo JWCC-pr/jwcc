@@ -114,7 +114,7 @@ const AddressInput: React.FC = () => {
           size="lg"
           variant="outline"
           colorPalette="grey"
-          placeholder="상세 주소(선택)"
+          placeholder="상세 주소"
           {...register('addressDetail')}
         />
       </FormHelper>
