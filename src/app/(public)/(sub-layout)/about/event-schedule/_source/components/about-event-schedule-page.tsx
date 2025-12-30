@@ -206,7 +206,6 @@ const AboutEventSchedulePage: React.FC = () => {
                   p={['6px', '10px']}
                   display="flex"
                   flexFlow="column nowrap"
-                  justifyContent="space-between"
                   alignItems="center"
                   borderBottom="1px solid"
                   borderBottomColor="border.basic.1"
@@ -238,7 +237,6 @@ const AboutEventSchedulePage: React.FC = () => {
                   </Text>
 
                   <Box
-                    flex="1"
                     w="100%"
                     display={['none', 'flex']}
                     flexFlow="column nowrap"

@@ -17,7 +17,7 @@ const styleMap = {
   scrolled: {
     borderBottom: '1px solid',
     borderBottomColor: 'border.basic.1',
-    bgColor: 'white.trnsparent.5',
+    bgColor: 'grey.0',
   },
 } as const
 
@@ -33,6 +33,8 @@ const FixedHeader: React.FC = () => {
       position="fixed"
       zIndex="sticky"
       {...styleMap[hasScrolled ? 'scrolled' : 'default']}
+      {...(hasHoveredNav && { bgColor: 'grey.0' })}
+      transition="background-color 0.3s ease"
       onMouseLeave={() => setHoveredNavIndex(null)}
     >
       <HeaderBar

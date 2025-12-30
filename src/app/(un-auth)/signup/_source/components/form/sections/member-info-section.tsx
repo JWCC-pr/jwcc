@@ -36,7 +36,7 @@ const MemberInfoSection: React.FC = () => {
           label="이름"
           message={{
             error: errors.name?.message,
-            help: '교적에 등록된 실명을 입력해주세요.',
+            help: '교적에 등록된 실명을 입력해 주세요.',
           }}
         >
           <Input
@@ -53,6 +53,7 @@ const MemberInfoSection: React.FC = () => {
           label="세례명"
           message={{
             error: errors.baptismName?.message,
+            help: `세례를 받지 않으신 분은 '없음' 또는 '예비신자'로 입력해 주세요.`,
           }}
         >
           <Input
@@ -115,6 +116,7 @@ const MemberInfoSection: React.FC = () => {
           label="소속 단체"
           message={{
             error: errors.department?.message,
+            help: '소속된 모든 단체를 선택해 주세요. (복수선택 가능)',
           }}
         >
           <Controller

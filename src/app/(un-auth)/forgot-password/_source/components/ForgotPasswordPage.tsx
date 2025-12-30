@@ -50,7 +50,7 @@ const ForgotPasswordPage: React.FC = () => {
           비밀번호 재설정
         </Text>
         <Text textStyle="pre-body-6" color="grey.8">
-          가입하신 이메일 주소를 입력해주세요.
+          가입하신 이메일 주소를 입력해 주세요.
           <br />
           이메일 주소로 비밀번호 재설정 링크가 포함된 메일을 보내드립니다.
         </Text>

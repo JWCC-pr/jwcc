@@ -27,7 +27,13 @@ const NoticeSection: React.FC = () => {
   if (!notices.results) return null
 
   return (
-    <Box flex="1" display="flex" flexFlow="column nowrap" gap="40px">
+    <Box
+      flex="1"
+      display="flex"
+      flexFlow="column nowrap"
+      gap="40px"
+      minH="508.7px"
+    >
       <Box py="10px" display="flex" alignItems="center" gap="10px">
         <Text flex="1" textStyle="pre-heading-1" color="grey.10">
           공지사항

@@ -117,7 +117,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               })}
             </Box>
 
-            <HeaderUserMenu isScrolled={isScrolled} />
+            <HeaderUserMenu isScrolled={isScrolled || hasHoveredNav} />
           </Box>
 
           <Box

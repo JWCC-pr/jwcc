@@ -34,7 +34,7 @@ const LoginInfoSection: React.FC = () => {
           label="비밀번호"
           message={{
             error: errors.password?.message,
-            help: '영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요.',
+            help: '영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해 주세요.',
           }}
         >
           <PasswordInput

@@ -31,7 +31,7 @@ export interface SignupFormDataType {
   /** 주소 */
   address: string
   /** 상세 주소 */
-  addressDetail?: string
+  addressDetail: string
   /** 우편번호 */
   postcode: string
   /** 생년월일 */
@@ -94,7 +94,10 @@ export const signupFormSchema: yup.ObjectSchema<SignupFormDataType> = yup
       .string()
       .required(FORM_MESSAGE.COMMON.REQUIRED)
       .max(100, FORM_MESSAGE.ADDRESS.MAX),
-    addressDetail: yup.string().max(100, FORM_MESSAGE.ADDRESS.MAX),
+    addressDetail: yup
+      .string()
+      .required(FORM_MESSAGE.COMMON.REQUIRED)
+      .max(100, FORM_MESSAGE.ADDRESS.MAX),
     postcode: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
     birthDate: yup
       .object()

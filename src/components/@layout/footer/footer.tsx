@@ -13,7 +13,7 @@ import {
 const snsItems = [
   {
     icon: <LayoutFooterYoutubeIcon w="24px" h="24px" />,
-    href: `https://www.youtube.com/@jwcc_official`,
+    href: `https://www.youtube.com/@JWCC1947`,
   },
   {
     icon: <LayoutFooterFacebookIcon w="24px" h="24px" />,

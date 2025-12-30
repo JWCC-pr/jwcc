@@ -1,10 +1,10 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
-import { Link } from '@chakra-ui/react/link'
 
-import { ROUTES } from '@/constants/routes'
 import { useLiturgyFlowerRetrieveQuery } from '@/generated/apis/LiturgyFlower/LiturgyFlower.query'
 
 import NewsLiturgyFlowerDetailBodySection from './sections/news-liturgy-flower-detail-body-section'
@@ -20,6 +20,7 @@ interface NewsLiturgyFlowerDetailPageProps {
 const NewsLiturgyFlowerDetailPage: React.FC<
   NewsLiturgyFlowerDetailPageProps
 > = ({ liturgyFlowerId }) => {
+  const router = useRouter()
   const { data: liturgyFlower } = useLiturgyFlowerRetrieveQuery({
     variables: {
       id: liturgyFlowerId,
@@ -47,14 +48,11 @@ const NewsLiturgyFlowerDetailPage: React.FC<
       />
 
       <Box py="16px" display="flex" justifyContent="center">
-        <Link
-          href={ROUTES.NEWS_LITURGY_FLOWER}
-          _hover={{ textDecoration: 'none' }}
-        >
+        <Box onClick={() => router.back()} cursor="pointer">
           <Button type="button" size="md" variant="solid" colorPalette="grey">
             목록으로
           </Button>
-        </Link>
+        </Box>
       </Box>
     </Box>
   )

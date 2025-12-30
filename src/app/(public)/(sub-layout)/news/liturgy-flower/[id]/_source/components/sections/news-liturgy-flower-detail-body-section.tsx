@@ -49,6 +49,8 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
   const imageContainerRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<ReturnType<typeof animate> | null>(null)
   const isJumpingRef = useRef(false)
+  const isDraggingRef = useRef(false)
+  const currentIndexRef = useRef(FIRST_INDEX)
 
   const showIndex = useMemo(() => {
     if (totalImages <= 1) return 1
@@ -128,14 +130,66 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
     [totalImages, x, getContainerWidth, LAST_INDEX],
   )
 
-  // 초기 위치 설정
+  // 초기 위치 설정 및 컨테이너 크기 감지
   useEffect(() => {
-    const containerWidth = getContainerWidth()
-    if (!containerWidth) return
-    x.set(-FIRST_INDEX * containerWidth)
-    setIsInitialized(true)
+    let rafId: number | null = null
+    let retryCount = 0
+    const MAX_RETRIES = 10
+
+    const initializePosition = () => {
+      const containerWidth = getContainerWidth()
+      if (!containerWidth) {
+        retryCount++
+        if (retryCount < MAX_RETRIES) {
+          // 컨테이너 크기가 아직 계산되지 않았으면 다음 프레임에 재시도
+          rafId = requestAnimationFrame(initializePosition)
+        } else {
+          // 최대 재시도 횟수에 도달했으면 강제로 초기화
+          setIsInitialized(true)
+        }
+        return
+      }
+      x.set(-FIRST_INDEX * containerWidth)
+      setIsInitialized(true)
+    }
+
+    // 초기화 시도
+    initializePosition()
+
+    // ResizeObserver로 컨테이너 크기 변경 감지
+    const container = imageContainerRef.current
+    if (!container) {
+      if (rafId) cancelAnimationFrame(rafId)
+      return
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      const containerWidth = getContainerWidth()
+      if (containerWidth) {
+        // 크기가 변경되었을 때 현재 인덱스에 맞게 위치 조정
+        if (!isDraggingRef.current && !isJumpingRef.current) {
+          const targetX = -currentIndexRef.current * containerWidth
+          x.set(targetX)
+        }
+        if (!isInitialized) {
+          setIsInitialized(true)
+        }
+      }
+    })
+
+    resizeObserver.observe(container)
+
+    return () => {
+      resizeObserver.disconnect()
+      if (rafId) cancelAnimationFrame(rafId)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // currentIndex 변경 시 ref 업데이트
+  useEffect(() => {
+    currentIndexRef.current = currentIndex
+  }, [currentIndex])
 
   // 인덱스 변경 시 애니메이션 (드래그 중이 아닐 때만)
   useEffect(() => {
@@ -207,6 +261,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
   const handleDragStart = useCallback(() => {
     if (totalImages <= 1) return
     setIsDragging(true)
+    isDraggingRef.current = true
     stopAnimation()
   }, [totalImages, stopAnimation])
 
@@ -243,6 +298,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
       if (!containerWidth) return
 
       setIsDragging(false)
+      isDraggingRef.current = false
 
       // 점프 중이면 처리하지 않음
       if (isJumpingRef.current) {
@@ -325,8 +381,10 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
           overflow="hidden"
           rounded="6px"
           aspectRatio="16/9"
+          minH="0"
           style={{
             opacity: isInitialized ? 1 : 0,
+            transition: isInitialized ? 'opacity 0.2s ease-in-out' : 'none',
           }}
         >
           <MotionBox

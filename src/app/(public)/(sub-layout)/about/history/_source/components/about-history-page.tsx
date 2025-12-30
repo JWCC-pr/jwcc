@@ -61,7 +61,7 @@ const historyData: HistoryEvent[] = [
   },
   {
     year: '1998',
-    events: ['가정의료분과 장립'],
+    events: ['가정의료분과 창립'],
   },
   {
     year: '1999',
@@ -141,7 +141,7 @@ const historyData: HistoryEvent[] = [
   },
   {
     year: '2023',
-    events: ['초등 자부화 설립 및 아빠와 함께 추억만들기 운영'],
+    events: ['초등 자부회 설립 및 아빠와 함께 추억만들기 운영'],
   },
   {
     year: '2024',
@@ -155,7 +155,7 @@ const AboutHistoryPage: React.FC = () => {
       {historyData.map((item, index) => (
         <Timeline.Item key={`${item.year}-${index}`}>
           <Box
-            minW={['80px', '180px']}
+            w="full"
             textAlign="right"
             textStyle="cat-heading-2"
             color="primary.4"

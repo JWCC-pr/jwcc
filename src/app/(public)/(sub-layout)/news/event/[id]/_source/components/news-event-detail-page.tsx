@@ -1,8 +1,9 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
-import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns/format'
@@ -19,6 +20,7 @@ interface NewsEventDetailPageProps {
 const NewsEventDetailPage: React.FC<NewsEventDetailPageProps> = ({
   newsId,
 }) => {
+  const router = useRouter()
   const { data: news } = useNewsRetrieveQuery({
     variables: {
       id: newsId,
@@ -50,7 +52,7 @@ const NewsEventDetailPage: React.FC<NewsEventDetailPageProps> = ({
       <AdminEditorContent body={news.body} />
 
       <Box py="16px" display="flex" justifyContent="center">
-        <Link href={ROUTES.NEWS_EVENT} _hover={{ textDecoration: 'none' }}>
+        <Box onClick={() => router.back()} cursor="pointer">
           <Button
             type="button"
             size="md"
@@ -60,7 +62,7 @@ const NewsEventDetailPage: React.FC<NewsEventDetailPageProps> = ({
           >
             목록으로
           </Button>
-        </Link>
+        </Box>
       </Box>
     </Box>
   )

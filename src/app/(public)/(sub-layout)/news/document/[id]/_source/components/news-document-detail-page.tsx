@@ -1,8 +1,9 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
-import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns/format'
@@ -10,7 +11,6 @@ import { format } from 'date-fns/format'
 import AdminEditorContent from '@/app/(public)/(sub-layout)/_source/components/admin-editor-content'
 import AlertDialog from '@/components/dialogs/alert-dialog'
 import FileDown from '@/components/file-down'
-import { ROUTES } from '@/constants/routes'
 import { useDocumentRetrieveQuery } from '@/generated/apis/Document/Document.query'
 import useMe from '@/hooks/useMe'
 
@@ -22,6 +22,7 @@ const NewsDocumentDetailPage: React.FC<NewsDocumentDetailPageProps> = ({
   documentId,
 }) => {
   const { isNotParishMember } = useMe()
+  const router = useRouter()
 
   const { data: document } = useDocumentRetrieveQuery({
     variables: { id: documentId },
@@ -77,7 +78,7 @@ const NewsDocumentDetailPage: React.FC<NewsDocumentDetailPageProps> = ({
       <AdminEditorContent body={document.body} />
 
       <Box py="16px" display="flex" justifyContent="center">
-        <Link href={ROUTES.NEWS_DOCUMENT} _hover={{ textDecoration: 'none ' }}>
+        <Box onClick={() => router.back()} cursor="pointer">
           <Button
             w="120px"
             type="button"
@@ -87,7 +88,7 @@ const NewsDocumentDetailPage: React.FC<NewsDocumentDetailPageProps> = ({
           >
             목록으로
           </Button>
-        </Link>
+        </Box>
       </Box>
     </Box>
   )
