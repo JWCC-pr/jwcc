@@ -53,6 +53,7 @@ const MemberInfoSection: React.FC = () => {
           label="세례명"
           message={{
             error: errors.baptismName?.message,
+            help: `세례를 받지 않으신 분은 '없음' 또는 '예비신자'로 입력해 주세요.`,
           }}
         >
           <Input
