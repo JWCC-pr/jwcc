@@ -123,7 +123,7 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
                         {hasSubItems && (
                           <Box
                             transform={
-                              isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+                              isOpen ? 'rotate(0deg)' : 'rotate(180deg)'
                             }
                             transition="transform 0.2s"
                             transformOrigin="center"
