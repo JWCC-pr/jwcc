@@ -65,16 +65,23 @@ const NewsBulletinPage: React.FC = () => {
                 textDecoration: 'none',
               }}
             >
-              <Image
-                src={thumbnail}
-                alt={bulletin.title + ' 썸네일 이미지'}
-                flex="1"
+              <Box
+                w="100%"
                 aspectRatio="2/3"
                 rounded="6px"
                 border="1px solid"
                 borderColor="border.basic.1"
                 overflow="hidden"
-              />
+                position="relative"
+              >
+                <Image
+                  src={thumbnail}
+                  alt={bulletin.title + ' 썸네일 이미지'}
+                  w="100%"
+                  h="100%"
+                  objectFit="cover"
+                />
+              </Box>
 
               <Box py="12px" display="flex" flexDirection="column">
                 <Text textStyle="pre-heading-3" color="grey.10" lineClamp="1">
