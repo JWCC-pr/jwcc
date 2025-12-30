@@ -114,9 +114,14 @@ const Footer: React.FC = () => {
                   <Text textStyle="pre-body-6" color="grey.6">
                     (06520) 서울특별시 서초구 잠원로 110 (잠원동)
                   </Text>
-                  <Text textStyle="pre-body-6" color="grey.6">
-                    02-742-3311
-                  </Text>
+                  <Link
+                    href="tel:02-595-2416"
+                    textStyle="pre-body-6"
+                    color="grey.6"
+                    _hover={{ textDecoration: 'none' }}
+                  >
+                    02-595-2416
+                  </Link>
                 </Box>
               </Box>
               <Text textStyle="pre-caption-2" color="grey.5">

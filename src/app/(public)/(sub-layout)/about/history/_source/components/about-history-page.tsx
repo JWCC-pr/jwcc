@@ -33,7 +33,7 @@ const historyData: HistoryEvent[] = [
   },
   {
     year: '1983',
-    events: ['심전 신축 부지 확보'],
+    events: ['성전 신축 부지 확보'],
   },
   {
     year: '1984',
@@ -41,7 +41,7 @@ const historyData: HistoryEvent[] = [
   },
   {
     year: '1987',
-    events: ['제4대 장대의 루도비코 신부 부임'],
+    events: ['제4대 장대익 루도비코 신부 부임'],
   },
   {
     year: '1992 - 1994',
@@ -65,7 +65,7 @@ const historyData: HistoryEvent[] = [
   },
   {
     year: '1999',
-    events: ['제6대 양품 에우세비오 신부 부임'],
+    events: ['제6대 양홍 에우세비오 신부 부임'],
   },
   {
     year: '2001',
@@ -98,7 +98,7 @@ const historyData: HistoryEvent[] = [
   {
     year: '2011',
     events: [
-      '엔젤스 합창단(현 엔젤스 발달장애인 주일학교) 장단',
+      '엔젤스 합창단 (현 엔젤스 발달장애인 주일학교) 창단',
       '캄보디아 봉사',
       '교회사 학교 개설',
     ],
