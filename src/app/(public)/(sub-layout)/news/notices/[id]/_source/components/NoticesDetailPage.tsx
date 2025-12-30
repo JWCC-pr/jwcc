@@ -1,15 +1,15 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
-import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns/format'
 
 import AdminEditorContent from '@/app/(public)/(sub-layout)/_source/components/admin-editor-content'
 import FileDown from '@/components/file-down'
-import { ROUTES } from '@/constants/routes'
 import { useNoticeRetrieveQuery } from '@/generated/apis/Notice/Notice.query'
 
 interface NoticesDetailPageProps {
@@ -17,6 +17,7 @@ interface NoticesDetailPageProps {
 }
 
 const NoticesDetailPage: React.FC<NoticesDetailPageProps> = ({ noticeId }) => {
+  const router = useRouter()
   const { data: notice } = useNoticeRetrieveQuery({
     variables: {
       id: noticeId,
@@ -53,7 +54,7 @@ const NoticesDetailPage: React.FC<NoticesDetailPageProps> = ({ noticeId }) => {
       <AdminEditorContent body={notice.body} />
 
       <Box py="16px" display="flex" justifyContent="center">
-        <Link href={ROUTES.NEWS_NOTICES} _hover={{ textDecoration: 'none' }}>
+        <Box onClick={() => router.back()} cursor="pointer">
           <Button
             type="button"
             size="md"
@@ -63,7 +64,7 @@ const NoticesDetailPage: React.FC<NoticesDetailPageProps> = ({ noticeId }) => {
           >
             목록으로
           </Button>
-        </Link>
+        </Box>
       </Box>
     </Box>
   )

@@ -1,10 +1,10 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
-import { Link } from '@chakra-ui/react/link'
 
-import { ROUTES } from '@/constants/routes'
 import { useBoardRetrieveQuery } from '@/generated/apis/Board/Board.query'
 
 import FreeBoardDetailBodySection from './sections/free-board-detail-body-section'
@@ -20,6 +20,8 @@ interface NewFreeBoardDetailPageProps {
 const NewFreeBoardDetailPage: React.FC<NewFreeBoardDetailPageProps> = ({
   id,
 }) => {
+  const router = useRouter()
+
   const { data } = useBoardRetrieveQuery({
     variables: {
       id: Number(id),
@@ -41,11 +43,11 @@ const NewFreeBoardDetailPage: React.FC<NewFreeBoardDetailPageProps> = ({
       <FreeBoardDetailCommentInputSection boardId={Number(id)} />
 
       <Box py="16px" display="flex" justifyContent="center">
-        <Link href={ROUTES.NEWS_FREE_BOARD} _hover={{ textDecoration: 'none' }}>
+        <Box onClick={() => router.back()} cursor="pointer">
           <Button type="button" size="md" variant="solid" colorPalette="grey">
             목록으로
           </Button>
-        </Link>
+        </Box>
       </Box>
     </Box>
   )
