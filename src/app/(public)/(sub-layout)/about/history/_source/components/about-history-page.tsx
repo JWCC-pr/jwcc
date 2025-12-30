@@ -155,7 +155,7 @@ const AboutHistoryPage: React.FC = () => {
       {historyData.map((item, index) => (
         <Timeline.Item key={`${item.year}-${index}`}>
           <Box
-            minW={['80px', '180px']}
+            w="full"
             textAlign="right"
             textStyle="cat-heading-2"
             color="primary.4"
