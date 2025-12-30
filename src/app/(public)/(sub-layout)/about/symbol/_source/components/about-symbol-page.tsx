@@ -9,12 +9,45 @@ import { Spinner } from '@chakra-ui/react/spinner'
 import { Text } from '@chakra-ui/react/text'
 import { DownloadSimpleIcon } from '@phosphor-icons/react'
 
+import JSZip from 'jszip'
+
 import { toaster } from '@/components/ui/toaster'
 import {
   AboutSymbolLogo1Icon,
   AboutSymbolLogo2Icon,
   AboutSymbolLogo3Icon,
 } from '@/generated/icons/MyIcons'
+
+// 폴더별 파일 목록 정의
+const FOLDER_FILES = {
+  녹색: [
+    '3.잠원동성당_로고_녹색_기본.jpg',
+    '3.잠원동성당_로고_녹색_반전.jpg',
+    '3.잠원동성당_로고_녹색_변형_1.jpg',
+    '3.잠원동성당_로고_녹색_변형_2.jpg',
+    '3.잠원동성당_로고_녹색_변형_3.jpg',
+    '3.잠원동성당_로고_녹색_변형_4.jpg',
+    '3.잠원동성당_로고_녹색_변형_5.jpg',
+  ],
+  적색: [
+    '1.잠원동성당_로고_적색_기본.jpg',
+    '1.잠원동성당_로고_적색_반전.jpg',
+    '1.잠원동성당_로고_적색_변형_1.jpg',
+    '1.잠원동성당_로고_적색_변형_2.jpg',
+    '1.잠원동성당_로고_적색_변형_3.jpg',
+    '1.잠원동성당_로고_적색_변형_4.jpg',
+    '1.잠원동성당_로고_적색_변형_5.jpg',
+  ],
+  흑색: [
+    '2.잠원동성당_로고_흑색_기본.jpg',
+    '2.잠원동성당_로고_흑색_반전.jpg',
+    '2.잠원동성당_로고_흑색_변형_1.jpg',
+    '2.잠원동성당_로고_흑색_변형_2.jpg',
+    '2.잠원동성당_로고_흑색_변형_3.jpg',
+    '2.잠원동성당_로고_흑색_변형_4.jpg',
+    '2.잠원동성당_로고_흑색_변형_5.jpg',
+  ],
+} as const
 
 const lists = [
   {
@@ -49,7 +82,7 @@ const AboutSymbolPage: React.FC = () => {
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = 'ci.pdf'
+      link.download = '잠원동성당_심벌.pdf'
 
       document.body.appendChild(link)
       link.click()
@@ -67,30 +100,61 @@ const AboutSymbolPage: React.FC = () => {
   }, [])
 
   const handleDownloadZip = useCallback(async () => {
-    const zipUrl = '/files/about/symbol/ci.zip'
     setIsDownloadingJPG(true)
 
     try {
-      const response = await fetch(zipUrl)
-      if (!response.ok) {
-        throw new Error('파일 다운로드에 실패했습니다.')
-      }
+      const zip = new JSZip()
 
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
+      // 모든 폴더의 파일들을 다운로드
+      await Promise.all(
+        Object.entries(FOLDER_FILES).map(async ([folderName, files]) => {
+          await Promise.all(
+            files.map(async (fileName) => {
+              try {
+                const filePath = `/files/about/symbol/zip/${folderName}/${fileName}`
+                const response = await fetch(filePath)
+                if (!response.ok) {
+                  console.warn(`Failed to fetch ${filePath}`)
+                  return
+                }
+
+                const blob = await response.blob()
+                zip.file(`${folderName}/${fileName}`, blob)
+              } catch (error) {
+                console.error(`Error fetching ${fileName}:`, error)
+              }
+            }),
+          )
+        }),
+      )
+
+      // ZIP 파일 생성
+      const zipBlob = await zip.generateAsync({
+        type: 'blob',
+        compression: 'DEFLATE',
+        compressionOptions: { level: 6 },
+      })
+
+      // 다운로드
+      const url = window.URL.createObjectURL(zipBlob)
       const link = document.createElement('a')
       link.href = url
-      link.download = 'ci.zip'
+      link.download = '잠원동성당_심벌.zip'
+      link.style.display = 'none'
 
       document.body.appendChild(link)
       link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
+
+      // Windows 호환성을 위한 지연
+      setTimeout(() => {
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(url)
+      }, 200)
     } catch (error) {
       console.error(error)
       toaster.create({
         type: 'error',
-        title: '파일 다운로드에 실패했습니다.',
+        title: 'ZIP 파일 생성에 실패했습니다.',
       })
     } finally {
       setIsDownloadingJPG(false)
