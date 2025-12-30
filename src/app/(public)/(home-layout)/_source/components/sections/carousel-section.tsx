@@ -396,10 +396,14 @@ const CarouselSection: React.FC = () => {
             <Text textStyle="pre-body-6" color="grey.0">
               2026년 본당 사목목표
             </Text>
-            <Text textStyle="cat-display-2" color="grey.0">
-              모두가 주인공인 교회
-              <br />- 젊은이와 함께 하는 교회
-            </Text>
+            <Box display="flex" flexFlow="column nowrap">
+              <Text textStyle="cat-display-2" color="grey.0">
+                모두가 주인공인 교회
+              </Text>
+              <Text textStyle="cat-heading-1" color="grey.0">
+                젊은이와 함께 하는 교회
+              </Text>
+            </Box>
           </Box>
           <Text textStyle="cat-body-4" color="white-transparent.600">
             1947년에 설립된 잠원동성당은 서울 강남·서초 지역에서 가장 오래된
