@@ -93,6 +93,7 @@ const NewsPassingNoticeDetailInfoSection: React.FC<
               textStyle="pre-body-4"
               color="grey.10"
               whiteSpace={['pre-wrap', 'initial']}
+              wordBreak="break-all"
             >
               {funeral.value}
             </Text>
