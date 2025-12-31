@@ -65,14 +65,14 @@ const AboutPriestsList: React.FC<AboutPriestsListProps> = ({ lists }) => {
                 gap="4px"
                 alignItems="center"
               >
+                {list.ordinationDate && (
+                  <Badge size="md" variant="subtle" colorPalette="grey">
+                    수품일 · {format(list.ordinationDate, 'yyyy.MM.dd')}
+                  </Badge>
+                )}
                 <Text textStyle="pre-body-6" color="grey.8">
                   {format(list.startDate, 'yyyy.MM.dd')} ~ 현재
                 </Text>
-                {list.ordinationDate && (
-                  <Badge size="md" variant="subtle" colorPalette="grey">
-                    {format(list.ordinationDate, 'yyyy.MM.dd')}
-                  </Badge>
-                )}
               </Box>
             </Box>
           </Box>
