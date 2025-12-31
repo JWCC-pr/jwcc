@@ -394,18 +394,6 @@ const ServicesMarriagePage: React.FC = () => {
                     </Text>
                   ))}
                 </Box>
-                <Text textStyle="pre-body-6" color="primary.3">
-                  ※ 혼인교리 신청 방법 : 서울대교구 사목국 홈페이지{' '}
-                  <Link
-                    href="https://www.samok.or.kr"
-                    target="_blank"
-                    textDecoration="underline"
-                    color="primary.3"
-                  >
-                    www.samok.or.kr
-                  </Link>{' '}
-                  에서 신청
-                </Text>
               </Box>
             </Box>
           </Box>

@@ -33,7 +33,7 @@ const tableOneData = [
     {
       area: `3구역`,
       class: `3반`,
-      detailAddress: `청구블루힐, 오페라하우스, 신반포중앙하이츠, 시티아파트`,
+      detailAddress: `청구블루힐, 오페라하우스, 신반포중앙하이츠, 잠원시티`,
     },
   ],
   // 4구역 A
@@ -79,7 +79,7 @@ const tableOneData = [
     {
       area: `6구역`,
       class: `4반`,
-      detailAddress: `반포센트럴자이 107동,\n시티, 두산위브`,
+      detailAddress: `반포센트럴자이 107동,\n시티21, 두산위브`,
     },
     {
       area: `6구역`,

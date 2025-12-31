@@ -71,7 +71,7 @@ const QuickMenuItems = [
         rounded="8px"
       />
     ),
-    label: '혼인성사 예약 안내',
+    label: '혼인성사 안내',
     value: ROUTES.SERVICES_MARRIAGE,
   },
   {
