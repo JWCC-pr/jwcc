@@ -31,9 +31,14 @@ const AboutPriestsPage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
-          본당 수도자
-        </Text>
+        <Box display="flex" flexDirection="column" gap="10px">
+          <Text textStyle="pre-heading-1" color="grey.10">
+            본당 수도자
+          </Text>
+          <Text textStyle="pre-body-6" color="grey.8">
+            ※ 올리베따노 성베네딕도 수녀회
+          </Text>
+        </Box>
         <AboutPriestsList
           lists={religiouses.map((religious) => ({
             ...religious,
