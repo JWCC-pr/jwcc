@@ -9,8 +9,6 @@ import { Text } from '@chakra-ui/react/text'
 import { format } from 'date-fns/format'
 
 import AdminEditorContent from '@/app/(public)/(sub-layout)/_source/components/admin-editor-content'
-import withPermission from '@/components/hoc/with-permission'
-import { ROUTES } from '@/constants/routes'
 import { useNewsRetrieveQuery } from '@/generated/apis/News/News.query'
 
 interface NewsEventDetailPageProps {
@@ -68,7 +66,4 @@ const NewsEventDetailPage: React.FC<NewsEventDetailPageProps> = ({
   )
 }
 
-export default withPermission(NewsEventDetailPage, {
-  grade: 6,
-  redirectTo: ROUTES.NEWS_EVENT,
-})
+export default NewsEventDetailPage

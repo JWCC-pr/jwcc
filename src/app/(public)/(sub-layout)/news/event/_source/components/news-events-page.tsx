@@ -10,7 +10,6 @@ import { Text } from '@chakra-ui/react/text'
 import { format } from 'date-fns/format'
 
 import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
-import withPermission from '@/components/hoc/with-permission'
 import Pagination from '@/components/pagination'
 import { ROUTES } from '@/constants/routes'
 import { useNewsListQuery } from '@/generated/apis/News/News.query'
@@ -108,7 +107,4 @@ const NewsEventsPage: React.FC = () => {
   )
 }
 
-export default withPermission(NewsEventsPage, {
-  grade: 6,
-  redirectTo: ROUTES.HOME,
-})
+export default NewsEventsPage
