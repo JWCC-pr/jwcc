@@ -1190,6 +1190,11 @@ export interface PriestType {
   ordinationDate: string
   readonly order: number
   /**
+   * 재임 시작일
+   * @format date
+   */
+  startDate: string
+  /**
    * 생성일시
    * @format date-time
    */
@@ -1207,6 +1212,7 @@ export interface PriestErrorMessageType {
   name?: string[]
   baptismalName?: string[]
   ordinationDate?: string[]
+  startDate?: string[]
 }
 
 export interface PriestHistoryType {
@@ -1289,6 +1295,11 @@ export interface PriestRequestType {
    * @format date
    */
   ordinationDate: string
+  /**
+   * 재임 시작일
+   * @format date
+   */
+  startDate: string
 }
 
 export interface ReligiousType {

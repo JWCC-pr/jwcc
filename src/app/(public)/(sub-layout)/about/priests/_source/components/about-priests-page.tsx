@@ -24,7 +24,8 @@ const AboutPriestsPage: React.FC = () => {
         <AboutPriestsList
           lists={priests.map((priest) => ({
             ...priest,
-            startDate: priest.ordinationDate,
+            startDate: priest.startDate,
+            ordinationDate: priest.ordinationDate,
           }))}
         />
       </Box>
@@ -33,7 +34,12 @@ const AboutPriestsPage: React.FC = () => {
         <Text textStyle="pre-heading-1" color="grey.10">
           본당 수도자
         </Text>
-        <AboutPriestsList lists={religiouses} />
+        <AboutPriestsList
+          lists={religiouses.map((religious) => ({
+            ...religious,
+            startDate: religious.startDate,
+          }))}
+        />
       </Box>
     </Box>
   )
