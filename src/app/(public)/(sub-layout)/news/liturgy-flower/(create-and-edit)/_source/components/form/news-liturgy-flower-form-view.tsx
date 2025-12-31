@@ -16,7 +16,7 @@ import { NewsLiturgyFlowerCXCircleFillIcon } from '@/generated/icons/MyIcons'
 
 import { LiturgyFlowerFormDataType } from '../../hooks/useLiturgyFlowerForm'
 
-const MAX_IMAGES = 5
+const MAX_IMAGES = 20
 
 const NewsLiturgyFlowerFormView: React.FC = () => {
   const { register, control, setValue } =
