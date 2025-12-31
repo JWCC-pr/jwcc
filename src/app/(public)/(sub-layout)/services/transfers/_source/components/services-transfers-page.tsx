@@ -265,7 +265,7 @@ const ServicesTransfersPage: React.FC = () => {
                 선종, 장례 문의
               </Text>
               <Text textStyle="pre-body-4" color="grey.10">
-                사무실로 연락 주시길 바랍니다.
+                사무실로 연락 주시기 바랍니다.
               </Text>
             </Box>
           </Box>

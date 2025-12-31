@@ -4,9 +4,6 @@ import { Box } from '@chakra-ui/react/box'
 import { Image } from '@chakra-ui/react/image'
 import { Text } from '@chakra-ui/react/text'
 
-import withPermission from '@/components/hoc/with-permission'
-import { ROUTES } from '@/constants/routes'
-
 const AboutIntroductionPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="56px">
@@ -56,7 +53,4 @@ const AboutIntroductionPage: React.FC = () => {
   )
 }
 
-export default withPermission(AboutIntroductionPage, {
-  grade: 6,
-  redirectTo: ROUTES.HOME,
-})
+export default AboutIntroductionPage

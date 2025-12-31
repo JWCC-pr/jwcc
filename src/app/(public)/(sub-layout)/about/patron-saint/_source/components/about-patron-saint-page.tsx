@@ -51,7 +51,7 @@ const AboutPatronSaintPage: React.FC = () => {
       </Box>
 
       <Text textStyle="pre-body-4" color="grey.10">
-        잠원동성당의 주보성인은 &apos;파티마 성모&apos;입니다.
+        잠원동성당의 주보성인은 &apos;파티마의 성모&apos;입니다.
         <br />
         성모님은 1917년 포르투갈 파티마에서 세 어린 목동 루치아, 프란치스코,
         히야친타에게 여러 차례 발현하시어 죄인들의 회개와 세계 평화를 위해
