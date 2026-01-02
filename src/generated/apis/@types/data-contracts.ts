@@ -1540,7 +1540,7 @@ export interface UserDepartmentType {
    */
   name: string
   /** 세부 분과 */
-  subDepartment: UserSubDepartmentType
+  subDepartment: UserSubDepartmentType[]
 }
 
 export interface UserLoginType {
