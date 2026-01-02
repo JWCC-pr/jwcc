@@ -19,19 +19,18 @@ const useMe = () => {
   /** 타본당 신자 여부 ( 6등급 이하 ) */
   const isParishMember = data.data?.grade && data.data?.grade <= 6
 
-  console.log('🐬 data.data.departmentSet >> ', data.data)
-
   /** 헌화회 소속인지 여부 */
-  const isHeonhwaMember = Boolean(
-    isLoggedIn &&
-    data.data.departmentSet?.some(
-      (department) =>
-        department.name.includes('헌화회') ||
-        department.subDepartment.some((subDepartment) =>
-          subDepartment.name.includes('헌화회'),
-        ),
-    ),
-  )
+  const isHeonhwaMember =
+    (isLoggedIn &&
+      data.data.departmentSet
+        .flatMap((department) => [
+          department.name,
+          ...department.subDepartment.map(
+            (subDepartment) => subDepartment.name,
+          ),
+        ])
+        .some((name) => name.includes('헌화회'))) ??
+    false
 
   return {
     ...data,
