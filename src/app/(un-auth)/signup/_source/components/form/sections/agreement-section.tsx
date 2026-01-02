@@ -3,6 +3,7 @@
 import { Box } from '@chakra-ui/react/box'
 import { Button } from '@chakra-ui/react/button'
 import { Checkbox } from '@chakra-ui/react/checkbox'
+import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 import { CaretRightIcon } from '@phosphor-icons/react'
 
@@ -82,10 +83,17 @@ const AgreementSection: React.FC = () => {
               </Text>
             </Checkbox.Label>
           </Checkbox.Root>
-          <Button type="button" size="sm" variant="ghost" colorPalette="grey">
-            더보기
-            <CaretRightIcon size="16px" />
-          </Button>
+          <Link
+            href="https://literate-saturnalia-448.notion.site/2dc66896ee3380f9996bf37f356bac89"
+            target="_blank"
+            rel="noopener noreferrer"
+            _hover={{ textDecoration: 'none' }}
+          >
+            <Button type="button" size="sm" variant="ghost" colorPalette="grey">
+              더보기
+              <CaretRightIcon size="16px" />
+            </Button>
+          </Link>
         </Box>
         <Box
           py="6px"
@@ -113,10 +121,17 @@ const AgreementSection: React.FC = () => {
               </Text>
             </Checkbox.Label>
           </Checkbox.Root>
-          <Button type="button" size="sm" variant="ghost" colorPalette="grey">
-            더보기
-            <CaretRightIcon size="16px" />
-          </Button>
+          <Link
+            href="https://literate-saturnalia-448.notion.site/2dc66896ee3380e9a849f48130e42b96"
+            target="_blank"
+            rel="noopener noreferrer"
+            _hover={{ textDecoration: 'none' }}
+          >
+            <Button type="button" size="sm" variant="ghost" colorPalette="grey">
+              더보기
+              <CaretRightIcon size="16px" />
+            </Button>
+          </Link>
         </Box>
       </Box>
     </Box>
