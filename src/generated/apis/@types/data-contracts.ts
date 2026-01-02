@@ -1529,7 +1529,18 @@ export interface UserType {
    */
   grade?: UserGradeEnumType
   /** 분과 */
-  subDepartmentSet: UserSubDepartmentType[]
+  readonly departmentSet: UserDepartmentType[]
+}
+
+export interface UserDepartmentType {
+  readonly id: number
+  /**
+   * 분과명
+   * @maxLength 100
+   */
+  name: string
+  /** 세부 분과 */
+  subDepartment: UserSubDepartmentType
 }
 
 export interface UserLoginType {

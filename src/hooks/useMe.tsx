@@ -20,11 +20,14 @@ const useMe = () => {
   const isParishMember = data.data?.grade && data.data?.grade <= 6
 
   /** 헌화회 소속인지 여부 */
-  const isHeonhwaMember =
+  const isHeonhwaMember = Boolean(
     isLoggedIn &&
-    data.data.subDepartmentSet.some((department) =>
-      department.name.includes('헌화회'),
-    )
+    data.data.departmentSet?.some(
+      (department) =>
+        department.name.includes('헌화회') ||
+        department.subDepartment.name.includes('헌화회'),
+    ),
+  )
 
   return {
     ...data,
