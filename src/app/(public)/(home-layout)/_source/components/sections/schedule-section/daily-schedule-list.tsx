@@ -7,7 +7,7 @@ import { Text } from '@chakra-ui/react/text'
 import { isSameDay } from 'date-fns'
 import { format } from 'date-fns/format'
 
-import { HomeCalendarXIcon } from '@/generated/icons/MyIcons'
+import { AboutEventScheduleCDoveIcon } from '@/generated/icons/MyIcons'
 
 import type { CalendarDay } from '../schedule-section'
 
@@ -66,7 +66,7 @@ const DailyScheduleList: React.FC<DailyScheduleListProps> = ({
                 borderBottom="1px solid"
                 borderBottomColor="border.basic.1"
               >
-                <HomeCalendarXIcon w="64px" h="64px" />
+                <AboutEventScheduleCDoveIcon w="64px" h="64px" />
                 <Text textStyle="pre-body-5" color="grey.3">
                   등록된 일정이 없습니다.
                 </Text>

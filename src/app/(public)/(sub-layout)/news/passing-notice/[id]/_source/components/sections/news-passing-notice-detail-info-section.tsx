@@ -20,8 +20,6 @@ interface NewsPassingNoticeDetailInfoSectionProps {
     | 'baptismalName'
     | 'age'
     | 'passingAt'
-    | 'funeralStartAt'
-    | 'funeralEndAt'
     | 'encoffinmentAt'
     | 'departureAt'
     | 'funeralMassAt'
@@ -41,13 +39,6 @@ const NewsPassingNoticeDetailInfoSection: React.FC<
   ]
   const funeralInfo = [
     { label: '선종일시', value: formatDate(passingNotice.passingAt) },
-    {
-      label: '장례 기간',
-      value:
-        formatDate(passingNotice.funeralStartAt, 'yyyy년 MM월 dd일 (EEE)') +
-        ' ~ \n' +
-        formatDate(passingNotice.funeralEndAt, 'yyyy년 MM월 dd일 (EEE)'),
-    },
     { label: '입관 일정', value: formatDate(passingNotice.encoffinmentAt) },
     { label: '발인 일정', value: formatDate(passingNotice.departureAt) },
     { label: '장례미사 일정', value: formatDate(passingNotice.funeralMassAt) },
