@@ -28,12 +28,12 @@ const columns: TableColumn<PassingNoticeType>[] = [
     render: (passingNotice) => passingNotice.baptismalName,
   },
   {
-    key: 'funeralStartAt',
+    key: 'funeralMassAt',
     label: '장례미사',
     width: { type: 'flex', value: 1, minWidth: 120 },
     textAlign: 'center',
     render: (passingNotice) =>
-      format(new Date(passingNotice.funeralStartAt), 'yyyy-MM-dd'),
+      format(new Date(passingNotice.funeralMassAt), 'yyyy-MM-dd'),
   },
 ]
 

@@ -26,7 +26,6 @@ const getMassTimeElement = ({
     case 'middle-high':
       return (
         <>
-          <Box w="6px" h="6px" bgColor="accent.violet2" rounded="full" />
           <Text textStyle="pre-body-5" color="accent.violet2">
             {time}
           </Text>
@@ -41,7 +40,6 @@ const getMassTimeElement = ({
     case 'elementary':
       return (
         <>
-          <Box w="6px" h="6px" bgColor="accent.green2" rounded="full" />
           <Text textStyle="pre-body-5" color="accent.green2">
             {time}
           </Text>
@@ -50,7 +48,6 @@ const getMassTimeElement = ({
     case 'young-adult':
       return (
         <>
-          <Box w="6px" h="6px" bgColor="accent.blue2" rounded="full" />
           <Text textStyle="pre-body-5" color="accent.blue2">
             {time}
           </Text>

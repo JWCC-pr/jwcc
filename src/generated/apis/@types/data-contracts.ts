@@ -10,7 +10,7 @@ export interface AssistantPriestHistoryType {
    * 보좌 체제
    * @maxLength 50
    */
-  assistantSystem: string
+  assistantSystem?: string | null
   /**
    * 구분
    * @maxLength 50
@@ -62,10 +62,9 @@ export interface AssistantPriestHistoryErrorMessageType {
 export interface AssistantPriestHistoryRequestType {
   /**
    * 보좌 체제
-   * @minLength 1
    * @maxLength 50
    */
-  assistantSystem: string
+  assistantSystem?: string | null
   /**
    * 구분
    * @minLength 1
@@ -828,16 +827,6 @@ export interface PassingNoticeType {
    */
   passingAt: string
   /**
-   * 장례 시작일
-   * @format date
-   */
-  funeralStartAt: string
-  /**
-   * 장례 종료일
-   * @format date
-   */
-  funeralEndAt: string
-  /**
    * 장례미사 일정
    * @format date
    */
@@ -852,10 +841,7 @@ export interface PassingNoticeType {
    * @maxLength 200
    */
   funeralHallAddress: string
-  /**
-   * 상주
-   * @maxLength 20
-   */
+  /** 상주 */
   chiefMourner: string
   /**
    * 입관 일정
