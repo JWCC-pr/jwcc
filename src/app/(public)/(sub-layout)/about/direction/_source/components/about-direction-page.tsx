@@ -34,8 +34,8 @@ const AboutDirectionPage: React.FC = () => {
           </Text>
         </Box>
         <Text textStyle="pre-body-4" color="grey.10">
-          3호선 잠원역 3번 출구에서 500m 직진 → 한신7차아파트 301동에서 오른쪽
-          방향으로 300m 진행 → 경성카센타에서 왼쪽 방향으로 70m
+          3호선 잠원역 3번 출구에서 300m 직진 → 현대실크빌라트에서 우회전 후
+          300m 직진 → 경성카센터에서 좌회전 후 50m
         </Text>
       </Box>
 
