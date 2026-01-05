@@ -22,7 +22,7 @@ export const NAV_ITEMS: NavItem[] = [
       { label: '본당 사제·수도자', href: ROUTES.ABOUT_PRIESTS },
       { label: '역대 사제·수도자', href: ROUTES.ABOUT_PAST_PRIESTS },
       { label: '오시는 길', href: ROUTES.ABOUT_DIRECTION },
-      { label: '본당 행사 일정', href: ROUTES.ABOUT_EVENT_SCHEDULE },
+      { label: '본당 일정', href: ROUTES.ABOUT_EVENT_SCHEDULE },
     ],
   },
   {

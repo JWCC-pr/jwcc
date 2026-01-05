@@ -172,10 +172,6 @@ const ServicesTransfersPage: React.FC = () => {
               description: '매월 첫 토요일 오전 10시',
             },
             {
-              label: '성경미사',
-              description: '매주 화요일 오전 10시',
-            },
-            {
               label: '성시간',
               description: '매월 첫 목요일 오후 7시 미사 후',
             },

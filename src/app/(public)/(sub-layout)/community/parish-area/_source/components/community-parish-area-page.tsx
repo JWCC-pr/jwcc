@@ -105,7 +105,7 @@ const tableOneData = [
     {
       area: `7구역`,
       class: `4반`,
-      detailAddress: `디에이치르블랑(신반포22차 재건축)`,
+      detailAddress: `디에이치(신반포22차 재건축 중)`,
     },
     {
       area: `7구역`,
@@ -156,7 +156,11 @@ const tableTwoData = [
     { area: `11구역`, class: `2반`, detailAddress: `메이플자이 202동` },
     { area: `11구역`, class: `3반`, detailAddress: `메이플자이 203동` },
     { area: `11구역`, class: `4반`, detailAddress: `메이플자이 204동` },
-    { area: `11구역`, class: `5반`, detailAddress: `한신21차, 노블레스빌` },
+    {
+      area: `11구역`,
+      class: `5반`,
+      detailAddress: `오티에르반포(한신21차 재건축 중), 미정(노블레스빌 재건축 중)`,
+    },
     { area: `11구역`, class: `6반`, detailAddress: `현대훼미리` },
     { area: `11구역`, class: `7반`, detailAddress: `메이플자이 205동` },
     { area: `11구역`, class: `8반`, detailAddress: `메이플자이 206동` },
@@ -218,7 +222,7 @@ const tableTwoData = [
     {
       area: `16구역`,
       class: `3반`,
-      detailAddress: `한강 3동,\n5동, 한강하우스`,
+      detailAddress: `한강 3동, 5동\n한강하우스`,
     },
     { area: `16구역`, class: `4반`, detailAddress: `한강 6동` },
     { area: `16구역`, class: `5반`, detailAddress: `잠원훼미리 1동, 3동` },
@@ -254,7 +258,7 @@ const tableTwoData = [
     {
       area: `18구역`,
       class: `2반`,
-      detailAddress: `래미안리오센트 104동, 105동, 106동, 107동`,
+      detailAddress: `래미안리오센트 104동, 105동, 106동`,
     },
     { area: `18구역`, class: `3반`, detailAddress: `미주파스텔` },
     { area: `18구역`, class: `4반`, detailAddress: `강변 1동, 4동` },

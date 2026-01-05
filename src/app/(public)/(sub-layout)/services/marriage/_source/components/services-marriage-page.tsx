@@ -54,8 +54,6 @@ const infoList = [
             </Text>
             <Text textStyle="pre-body-4" color="grey.10">
               <a href="tel:010-2783-8789">010-2783-8789</a>
-              <br />
-              생화 60만원
             </Text>
           </Box>
         </Box>
@@ -142,7 +140,7 @@ const ServicesMarriagePage: React.FC = () => {
               예식 일정
             </Text>
             <Text textStyle="pre-body-4" color="grey.10">
-              토요일 낮 12시, 오후 3시 (총 2대)
+              토요일 오후 1시 (1대)
             </Text>
           </Box>
           <Box display="flex" gap="10px">
@@ -221,7 +219,7 @@ const ServicesMarriagePage: React.FC = () => {
           >
             <Text as="li">
               <Text as="u" textUnderlinePosition="under">
-                ‘혼인미사 감사예물’은 본당 신자 120만원 (타 본당 신자 140만원)
+                ‘혼인미사 감사예물’은 본당 신자 220만원 (타 본당 신자 250만원)
               </Text>
               입니다.
             </Text>
@@ -257,11 +255,10 @@ const ServicesMarriagePage: React.FC = () => {
               하여야 합니다.
             </Text>
             <Text as="li">
-              피로연(뷔페) 단가는 1인당{' '}
+              피로연(뷔페) 단가 및 신부대기실 꽃장식 꾸밈비는{' '}
               <Text as="u" textUnderlinePosition="under">
-                49,500원 / 55,000원 / 60,500원(부가세 포함)
-              </Text>{' '}
-              중 택 1하여야 합니다. (음/주류는 업체와 상의)
+                업체와 직접 협의
+              </Text>
             </Text>
           </Box>
           <Text textStyle="pre-body-4" color="grey.10">
@@ -283,9 +280,9 @@ const ServicesMarriagePage: React.FC = () => {
             잠원동성당 교적자 혼인 면담 :
             <br />
             <Text as="u" textUnderlinePosition="under">
-              매주 토요일 오후 4시, 면담 2주 전
+              둘째 토요일 오후 2시
             </Text>{' '}
-            미리 신청하여 신부님과 시간 약속 잡아야 합니다.
+            (면담 2주 전 미리 구비서류를 제출하셔야 신부님 면담일정 확정 가능)
           </Text>
         </Box>
 
@@ -312,7 +309,7 @@ const ServicesMarriagePage: React.FC = () => {
               bgColor="primary.1"
             >
               <Text textStyle="pre-body-3" color="primary.4">
-                본인들이 사전 직접 준비할 서류
+                혼인 면담 전 제출 서류
               </Text>
               <Box display="flex" flexDirection="column">
                 <Box
@@ -324,7 +321,7 @@ const ServicesMarriagePage: React.FC = () => {
                 >
                   {[
                     <>
-                      혼인관계증명서(상세) : 거주지 주민센터 또는 정부24(
+                      혼인관계증명서 (상세 출력) : 거주지 주민센터 또는 정부24(
                       <Link
                         href="https://www.gov.kr"
                         target="_blank"
@@ -333,61 +330,41 @@ const ServicesMarriagePage: React.FC = () => {
                       >
                         www.gov.kr
                       </Link>
-                      ) 발행 (신랑, 신부 각 1통)
+                      ) 발행. 신랑, 신부 각 1통 (혼인신고와 무관)
                     </>,
-                    '세례증명서 원본 (본당에서 발급 가능 / 해외 제외) : 신랑, 신부 각 1통',
-                    '혼인강좌 수료증 (혼인교리 시행하는 성당에서 발급)',
-                  ].map((item, index) => (
-                    <Text as="li" key={index}>
-                      {item}
-                    </Text>
-                  ))}
-                </Box>
-                <Text textStyle="pre-body-6" color="primary.3">
-                  ※ 혼인교리 신청 방법 : 서울대교구 사목국 홈페이지{' '}
-                  <Link
-                    href="https://www.samok.or.kr"
-                    target="_blank"
-                    textDecoration="underline"
-                    color="primary.3"
-                  >
-                    www.samok.or.kr
-                  </Link>{' '}
-                  에서 신청
-                </Text>
-              </Box>
-            </Box>
-            <Box
-              flex="1"
-              p={['20px', '20px', '28px 36px']}
-              display="flex"
-              flexDirection="column"
-              gap="12px"
-              rounded="8px"
-              bgColor="background.basic.2"
-            >
-              <Text textStyle="pre-body-3" color="primary.4">
-                본당 사무실에 와서 작성할 서류
-              </Text>
-              <Box display="flex" flexDirection="column">
-                <Box
-                  as="ul"
-                  listStyle="disc"
-                  pl="20px"
-                  textStyle="pre-body-4"
-                  color="grey.10"
-                >
-                  {[
-                    '혼인 신청서',
-                    '혼인 전 당사자 진술서',
                     <>
-                      혼인 허가서 :{' '}
-                      <Text as="span" color="accent.red2">
-                        교적 본당
+                      혼인교리 수료증 : 서울대교구 사목국 홈페이지 (
+                      <Link
+                        href="https://www.samok.or.kr"
+                        target="_blank"
+                        textDecoration="underline"
+                        color="primary.3"
+                      >
+                        www.samok.or.kr
+                      </Link>{' '}
+                      / 02-727-2070)
+                      <br />
+                      <Text textStyle="pre-body-6" color="primary.3">
+                        ※ 혼인교리 신청 : 서울대교구 사목국 홈페이지 (
+                        <Link
+                          href="https://www.samok.or.kr"
+                          target="_blank"
+                          textDecoration="underline"
+                          color="primary.3"
+                        >
+                          www.samok.or.kr
+                        </Link>
+                        )
                       </Text>
-                      에서 발급
                     </>,
-                    '(관면혼일 경우) 혼인장애 관면서',
+                    <>
+                      세례증명서 : 교적본당 / 세례본당 모두 출력 가능
+                      <br />
+                      <Text textStyle="pre-body-6" color="primary.3">
+                        ※ 해외세례증명서는 해외세례본당에 문의
+                      </Text>
+                    </>,
+                    '배우자가 타 본당 신자일 경우 : 혼인허가서, 교적증명서 (※ 교적 본당에 문의)',
                   ].map((item, index) => (
                     <Text as="li" key={index}>
                       {item}
@@ -509,36 +486,6 @@ const ServicesMarriagePage: React.FC = () => {
               단, 화분(동양난, 서양난)과 꽃바구니, 헌미(사랑의 쌀)은 접수
               가능합니다.
             </Text>
-            <Box
-              my="8px"
-              p="20px 24px"
-              display="flex"
-              flexDirection="column"
-              gap="8px"
-              rounded="10px"
-              bgColor="background.basic.2"
-              ml="-20px"
-            >
-              <Text textStyle="pre-body-5" color="grey.7">
-                사랑의 쌀 기증 방법
-              </Text>
-              <Box
-                as="ul"
-                listStyle="disc"
-                pl="20px"
-                textStyle="pre-body-4"
-                color="grey.10"
-              >
-                <Text as="li">10만원 (쌀 2포 + 리본값)을 지정 계좌로 입금</Text>
-                <Text as="li">
-                  입금계좌: 우리은행 1005-003-407909 (천주교 잠원동성당)
-                </Text>
-                <Text as="li">
-                  입금증에 송금인 이름을 적어 팩스(02-534-9591) 송부 또는 사무실
-                  직접 제출
-                </Text>
-              </Box>
-            </Box>
             <Text as="li">
               기부한 헌미(사랑의 쌀)은 본당 빈첸시오회를 통해 불우이웃을 돕는데
               기증하실 수 있습니다.
