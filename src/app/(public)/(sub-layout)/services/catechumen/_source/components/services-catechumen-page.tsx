@@ -69,7 +69,7 @@ const infoList = [
           오전 10시 30분 ~ 오전 11시 30분 (1시간)
         </Text>
         <Text textStyle="pre-body-6" color="grey.8">
-          교리 지도 : 원장수녀
+          교리 지도 : 부주임 신부
         </Text>
       </Box>
     ),
@@ -79,10 +79,10 @@ const infoList = [
     value: (
       <Box display="flex" flexDirection="column" gap="6px">
         <Text textStyle="pre-body-4" color="grey.10">
-          오후 5시 ~ 오후 6시 (1시간)
+          오후 4시 30분 ~ 오후 5시 30분 (1시간)
         </Text>
         <Text textStyle="pre-body-6" color="grey.8">
-          교리 지도 : 부주임신부
+          교리 지도 : 원장 수녀
         </Text>
       </Box>
     ),

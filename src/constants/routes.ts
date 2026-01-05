@@ -27,7 +27,7 @@ export const ROUTES = {
   ABOUT_PAST_PRIESTS: `/about/past-priests`,
   /** 오시는 길 */
   ABOUT_DIRECTION: `/about/direction`,
-  /** 본당 행사 일정 */
+  /** 본당 일정 */
   ABOUT_EVENT_SCHEDULE: `/about/event-schedule`,
 
   // ================================ 본당 소식 관련 라우트 ================================
