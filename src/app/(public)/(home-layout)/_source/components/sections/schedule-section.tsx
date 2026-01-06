@@ -116,7 +116,7 @@ const ScheduleSection: React.FC = () => {
           본당 일정 안내
         </Text>
         <Link
-          href={ROUTES.ABOUT_EVENT_SCHEDULE}
+          href={ROUTES.NEWS_EVENT_SCHEDULE}
           _hover={{ textDecoration: 'none' }}
         >
           <Button variant="ghost" size="md" colorPalette="grey">
