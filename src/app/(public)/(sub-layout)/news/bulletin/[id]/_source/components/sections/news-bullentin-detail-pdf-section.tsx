@@ -14,8 +14,8 @@ import 'react-pdf/dist/Page/TextLayer.css'
 
 import { WeeklyBulletinType } from '@/generated/apis/@types/data-contracts'
 
-// FIXME: pdfjs 설치 후 worker src 수정
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
+const cMapUrl = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/cmaps/`
 
 const MotionBox = motion(Box)
 
@@ -262,6 +262,7 @@ const NewsBullentinDetailPdfSection: React.FC<
               </Box>
             )}
             <Document
+              options={{ cMapUrl, verbosity: 0 }}
               file={bulletin.file}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
