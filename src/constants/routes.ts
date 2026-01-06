@@ -27,8 +27,6 @@ export const ROUTES = {
   ABOUT_PAST_PRIESTS: `/about/past-priests`,
   /** 오시는 길 */
   ABOUT_DIRECTION: `/about/direction`,
-  /** 본당 일정 */
-  ABOUT_EVENT_SCHEDULE: `/about/event-schedule`,
 
   // ================================ 본당 소식 관련 라우트 ================================
   /** 공지사항 */
@@ -67,6 +65,8 @@ export const ROUTES = {
   NEWS_DOCUMENT: `/news/document`,
   /** 자료실 상세 */
   NEWS_DOCUMENT_DETAIL: (id: number) => `/news/document/${id}`,
+  /** 본당 일정 */
+  NEWS_EVENT_SCHEDULE: `/news/event-schedule`,
 
   // ================================ 신앙 공동체 관련 라우트 ================================
   /** 사목협의회 조직도 */
