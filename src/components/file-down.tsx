@@ -17,29 +17,6 @@ const getFileName = (fileUrl: string) => {
   return decodeURIComponent(fileName)
 }
 
-/** 카카오톡 인앱 브라우저 감지 */
-const isKakaoInAppBrowser = () => {
-  const ua = navigator.userAgent.toLowerCase()
-  return ua.includes('kakaotalk') || ua.includes('kakao')
-}
-
-/** iOS 기기 감지 */
-const isIOS = () => {
-  return /iPhone|iPad|iPod/i.test(navigator.userAgent)
-}
-
-/** Blob을 DataURL로 변환 */
-const blobToDataUrl = (blob: Blob): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      resolve(reader.result as string)
-    }
-    reader.onerror = reject
-    reader.readAsDataURL(blob)
-  })
-}
-
 interface FileDownProps {
   size?: 'l' | 's'
   path: string
@@ -57,9 +34,6 @@ const FileDown: React.FC<FileDownProps> = ({
     async (fileUrl: string) => {
       if (!enableDownload) return
 
-      const isKakaoBrowser = isKakaoInAppBrowser()
-      const isIOSDevice = isIOS()
-
       setIsLoading(true)
       try {
         const proxyUrl = fileUrl
@@ -70,21 +44,34 @@ const FileDown: React.FC<FileDownProps> = ({
         }
 
         const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
         const link = document.createElement('a')
-        const fileName = getFileName(fileUrl)
-        link.download = fileName
+        link.href = url
 
-        // iOS + 카카오 브라우저: dataURL 방식 사용
-        if (isKakaoBrowser && isIOSDevice) {
-          const dataUrl = await blobToDataUrl(blob)
-          link.href = dataUrl
-        } else {
-          link.href = proxyUrl
+        // Content-Disposition 헤더에서 파일명 추출 시도
+        const contentDisposition = response.headers.get('content-disposition')
+        let fileName = getFileName(fileUrl)
+
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(
+            /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/,
+          )
+          if (filenameMatch) {
+            const extractedName = filenameMatch[1].replace(/['"]/g, '')
+            try {
+              fileName = decodeURIComponent(extractedName)
+            } catch {
+              fileName = extractedName
+            }
+          }
         }
+
+        link.download = fileName
 
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
+        window.URL.revokeObjectURL(url)
       } catch (error) {
         console.error(error)
         toaster.create({
