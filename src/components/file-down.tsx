@@ -36,42 +36,13 @@ const FileDown: React.FC<FileDownProps> = ({
 
       setIsLoading(true)
       try {
-        const proxyUrl = fileUrl
-
-        const response = await fetch(proxyUrl)
-        if (!response.ok) {
-          throw new Error('파일 다운로드에 실패했습니다.')
-        }
-
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
         const link = document.createElement('a')
-        link.href = url
-
-        // Content-Disposition 헤더에서 파일명 추출 시도
-        const contentDisposition = response.headers.get('content-disposition')
-        let fileName = getFileName(fileUrl)
-
-        if (contentDisposition) {
-          const filenameMatch = contentDisposition.match(
-            /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/,
-          )
-          if (filenameMatch) {
-            const extractedName = filenameMatch[1].replace(/['"]/g, '')
-            try {
-              fileName = decodeURIComponent(extractedName)
-            } catch {
-              fileName = extractedName
-            }
-          }
-        }
-
-        link.download = fileName
+        link.href = fileUrl
+        link.download = getFileName(fileUrl)
 
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
-        window.URL.revokeObjectURL(url)
       } catch (error) {
         console.error(error)
         toaster.create({
