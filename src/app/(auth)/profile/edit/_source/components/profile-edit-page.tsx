@@ -1,14 +1,9 @@
 'use client'
 
-import { Box } from '@chakra-ui/react/box'
-import { Text } from '@chakra-ui/react/text'
+import ProfileEditForm from './form/profile-edit-form'
 
 const ProfileEditPage: React.FC = () => {
-  return (
-    <Box>
-      <Text>ProfileEditPage</Text>
-    </Box>
-  )
+  return <ProfileEditForm />
 }
 
 export default ProfileEditPage

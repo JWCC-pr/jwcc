@@ -87,7 +87,6 @@ const HeaderUserMenu: React.FC<HeaderUserMenuProps> = ({ isScrolled }) => {
                     _hover={{ textDecoration: 'none' }}
                   >
                     <Box
-                      onClick={handleLogout}
                       w="full"
                       p="8px 10px"
                       textAlign="left"
