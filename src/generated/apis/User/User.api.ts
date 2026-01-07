@@ -17,6 +17,9 @@ import {
   UserRegisterRequestType,
   UserRegisterType,
   UserType,
+  UserUpdateErrorMessageType,
+  UserUpdateRequestType,
+  UserUpdateType,
 } from '../@types/data-contracts'
 import { DeepOmitReadOnly } from '../@types/util-types'
 
@@ -166,6 +169,29 @@ export class UserApi<
       path: `/v1/user/${variables.id}/`,
       method: 'GET',
       secure: true,
+      format: 'json',
+      ...variables.params,
+    }) /**
+   * No description
+   *
+   * @tags user
+   * @name UserUpdate
+   * @summary 유저 정보 수정
+   * @request PUT:/v1/user/{id}/
+   * @secure
+   */
+
+  userUpdate = (variables: {
+    id: string
+    data: DeepOmitReadOnly<UserUpdateRequestType>
+    params?: RequestParams
+  }) =>
+    this.request<UserUpdateType, UserUpdateErrorMessageType | CommonErrorType>({
+      path: `/v1/user/${variables.id}/`,
+      method: 'PUT',
+      body: variables.data,
+      secure: true,
+      type: ContentType.Json,
       format: 'json',
       ...variables.params,
     }) /**

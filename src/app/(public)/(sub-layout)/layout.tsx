@@ -6,6 +6,7 @@ import Footer from '@/components/@layout/footer/footer'
 import StickyHeader from '@/components/@layout/header/sticky/header'
 
 import QuickMenuSection from '../(home-layout)/_source/components/sections/quick-menu-section'
+import DepartmentNav from './_source/components/department-nav'
 import SubLayout from './_source/components/sub-layout'
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -22,6 +23,8 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
       </Box>
 
       <Footer />
+
+      <DepartmentNav />
     </Box>
   )
 }

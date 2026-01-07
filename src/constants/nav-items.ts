@@ -1,9 +1,10 @@
 import { ROUTES } from './routes'
 
 export interface NavItem {
+  startPath: string
   label: string
   href?: string
-  subItems?: {
+  subItems: {
     label: string
     href: string
     disabled?: boolean
@@ -12,6 +13,7 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   {
+    startPath: '/about',
     label: '본당 소개',
     subItems: [
       { label: '본당 소개', href: ROUTES.ABOUT_INTRODUCTION },
@@ -25,6 +27,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
+    startPath: '/news',
     label: '본당 소식',
     subItems: [
       { label: '공지사항', href: ROUTES.NEWS_NOTICES },
@@ -38,6 +41,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
+    startPath: '/community',
     label: '신앙 공동체',
     subItems: [
       {
@@ -54,12 +58,23 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
+    startPath: '/services',
     label: '본당 업무',
     subItems: [
       { label: '사무실 안내', href: ROUTES.SERVICES_OFFICE },
       { label: '예비신자 안내', href: ROUTES.SERVICES_CATECHUMEN },
       { label: '혼인성사 안내', href: ROUTES.SERVICES_MARRIAGE },
       { label: '전입 교우 안내', href: ROUTES.SERVICES_TRANSFER },
+    ],
+  },
+  {
+    startPath: '/department',
+    label: '분과 게시판',
+    subItems: [
+      { label: '명도회 자료실', href: ROUTES.EDITORIAL_MYEONGDO },
+      { label: '주보 7면 편집', href: ROUTES.EDITORIAL_DRAFT },
+      { label: '주보 7면 최종본', href: ROUTES.EDITORIAL_FINAL },
+      { label: '주보 7면 양식', href: ROUTES.EDITORIAL_TEMPLATE },
     ],
   },
 ]

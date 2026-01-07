@@ -9,8 +9,9 @@ import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 import { HouseIcon } from '@phosphor-icons/react'
 
-import { NAV_ITEMS } from '@/constants/nav-items'
 import { ROUTES } from '@/constants/routes'
+import { useDepartmentListQuery } from '@/generated/apis/Department/Department.query'
+import useNavItems from '@/hooks/useNavItems'
 
 import TwoDepthSelect from './twoDepthSelect'
 
@@ -75,26 +76,53 @@ const oneDepthLabelMap = {
 } as const
 
 const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const pathname = usePathname() as keyof typeof labelMap
+  const pathname = usePathname()
+  const { navItems } = useNavItems()
+  const { data: departmentList } = useDepartmentListQuery()
 
-  const mainLabel = labelMap[pathname]
-  const oneDepthLabel = oneDepthLabelMap[pathname]
+  // 분과 게시판 경로 패턴 매칭
+  const departmentBoardMatch = pathname.match(/^\/department\/(\d+)\/board/)
+  const departmentId =
+    departmentBoardMatch ? Number(departmentBoardMatch[1]) : null
+
+  // 분과 이름 가져오기
+  const departmentName = useMemo(() => {
+    if (!departmentId || !departmentList) return null
+    return departmentList.find((dept) => dept.id === departmentId)?.name
+  }, [departmentId, departmentList])
+
+  // 분과 게시판인 경우 동적으로 라벨 설정
+  const mainLabel = useMemo(() => {
+    if (departmentName) {
+      return `${departmentName} 게시판`
+    }
+    return (labelMap as Record<string, string>)[pathname]
+  }, [pathname, departmentName])
+
+  const oneDepthLabel = useMemo(() => {
+    if (departmentName) {
+      return '분과 게시판'
+    }
+    return (oneDepthLabelMap as Record<string, string>)[pathname]
+  }, [pathname, departmentName])
 
   const index = useMemo(() => {
     if (oneDepthLabel === '본당 소개') return 0
     else if (oneDepthLabel === '본당 소식') return 1
     else if (oneDepthLabel === '신앙 공동체') return 2
+    else if (oneDepthLabel === '분과 게시판') return 4
 
     return 3
   }, [oneDepthLabel])
+
   const options = useMemo(
     () =>
-      NAV_ITEMS[index].subItems?.map(({ href, label, disabled }) => ({
+      navItems[index]?.subItems?.map(({ href, label, disabled }) => ({
         label,
         value: href,
         disabled: disabled,
       })) ?? [],
-    [index],
+    [index, navItems],
   )
 
   if (!mainLabel || !oneDepthLabel) {

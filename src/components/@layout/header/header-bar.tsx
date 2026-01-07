@@ -5,9 +5,9 @@ import { Link } from '@chakra-ui/react/link'
 
 import { motion } from 'motion/react'
 
-import { NAV_ITEMS } from '@/constants/nav-items'
 import { ROUTES } from '@/constants/routes'
 import { LogoDefaultIcon, LogoHoverIcon } from '@/generated/icons/MyIcons'
+import useNavItems from '@/hooks/useNavItems'
 
 import HeaderMenu from './header-menu'
 import HeaderUserMenu from './header-user-menu'
@@ -37,6 +37,8 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   setHoveredNavIndex,
   isScrolled,
 }) => {
+  const { navItems } = useNavItems()
+
   return (
     <>
       <MotionBox
@@ -84,7 +86,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               position="relative"
               alignItems="center"
             >
-              {NAV_ITEMS.map((item, index) => {
+              {navItems.map((item, index) => {
                 // 각 메인 메뉴의 모든 하위 경로를 수집
                 const matchPaths =
                   item.subItems
@@ -103,7 +105,6 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
                     }}
                   >
                     <HeaderMenu
-                      href={item.href || '#'}
                       position="relative"
                       transition="color 0.2s"
                       hasHoveredNav={hasHoveredNav}

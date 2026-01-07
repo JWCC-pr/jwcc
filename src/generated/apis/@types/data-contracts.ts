@@ -342,6 +342,219 @@ export interface DepartmentType {
   subDepartmentSet: DepartmentSubDepartmentType[]
 }
 
+export interface DepartmentBoardType {
+  readonly id: number
+  /** 유저 */
+  readonly user: BoardUserType
+  /** 분과 */
+  readonly department: number
+  /** 세부분과 */
+  subDepartment: number
+  /**
+   * 제목
+   * @maxLength 100
+   */
+  title: string
+  /** 본문 */
+  body: string
+  /** 이미지 */
+  imageSet?: DepartmentBoardImageType[]
+  /** 파일 */
+  fileSet?: DepartmentBoardFileType[]
+  /** 소유 여부 */
+  readonly isOwned: boolean
+  /** 좋아요 여부 */
+  readonly isLiked: boolean
+  /** 조회수 */
+  readonly hitCount: number
+  /** 댓글수 */
+  readonly commentCount: number
+  /** 좋아요수 */
+  readonly likeCount: number
+  /** 수정여부 */
+  readonly isModified: boolean
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
+export interface DepartmentBoardCommentType {
+  readonly id: number
+  /** 유저 */
+  readonly user: DepartmentBoardCommentUserType
+  /**
+   * 내용
+   * @maxLength 500
+   */
+  body: string
+  /** 소유 여부 */
+  readonly isOwned: boolean
+  /** 수정여부 */
+  readonly isModified: boolean
+  /** 삭제여부 */
+  readonly isDeleted: boolean
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+}
+
+export interface DepartmentBoardCommentErrorMessageType {
+  nonField?: string[]
+  parentId?: string[]
+  body?: string[]
+}
+
+export interface DepartmentBoardCommentRequestType {
+  /** 부모 댓글 ID */
+  parentId?: number | null
+  /**
+   * 내용
+   * @minLength 1
+   * @maxLength 500
+   */
+  body: string
+}
+
+export interface DepartmentBoardCommentSubDepartmentType {
+  readonly id: number
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface DepartmentBoardCommentSubDepartmentRequestType {
+  /**
+   * 세부분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface DepartmentBoardCommentUserType {
+  readonly id: number
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /** 분과 */
+  subDepartmentSet: DepartmentBoardCommentSubDepartmentType[]
+}
+
+export interface DepartmentBoardCommentUserRequestType {
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
+  /** 분과 */
+  subDepartmentSet: DepartmentBoardCommentSubDepartmentRequestType[]
+}
+
+export interface DepartmentBoardErrorMessageType {
+  nonField?: string[]
+  subDepartment?: string[]
+  title?: string[]
+  body?: string[]
+  imageSet?: string[]
+  fileSet?: string[]
+}
+
+export interface DepartmentBoardFileType {
+  readonly id: number
+  /**
+   * 분과게시글 파일
+   * @format uri
+   */
+  file: string
+  /**
+   * 파일명
+   * @maxLength 255
+   */
+  fileName: string
+}
+
+export interface DepartmentBoardFileRequestType {
+  /**
+   * 분과게시글 파일
+   * @format binary
+   */
+  file: File
+  /**
+   * 파일명
+   * @minLength 1
+   * @maxLength 255
+   */
+  fileName: string
+}
+
+export interface DepartmentBoardHitType {
+  readonly id: number
+}
+
+export interface DepartmentBoardHitErrorMessageType {
+  nonField?: string[]
+}
+
+export interface DepartmentBoardImageType {
+  readonly id: number
+}
+
+export interface DepartmentBoardImageErrorMessageType {
+  nonField?: string[]
+}
+
+export interface DepartmentBoardLikeToggleType {
+  /** 좋아요 여부 */
+  readonly isLiked: boolean
+}
+
+export interface DepartmentBoardLikeToggleErrorMessageType {
+  nonField?: string[]
+}
+
+export interface DepartmentBoardRequestType {
+  /** 세부분과 */
+  subDepartment: number
+  /**
+   * 제목
+   * @minLength 1
+   * @maxLength 100
+   */
+  title: string
+  /**
+   * 본문
+   * @minLength 1
+   */
+  body: string
+  /** 파일 */
+  fileSet?: DepartmentBoardFileRequestType[]
+}
+
 export interface DepartmentSubDepartmentType {
   readonly id: number
   /**
@@ -744,6 +957,30 @@ export interface PaginatedBoardListType {
   results?: BoardType[]
 }
 
+export interface PaginatedDepartmentBoardCommentListType {
+  count?: number
+  cursor?: string | null
+  results?: DepartmentBoardCommentType[]
+}
+
+export interface PaginatedDepartmentBoardHitListType {
+  count?: number
+  cursor?: string | null
+  results?: DepartmentBoardHitType[]
+}
+
+export interface PaginatedDepartmentBoardImageListType {
+  count?: number
+  cursor?: string | null
+  results?: DepartmentBoardImageType[]
+}
+
+export interface PaginatedDepartmentBoardListType {
+  count?: number
+  isNext?: boolean
+  results?: DepartmentBoardType[]
+}
+
 export interface PaginatedDocumentListType {
   count?: number
   isNext?: boolean
@@ -792,6 +1029,12 @@ export interface PaginatedPassingNoticeListType {
   results?: PassingNoticeType[]
 }
 
+export interface PaginatedWeeklyBulletinEditorialListType {
+  count?: number
+  isNext?: boolean
+  results?: WeeklyBulletinEditorialType[]
+}
+
 export interface PaginatedWeeklyBulletinListType {
   count?: number
   isNext?: boolean
@@ -828,7 +1071,7 @@ export interface PassingNoticeType {
   passingAt: string
   /**
    * 장례미사 일정
-   * @format date
+   * @format date-time
    */
   funeralMassAt: string
   /**
@@ -1133,11 +1376,14 @@ export interface PresignedErrorMessageType {
 export interface PresignedRequestType {
   /**
    * * `board.Board.body` - 자유 게시글
+   * * `department_board.DepartmentBoardImage.image` - 이미지
+   * * `department_board.DepartmentBoardFile.file` - 분과게시글 파일
    * * `notice.NoticeFile.file` - 파일
    * * `news.News.thumbnail` - 썸네일
    * * `document.DocumentFile.file` - 자료
    * * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
    * * `weekly_bulletin.WeeklyBulletin.file` - 주보 파일
+   * * `weekly_bulletin_editorial.WeeklyBulletinEditorialFile.file` - 자료
    * * `passing_notice.PassingNotice.portrait` - 고인 사진
    * * `liturgy_flower.LiturgyFlowerImage.image` - 이미지
    * * `banner.Banner.image` - 이미지
@@ -1757,6 +2003,87 @@ export interface UserSubDepartmentType {
   name: string
 }
 
+export interface UserUpdateType {
+  /**
+   * 이름
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 우편번호
+   * @maxLength 6
+   */
+  postcode: string
+  /**
+   * 기본주소
+   * @maxLength 200
+   */
+  baseAddress: string
+  /**
+   * 상세주소
+   * @maxLength 200
+   */
+  detailAddress: string
+  /**
+   * 생년월일
+   * @format date
+   */
+  birth: string
+}
+
+export interface UserUpdateErrorMessageType {
+  nonField?: string[]
+  name?: string[]
+  baptismalName?: string[]
+  postcode?: string[]
+  baseAddress?: string[]
+  detailAddress?: string[]
+  birth?: string[]
+}
+
+export interface UserUpdateRequestType {
+  /**
+   * 이름
+   * @minLength 1
+   * @maxLength 20
+   */
+  name: string
+  /**
+   * 세례명
+   * @minLength 1
+   * @maxLength 40
+   */
+  baptismalName: string
+  /**
+   * 우편번호
+   * @minLength 1
+   * @maxLength 6
+   */
+  postcode: string
+  /**
+   * 기본주소
+   * @minLength 1
+   * @maxLength 200
+   */
+  baseAddress: string
+  /**
+   * 상세주소
+   * @minLength 1
+   * @maxLength 200
+   */
+  detailAddress: string
+  /**
+   * 생년월일
+   * @format date
+   */
+  birth: string
+}
+
 export interface WeeklyBulletinType {
   readonly id: number
   /**
@@ -1783,13 +2110,80 @@ export interface WeeklyBulletinType {
   readonly createdAt: string
 }
 
+export interface WeeklyBulletinEditorialType {
+  readonly id: number
+  /** 유저 */
+  readonly user: BoardUserType
+  /**
+   * 제목
+   * @maxLength 100
+   */
+  title: string
+  /** 본문 */
+  body: string
+  /** 파일 */
+  fileSet: WeeklyBulletinEditorialFileType[]
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
+export interface WeeklyBulletinEditorialErrorMessageType {
+  nonField?: string[]
+  title?: string[]
+  body?: string[]
+  fileSet?: string[]
+}
+
+export interface WeeklyBulletinEditorialFileType {
+  /**
+   * 자료
+   * @format uri
+   */
+  file: string
+}
+
+export interface WeeklyBulletinEditorialFileRequestType {
+  /**
+   * 자료
+   * @format binary
+   */
+  file: File
+}
+
+export interface WeeklyBulletinEditorialRequestType {
+  /**
+   * 제목
+   * @minLength 1
+   * @maxLength 100
+   */
+  title: string
+  /**
+   * 본문
+   * @minLength 1
+   */
+  body: string
+  /** 파일 */
+  fileSet: WeeklyBulletinEditorialFileRequestType[]
+}
+
 /**
  * * `board.Board.body` - 자유 게시글
+ * `department_board.DepartmentBoardImage.image` - 이미지
+ * `department_board.DepartmentBoardFile.file` - 분과게시글 파일
  * `notice.NoticeFile.file` - 파일
  * `news.News.thumbnail` - 썸네일
  * `document.DocumentFile.file` - 자료
  * `weekly_bulletin.WeeklyBulletin.thumbnail` - 썸네일
  * `weekly_bulletin.WeeklyBulletin.file` - 주보 파일
+ * `weekly_bulletin_editorial.WeeklyBulletinEditorialFile.file` - 자료
  * `passing_notice.PassingNotice.portrait` - 고인 사진
  * `liturgy_flower.LiturgyFlowerImage.image` - 이미지
  * `banner.Banner.image` - 이미지
@@ -1803,6 +2197,8 @@ export type PresignedRequestFieldChoiceEnumType =
 export const PresignedRequestFieldChoiceEnumTypeMap = {
   'banner.Banner.image': '이미지',
   'board.Board.body': '자유 게시글',
+  'department_board.DepartmentBoardFile.file': '분과게시글 파일',
+  'department_board.DepartmentBoardImage.image': '이미지',
   'document.DocumentFile.file': '자료',
   'liturgy_flower.LiturgyFlowerImage.image': '이미지',
   'news.News.thumbnail': '썸네일',
@@ -1814,6 +2210,7 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
   'religious.Religious.image': '이미지',
   'weekly_bulletin.WeeklyBulletin.file': '주보 파일',
   'weekly_bulletin.WeeklyBulletin.thumbnail': '썸네일',
+  'weekly_bulletin_editorial.WeeklyBulletinEditorialFile.file': '자료',
 } as const
 
 /**

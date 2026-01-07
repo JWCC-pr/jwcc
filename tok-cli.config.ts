@@ -21,8 +21,8 @@ const config: RootConfig<{
     basePath: '/images',
   },
   'gen:api': {
-    // swaggerSchemaUrl: './test.json',
-    swaggerSchemaUrl: 'https://api.jwcc.or.kr/openapi.json/',
+    // swaggerSchemaUrl: './openapi.json',
+    swaggerSchemaUrl: 'https://api.dev.jwcc.or.kr/openapi.json/',
     httpClientType: 'fetch',
     instancePath: '@/configs/fetch/fetch-extend',
     paginationSets: [
