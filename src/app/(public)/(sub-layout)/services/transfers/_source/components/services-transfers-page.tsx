@@ -68,22 +68,46 @@ const officeInfos = [
   },
   {
     label: '주일',
-    value: '오전 6시 ~ 미사 종료 시',
+    value: '오전 9시 ~ 미사 종료 시',
   },
   {
-    label: '휴게시간 및 휴무일',
+    label: '휴게시간',
     value: (
-      <Box display="flex" flexFlow="column nowrap" gap="6px">
+      <Box display="flex" flexDirection="column" gap="6px">
         <Text textStyle="pre-body-4" color="grey.10">
-          점심시간 낮 12시 30분 ~ 오후 2시
-          <br />
-          월요일 및 공휴일, 대체공휴일, 근로자의 날 휴무
+          정오 12시 ~ 오후 2시
         </Text>
         <Text textStyle="pre-body-6" color="grey.8">
-          ※ 단, 대축일 및 설, 추석 등 교회 전례행사에 특별한 사정이 있을 때는
-          정상근무
+          (점심 및 은행업무 등)
         </Text>
       </Box>
+    ),
+  },
+  {
+    label: '휴무일',
+    value: (
+      <Box display="flex" flexDirection="column" gap="6px">
+        <Text textStyle="pre-body-4" color="grey.10">
+          월요일, 공휴일, 근로자의 날
+        </Text>
+        <Text textStyle="pre-body-6" color="grey.8">
+          ※ 단, 대축일 등 교회전례행사에 특별한 사정이 있는 경우 정상근무
+        </Text>
+      </Box>
+    ),
+  },
+  {
+    label: '미사 예물 접수',
+    value: '전날 오후 5시까지',
+  },
+  {
+    label: '교무금 접수',
+    value: (
+      <>
+        (평일 및 토요일) 오후 5시까지
+        <br />
+        (주일) 오후 6시까지
+      </>
     ),
   },
 ]
