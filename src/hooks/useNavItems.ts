@@ -24,7 +24,7 @@ const useNavItems = () => {
           // 하위 분과가 있는 분과만 표시
           .filter((department) => department.subDepartmentSet.length > 0)
           .map((department) => ({
-            label: department.name + ' 게시판',
+            label: department.name,
             href: ROUTES.DEPARTMENT_BOARD(department.id),
             disabled: false,
           })),

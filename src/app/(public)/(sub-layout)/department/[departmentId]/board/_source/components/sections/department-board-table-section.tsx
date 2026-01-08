@@ -2,9 +2,14 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 
+import { Badge } from '@chakra-ui/react/badge'
+import { Box } from '@chakra-ui/react/box'
+import { Text } from '@chakra-ui/react/text'
+
 import { format } from 'date-fns/format'
 
 import TableEmptySection from '@/app/(public)/(sub-layout)/_source/components/table-empty-section'
+import FileDown from '@/components/file-down'
 import Table, { type TableColumn } from '@/components/table'
 import { ROUTES } from '@/constants/routes'
 import {
@@ -23,14 +28,39 @@ const columns: TableColumn<DepartmentBoardType>[] = [
   {
     key: 'title',
     label: '제목',
-    width: { type: 'flex', value: 72, minWidth: 200 },
+    width: { type: 'flex', value: 1, minWidth: 200 },
     textAlign: 'left',
-    render: (board) => board.title,
+    render: (board) => (
+      <Box
+        display="flex"
+        flexFlow="column nowrap"
+        gap="4px"
+        alignItems="flex-start"
+      >
+        <Box display="flex" flexFlow="row nowrap" gap="8px">
+          <Badge size="md" variant="subtle" colorPalette="grey">
+            {board.subDepartment}
+          </Badge>
+          <Text
+            textStyle="pre-body-6"
+            lineClamp="1"
+            className="hover-underline"
+          >
+            {board.title}
+          </Text>
+        </Box>
+        <Box display="flex" flexFlow="row nowrap" gap="4px">
+          {board.fileSet?.map(({ file }) => (
+            <FileDown key={file} path={file} size="s" enableDownload={false} />
+          ))}
+        </Box>
+      </Box>
+    ),
   },
   {
     key: 'user',
     label: '작성자',
-    width: { type: 'fixed', value: 120 },
+    width: { type: 'fixed', value: 100 },
     textAlign: 'center',
     render: (board) => board.user.name,
   },
@@ -72,6 +102,8 @@ const DepartmentBoardTableSection: React.FC<
   const page = Number(searchParams.get('page') ?? 1)
   const ordering = (searchParams.get('ordering') ??
     '-created_at') as BoardListParamsOrderingEnumType
+  const search = searchParams.get('search') ?? undefined
+  const subDepartment = Number(searchParams.get('sub_department')) || undefined
 
   const handleClick = (board: DepartmentBoardType) => {
     router.push(ROUTES.DEPARTMENT_BOARD_DETAIL(departmentId, board.id))
@@ -89,11 +121,12 @@ const DepartmentBoardTableSection: React.FC<
   const { data: boards } = useDepartmentBoardListQuery({
     variables: {
       query: {
-        // TODO: 세부분과 필터링
         department: departmentId,
         offset: (page - 1) * LIMIT,
         limit: LIMIT,
         ordering,
+        search,
+        sub_department: subDepartment,
       },
     },
   })
