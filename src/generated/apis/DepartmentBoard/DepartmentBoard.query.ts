@@ -68,16 +68,16 @@ export const QUERY_KEY_DEPARTMENT_BOARD_API = {
 export const useDepartmentBoardListQuery = <
   TData = RequestFnReturn<typeof departmentBoardApi.departmentBoardList>,
 >(
-  params: QueryHookParams<
+  params?: QueryHookParams<
     typeof departmentBoardApi.departmentBoardList,
     { error: CommonErrorType },
     TData
   >,
 ) => {
-  const queryKey = QUERY_KEY_DEPARTMENT_BOARD_API.LIST(params.variables)
+  const queryKey = QUERY_KEY_DEPARTMENT_BOARD_API.LIST(params?.variables)
   return useQuery({
     queryKey,
-    queryFn: () => departmentBoardApi.departmentBoardList(params.variables),
+    queryFn: () => departmentBoardApi.departmentBoardList(params?.variables),
     ...params?.options,
   })
 }
@@ -94,14 +94,14 @@ export const useDepartmentBoardListInfiniteQuery = <
     Parameter<typeof departmentBoardApi.departmentBoardList>
   >,
 >(
-  params: InfiniteQueryHookParams<
+  params?: InfiniteQueryHookParams<
     typeof departmentBoardApi.departmentBoardList,
     CommonErrorType,
     TData
   >,
 ) => {
   const queryKey = QUERY_KEY_DEPARTMENT_BOARD_API.LIST_INFINITE(
-    params.variables,
+    params?.variables,
   )
   return useInfiniteQuery({
     queryKey,

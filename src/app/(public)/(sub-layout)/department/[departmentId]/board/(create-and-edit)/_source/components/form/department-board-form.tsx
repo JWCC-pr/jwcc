@@ -56,8 +56,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
             title: data.title,
             body: data.content,
             subDepartment: initialData.subDepartment,
-            // TODO: API 수정 시 변경
-            // fileSet: data.fileSet,
+            fileSet: data.fileSet,
           },
         })
 
@@ -70,8 +69,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
             title: data.title,
             body: data.content,
             subDepartment: data.subDepartment,
-            // TODO: API 수정 시 변경
-            // fileSet: data.fileSet,
+            fileSet: data.fileSet,
           },
         })
 

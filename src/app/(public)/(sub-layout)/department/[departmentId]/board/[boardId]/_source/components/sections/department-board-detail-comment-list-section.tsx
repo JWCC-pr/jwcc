@@ -21,8 +21,6 @@ const DepartmentBoardDetailCommentListSection: React.FC<
   if (!comments) return null
   if (comments.count === 0) return null
 
-  // TODO: API가 parent_id를 지원하지 않으면 최상위 댓글만 필터링 필요
-  // 현재는 모든 댓글을 표시
   const topLevelComments = comments.results || []
 
   return (

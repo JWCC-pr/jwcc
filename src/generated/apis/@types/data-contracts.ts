@@ -358,9 +358,9 @@ export interface DepartmentBoardType {
   /** 본문 */
   body: string
   /** 이미지 */
-  imageSet?: DepartmentBoardImageType[]
+  imageSet?: DepartmentBoardImageNestedType[]
   /** 파일 */
-  fileSet?: DepartmentBoardFileType[]
+  fileSet?: DepartmentBoardFileNestedType[]
   /** 소유 여부 */
   readonly isOwned: boolean
   /** 좋아요 여부 */
@@ -484,10 +484,10 @@ export interface DepartmentBoardErrorMessageType {
   fileSet?: string[]
 }
 
-export interface DepartmentBoardFileType {
+export interface DepartmentBoardFileNestedType {
   readonly id: number
   /**
-   * 분과게시글 파일
+   * 파일
    * @format uri
    */
   file: string
@@ -498,12 +498,13 @@ export interface DepartmentBoardFileType {
   fileName: string
 }
 
-export interface DepartmentBoardFileRequestType {
+export interface DepartmentBoardFileNestedRequestType {
   /**
-   * 분과게시글 파일
-   * @format binary
+   * 파일
+   * @format uri
+   * @minLength 1
    */
-  file: File
+  file: string
   /**
    * 파일명
    * @minLength 1
@@ -526,6 +527,24 @@ export interface DepartmentBoardImageType {
 
 export interface DepartmentBoardImageErrorMessageType {
   nonField?: string[]
+}
+
+export interface DepartmentBoardImageNestedType {
+  readonly id: number
+  /**
+   * 이미지
+   * @format uri
+   */
+  image: string
+}
+
+export interface DepartmentBoardImageNestedRequestType {
+  /**
+   * 이미지
+   * @format uri
+   * @minLength 1
+   */
+  image: string
 }
 
 export interface DepartmentBoardLikeToggleType {
@@ -551,8 +570,10 @@ export interface DepartmentBoardRequestType {
    * @minLength 1
    */
   body: string
+  /** 이미지 */
+  imageSet?: DepartmentBoardImageNestedRequestType[]
   /** 파일 */
-  fileSet?: DepartmentBoardFileRequestType[]
+  fileSet?: DepartmentBoardFileNestedRequestType[]
 }
 
 export interface DepartmentSubDepartmentType {

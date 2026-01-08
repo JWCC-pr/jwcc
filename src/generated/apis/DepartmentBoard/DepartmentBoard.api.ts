@@ -27,10 +27,10 @@ export class DepartmentBoardApi<
    * @secure
    */
 
-  departmentBoardList = (variables: {
-    query: {
+  departmentBoardList = (variables?: {
+    query?: {
       /** 분과 ID */
-      department: number
+      department?: number
       /** 세부분과 ID */
       sub_department?: number
       /** 검색어 */
@@ -47,10 +47,10 @@ export class DepartmentBoardApi<
     this.request<PaginatedDepartmentBoardListType, CommonErrorType>({
       path: `/v1/department_board/`,
       method: 'GET',
-      query: variables.query,
+      query: variables?.query,
       secure: true,
       format: 'json',
-      ...variables.params,
+      ...variables?.params,
     }) /**
    * No description
    *
