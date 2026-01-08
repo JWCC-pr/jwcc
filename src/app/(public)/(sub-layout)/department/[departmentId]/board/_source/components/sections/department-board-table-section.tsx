@@ -39,7 +39,7 @@ const columns: TableColumn<DepartmentBoardType>[] = [
       >
         <Box display="flex" flexFlow="row nowrap" gap="8px">
           <Badge size="md" variant="subtle" colorPalette="grey">
-            {board.subDepartment}
+            {board.subDepartment.name}
           </Badge>
           <Text
             textStyle="pre-body-6"

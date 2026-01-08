@@ -349,7 +349,7 @@ export interface DepartmentBoardType {
   /** 분과 */
   readonly department: number
   /** 세부분과 */
-  subDepartment: number
+  subDepartment: DepartmentBoardSubDepartmentType
   /**
    * 제목
    * @maxLength 100
@@ -477,7 +477,6 @@ export interface DepartmentBoardCommentUserRequestType {
 
 export interface DepartmentBoardErrorMessageType {
   nonField?: string[]
-  subDepartment?: string[]
   title?: string[]
   body?: string[]
   imageSet?: string[]
@@ -491,11 +490,6 @@ export interface DepartmentBoardFileNestedType {
    * @format uri
    */
   file: string
-  /**
-   * 파일명
-   * @maxLength 255
-   */
-  fileName: string
 }
 
 export interface DepartmentBoardFileNestedRequestType {
@@ -505,12 +499,6 @@ export interface DepartmentBoardFileNestedRequestType {
    * @minLength 1
    */
   file: string
-  /**
-   * 파일명
-   * @minLength 1
-   * @maxLength 255
-   */
-  fileName: string
 }
 
 export interface DepartmentBoardHitType {
@@ -574,6 +562,13 @@ export interface DepartmentBoardRequestType {
   imageSet?: DepartmentBoardImageNestedRequestType[]
   /** 파일 */
   fileSet?: DepartmentBoardFileNestedRequestType[]
+}
+
+export interface DepartmentBoardSubDepartmentType {
+  /** 세부분과 ID */
+  readonly id: number
+  /** 세부분과명 */
+  readonly name: string
 }
 
 export interface DepartmentSubDepartmentType {

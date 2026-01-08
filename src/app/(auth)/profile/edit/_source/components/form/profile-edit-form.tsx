@@ -40,7 +40,7 @@ const ProfileEditForm: React.FC = () => {
 
     try {
       await userUpdateMutateAsync({
-        id: String(me.id),
+        id: 'me',
         data: {
           name: formData.name,
           baptismalName: formData.baptismName,
