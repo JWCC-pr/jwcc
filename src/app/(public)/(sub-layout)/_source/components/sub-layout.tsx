@@ -9,8 +9,9 @@ import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 import { HouseIcon } from '@phosphor-icons/react'
 
-import { NAV_ITEMS } from '@/constants/nav-items'
 import { ROUTES } from '@/constants/routes'
+import { useDepartmentListQuery } from '@/generated/apis/Department/Department.query'
+import useNavItems from '@/hooks/useNavItems'
 
 import TwoDepthSelect from './twoDepthSelect'
 
@@ -36,12 +37,16 @@ const labelMap = {
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '사목협의회 조직도',
   [ROUTES.COMMUNITY_PARISH_AREA]: '본당 관할 구역도',
-  [ROUTES.COMMUNITY_DEPARTMENTS]: '분과 바로가기',
   // 본당 업무
   [ROUTES.SERVICES_OFFICE]: '사무실 안내',
   [ROUTES.SERVICES_CATECHUMEN]: '예비신자 안내',
   [ROUTES.SERVICES_MARRIAGE]: '혼인성사 안내',
   [ROUTES.SERVICES_TRANSFER]: '전입 교우 안내',
+  // 각종 자료실
+  [ROUTES.EDITORIAL_DRAFT]: '주보 7면 편집',
+  [ROUTES.EDITORIAL_FINAL]: '주보 7면 최종본',
+  [ROUTES.EDITORIAL_MYEONGDO]: '명도회 자료실',
+  [ROUTES.EDITORIAL_TEMPLATE]: '주보 7면 양식',
 } as const
 
 const oneDepthLabelMap = {
@@ -66,35 +71,66 @@ const oneDepthLabelMap = {
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '신앙 공동체',
   [ROUTES.COMMUNITY_PARISH_AREA]: '신앙 공동체',
-  [ROUTES.COMMUNITY_DEPARTMENTS]: '신앙 공동체',
   // 본당 업무
   [ROUTES.SERVICES_OFFICE]: '본당 업무',
   [ROUTES.SERVICES_CATECHUMEN]: '본당 업무',
   [ROUTES.SERVICES_MARRIAGE]: '본당 업무',
   [ROUTES.SERVICES_TRANSFER]: '본당 업무',
+  // 각종 자료실
+  [ROUTES.EDITORIAL_DRAFT]: '분과 게시판',
+  [ROUTES.EDITORIAL_FINAL]: '분과 게시판',
+  [ROUTES.EDITORIAL_MYEONGDO]: '분과 게시판',
+  [ROUTES.EDITORIAL_TEMPLATE]: '분과 게시판',
 } as const
 
 const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const pathname = usePathname() as keyof typeof labelMap
+  const pathname = usePathname()
+  const { allNavItems } = useNavItems()
+  const { data: departmentList } = useDepartmentListQuery()
 
-  const mainLabel = labelMap[pathname]
-  const oneDepthLabel = oneDepthLabelMap[pathname]
+  // 분과 게시판 경로 패턴 매칭
+  const departmentBoardMatch = pathname.match(/^\/department\/(\d+)\/board/)
+  const departmentId =
+    departmentBoardMatch ? Number(departmentBoardMatch[1]) : null
+
+  // 분과 이름 가져오기
+  const departmentName = useMemo(() => {
+    if (!departmentId || !departmentList) return null
+    return departmentList.find((dept) => dept.id === departmentId)?.name
+  }, [departmentId, departmentList])
+
+  // 분과 게시판인 경우 동적으로 라벨 설정
+  const mainLabel = useMemo(() => {
+    if (departmentName) {
+      return `${departmentName} 게시판`
+    }
+    return (labelMap as Record<string, string>)[pathname]
+  }, [pathname, departmentName])
+
+  const oneDepthLabel = useMemo(() => {
+    if (departmentName) {
+      return '분과 게시판'
+    }
+    return (oneDepthLabelMap as Record<string, string>)[pathname]
+  }, [pathname, departmentName])
 
   const index = useMemo(() => {
     if (oneDepthLabel === '본당 소개') return 0
     else if (oneDepthLabel === '본당 소식') return 1
     else if (oneDepthLabel === '신앙 공동체') return 2
+    else if (oneDepthLabel === '분과 게시판') return 4
 
     return 3
   }, [oneDepthLabel])
+
   const options = useMemo(
     () =>
-      NAV_ITEMS[index].subItems?.map(({ href, label, disabled }) => ({
+      allNavItems[index]?.subItems?.map(({ href, label, disabled }) => ({
         label,
         value: href,
         disabled: disabled,
       })) ?? [],
-    [index],
+    [index, allNavItems],
   )
 
   if (!mainLabel || !oneDepthLabel) {

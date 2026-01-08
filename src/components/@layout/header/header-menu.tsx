@@ -23,10 +23,9 @@ const styleMap = {
 const MotionBox = motion(Box)
 
 interface HeaderMenuProps extends LinkProps {
-  href: string
   hasHoveredNav: boolean
   isScrolled?: boolean
-  matchPaths?: string[]
+  matchPaths: string[]
 }
 
 const HeaderMenu: React.FC<HeaderMenuProps> = ({
@@ -39,9 +38,7 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({
   const pathname = usePathname()
   const [isHovered, setIsHovered] = useState(false)
 
-  const pathsToMatch =
-    matchPaths && matchPaths.length > 0 ? matchPaths : [props.href]
-  const isActive = matchingPath(pathsToMatch, pathname)
+  const isActive = matchingPath(matchPaths, pathname)
   const showUnderline = isHovered || isActive
 
   return (
