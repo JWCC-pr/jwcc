@@ -1,14 +1,11 @@
 'use client'
 
-import { Box } from '@chakra-ui/react/box'
-import { Text } from '@chakra-ui/react/text'
+import { ROUTES } from '@/constants/routes'
+
+import EditorialListPage from '../../../_source/components/editorial-list-page'
 
 const EditorialDraftPage: React.FC = () => {
-  return (
-    <Box>
-      <Text>EditorialDraftPage</Text>
-    </Box>
-  )
+  return <EditorialListPage type="draft" baseRoute={ROUTES.EDITORIAL_DRAFT} />
 }
 
 export default EditorialDraftPage

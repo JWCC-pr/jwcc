@@ -2171,7 +2171,7 @@ export interface WeeklyBulletinEditorialFileRequestType {
    * 자료
    * @format binary
    */
-  file: File
+  file: string
 }
 
 export interface WeeklyBulletinEditorialRequestType {

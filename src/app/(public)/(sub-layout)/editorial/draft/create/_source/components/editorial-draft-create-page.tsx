@@ -1,14 +1,9 @@
 'use client'
 
-import { Box } from '@chakra-ui/react/box'
-import { Text } from '@chakra-ui/react/text'
+import EditorialForm from '../../../../_source/components/editorial-form'
 
 const EditorialDraftCreatePage: React.FC = () => {
-  return (
-    <Box>
-      <Text>EditorialDraftCreatePage</Text>
-    </Box>
-  )
+  return <EditorialForm type="draft" />
 }
 
 export default EditorialDraftCreatePage

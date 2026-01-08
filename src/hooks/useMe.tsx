@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { COOKIE_KEYS } from '@/constants/cookie-keys'
 import { useUserRetrieveQuery } from '@/generated/apis/User/User.query'
 import { clientCookie } from '@/stores/cookie/store'
@@ -20,17 +22,36 @@ const useMe = () => {
   const isParishMember = data.data?.grade && data.data?.grade <= 6
 
   /** 헌화회 소속인지 여부 */
-  const isHeonhwaMember =
-    (isLoggedIn &&
-      data.data.departmentSet
-        .flatMap((department) => [
-          department.name,
-          ...department.subDepartment.map(
-            (subDepartment) => subDepartment.name,
-          ),
-        ])
-        .some((name) => name.includes('헌화회'))) ??
-    false
+  const isHeonhwaMember = useMemo(() => {
+    return (
+      (isLoggedIn &&
+        data.data.departmentSet
+          .flatMap((department) => [
+            department.name,
+            ...department.subDepartment.map(
+              (subDepartment) => subDepartment.name,
+            ),
+          ])
+          .some((name) => name.includes('헌화회'))) ??
+      false
+    )
+  }, [isLoggedIn, data])
+
+  /** 명도회 소속인지 여부 */
+  const isMyeongdoMember = useMemo(() => {
+    return (
+      (isLoggedIn &&
+        data.data.departmentSet
+          .flatMap((department) => [
+            department.name,
+            ...department.subDepartment.map(
+              (subDepartment) => subDepartment.name,
+            ),
+          ])
+          .some((name) => name.includes('명도회'))) ??
+      false
+    )
+  }, [isLoggedIn, data])
 
   return {
     ...data,
@@ -38,6 +59,7 @@ const useMe = () => {
     isNotParishMember,
     isParishMember,
     isHeonhwaMember,
+    isMyeongdoMember,
   }
 }
 

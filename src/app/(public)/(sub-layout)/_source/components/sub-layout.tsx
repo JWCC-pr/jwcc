@@ -42,6 +42,11 @@ const labelMap = {
   [ROUTES.SERVICES_CATECHUMEN]: '예비신자 안내',
   [ROUTES.SERVICES_MARRIAGE]: '혼인성사 안내',
   [ROUTES.SERVICES_TRANSFER]: '전입 교우 안내',
+  // 각종 자료실
+  [ROUTES.EDITORIAL_DRAFT]: '주보 7면 편집',
+  [ROUTES.EDITORIAL_FINAL]: '주보 7면 최종본',
+  [ROUTES.EDITORIAL_MYEONGDO]: '명도회 자료실',
+  [ROUTES.EDITORIAL_TEMPLATE]: '주보 7면 양식',
 } as const
 
 const oneDepthLabelMap = {
@@ -71,11 +76,16 @@ const oneDepthLabelMap = {
   [ROUTES.SERVICES_CATECHUMEN]: '본당 업무',
   [ROUTES.SERVICES_MARRIAGE]: '본당 업무',
   [ROUTES.SERVICES_TRANSFER]: '본당 업무',
+  // 각종 자료실
+  [ROUTES.EDITORIAL_DRAFT]: '분과 게시판',
+  [ROUTES.EDITORIAL_FINAL]: '분과 게시판',
+  [ROUTES.EDITORIAL_MYEONGDO]: '분과 게시판',
+  [ROUTES.EDITORIAL_TEMPLATE]: '분과 게시판',
 } as const
 
 const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname()
-  const { navItems } = useNavItems()
+  const { allNavItems } = useNavItems()
   const { data: departmentList } = useDepartmentListQuery()
 
   // 분과 게시판 경로 패턴 매칭
@@ -115,12 +125,12 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   const options = useMemo(
     () =>
-      navItems[index]?.subItems?.map(({ href, label, disabled }) => ({
+      allNavItems[index]?.subItems?.map(({ href, label, disabled }) => ({
         label,
         value: href,
         disabled: disabled,
       })) ?? [],
-    [index, navItems],
+    [index, allNavItems],
   )
 
   if (!mainLabel || !oneDepthLabel) {

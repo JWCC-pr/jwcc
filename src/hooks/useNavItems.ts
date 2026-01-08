@@ -4,7 +4,10 @@ import { NAV_ITEMS } from '@/constants/nav-items'
 import { ROUTES } from '@/constants/routes'
 import { useDepartmentListQuery } from '@/generated/apis/Department/Department.query'
 
+import useMe from './useMe'
+
 const useNavItems = () => {
+  const { isMyeongdoMember } = useMe()
   const { data: departmentList } = useDepartmentListQuery()
 
   /** 각종 자료실 제외한 nav */
@@ -38,29 +41,33 @@ const useNavItems = () => {
       startPath: '/editorial',
       label: '자료실',
       subItems: [
-        {
-          label: '명도회 자료실',
-          href: ROUTES.EDITORIAL_MYEONGDO,
-          disabled: false,
-        },
-        {
-          label: '주보 7면 편집',
-          href: ROUTES.EDITORIAL_DRAFT,
-          disabled: false,
-        },
-        {
-          label: '주보 7면 최종본',
-          href: ROUTES.EDITORIAL_FINAL,
-          disabled: false,
-        },
-        {
-          label: '주보 7면 양식',
-          href: ROUTES.EDITORIAL_TEMPLATE,
-          disabled: false,
-        },
+        ...(isMyeongdoMember ?
+          [
+            {
+              label: '명도회 자료실',
+              href: ROUTES.EDITORIAL_MYEONGDO,
+              disabled: false,
+            },
+            {
+              label: '주보 7면 편집',
+              href: ROUTES.EDITORIAL_DRAFT,
+              disabled: false,
+            },
+            {
+              label: '주보 7면 최종본',
+              href: ROUTES.EDITORIAL_FINAL,
+              disabled: false,
+            },
+            {
+              label: '주보 7면 양식',
+              href: ROUTES.EDITORIAL_TEMPLATE,
+              disabled: false,
+            },
+          ]
+        : []),
       ],
     }
-  }, [])
+  }, [isMyeongdoMember])
 
   /** 각종 자료실 모두 포함한 nav items */
   const allNavItems = useMemo(

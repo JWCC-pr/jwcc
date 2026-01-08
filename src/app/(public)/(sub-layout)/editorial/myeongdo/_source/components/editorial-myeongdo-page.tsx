@@ -1,13 +1,12 @@
 'use client'
 
-import { Box } from '@chakra-ui/react/box'
-import { Text } from '@chakra-ui/react/text'
+import { ROUTES } from '@/constants/routes'
+
+import EditorialListPage from '../../../_source/components/editorial-list-page'
 
 const EditorialMyeongdoPage: React.FC = () => {
   return (
-    <Box>
-      <Text>EditorialMyeongdoPage</Text>
-    </Box>
+    <EditorialListPage type="myeongdo" baseRoute={ROUTES.EDITORIAL_MYEONGDO} />
   )
 }
 

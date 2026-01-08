@@ -1,14 +1,11 @@
 'use client'
 
-import { Box } from '@chakra-ui/react/box'
-import { Text } from '@chakra-ui/react/text'
+import { ROUTES } from '@/constants/routes'
+
+import EditorialListPage from '../../../_source/components/editorial-list-page'
 
 const EditorialFinalPage: React.FC = () => {
-  return (
-    <Box>
-      <Text>EditorialFinalPage</Text>
-    </Box>
-  )
+  return <EditorialListPage type="final" baseRoute={ROUTES.EDITORIAL_FINAL} />
 }
 
 export default EditorialFinalPage
