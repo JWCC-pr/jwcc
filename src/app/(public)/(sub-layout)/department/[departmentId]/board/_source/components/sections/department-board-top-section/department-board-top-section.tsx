@@ -19,7 +19,11 @@ interface DepartmentBoardTopSectionProps {
 const DepartmentBoardTopSection: React.FC<DepartmentBoardTopSectionProps> = ({
   departmentId,
 }) => {
-  const { isParishMember } = useMe()
+  const { data: me } = useMe()
+
+  const hasPermission = me?.departmentSet.some(
+    (department) => department.id === departmentId,
+  )
 
   return (
     <Box pb="20px" display="flex" flexDirection="column" gap="20px">
@@ -29,7 +33,7 @@ const DepartmentBoardTopSection: React.FC<DepartmentBoardTopSectionProps> = ({
           <SubDepartmentSelect departmentId={departmentId} />
           <OrderingSelect />
         </Box>
-        {isParishMember && (
+        {hasPermission && (
           <Link
             href={ROUTES.DEPARTMENT_BOARD_CREATE(departmentId)}
             _hover={{ textDecoration: 'none' }}
