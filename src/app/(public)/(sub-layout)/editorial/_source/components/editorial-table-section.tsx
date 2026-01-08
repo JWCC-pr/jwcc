@@ -122,16 +122,18 @@ const EditorialTableSection: React.FC<EditorialTableSectionProps> = ({
           >
             {editorial.title}
           </Text>
-          <Box display="flex" flexFlow="row wrap" gap="4px">
-            {editorial.fileSet.map((file) => (
-              <FileDown
-                key={file.file}
-                path={file.file}
-                size="s"
-                enableDownload={false}
-              />
-            ))}
-          </Box>
+          {editorial.fileSet && (
+            <Box display="flex" flexFlow="row wrap" gap="4px">
+              {editorial.fileSet.map((file) => (
+                <FileDown
+                  key={file.file}
+                  path={file.file}
+                  size="s"
+                  enableDownload={false}
+                />
+              ))}
+            </Box>
+          )}
         </Box>
       ),
     },

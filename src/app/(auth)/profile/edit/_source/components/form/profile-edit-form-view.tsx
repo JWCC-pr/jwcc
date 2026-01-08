@@ -41,7 +41,7 @@ const ProfileEditFormView: React.FC<ProfileEditFormViewProps> = ({
       <Box py="16px" display="flex" flexDirection="column" gap="32px">
         <Box display="flex" flexDirection="column" gap="6px">
           <Text textStyle="pre-body-5" color="grey.7">
-            이름
+            권한
           </Text>
           <Text textStyle="pre-body-4" color="grey.10">
             {grade}

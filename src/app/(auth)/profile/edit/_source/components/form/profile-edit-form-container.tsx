@@ -24,7 +24,7 @@ const ProfileEditFormContainer: React.FC<ProfileEditFormContainerProps> = ({
   const { data: me } = useMe()
 
   const { control } = useFormContext<ProfileEditFormDataType>()
-  const { isValid } = useFormState({ control })
+  const { isValid, isDirty } = useFormState({ control })
 
   if (!me) return null
 
@@ -92,7 +92,7 @@ const ProfileEditFormContainer: React.FC<ProfileEditFormContainerProps> = ({
           type="submit"
           size="lg"
           variant="solid"
-          disabled={!isValid}
+          disabled={!isValid || !isDirty}
         >
           수정
         </Button>

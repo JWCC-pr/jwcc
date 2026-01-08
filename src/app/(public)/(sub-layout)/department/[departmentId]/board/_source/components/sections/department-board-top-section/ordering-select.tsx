@@ -3,16 +3,19 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { type SelectRootProps } from '@chakra-ui/react/select'
 
 import Select from '@/components/select'
-import { type BoardListParamsOrderingEnumType } from '@/generated/apis/@types/data-contracts'
+import { type DepartmentBoardListParamsOrderingEnumType } from '@/generated/apis/@types/data-contracts'
 
-const options = [
+const options: {
+  label: string
+  value: DepartmentBoardListParamsOrderingEnumType
+}[] = [
   {
     label: '최신순',
     value: '-created_at',
   },
   {
-    label: '공감순',
-    value: '-like_count',
+    label: '조회순',
+    value: '-hit_count',
   },
 ]
 
@@ -20,7 +23,7 @@ const OrderingSelect: React.FC = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const ordering = (searchParams.get('ordering') ||
-    options[0].value) as BoardListParamsOrderingEnumType
+    options[0].value) as DepartmentBoardListParamsOrderingEnumType
 
   const handleOrderingChange: SelectRootProps['onValueChange'] = (e) => {
     const selectedValue = e.value[0]

@@ -13,7 +13,7 @@ import FileDown from '@/components/file-down'
 import Table, { type TableColumn } from '@/components/table'
 import { ROUTES } from '@/constants/routes'
 import {
-  BoardListParamsOrderingEnumType,
+  DepartmentBoardListParamsOrderingEnumType,
   DepartmentBoardType,
 } from '@/generated/apis/@types/data-contracts'
 import { useDepartmentBoardListQuery } from '@/generated/apis/DepartmentBoard/DepartmentBoard.query'
@@ -39,7 +39,7 @@ const columns: TableColumn<DepartmentBoardType>[] = [
       >
         <Box display="flex" flexFlow="row nowrap" gap="8px">
           <Badge size="md" variant="subtle" colorPalette="grey">
-            {board.subDepartment.name}
+            {board.subDepartmentInfo.name}
           </Badge>
           <Text
             textStyle="pre-body-6"
@@ -101,7 +101,7 @@ const DepartmentBoardTableSection: React.FC<
   const searchParams = useSearchParams()
   const page = Number(searchParams.get('page') ?? 1)
   const ordering = (searchParams.get('ordering') ??
-    '-created_at') as BoardListParamsOrderingEnumType
+    '-created_at') as DepartmentBoardListParamsOrderingEnumType
   const search = searchParams.get('search') ?? undefined
   const subDepartment = Number(searchParams.get('sub_department')) || undefined
 
@@ -124,7 +124,7 @@ const DepartmentBoardTableSection: React.FC<
         department: departmentId,
         offset: (page - 1) * LIMIT,
         limit: LIMIT,
-        ordering,
+        ordering: [ordering],
         search,
         sub_department: subDepartment,
       },

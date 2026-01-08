@@ -344,12 +344,13 @@ export interface DepartmentType {
 
 export interface DepartmentBoardType {
   readonly id: number
-  /** 유저 */
   readonly user: BoardUserType
   /** 분과 */
   readonly department: number
+  /** 세부분과 ID */
+  subDepartment: number
   /** 세부분과 */
-  subDepartment: DepartmentBoardSubDepartmentType
+  readonly subDepartmentInfo: DepartmentBoardSubDepartmentType
   /**
    * 제목
    * @maxLength 100
@@ -477,6 +478,7 @@ export interface DepartmentBoardCommentUserRequestType {
 
 export interface DepartmentBoardErrorMessageType {
   nonField?: string[]
+  subDepartment?: string[]
   title?: string[]
   body?: string[]
   imageSet?: string[]
@@ -545,7 +547,7 @@ export interface DepartmentBoardLikeToggleErrorMessageType {
 }
 
 export interface DepartmentBoardRequestType {
-  /** 세부분과 */
+  /** 세부분과 ID */
   subDepartment: number
   /**
    * 제목
@@ -565,10 +567,21 @@ export interface DepartmentBoardRequestType {
 }
 
 export interface DepartmentBoardSubDepartmentType {
-  /** 세부분과 ID */
   readonly id: number
-  /** 세부분과명 */
-  readonly name: string
+  /**
+   * 세부분과명
+   * @maxLength 100
+   */
+  name: string
+}
+
+export interface DepartmentBoardSubDepartmentRequestType {
+  /**
+   * 세부분과명
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string
 }
 
 export interface DepartmentSubDepartmentType {
@@ -2138,7 +2151,7 @@ export interface WeeklyBulletinEditorialType {
   /** 본문 */
   body: string
   /** 파일 */
-  fileSet: WeeklyBulletinEditorialFileType[]
+  fileSet?: WeeklyBulletinEditorialFileType[]
   /**
    * 생성일시
    * @format date-time
@@ -2159,8 +2172,9 @@ export interface WeeklyBulletinEditorialErrorMessageType {
 }
 
 export interface WeeklyBulletinEditorialFileType {
+  readonly id: number
   /**
-   * 자료
+   * 파일
    * @format uri
    */
   file: string
@@ -2168,8 +2182,9 @@ export interface WeeklyBulletinEditorialFileType {
 
 export interface WeeklyBulletinEditorialFileRequestType {
   /**
-   * 자료
-   * @format binary
+   * 파일
+   * @format uri
+   * @minLength 1
    */
   file: string
 }
@@ -2187,7 +2202,7 @@ export interface WeeklyBulletinEditorialRequestType {
    */
   body: string
   /** 파일 */
-  fileSet: WeeklyBulletinEditorialFileRequestType[]
+  fileSet?: WeeklyBulletinEditorialFileRequestType[]
 }
 
 /**
@@ -2252,3 +2267,7 @@ export const UserGradeEnumTypeMap = {
 } as const
 
 export type BoardListParamsOrderingEnumType = '-created_at' | '-like_count' // X-enumName Values Missing
+
+export type DepartmentBoardListParamsOrderingEnumType =
+  | '-created_at'
+  | '-hit_count' // X-enumName Values Missing

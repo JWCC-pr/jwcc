@@ -2,6 +2,7 @@ import { ContentType, HttpClient, RequestParams } from '../@http-client'
 import {
   CommonErrorType,
   DepartmentBoardErrorMessageType,
+  DepartmentBoardListParamsOrderingEnumType,
   DepartmentBoardRequestType,
   DepartmentBoardType,
   PaginatedDepartmentBoardListType,
@@ -36,7 +37,7 @@ export class DepartmentBoardApi<
       /** 검색어 */
       search?: string
       /** 결과 정렬 시 사용할 필드. */
-      ordering?: string
+      ordering?: DepartmentBoardListParamsOrderingEnumType[]
       /** 페이지당 반환할 결과 수. */
       limit?: number
       /** 결과를 반환할 초기 인덱스. */

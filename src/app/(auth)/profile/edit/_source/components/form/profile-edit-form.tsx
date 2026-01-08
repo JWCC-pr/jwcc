@@ -1,7 +1,11 @@
 import { useEffect } from 'react'
 
+import { useRouter } from 'next/navigation'
+
 import { FormProvider } from 'react-hook-form'
 
+import { toaster } from '@/components/ui/toaster'
+import { ROUTES } from '@/constants/routes'
 import { UserGradeEnumTypeMap } from '@/generated/apis/@types/data-contracts'
 import { useUserUpdateMutation } from '@/generated/apis/User/User.query'
 import useMe from '@/hooks/useMe'
@@ -11,6 +15,7 @@ import ProfileEditFormContainer from './profile-edit-form-container'
 import ProfileEditFormView from './profile-edit-form-view'
 
 const ProfileEditForm: React.FC = () => {
+  const router = useRouter()
   const { data: me } = useMe()
   const { mutateAsync: userUpdateMutateAsync } = useUserUpdateMutation({})
 
@@ -50,6 +55,12 @@ const ProfileEditForm: React.FC = () => {
           birth: `${formData.birthDate.year}-${formData.birthDate.month.padStart(2, '0')}-${formData.birthDate.day.padStart(2, '0')}`,
         },
       })
+
+      toaster.create({
+        title: '회원 정보가 수정되었습니다.',
+        type: 'success',
+      })
+      router.replace(ROUTES.HOME)
     } catch (error) {
       console.error(error)
     }

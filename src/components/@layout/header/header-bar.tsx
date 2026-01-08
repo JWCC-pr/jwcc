@@ -37,7 +37,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   setHoveredNavIndex,
   isScrolled,
 }) => {
-  const { navItems } = useNavItems()
+  const { allNavItems } = useNavItems()
 
   return (
     <>
@@ -86,7 +86,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               position="relative"
               alignItems="center"
             >
-              {navItems.map((item, index) => {
+              {allNavItems.map((item, index) => {
                 // 각 메인 메뉴의 모든 하위 경로를 수집
                 const matchPaths =
                   item.subItems

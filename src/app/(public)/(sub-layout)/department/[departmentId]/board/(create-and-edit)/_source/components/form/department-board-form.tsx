@@ -33,7 +33,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
     defaultValues: {
       title: initialData?.title ?? '',
       content: initialData?.content ?? '',
-      subDepartment: initialData?.subDepartment.id ?? undefined,
+      subDepartment: initialData?.subDepartment ?? undefined,
       fileSet: initialData?.fileSet ?? [],
     },
   })
@@ -55,7 +55,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
           data: {
             title: data.title,
             body: data.content,
-            subDepartment: initialData.subDepartment.id,
+            subDepartment: data.subDepartment,
             fileSet: data.fileSet,
           },
         })
