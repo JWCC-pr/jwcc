@@ -88,8 +88,8 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { allNavItems } = useNavItems()
   const { data: departmentList } = useDepartmentListQuery()
 
-  // 분과 게시판 경로 패턴 매칭
-  const departmentBoardMatch = pathname.match(/^\/department\/(\d+)\/board/)
+  // 분과 게시판 경로 패턴 매칭 - 정확히 /department/[departmentId]/board만 매칭
+  const departmentBoardMatch = pathname.match(/^\/department\/(\d+)\/board$/)
   const departmentId =
     departmentBoardMatch ? Number(departmentBoardMatch[1]) : null
 
@@ -133,7 +133,10 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     [index, allNavItems],
   )
 
-  if (!mainLabel || !oneDepthLabel) {
+  // /department/[departmentId]/board 경로에서만 레이아웃 적용
+  const shouldShowLayout = !!departmentBoardMatch
+
+  if (!shouldShowLayout || !mainLabel || !oneDepthLabel) {
     return (
       <Box
         w="full"
