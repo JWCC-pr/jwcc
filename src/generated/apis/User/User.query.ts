@@ -9,6 +9,7 @@ import {
   UserPasswordResetErrorMessageType,
   UserRefreshErrorMessageType,
   UserRegisterErrorMessageType,
+  UserUpdateErrorMessageType,
 } from '../@types/data-contracts'
 import {
   MutationHookParams,
@@ -45,6 +46,7 @@ export const QUERY_KEY_USER_API = {
   REGISTER_CREATE: () => ['USER_REGISTER_CREATE'],
   RETRIEVE: (variables?: Parameter<typeof userApi.userRetrieve>) =>
     ['USER_RETRIEVE', variables].filter(isDefined),
+  UPDATE: () => ['USER_UPDATE'],
   DESTROY: () => ['USER_DESTROY'],
 }
 
@@ -185,6 +187,29 @@ export const useUserRetrieveQuery = <
   return useQuery({
     queryKey,
     queryFn: () => userApi.userRetrieve(params.variables),
+    ...params?.options,
+  })
+}
+
+/**
+ * No description
+ *
+ * @tags user
+ * @name UserUpdate
+ * @summary 유저 정보 수정
+ * @request PUT:/v1/user/{id}/
+ * @secure  */
+
+export const useUserUpdateMutation = (
+  params: MutationHookParams<
+    typeof userApi.userUpdate,
+    { error: UserUpdateErrorMessageType | CommonErrorType }
+  >,
+) => {
+  const mutationKey = QUERY_KEY_USER_API.UPDATE()
+  return useMutation({
+    mutationKey,
+    mutationFn: userApi.userUpdate,
     ...params?.options,
   })
 }

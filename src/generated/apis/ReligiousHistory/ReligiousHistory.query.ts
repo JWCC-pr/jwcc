@@ -49,7 +49,7 @@ export const QUERY_KEY_RELIGIOUS_HISTORY_API = {
  *
  * @tags religious_history
  * @name ReligiousHistoryList
- * @summary 본당 출신 수도자 목록 조회
+ * @summary 역대 수도자 목록 조회
  * @request GET:/v1/religious_history/
  * @secure    */
 
@@ -75,7 +75,7 @@ export const useReligiousHistoryListQuery = <
  *
  * @tags religious_history
  * @name ReligiousHistoryCreate
- * @summary 본당 출신 수도자 등록
+ * @summary 역대 수도자 등록
  * @request POST:/v1/religious_history/
  * @secure  */
 
@@ -98,7 +98,7 @@ export const useReligiousHistoryCreateMutation = (
  *
  * @tags religious_history
  * @name ReligiousHistoryUpdate
- * @summary 본당 출신 수도자 수정
+ * @summary 역대 수도자 수정
  * @request PUT:/v1/religious_history/{id}/
  * @secure  */
 
@@ -121,7 +121,7 @@ export const useReligiousHistoryUpdateMutation = (
  *
  * @tags religious_history
  * @name ReligiousHistoryDestroy
- * @summary 본당 출신 수도자 삭제
+ * @summary 역대 수도자 삭제
  * @request DELETE:/v1/religious_history/{id}/
  * @secure  */
 

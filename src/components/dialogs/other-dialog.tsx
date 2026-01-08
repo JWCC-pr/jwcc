@@ -1,13 +1,15 @@
-import { Button, CloseButton } from '@chakra-ui/react/button'
+import { Button, ButtonProps, IconButton } from '@chakra-ui/react/button'
 import { Dialog } from '@chakra-ui/react/dialog'
 import { Portal } from '@chakra-ui/react/portal'
+import { XIcon } from '@phosphor-icons/react'
 
 interface OtherDialogProps extends Dialog.RootProps {
   trigger: React.ReactNode
   title: string
+  contentProps?: Dialog.ContentProps
   buttons: {
-    cancelText: string
-    actionText: string
+    cancelProps: ButtonProps & { text: string }
+    actionProps: ButtonProps & { text: string }
   }
 }
 
@@ -16,6 +18,7 @@ const OtherDialog: React.FC<OtherDialogProps> = ({
   title,
   children,
   buttons,
+  contentProps,
   ...props
 }) => {
   return (
@@ -24,7 +27,7 @@ const OtherDialog: React.FC<OtherDialogProps> = ({
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content p="0">
+          <Dialog.Content p="0" {...contentProps}>
             <Dialog.Header
               display="flex"
               justifyContent="space-between"
@@ -33,7 +36,9 @@ const OtherDialog: React.FC<OtherDialogProps> = ({
             >
               <Dialog.Title textAlign="center">{title}</Dialog.Title>
               <Dialog.CloseTrigger asChild>
-                <CloseButton size="sm" />
+                <IconButton size="sm" variant="ghost" colorPalette="grey">
+                  <XIcon size="16px" />
+                </IconButton>
               </Dialog.CloseTrigger>
             </Dialog.Header>
             <Dialog.Body p="16px">{children}</Dialog.Body>
@@ -45,8 +50,9 @@ const OtherDialog: React.FC<OtherDialogProps> = ({
                   colorPalette="grey"
                   flex="1"
                   rounded="10px"
+                  {...buttons.cancelProps}
                 >
-                  {buttons.cancelText}
+                  {buttons.cancelProps.text}
                 </Button>
               </Dialog.ActionTrigger>
               <Button
@@ -55,8 +61,9 @@ const OtherDialog: React.FC<OtherDialogProps> = ({
                 colorPalette="primary"
                 flex="1"
                 rounded="10px"
+                {...buttons.actionProps}
               >
-                {buttons.actionText}
+                {buttons.actionProps.text}
               </Button>
             </Dialog.Footer>
           </Dialog.Content>

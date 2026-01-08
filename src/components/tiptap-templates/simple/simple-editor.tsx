@@ -17,26 +17,25 @@ import { ImageUploadButton } from '@/components/tiptap-ui/image-upload-button'
 import { LinkButton } from '@/components/tiptap-ui/link-button'
 import { MarkButton } from '@/components/tiptap-ui/mark-button'
 import { TextAlignButton } from '@/components/tiptap-ui/text-align-button'
+import { PresignedRequestFieldChoiceEnumType } from '@/generated/apis/@types/data-contracts'
 import { MAX_FILE_SIZE } from '@/lib/tiptap-utils'
 
 interface SimpleEditorProps {
   content?: string
   onChange?: (content: string) => void
   placeholder?: string
+  fieldChoice?: PresignedRequestFieldChoiceEnumType
 }
 
 export function SimpleEditor({
   content = '',
   onChange,
   placeholder = '내용',
+  fieldChoice = 'board.Board.body',
 }: SimpleEditorProps) {
-  const handleImageUpload = async (
-    file: File,
-    onProgress?: (event: { progress: number }) => void,
-    abortSignal?: AbortSignal,
-  ) => {
+  const handleImageUpload = async (file: File) => {
     try {
-      const result = await uploadFile({ file })
+      const result = await uploadFile({ file, fieldChoice })
 
       return result.url
     } catch (error) {

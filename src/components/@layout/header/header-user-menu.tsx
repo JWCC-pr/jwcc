@@ -81,6 +81,22 @@ const HeaderUserMenu: React.FC<HeaderUserMenuProps> = ({ isScrolled }) => {
                 boxShadow="shadow-bottom"
               >
                 <Popover.Body p="0">
+                  <Link
+                    href={ROUTES.PROFILE_EDIT}
+                    w="full"
+                    _hover={{ textDecoration: 'none' }}
+                  >
+                    <Box
+                      w="full"
+                      p="8px 10px"
+                      textAlign="left"
+                      color="grey.8"
+                      textStyle="pre-body-6"
+                      cursor="pointer"
+                    >
+                      내 정보 수정
+                    </Box>
+                  </Link>
                   <Box
                     as="button"
                     onClick={handleLogout}
@@ -90,7 +106,6 @@ const HeaderUserMenu: React.FC<HeaderUserMenuProps> = ({ isScrolled }) => {
                     textStyle="pre-body-6"
                     cursor="pointer"
                     color="accent.red2"
-                    outline="none"
                   >
                     로그아웃
                   </Box>
