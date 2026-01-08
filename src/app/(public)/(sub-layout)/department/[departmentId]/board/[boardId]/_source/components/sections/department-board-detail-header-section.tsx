@@ -9,6 +9,7 @@ import { ChatCircleDotsIcon, HeartIcon } from '@phosphor-icons/react'
 
 import { format } from 'date-fns/format'
 
+import FileDown from '@/components/file-down'
 import Popover from '@/components/popover'
 import { ROUTES } from '@/constants/routes'
 import { DepartmentBoardType } from '@/generated/apis/@types/data-contracts'
@@ -33,6 +34,7 @@ interface DepartmentBoardDetailHeaderSectionProps {
     | 'likeCount'
     | 'isOwned'
     | 'isLiked'
+    | 'fileSet'
   >
 }
 
@@ -171,6 +173,13 @@ const DepartmentBoardDetailHeaderSection: React.FC<
           </Box>
         </Box>
       </Box>
+      {board.fileSet && (
+        <Box display="flex" flexFlow="row wrap" gap="4px">
+          {board.fileSet.map(({ file }) => (
+            <FileDown key={file} path={file} size="l" />
+          ))}
+        </Box>
+      )}
     </Box>
   )
 }

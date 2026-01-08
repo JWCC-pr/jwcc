@@ -57,6 +57,7 @@ const AttachmentFileSection = () => {
         filesToAdd.map((file) => ({
           file,
           fieldChoice: 'department_board.DepartmentBoardImage.image',
+          isDownload: true,
         })),
       )
 
@@ -158,6 +159,7 @@ const AttachmentFileSection = () => {
           filesToAdd.map((file) => ({
             file,
             fieldChoice: 'department_board.DepartmentBoardImage.image',
+            isDownload: true,
           })),
         )
 
@@ -248,7 +250,7 @@ const AttachmentFileSection = () => {
         </>
         {fileSet && fileSet.length > 0 && (
           <Box display="flex" flexFlow="row wrap" gap="8px">
-            {fileSet.map(({ file, fileName }, index) => {
+            {fileSet.map(({ file }, index) => {
               return (
                 <Box
                   key={file}
@@ -262,7 +264,7 @@ const AttachmentFileSection = () => {
                 >
                   <FileArrowDownIcon size="20px" color="#6A6D71" />
                   <Text textStyle="pre-body-6" color="grey.10">
-                    {fileName}
+                    {getFileName(file)}
                   </Text>
                   <DepartmentCXCircleFillIcon
                     w="20px"

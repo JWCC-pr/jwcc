@@ -11,7 +11,6 @@ export interface DepartmentBoardFormDataType {
   subDepartment: number
   fileSet?: {
     file: string
-    fileName: string
   }[]
 }
 
@@ -25,7 +24,6 @@ export const departmentBoardFormSchema: yup.ObjectSchema<DepartmentBoardFormData
       .of(
         yup.object().shape({
           file: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
-          fileName: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
         }),
       )
       .optional(),
