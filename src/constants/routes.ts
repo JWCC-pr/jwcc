@@ -90,8 +90,6 @@ export const ROUTES = {
   COMMUNITY_PASTORAL_COUNCIL: `/community/pastoral-council`,
   /** 본당 관할 구역도 */
   COMMUNITY_PARISH_AREA: `/community/parish-area`,
-  /** 분과 바로가기 */
-  COMMUNITY_DEPARTMENTS: `/community/departments`,
 
   // ================================ 본당 업무 관련 라우트 ================================
   /** 사무실 안내 */

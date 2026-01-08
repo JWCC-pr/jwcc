@@ -44,17 +44,8 @@ export const NAV_ITEMS: NavItem[] = [
     startPath: '/community',
     label: '신앙 공동체',
     subItems: [
-      {
-        label: '사목협의회 조직도',
-        href: ROUTES.COMMUNITY_PASTORAL_COUNCIL,
-        disabled: true,
-      },
+      { label: '사목협의회 조직도', href: ROUTES.COMMUNITY_PASTORAL_COUNCIL },
       { label: '본당 관할 구역도', href: ROUTES.COMMUNITY_PARISH_AREA },
-      {
-        label: '분과 바로가기',
-        href: ROUTES.COMMUNITY_DEPARTMENTS,
-        disabled: true,
-      },
     ],
   },
   {

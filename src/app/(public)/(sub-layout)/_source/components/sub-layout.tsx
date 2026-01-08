@@ -37,7 +37,6 @@ const labelMap = {
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '사목협의회 조직도',
   [ROUTES.COMMUNITY_PARISH_AREA]: '본당 관할 구역도',
-  [ROUTES.COMMUNITY_DEPARTMENTS]: '분과 바로가기',
   // 본당 업무
   [ROUTES.SERVICES_OFFICE]: '사무실 안내',
   [ROUTES.SERVICES_CATECHUMEN]: '예비신자 안내',
@@ -67,7 +66,6 @@ const oneDepthLabelMap = {
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '신앙 공동체',
   [ROUTES.COMMUNITY_PARISH_AREA]: '신앙 공동체',
-  [ROUTES.COMMUNITY_DEPARTMENTS]: '신앙 공동체',
   // 본당 업무
   [ROUTES.SERVICES_OFFICE]: '본당 업무',
   [ROUTES.SERVICES_CATECHUMEN]: '본당 업무',
