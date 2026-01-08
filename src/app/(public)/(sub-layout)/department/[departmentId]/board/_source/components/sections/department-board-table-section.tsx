@@ -17,6 +17,7 @@ import {
   DepartmentBoardType,
 } from '@/generated/apis/@types/data-contracts'
 import { useDepartmentBoardListQuery } from '@/generated/apis/DepartmentBoard/DepartmentBoard.query'
+import useMe from '@/hooks/useMe'
 
 const LIMIT = 10
 
@@ -37,7 +38,7 @@ const columns: TableColumn<DepartmentBoardType>[] = [
         gap="4px"
         alignItems="flex-start"
       >
-        <Box display="flex" flexFlow="row nowrap" gap="8px">
+        <Box display="flex" flexFlow="column nowrap" gap="8px">
           <Badge size="md" variant="subtle" colorPalette="grey">
             {board.subDepartmentInfo.name}
           </Badge>
@@ -118,7 +119,11 @@ const DepartmentBoardTableSection: React.FC<
     )
   }
 
+  const { isParishMember } = useMe()
   const { data: boards } = useDepartmentBoardListQuery({
+    options: {
+      enabled: !!isParishMember,
+    },
     variables: {
       query: {
         department: departmentId,
