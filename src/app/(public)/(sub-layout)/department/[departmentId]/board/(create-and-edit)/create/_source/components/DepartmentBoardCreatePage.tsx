@@ -1,8 +1,7 @@
 'use client'
 
-import withPermission from '@/components/hoc/with-permission'
-
 import DepartmentBoardForm from '../../../_source/components/form/department-board-form'
+import useDepartmentPermisson from '../../../_source/hooks/useDepartmentPermisson'
 
 interface DepartmentBoardCreatePageProps {
   departmentId: number
@@ -11,10 +10,10 @@ interface DepartmentBoardCreatePageProps {
 const DepartmentBoardCreatePage: React.FC<DepartmentBoardCreatePageProps> = ({
   departmentId,
 }) => {
+  const { isPermisson } = useDepartmentPermisson({ departmentId })
+  if (!isPermisson) return null
+
   return <DepartmentBoardForm departmentId={departmentId} />
 }
 
-export default withPermission(DepartmentBoardCreatePage, {
-  grade: 6,
-  redirectTo: '/',
-})
+export default DepartmentBoardCreatePage

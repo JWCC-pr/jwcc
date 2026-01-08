@@ -34,6 +34,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
       title: initialData?.title ?? '',
       content: initialData?.content ?? '',
       subDepartment: initialData?.subDepartment ?? undefined,
+      fileSet: initialData?.fileSet ?? [],
     },
   })
 
@@ -55,6 +56,8 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
             title: data.title,
             body: data.content,
             subDepartment: initialData.subDepartment,
+            // TODO: API 수정 시 변경
+            // fileSet: data.fileSet,
           },
         })
 
@@ -67,6 +70,8 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
             title: data.title,
             body: data.content,
             subDepartment: data.subDepartment,
+            // TODO: API 수정 시 변경
+            // fileSet: data.fileSet,
           },
         })
 
@@ -83,7 +88,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
       <DepartmentBoardFormContainer
         isEditMode={isEditMode}
         onSubmit={onSubmit}
-        view={<DepartmentBoardFormView />}
+        view={<DepartmentBoardFormView departmentId={departmentId} />}
       />
     </FormProvider>
   )

@@ -9,6 +9,10 @@ export interface DepartmentBoardFormDataType {
   title: string
   content: string
   subDepartment: number
+  fileSet?: {
+    file: string
+    fileName: string
+  }[]
 }
 
 export const departmentBoardFormSchema: yup.ObjectSchema<DepartmentBoardFormDataType> =
@@ -16,6 +20,15 @@ export const departmentBoardFormSchema: yup.ObjectSchema<DepartmentBoardFormData
     title: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
     content: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
     subDepartment: yup.number().required(FORM_MESSAGE.COMMON.REQUIRED),
+    fileSet: yup
+      .array()
+      .of(
+        yup.object().shape({
+          file: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
+          fileName: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
+        }),
+      )
+      .optional(),
   })
 
 export const useDepartmentBoardForm = (

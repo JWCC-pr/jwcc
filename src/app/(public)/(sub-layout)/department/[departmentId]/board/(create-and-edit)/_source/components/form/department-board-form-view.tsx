@@ -9,15 +9,29 @@ import { FormHelper } from '@/components/form-helper'
 import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor'
 
 import { DepartmentBoardFormDataType } from '../../hooks/useDepartmentBoardForm'
+import AttachmentFileSection from './attachment-file-section'
+import SubDepartmentSelect from './sub-department-select'
 
-const DepartmentBoardFormView: React.FC = () => {
+interface DepartmentBoardFormViewProps {
+  departmentId: number
+}
+
+const DepartmentBoardFormView: React.FC<DepartmentBoardFormViewProps> = ({
+  departmentId,
+}) => {
   const { register, control, setValue } =
     useFormContext<DepartmentBoardFormDataType>()
 
-  const [title, content] = useWatch({ control, name: ['title', 'content'] })
+  const [title, content] = useWatch({
+    control,
+    name: ['title', 'content'],
+  })
 
   return (
     <Box py="24px" display="flex" flexDirection="column" gap="20px">
+      <FormHelper>
+        <SubDepartmentSelect departmentId={departmentId} />
+      </FormHelper>
       <FormHelper
         message={{ help: `${title.length}/50` }}
         styles={{ help: { w: 'full', textAlign: 'right' } }}
@@ -43,6 +57,8 @@ const DepartmentBoardFormView: React.FC = () => {
         placeholder="내용"
         fieldChoice="department_board.DepartmentBoardImage.image"
       />
+
+      <AttachmentFileSection />
     </Box>
   )
 }

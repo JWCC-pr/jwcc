@@ -49,7 +49,7 @@ const columns: TableColumn<DepartmentBoardType>[] = [
             {board.title}
           </Text>
         </Box>
-        <Box display="flex" flexFlow="row nowrap" gap="4px">
+        <Box display="flex" flexFlow="row wrap" gap="4px">
           {board.fileSet?.map(({ file }) => (
             <FileDown key={file} path={file} size="s" enableDownload={false} />
           ))}
