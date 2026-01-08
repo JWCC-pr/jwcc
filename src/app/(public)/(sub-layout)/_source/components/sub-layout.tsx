@@ -133,10 +133,15 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     [index, allNavItems],
   )
 
-  // /department/[departmentId]/board 경로에서만 레이아웃 적용
-  const shouldShowLayout = !!departmentBoardMatch
+  // /department로 시작하는 경로인지 확인
+  const isDepartmentPath = pathname.startsWith('/department')
 
-  if (!shouldShowLayout || !mainLabel || !oneDepthLabel) {
+  // /department 경로인 경우: /department/[departmentId]/board만 레이아웃 적용
+  // /department가 아닌 경로인 경우: 기존대로 레이아웃 적용
+  const shouldShowLayout =
+    isDepartmentPath ? !!departmentBoardMatch : !!mainLabel && !!oneDepthLabel
+
+  if (!shouldShowLayout) {
     return (
       <Box
         w="full"
