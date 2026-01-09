@@ -31,7 +31,7 @@ export function SimpleEditor({
   content = '',
   onChange,
   placeholder = '내용',
-  fieldChoice = 'board.Board.body',
+  fieldChoice = 'board.BoardImage.image',
 }: SimpleEditorProps) {
   const handleImageUpload = async (file: File) => {
     try {

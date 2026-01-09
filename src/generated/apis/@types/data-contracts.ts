@@ -115,6 +115,8 @@ export interface BoardType {
   title: string
   /** 본문 */
   body: string
+  /** 이미지 */
+  imageSet?: BoardImageNestedType[]
   /** 소유 여부 */
   readonly isOwned: boolean
   /** 좋아요 여부 */
@@ -233,6 +235,25 @@ export interface BoardErrorMessageType {
   nonField?: string[]
   title?: string[]
   body?: string[]
+  imageSet?: string[]
+}
+
+export interface BoardImageNestedType {
+  readonly id: number
+  /**
+   * 이미지
+   * @format uri
+   */
+  image: string
+}
+
+export interface BoardImageNestedRequestType {
+  /**
+   * 이미지
+   * @format uri
+   * @minLength 1
+   */
+  image: string
 }
 
 export interface BoardLikeToggleType {
@@ -256,6 +277,8 @@ export interface BoardRequestType {
    * @minLength 1
    */
   body: string
+  /** 이미지 */
+  imageSet?: BoardImageNestedRequestType[]
 }
 
 export interface BoardSubDepartmentType {
@@ -1404,7 +1427,6 @@ export interface PresignedErrorMessageType {
 
 export interface PresignedRequestType {
   /**
-   * * `board.Board.body` - 자유 게시글
    * * `department_board.DepartmentBoardImage.image` - 이미지
    * * `department_board.DepartmentBoardFile.file` - 분과게시글 파일
    * * `notice.NoticeFile.file` - 파일
@@ -1415,6 +1437,7 @@ export interface PresignedRequestType {
    * * `weekly_bulletin_editorial.WeeklyBulletinEditorialFile.file` - 자료
    * * `passing_notice.PassingNotice.portrait` - 고인 사진
    * * `liturgy_flower.LiturgyFlowerImage.image` - 이미지
+   * * `board.BoardImage.image` - 이미지
    * * `banner.Banner.image` - 이미지
    * * `pastoral_guidelines.PastoralGuidelines.image` - 이미지
    * * `pastoral_guidelines.PastoralGuidelines.signature_image` - 서명 이미지
@@ -2206,8 +2229,7 @@ export interface WeeklyBulletinEditorialRequestType {
 }
 
 /**
- * * `board.Board.body` - 자유 게시글
- * `department_board.DepartmentBoardImage.image` - 이미지
+ * * `department_board.DepartmentBoardImage.image` - 이미지
  * `department_board.DepartmentBoardFile.file` - 분과게시글 파일
  * `notice.NoticeFile.file` - 파일
  * `news.News.thumbnail` - 썸네일
@@ -2217,6 +2239,7 @@ export interface WeeklyBulletinEditorialRequestType {
  * `weekly_bulletin_editorial.WeeklyBulletinEditorialFile.file` - 자료
  * `passing_notice.PassingNotice.portrait` - 고인 사진
  * `liturgy_flower.LiturgyFlowerImage.image` - 이미지
+ * `board.BoardImage.image` - 이미지
  * `banner.Banner.image` - 이미지
  * `pastoral_guidelines.PastoralGuidelines.image` - 이미지
  * `pastoral_guidelines.PastoralGuidelines.signature_image` - 서명 이미지
@@ -2227,7 +2250,7 @@ export type PresignedRequestFieldChoiceEnumType =
   keyof typeof PresignedRequestFieldChoiceEnumTypeMap
 export const PresignedRequestFieldChoiceEnumTypeMap = {
   'banner.Banner.image': '이미지',
-  'board.Board.body': '자유 게시글',
+  'board.BoardImage.image': '이미지',
   'department_board.DepartmentBoardFile.file': '분과게시글 파일',
   'department_board.DepartmentBoardImage.image': '이미지',
   'document.DocumentFile.file': '자료',
