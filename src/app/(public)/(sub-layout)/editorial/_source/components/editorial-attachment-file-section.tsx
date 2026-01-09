@@ -65,13 +65,7 @@ const EditorialAttachmentFileSection = () => {
 
       setValue(
         'fileSet',
-        [
-          ...currentFiles,
-          ...uploadedUrls.map((url) => ({
-            file: url,
-            fileName: getFileName(url),
-          })),
-        ],
+        [...currentFiles, ...uploadedUrls.map((url) => ({ file: url }))],
         {
           shouldValidate: true,
           shouldDirty: true,
@@ -167,13 +161,7 @@ const EditorialAttachmentFileSection = () => {
 
         setValue(
           'fileSet',
-          [
-            ...currentFiles,
-            ...uploadedUrls.map((url) => ({
-              file: url,
-              fileName: getFileName(url),
-            })),
-          ],
+          [...currentFiles, ...uploadedUrls.map((url) => ({ file: url }))],
           {
             shouldValidate: true,
             shouldDirty: true,
