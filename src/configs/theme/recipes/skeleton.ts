@@ -25,7 +25,7 @@ export const skeletonRecipe = defineRecipe({
     },
     variant: {
       pulse: {
-        background: 'bg.emphasized',
+        background: 'grey.2',
         animation: 'pulse',
         animationDuration: 'var(--duration, 1.2s)',
       },

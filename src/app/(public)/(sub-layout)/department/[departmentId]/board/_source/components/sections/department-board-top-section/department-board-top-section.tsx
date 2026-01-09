@@ -28,7 +28,12 @@ const DepartmentBoardTopSection: React.FC<DepartmentBoardTopSectionProps> = ({
   return (
     <Box pb="20px" display="flex" flexDirection="column" gap="20px">
       <SearchInput />
-      <Box display="flex" justifyContent="space-between">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        flexDirection={['column', 'row']}
+        gap="20px"
+      >
         <Box display="flex" gap="10px">
           <SubDepartmentSelect departmentId={departmentId} />
           <OrderingSelect />
@@ -42,7 +47,7 @@ const DepartmentBoardTopSection: React.FC<DepartmentBoardTopSectionProps> = ({
               size="md"
               variant="solid"
               colorPalette="primary"
-              w={['initial', '140px']}
+              w={['full', '140px']}
             >
               <NewsFreeBoardPencilSimpleLineIcon w="20px" h="20px" />
               게시글 작성

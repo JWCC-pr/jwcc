@@ -12,7 +12,13 @@ import { useFormState } from 'react-hook-form'
 
 import { FormHelper } from '@/components/form-helper'
 import { PasswordInput } from '@/components/ui/password-input'
-import { useUserPasswordResetConfirmCreateMutation } from '@/generated/apis/User/User.query'
+import { COOKIE_KEYS } from '@/constants/cookie-keys'
+import {
+  QUERY_KEY_USER_API,
+  useUserPasswordResetConfirmCreateMutation,
+} from '@/generated/apis/User/User.query'
+import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
+import { clientCookie } from '@/stores/cookie/store'
 
 import { useResetPasswordForm } from '../hooks/useResetPasswordForm'
 
@@ -37,6 +43,15 @@ const ResetPasswordPage: React.FC = () => {
   }, [uid, token, router])
 
   const { mutateAsync } = useUserPasswordResetConfirmCreateMutation({})
+
+  const invalidate = useInvalidateQueries()
+  const handleLogout = () => {
+    clientCookie.remove(COOKIE_KEYS.AUTH.ACCESS_TOKEN)
+    clientCookie.remove(COOKIE_KEYS.AUTH.REFRESH_TOKEN)
+
+    invalidate(QUERY_KEY_USER_API.RETRIEVE({ id: 'me' }))
+  }
+
   const onSubmit = handleSubmit(async (data) => {
     if (!uid || !token) {
       return router.replace('/')
@@ -51,6 +66,8 @@ const ResetPasswordPage: React.FC = () => {
           token,
         },
       })
+
+      handleLogout()
 
       router.replace('/reset-password/complete')
     } catch (error) {

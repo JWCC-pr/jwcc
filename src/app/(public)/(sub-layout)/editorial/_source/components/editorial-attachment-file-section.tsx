@@ -65,13 +65,7 @@ const EditorialAttachmentFileSection = () => {
 
       setValue(
         'fileSet',
-        [
-          ...currentFiles,
-          ...uploadedUrls.map((url) => ({
-            file: url,
-            fileName: getFileName(url),
-          })),
-        ],
+        [...currentFiles, ...uploadedUrls.map((url) => ({ file: url }))],
         {
           shouldValidate: true,
           shouldDirty: true,
@@ -167,13 +161,7 @@ const EditorialAttachmentFileSection = () => {
 
         setValue(
           'fileSet',
-          [
-            ...currentFiles,
-            ...uploadedUrls.map((url) => ({
-              file: url,
-              fileName: getFileName(url),
-            })),
-          ],
+          [...currentFiles, ...uploadedUrls.map((url) => ({ file: url }))],
           {
             shouldValidate: true,
             shouldDirty: true,
@@ -192,62 +180,64 @@ const EditorialAttachmentFileSection = () => {
 
   return (
     <Box display="flex" flexFlow="column wrap" gap="16px">
-      <Box display="flex" flexFlow="column wrap" gap="6px">
-        <Box display="flex" alignItems="center" gap="4px">
-          <Text textStyle="pre-body-5" color="grey.10">
-            첨부파일
-          </Text>
-          <Text textStyle="pre-body-6" color="primary.4">
-            ({fileSet?.length || 0}/{MAX_FILE_COUNT})
-          </Text>
-        </Box>
-        <>
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            hidden
-            onChange={handleFileSelect}
-          />
-          <Box
-            p="24px"
-            border="1px dashed"
-            borderColor={isDragging ? 'primary.4' : 'border.basic.2'}
-            bg={isDragging ? 'primary.1' : 'transparent'}
-            rounded="6px"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            gap="10px"
-            cursor="pointer"
-            transition="all 0.2s"
-            onClick={handleBoxClick}
-            onDragEnter={handleDragEnter}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            _hover={{
-              borderColor: 'border.basic.3',
-              bg: 'background.basic.2',
-            }}
-          >
-            <Button
-              size="md"
-              variant="solid"
-              colorPalette="grey"
-              onClick={(e) => {
-                e.stopPropagation()
-                handleBoxClick()
-              }}
-            >
-              파일 선택
-            </Button>
-            <Text textStyle="pre-body-6" color="grey.7">
-              또는 여기로 파일을 끌어오세요
+      <Box display="flex" flexFlow="column wrap" gap="16px">
+        <Box display="flex" flexDirection="column" gap="6px">
+          <Box display="flex" alignItems="center" gap="4px">
+            <Text textStyle="pre-body-5" color="grey.10">
+              첨부 파일
+            </Text>
+            <Text textStyle="pre-body-6" color="primary.4">
+              ({fileSet?.length || 0}/{MAX_FILE_COUNT})
             </Text>
           </Box>
-        </>
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              hidden
+              onChange={handleFileSelect}
+            />
+            <Box
+              p="24px"
+              border="1px dashed"
+              borderColor={isDragging ? 'primary.4' : 'border.basic.2'}
+              bg={isDragging ? 'primary.1' : 'transparent'}
+              rounded="6px"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              gap="10px"
+              cursor="pointer"
+              transition="all 0.2s"
+              onClick={handleBoxClick}
+              onDragEnter={handleDragEnter}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              _hover={{
+                borderColor: 'border.basic.3',
+                bg: 'background.basic.2',
+              }}
+            >
+              <Button
+                size="md"
+                variant="solid"
+                colorPalette="grey"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleBoxClick()
+                }}
+              >
+                파일 선택
+              </Button>
+              <Text textStyle="pre-body-6" color="grey.7">
+                또는 여기로 파일을 끌어오세요
+              </Text>
+            </Box>
+          </>
+        </Box>
         {fileSet && fileSet.length > 0 && (
           <Box display="flex" flexFlow="row wrap" gap="8px">
             {fileSet.map(({ file }, index) => {

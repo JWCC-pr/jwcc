@@ -24,7 +24,13 @@ const EditorialListPage: React.FC<EditorialListPageProps> = ({
   return (
     <Suspense>
       <Box display="flex" flexDirection="column">
-        <Box py="20px" display="flex" justifyContent="space-between">
+        <Box
+          py="20px"
+          display="flex"
+          justifyContent="space-between"
+          flexDirection={['column', 'row']}
+          gap="20px"
+        >
           <EditorialSearchSection baseRoute={baseRoute} />
 
           <Link
@@ -35,7 +41,7 @@ const EditorialListPage: React.FC<EditorialListPageProps> = ({
               size="md"
               variant="solid"
               colorPalette="primary"
-              w={['initial', '140px']}
+              w={['full', '140px']}
             >
               <NewsFreeBoardPencilSimpleLineIcon w="20px" h="20px" />
               게시글 작성
