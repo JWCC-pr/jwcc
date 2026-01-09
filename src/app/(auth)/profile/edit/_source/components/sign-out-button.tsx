@@ -21,11 +21,14 @@ const SignOutButton: React.FC = () => {
       await mutateAsync({
         id: 'me',
       })
-      toaster.create({
-        title: '탈퇴 완료되었습니다. 평화를 빕니다.',
-        type: 'success',
-      })
       router.replace(ROUTES.HOME)
+      setTimeout(() => {
+        toaster.create({
+          title: '탈퇴 완료되었습니다. 평화를 빕니다.',
+          type: 'success',
+        })
+        router.replace(ROUTES.HOME)
+      }, 0)
     } catch (error) {
       console.error('🐬 error >> ', error)
     }

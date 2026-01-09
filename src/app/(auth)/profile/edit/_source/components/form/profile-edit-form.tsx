@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import { useRouter } from 'next/navigation'
 
 import { FormProvider } from 'react-hook-form'
@@ -10,35 +8,23 @@ import { UserGradeEnumTypeMap } from '@/generated/apis/@types/data-contracts'
 import { useUserUpdateMutation } from '@/generated/apis/User/User.query'
 import useMe from '@/hooks/useMe'
 
-import { useProfileEditForm } from '../../hooks/useProfileEditForm'
+import {
+  ProfileEditFormDataType,
+  useProfileEditForm,
+} from '../../hooks/useProfileEditForm'
 import ProfileEditFormContainer from './profile-edit-form-container'
 import ProfileEditFormView from './profile-edit-form-view'
 
-const ProfileEditForm: React.FC = () => {
+interface ProfileEditFormProps {
+  defaultValues: ProfileEditFormDataType
+}
+
+const ProfileEditForm: React.FC<ProfileEditFormProps> = ({ defaultValues }) => {
   const router = useRouter()
   const { data: me } = useMe()
   const { mutateAsync: userUpdateMutateAsync } = useUserUpdateMutation({})
 
-  const methods = useProfileEditForm()
-
-  useEffect(() => {
-    if (!me) return
-
-    const [year, month, day] = me.birth.split('-').map((v) => String(Number(v)))
-
-    methods.reset({
-      name: me.name,
-      baptismName: me.baptismalName,
-      address: me.baseAddress,
-      addressDetail: me.detailAddress,
-      postcode: me.postcode,
-      birthDate: {
-        year,
-        month,
-        day,
-      },
-    })
-  }, [me, methods])
+  const methods = useProfileEditForm({ defaultValues })
 
   const onSubmit = methods.handleSubmit(async (formData) => {
     if (!me) return
