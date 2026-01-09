@@ -14,6 +14,7 @@ import {
   useLiturgyFlowerCommentCreateMutation,
 } from '@/generated/apis/LiturgyFlowerComment/LiturgyFlowerComment.query'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
+import useMe from '@/hooks/useMe'
 
 interface ReplyInputSectionProps {
   liturgyFlowerId: number
@@ -26,6 +27,8 @@ const ReplyInputSection: React.FC<ReplyInputSectionProps> = ({
   comment,
   onClose,
 }) => {
+  const { data: me } = useMe()
+
   const [body, setBody] = useState('')
 
   const { mutateAsync } = useLiturgyFlowerCommentCreateMutation({})
@@ -80,10 +83,10 @@ const ReplyInputSection: React.FC<ReplyInputSectionProps> = ({
         >
           <Box display="flex" gap="6px" alignItems="center">
             <Text textStyle="pre-body-5" color="grey.10">
-              {comment.user.name}
+              {me?.name}
             </Text>
             <Text textStyle="pre-body-6" color="grey.7">
-              {comment.user.baptismalName}
+              {me?.baptismalName}
             </Text>
           </Box>
           <Text textStyle="pre-caption-2" color="grey.6">

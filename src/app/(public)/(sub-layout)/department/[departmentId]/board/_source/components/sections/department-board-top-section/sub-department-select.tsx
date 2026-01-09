@@ -47,7 +47,7 @@ const SubDepartmentSelect: React.FC<SubDepartmentSelectProps> = ({
 
   return (
     <Select
-      w="160px"
+      w={['full', '160px']}
       h="40px"
       size="md"
       variant="outline"

@@ -40,7 +40,7 @@ const EditorialSearchSection: React.FC<EditorialSearchSectionProps> = ({
   const handleBlur = () => setIsFocused(false)
 
   return (
-    <Box>
+    <Box w={['full', '280px']}>
       <InputGroup
         w={['full', '280px']}
         endElement={
