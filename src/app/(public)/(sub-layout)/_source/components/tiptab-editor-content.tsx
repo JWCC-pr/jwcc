@@ -19,6 +19,9 @@ const TiptabEditorContent: React.FC<TiptabEditorContentProps> = ({ body }) => {
           textDecoration: 'underline',
           color: 'var(--chakra-colors-blue-500)',
         },
+        '& img': {
+          marginBlock: '0.5em',
+        },
       }}
     />
   )
