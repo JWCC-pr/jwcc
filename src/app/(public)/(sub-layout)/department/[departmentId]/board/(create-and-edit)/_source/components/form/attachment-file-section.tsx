@@ -56,7 +56,7 @@ const AttachmentFileSection = () => {
       const { fulfilled } = await uploadFiles(
         filesToAdd.map((file) => ({
           file,
-          fieldChoice: 'department_board.DepartmentBoardImage.image',
+          fieldChoice: 'department_board.DepartmentBoardFile.file',
           isDownload: true,
         })),
       )
@@ -152,7 +152,7 @@ const AttachmentFileSection = () => {
         const { fulfilled } = await uploadFiles(
           filesToAdd.map((file) => ({
             file,
-            fieldChoice: 'department_board.DepartmentBoardImage.image',
+            fieldChoice: 'department_board.DepartmentBoardFile.file',
             isDownload: true,
           })),
         )
