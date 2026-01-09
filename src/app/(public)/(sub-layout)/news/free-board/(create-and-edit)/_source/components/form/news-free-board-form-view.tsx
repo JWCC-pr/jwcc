@@ -41,6 +41,7 @@ const NewsFreeBoardView: React.FC = () => {
           })
         }
         placeholder="내용"
+        fieldChoice="board.BoardImage.image"
       />
     </Box>
   )
