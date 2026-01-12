@@ -40,8 +40,8 @@ const useNavItems = () => {
     return {
       startPath: '/editorial',
       label: '자료실',
-      subItems: [
-        ...(isMyeongdoMember ?
+      subItems:
+        isMyeongdoMember ?
           [
             {
               label: '명도회 자료실',
@@ -64,8 +64,7 @@ const useNavItems = () => {
               disabled: false,
             },
           ]
-        : []),
-      ],
+        : [],
     }
   }, [isMyeongdoMember])
 
