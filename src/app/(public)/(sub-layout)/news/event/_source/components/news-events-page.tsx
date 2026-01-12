@@ -71,7 +71,6 @@ const NewsEventsPage: React.FC = () => {
             <Image
               src={news.thumbnail}
               alt={news.title + ' 썸네일 이미지'}
-              flex="1"
               w="full"
               aspectRatio="16/9"
               rounded="6px"

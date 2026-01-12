@@ -37,15 +37,23 @@ const Footer: React.FC = () => {
           borderBottom="1px solid"
           borderBottomColor="border.basic.1"
         >
-          <Text textStyle="pre-body-5" color="grey.10">
+          <Link
+            textStyle="pre-body-5"
+            color="grey.10"
+            href="https://literate-saturnalia-448.notion.site/2dc66896ee3380e9a849f48130e42b96"
+          >
             개인정보처리방침
-          </Text>
+          </Link>
           <Text textStyle="pre-body-5" color="grey.7">
             ·
           </Text>
-          <Text textStyle="pre-body-5" color="grey.7">
+          <Link
+            textStyle="pre-body-5"
+            color="grey.7"
+            href="https://literate-saturnalia-448.notion.site/2dc66896ee3380f9996bf37f356bac89"
+          >
             이용약관
-          </Text>
+          </Link>
         </Box>
         <Box
           p={['24px 20px 36px', '24px 40px 36px']}
