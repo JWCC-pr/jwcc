@@ -32,7 +32,7 @@ const ProfileEditFormContainer: React.FC<ProfileEditFormContainerProps> = ({
     <Box
       as="form"
       onSubmit={onSubmit}
-      py="56px 120px"
+      py={['40px 96px', '40px 96px', '40px 120px']}
       w="362px"
       display="flex"
       flexDirection="column"
