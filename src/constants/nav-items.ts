@@ -61,11 +61,6 @@ export const NAV_ITEMS: NavItem[] = [
   {
     startPath: '/department',
     label: '분과 게시판',
-    subItems: [
-      { label: '명도회 자료실', href: ROUTES.EDITORIAL_MYEONGDO },
-      { label: '주보 7면 편집', href: ROUTES.EDITORIAL_DRAFT },
-      { label: '주보 7면 최종본', href: ROUTES.EDITORIAL_FINAL },
-      { label: '주보 7면 양식', href: ROUTES.EDITORIAL_TEMPLATE },
-    ],
+    subItems: [],
   },
 ]
