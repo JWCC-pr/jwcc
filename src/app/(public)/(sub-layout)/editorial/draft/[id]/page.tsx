@@ -5,7 +5,7 @@ import { getSharedMetadata } from '@/utils/metadata/shared-metadata'
 import EditorialDetailPage from '../../_source/components/editorial-detail-page'
 
 export const metadata: Metadata = getSharedMetadata({
-  title: '주보 7면 편집 상세',
+  title: '주보 7면 편집 게시판 상세',
 })
 
 interface PageProps {
