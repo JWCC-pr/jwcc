@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import Select from '@/components/select'
-import { useDepartmentListQuery } from '@/generated/apis/Department/Department.query'
+import useMe from '@/hooks/useMe'
 
 import { DepartmentBoardFormDataType } from '../../hooks/useDepartmentBoardForm'
 
@@ -18,18 +18,19 @@ const SubDepartmentSelect: React.FC<SubDepartmentSelectProps> = ({
 }) => {
   const { register } = useFormContext<DepartmentBoardFormDataType>()
 
-  const { data: departments = [] } = useDepartmentListQuery()
+  const { data: me } = useMe()
 
   const options = useMemo(() => {
     const targetSubDepartments =
-      departments.find((department) => department.id === Number(departmentId))
-        ?.subDepartmentSet ?? []
+      me?.departmentSet.find(
+        (department) => department.id === Number(departmentId),
+      )?.subDepartment ?? []
 
     return targetSubDepartments.map((subDepartment) => ({
       label: subDepartment.name,
       value: String(subDepartment.id),
     }))
-  }, [departments, departmentId])
+  }, [me, departmentId])
 
   return (
     <Select

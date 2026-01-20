@@ -14,7 +14,7 @@ const AdminEditorContent: React.FC<AdminEditorContentProps> = ({
   return (
     <Box
       py="24px"
-      textStyle="pre-body-4"
+      textStyle="pre-body-2"
       {...(hasBorderBottom && {
         borderBottom: '1px solid',
         borderBottomColor: 'border.basic.1',
