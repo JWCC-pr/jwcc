@@ -23,7 +23,6 @@ export const editorialFormSchema: yup.ObjectSchema<EditorialFormDataType> = yup
       .of(
         yup.object().shape({
           file: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
-          fileName: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
         }),
       )
       .optional(),

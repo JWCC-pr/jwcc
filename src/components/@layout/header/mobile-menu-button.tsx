@@ -20,6 +20,7 @@ import {
   XIcon,
 } from '@phosphor-icons/react'
 
+import { toaster } from '@/components/ui/toaster'
 import { COOKIE_KEYS } from '@/constants/cookie-keys'
 import { ROUTES } from '@/constants/routes'
 import { QUERY_KEY_USER_API } from '@/generated/apis/User/User.query'
@@ -36,7 +37,7 @@ interface MobileMenuButtonProps {
 
 const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
   const pathname = usePathname()
-  const { data: me } = useMe()
+  const { data: me, isNotParishMember } = useMe()
 
   const { allNavItems } = useNavItems()
 
@@ -61,6 +62,13 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
     clientCookie.remove(COOKIE_KEYS.AUTH.REFRESH_TOKEN)
 
     invalidate(QUERY_KEY_USER_API.RETRIEVE({ id: 'me' }))
+  }
+
+  const handleClickParishMemberToast = () => {
+    toaster.create({
+      title: '본당 신자만 접근 가능합니다.',
+      type: 'error',
+    })
   }
 
   return (
@@ -146,10 +154,21 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
                               )
                               const isDisabled = subItem.disabled
 
+                              const shouldShowParishMemberToast =
+                                isNotParishMember &&
+                                subItem.href.includes('/department')
+
                               return (
                                 <Link
                                   key={subItem.href}
-                                  href={isDisabled ? '#' : subItem.href}
+                                  href={
+                                    isDisabled || shouldShowParishMemberToast ?
+                                      undefined
+                                    : subItem.href
+                                  }
+                                  {...(shouldShowParishMemberToast && {
+                                    onClick: handleClickParishMemberToast,
+                                  })}
                                   display="block"
                                   p={['16px 32px', '16px 64px']}
                                   bgColor={
@@ -168,11 +187,6 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
                                   _hover={{
                                     bgColor: 'primary.1',
                                     textDecoration: 'none',
-                                  }}
-                                  onClick={(e) => {
-                                    if (!isDisabled) return
-
-                                    e.preventDefault()
                                   }}
                                 >
                                   {subItem.label}

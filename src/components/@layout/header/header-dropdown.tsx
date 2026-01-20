@@ -5,6 +5,8 @@ import { Text } from '@chakra-ui/react/text'
 
 import { AnimatePresence, motion } from 'motion/react'
 
+import { toaster } from '@/components/ui/toaster'
+import useMe from '@/hooks/useMe'
 import useNavItems from '@/hooks/useNavItems'
 
 import HeaderSubMenu from './header-sub-menu'
@@ -20,10 +22,25 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
   hoveredNavIndex,
   setHoveredNavIndex,
 }) => {
+  const { isNotParishMember } = useMe()
+
   const { navItems, editorialNavItems } = useNavItems()
 
   const showDropdown =
     hoveredNavIndex !== null && navItems[hoveredNavIndex]?.subItems
+
+  const isDepartment =
+    hoveredNavIndex !== null &&
+    navItems[hoveredNavIndex]?.startPath === '/department'
+
+  const shouldShowParishMemberToast = isNotParishMember && isDepartment
+
+  const handleClickParishMemberToast = () => {
+    toaster.create({
+      title: '본당 신자만 접근 가능합니다.',
+      type: 'error',
+    })
+  }
 
   return (
     <AnimatePresence mode="wait">
@@ -117,14 +134,12 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
                             >
                               <HeaderSubMenu
                                 href={
-                                  subItem.disabled ? undefined : subItem.href
+                                  shouldShowParishMemberToast ? undefined : (
+                                    subItem.href
+                                  )
                                 }
-                                {...(subItem.disabled && {
-                                  cursor: 'not-allowed',
-                                  opacity: 0.4,
-                                  _hover: {
-                                    textDecoration: 'none',
-                                  },
+                                {...(shouldShowParishMemberToast && {
+                                  onClick: handleClickParishMemberToast,
                                 })}
                               >
                                 {subItem.label}
