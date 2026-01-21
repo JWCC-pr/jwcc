@@ -12,6 +12,7 @@ import { Link } from '@chakra-ui/react/link'
 import { Portal } from '@chakra-ui/react/portal'
 import { Text } from '@chakra-ui/react/text'
 import {
+  CaretRightIcon,
   CaretUpIcon,
   ListIcon,
   SignOutIcon,
@@ -19,13 +20,14 @@ import {
   XIcon,
 } from '@phosphor-icons/react'
 
+import { toaster } from '@/components/ui/toaster'
 import { COOKIE_KEYS } from '@/constants/cookie-keys'
-import { NAV_ITEMS } from '@/constants/nav-items'
 import { ROUTES } from '@/constants/routes'
 import { QUERY_KEY_USER_API } from '@/generated/apis/User/User.query'
 import { LogoHoverIcon } from '@/generated/icons/MyIcons'
 import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
 import useMe from '@/hooks/useMe'
+import useNavItems from '@/hooks/useNavItems'
 import { clientCookie } from '@/stores/cookie/store'
 import { matchingPath } from '@/utils/middleware/matching-path'
 
@@ -35,21 +37,23 @@ interface MobileMenuButtonProps {
 
 const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
   const pathname = usePathname()
-  const { data: me } = useMe()
+  const { data: me, isNotParishMember } = useMe()
+
+  const { allNavItems } = useNavItems()
 
   const [openItem, setOpenItem] = useState<string | null>(() => {
-    // 현재 경로와 일치하는 메뉴 항목이 있다면 기본적으로 열어둠
-    for (const item of NAV_ITEMS) {
-      if (item.subItems) {
-        const hasActiveSubItem = item.subItems.some((subItem) =>
-          matchingPath([subItem.href], pathname),
-        )
-        if (hasActiveSubItem) {
-          return item.label
-        }
-      }
-    }
-    return null
+    const openItem = allNavItems.find((item) => {
+      const startPath =
+        item.startPath === '/department' ?
+          ['/editorial', '/department']
+        : [item.startPath]
+
+      return matchingPath(startPath, pathname)
+    })
+
+    const openItemLabel = openItem?.label ?? null
+
+    return openItemLabel
   })
 
   const invalidate = useInvalidateQueries()
@@ -58,6 +62,13 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
     clientCookie.remove(COOKIE_KEYS.AUTH.REFRESH_TOKEN)
 
     invalidate(QUERY_KEY_USER_API.RETRIEVE({ id: 'me' }))
+  }
+
+  const handleClickParishMemberToast = () => {
+    toaster.create({
+      title: '본당 신자만 접근 가능합니다.',
+      type: 'error',
+    })
   }
 
   return (
@@ -92,7 +103,7 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
 
             <Drawer.Body p="20px 0">
               <Box display="flex" flexDirection="column">
-                {NAV_ITEMS.map((item) => {
+                {allNavItems.map((item) => {
                   const isOpen = openItem === item.label
                   const hasSubItems = item.subItems && item.subItems.length > 0
 
@@ -143,10 +154,21 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
                               )
                               const isDisabled = subItem.disabled
 
+                              const shouldShowParishMemberToast =
+                                isNotParishMember &&
+                                subItem.href.includes('/department')
+
                               return (
                                 <Link
                                   key={subItem.href}
-                                  href={isDisabled ? '#' : subItem.href}
+                                  href={
+                                    isDisabled || shouldShowParishMemberToast ?
+                                      undefined
+                                    : subItem.href
+                                  }
+                                  {...(shouldShowParishMemberToast && {
+                                    onClick: handleClickParishMemberToast,
+                                  })}
                                   display="block"
                                   p={['16px 32px', '16px 64px']}
                                   bgColor={
@@ -165,11 +187,6 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
                                   _hover={{
                                     bgColor: 'primary.1',
                                     textDecoration: 'none',
-                                  }}
-                                  onClick={(e) => {
-                                    if (!isDisabled) return
-
-                                    e.preventDefault()
                                   }}
                                 >
                                   {subItem.label}
@@ -195,14 +212,21 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
             >
               {me ?
                 <>
-                  <Box display="flex" gap="6px" alignItems="center">
-                    <Text textStyle="pre-heading-4" color="grey.10">
+                  <Link
+                    href={ROUTES.PROFILE_EDIT}
+                    display="flex"
+                    gap="6px"
+                    alignItems="center"
+                    _hover={{ textDecoration: 'none' }}
+                  >
+                    <Text textStyle="pre-heading-5" color="grey.10">
                       {me.name}
                     </Text>
-                    <Text textStyle="pre-body-6" color="grey.7">
+                    <Text textStyle="pre-caption-2" color="grey.7">
                       {me.baptismalName}
                     </Text>
-                  </Box>
+                    <CaretRightIcon size="16px" color="#888C91" />
+                  </Link>
 
                   <Button
                     type="button"

@@ -29,6 +29,7 @@ export const toaster = createToaster({
     right: '40px',
     left: '40px',
   },
+  max: 5,
 })
 
 const getToastIcon = (type?: 'success' | 'error' | 'info' | (string & {})) => {

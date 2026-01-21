@@ -9,7 +9,7 @@ const TiptabEditorContent: React.FC<TiptabEditorContentProps> = ({ body }) => {
     <Box
       py="24px"
       dangerouslySetInnerHTML={{ __html: body }}
-      textStyle="pre-body-4"
+      textStyle="pre-body-2"
       color="grey.10"
       css={{
         '& em, & i': {
@@ -18,6 +18,9 @@ const TiptabEditorContent: React.FC<TiptabEditorContentProps> = ({ body }) => {
         '& a': {
           textDecoration: 'underline',
           color: 'var(--chakra-colors-blue-500)',
+        },
+        '& img': {
+          marginBlock: '0.5em',
         },
       }}
     />

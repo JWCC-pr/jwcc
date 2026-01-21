@@ -5,7 +5,9 @@ import { Text } from '@chakra-ui/react/text'
 
 import { AnimatePresence, motion } from 'motion/react'
 
-import { NAV_ITEMS } from '@/constants/nav-items'
+import { toaster } from '@/components/ui/toaster'
+import useMe from '@/hooks/useMe'
+import useNavItems from '@/hooks/useNavItems'
 
 import HeaderSubMenu from './header-sub-menu'
 
@@ -20,8 +22,25 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
   hoveredNavIndex,
   setHoveredNavIndex,
 }) => {
+  const { isNotParishMember } = useMe()
+
+  const { navItems, editorialNavItems } = useNavItems()
+
   const showDropdown =
-    hoveredNavIndex !== null && NAV_ITEMS[hoveredNavIndex]?.subItems
+    hoveredNavIndex !== null && navItems[hoveredNavIndex]?.subItems
+
+  const isDepartment =
+    hoveredNavIndex !== null &&
+    navItems[hoveredNavIndex]?.startPath === '/department'
+
+  const shouldShowParishMemberToast = isNotParishMember && isDepartment
+
+  const handleClickParishMemberToast = () => {
+    toaster.create({
+      title: '본당 신자만 접근 가능합니다.',
+      type: 'error',
+    })
+  }
 
   return (
     <AnimatePresence mode="wait">
@@ -87,15 +106,21 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
                           lineHeight="28px"
                           letterSpacing="-0.2px"
                         >
-                          {NAV_ITEMS[hoveredNavIndex].label}
+                          {navItems[hoveredNavIndex].label}
                         </Text>
                       </MotionBox>
                     </Box>
 
                     {/* 우측 서브메뉴 그리드 */}
-                    <Box flex="1" p="40px 36px">
+                    <Box
+                      flex="1"
+                      p="40px 36px"
+                      display="flex"
+                      flexFlow="column nowrap"
+                      gap="10px"
+                    >
                       <Box display="flex" gap="10px" flexWrap="wrap">
-                        {NAV_ITEMS[hoveredNavIndex].subItems?.map(
+                        {navItems[hoveredNavIndex].subItems?.map(
                           (subItem, subIndex) => (
                             <MotionBox
                               key={subItem.href}
@@ -109,14 +134,12 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
                             >
                               <HeaderSubMenu
                                 href={
-                                  subItem.disabled ? undefined : subItem.href
+                                  shouldShowParishMemberToast ? undefined : (
+                                    subItem.href
+                                  )
                                 }
-                                {...(subItem.disabled && {
-                                  cursor: 'not-allowed',
-                                  opacity: 0.4,
-                                  _hover: {
-                                    textDecoration: 'none',
-                                  },
+                                {...(shouldShowParishMemberToast && {
+                                  onClick: handleClickParishMemberToast,
                                 })}
                               >
                                 {subItem.label}
@@ -124,6 +147,34 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
                             </MotionBox>
                           ),
                         )}
+                      </Box>
+                      <Box display="flex" gap="10px" flexWrap="wrap">
+                        {hoveredNavIndex === navItems.length - 1 &&
+                          editorialNavItems.subItems?.map(
+                            (subItem, subIndex) => {
+                              const subItemsLength =
+                                navItems[hoveredNavIndex].subItems?.length ?? 0
+                              const delay =
+                                0.1 + (subIndex + subItemsLength) * 0.03
+
+                              return (
+                                <MotionBox
+                                  key={subItem.href}
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{
+                                    delay,
+                                    duration: 0.25,
+                                    ease: 'easeOut',
+                                  }}
+                                >
+                                  <HeaderSubMenu href={subItem.href}>
+                                    {subItem.label}
+                                  </HeaderSubMenu>
+                                </MotionBox>
+                              )
+                            },
+                          )}
                       </Box>
                     </Box>
                   </Box>

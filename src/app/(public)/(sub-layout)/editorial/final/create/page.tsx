@@ -2,14 +2,14 @@ import { Metadata, NextPage } from 'next'
 
 import { getSharedMetadata } from '@/utils/metadata/shared-metadata'
 
-import CommunityDepartmentsPage from './_source/components/community-departments-page'
+import EditorialFinalCreatePage from './_source/components/editorial-final-create-page'
 
 export const metadata: Metadata = getSharedMetadata({
-  title: '분과 바로가기',
+  title: '주보 7면 최종본 생성',
 })
 
 const Page: NextPage = () => {
-  return <CommunityDepartmentsPage />
+  return <EditorialFinalCreatePage />
 }
 
 export default Page

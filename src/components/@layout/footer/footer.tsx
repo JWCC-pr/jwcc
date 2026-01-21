@@ -62,42 +62,44 @@ const Footer: React.FC = () => {
           gap="36px"
         >
           <Box flex="1" display={['none', 'flex']} gap="16px">
-            {NAV_ITEMS.map((item) => (
-              <Box
-                key={item.label}
-                flex="1"
-                display="flex"
-                flexFlow="column nowrap"
-                gap="8px"
-              >
-                <Text textStyle="pre-body-5" color="grey.8">
-                  {item.label}
-                </Text>
+            {NAV_ITEMS.filter((item) => item.startPath !== '/department').map(
+              (item) => (
+                <Box
+                  key={item.label}
+                  flex="1"
+                  display="flex"
+                  flexFlow="column nowrap"
+                  gap="8px"
+                >
+                  <Text textStyle="pre-body-5" color="grey.8">
+                    {item.label}
+                  </Text>
 
-                <Box display="flex" flexFlow="column nowrap" gap="6px">
-                  {item.subItems?.map((subItem) => (
-                    <Link
-                      key={subItem.label}
-                      href={subItem.disabled ? undefined : subItem.href}
-                      textStyle="pre-body-6"
-                      color={subItem.disabled ? 'grey.5' : 'grey.6'}
-                      cursor={subItem.disabled ? 'not-allowed' : 'pointer'}
-                      pointerEvents={subItem.disabled ? 'none' : 'auto'}
-                      _hover={
-                        subItem.disabled ? undefined : (
-                          {
-                            color: 'grey.10',
-                            textDecoration: 'underline',
-                          }
-                        )
-                      }
-                    >
-                      {subItem.label}
-                    </Link>
-                  ))}
+                  <Box display="flex" flexFlow="column nowrap" gap="6px">
+                    {item.subItems?.map((subItem) => (
+                      <Link
+                        key={subItem.label}
+                        href={subItem.disabled ? undefined : subItem.href}
+                        textStyle="pre-body-6"
+                        color={subItem.disabled ? 'grey.5' : 'grey.6'}
+                        cursor={subItem.disabled ? 'not-allowed' : 'pointer'}
+                        pointerEvents={subItem.disabled ? 'none' : 'auto'}
+                        _hover={
+                          subItem.disabled ? undefined : (
+                            {
+                              color: 'grey.10',
+                              textDecoration: 'underline',
+                            }
+                          )
+                        }
+                      >
+                        {subItem.label}
+                      </Link>
+                    ))}
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ),
+            )}
           </Box>
 
           <Box
