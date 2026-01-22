@@ -3,7 +3,7 @@ import { Image } from '@chakra-ui/react/image'
 
 const CommunityPastoralCouncilPage: React.FC = () => {
   return (
-    <Box>
+    <Box display="flex" justifyContent="center" alignItems="center">
       <Image
         src="/images/community/pastoral-council/pc.png"
         alt="사목협의회 조직도"

@@ -1,5 +1,6 @@
 'use client'
 
+import { Text } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react/box'
 import { Image } from '@tiptap/extension-image'
 import { Link } from '@tiptap/extension-link'
@@ -25,6 +26,7 @@ interface SimpleEditorProps {
   onChange?: (content: string) => void
   placeholder?: string
   fieldChoice?: PresignedRequestFieldChoiceEnumType
+  hasError?: boolean
 }
 
 export function SimpleEditor({
@@ -32,6 +34,7 @@ export function SimpleEditor({
   onChange,
   placeholder = '내용',
   fieldChoice = 'board.BoardImage.image',
+  hasError = false,
 }: SimpleEditorProps) {
   const handleImageUpload = async (file: File) => {
     try {
@@ -94,12 +97,19 @@ export function SimpleEditor({
   }
 
   return (
-    <Box w="full" overflowX="auto" overflowY="hidden">
+    <Box
+      w="full"
+      overflowX="auto"
+      overflowY="hidden"
+      rounded="8px"
+      border="1px solid"
+      borderColor={hasError ? 'accent.red2' : 'border.basic.1'}
+    >
       <EditorContext.Provider value={{ editor }}>
         <Toolbar
           style={{
             padding: '4px 0px',
-            borderBlock: '1px solid #EAEBEC',
+            borderBottom: '1px solid #EAEBEC',
           }}
         >
           <ToolbarGroup>

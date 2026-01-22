@@ -5,6 +5,7 @@ import { Button } from '@chakra-ui/react/button'
 import { Link } from '@chakra-ui/react/link'
 
 import { ROUTES } from '@/constants/routes'
+import { useDepartmentListQuery } from '@/generated/apis/Department/Department.query'
 import { NewsFreeBoardPencilSimpleLineIcon } from '@/generated/icons/MyIcons'
 import useMe from '@/hooks/useMe'
 
@@ -19,10 +20,22 @@ interface DepartmentBoardTopSectionProps {
 const DepartmentBoardTopSection: React.FC<DepartmentBoardTopSectionProps> = ({
   departmentId,
 }) => {
-  const { data: me, isAdmin } = useMe()
+  const { data: me, isMyeongdoGrade, isAdmin } = useMe()
+  const { data: departmentList } = useDepartmentListQuery({
+    options: {
+      enabled: isMyeongdoGrade,
+    },
+  })
+
+  const targetDepartment = departmentList?.find(
+    (department) => department.id === departmentId,
+  )
+
+  const isPastoralCouncil = targetDepartment?.name === '사목협의회'
 
   const hasPermission =
     me?.departmentSet.some((department) => department.id === departmentId) ||
+    (!isPastoralCouncil && isMyeongdoGrade) ||
     isAdmin
 
   return (
