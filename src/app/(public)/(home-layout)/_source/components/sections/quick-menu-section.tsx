@@ -10,6 +10,7 @@ import { CaretUpIcon } from '@phosphor-icons/react'
 import { AnimatePresence, motion } from 'motion/react'
 
 import { ROUTES } from '@/constants/routes'
+import { SECTION_IDS } from '@/constants/section'
 import {
   HomeQuickMenuSection1Icon,
   HomeQuickMenuSection2Icon,
@@ -18,10 +19,17 @@ import {
   HomeQuickMenuSection5Icon,
   HomeQuickMenuSection6Icon,
 } from '@/generated/icons/MyIcons'
+import { useIsBreakpoint } from '@/hooks/use-is-breakpoint'
 
 const MotionCaretUpIcon = motion(CaretUpIcon)
 
-const QuickMenuItems = [
+interface QuickMenuItem {
+  icon: React.ReactNode
+  label: string
+  value: string
+}
+
+const QuickMenuItems: QuickMenuItem[] = [
   {
     icon: (
       <HomeQuickMenuSection1Icon
@@ -58,21 +66,8 @@ const QuickMenuItems = [
         rounded="8px"
       />
     ),
-    label: '예비신자 안내',
-    value: ROUTES.SERVICES_CATECHUMEN,
-  },
-  {
-    icon: (
-      <HomeQuickMenuSection4Icon
-        w={['36px', '60px', '84px']}
-        h={['36px', '60px', '84px']}
-        p={['6px', '10px']}
-        bgColor="#fff"
-        rounded="8px"
-      />
-    ),
-    label: '혼인성사 안내',
-    value: ROUTES.SERVICES_MARRIAGE,
+    label: '본당 주보',
+    value: ROUTES.NEWS_BULLETIN,
   },
   {
     icon: (
@@ -86,6 +81,19 @@ const QuickMenuItems = [
     ),
     label: '선종 안내',
     value: ROUTES.NEWS_PASSING_NOTICE,
+  },
+  {
+    icon: (
+      <HomeQuickMenuSection4Icon
+        w={['36px', '60px', '84px']}
+        h={['36px', '60px', '84px']}
+        p={['6px', '10px']}
+        bgColor="#fff"
+        rounded="8px"
+      />
+    ),
+    label: '미사시간 안내',
+    value: ROUTES.HOME,
   },
   {
     icon: (
@@ -143,6 +151,8 @@ const QuickMenuSection: React.FC = () => {
       observer.disconnect()
     }
   }, [isOpen])
+
+  const isDesktop = useIsBreakpoint('min', 1280) // 1280px 이상
 
   return (
     <Box position="fixed" bottom="0" left="0" right="0" zIndex="1">
@@ -242,38 +252,49 @@ const QuickMenuSection: React.FC = () => {
                 msOverflowStyle: 'none',
               }}
             >
-              {QuickMenuItems.map((item) => (
-                <Link
-                  href={item.value}
-                  {...(item.value.startsWith('http') && {
-                    target: '_blank',
-                    rel: 'noopener noreferrer',
-                  })}
-                  key={item.label}
-                  flexShrink="0"
-                  p="12px"
-                  w={['full', '0px', '140px']}
-                  flex={['initial', '1', 'initial']}
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  gap={['8px', '12px']}
-                  rounded="8px"
-                  _hover={{
-                    bgColor: 'white-transparent.300',
-                    textDecoration: 'none',
-                  }}
-                >
-                  {item.icon}
-                  <Text
-                    color="grey.0"
-                    textStyle="pre-caption-1"
-                    whiteSpace="nowrap"
+              {QuickMenuItems.map((item) => {
+                const isMassSection = item.value === ROUTES.HOME
+
+                const href =
+                  isMassSection ?
+                    isDesktop ? `${ROUTES.HOME}#${SECTION_IDS.NOTICE_MASS}`
+                    : `${ROUTES.HOME}#${SECTION_IDS.MASS}`
+                  : item.value
+
+                return (
+                  <Link
+                    href={href}
+                    {...(href.startsWith('http') && {
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    })}
+                    key={item.label}
+                    flexShrink="0"
+                    p="12px"
+                    w={['full', '0px', '140px']}
+                    flex={['initial', '1', 'initial']}
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    gap={['8px', '12px']}
+                    rounded="8px"
+                    _hover={{
+                      bgColor: 'white-transparent.300',
+                      textDecoration: 'none',
+                    }}
+                    onClick={() => setIsOpen(false)}
                   >
-                    {item.label}
-                  </Text>
-                </Link>
-              ))}
+                    {item.icon}
+                    <Text
+                      color="grey.0"
+                      textStyle="pre-caption-1"
+                      whiteSpace="nowrap"
+                    >
+                      {item.label}
+                    </Text>
+                  </Link>
+                )
+              })}
             </Box>
           </MotionBox>
         )}

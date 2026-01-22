@@ -8,7 +8,7 @@ import { Input } from '@chakra-ui/react/input'
 import { Text } from '@chakra-ui/react/text'
 import { PlusIcon } from '@phosphor-icons/react'
 
-import { useFormContext, useWatch } from 'react-hook-form'
+import { useFormContext, useFormState, useWatch } from 'react-hook-form'
 
 import { uploadFiles } from '@/apis/s3-file-uploader/S3FileUploaderApi.query'
 import { FormHelper } from '@/components/form-helper'
@@ -21,6 +21,7 @@ const MAX_IMAGES = 20
 const NewsLiturgyFlowerFormView: React.FC = () => {
   const { register, control, setValue } =
     useFormContext<LiturgyFlowerFormDataType>()
+  const { errors } = useFormState({ control })
   const fileInputRef = useRef<HTMLInputElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -122,7 +123,10 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
   return (
     <Box py="24px" display="flex" flexDirection="column" gap="20px">
       <FormHelper
-        message={{ help: `${title.length}/50` }}
+        message={{
+          help: errors.title?.message ? undefined : `${title.length}/50`,
+          error: errors.title?.message,
+        }}
         styles={{ help: { w: 'full', textAlign: 'right' } }}
       >
         <Input
@@ -232,6 +236,11 @@ const NewsLiturgyFlowerFormView: React.FC = () => {
             </Box>
           ))}
         </Box>
+        {errors.images?.message && (
+          <Text textStyle="pre-caption-2" color="accent.red2">
+            {errors.images.message}
+          </Text>
+        )}
       </Box>
     </Box>
   )

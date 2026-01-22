@@ -56,7 +56,7 @@ const NewsFreeBoardFormContainer: React.FC<NewsFreeBoardFormContainerProps> = ({
           variant="solid"
           colorPalette="primary"
           flex="1"
-          disabled={!isValid}
+          opacity={!isValid ? 0.7 : 1}
         >
           {isEditMode ? '수정' : '등록'}
         </Button>

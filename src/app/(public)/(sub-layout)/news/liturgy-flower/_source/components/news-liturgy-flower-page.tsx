@@ -20,7 +20,7 @@ import useMe from '@/hooks/useMe'
 const LIMIT = 6
 
 const NewsLiturgyFlowerPage: React.FC = () => {
-  const { isHeonhwaMember } = useMe()
+  const { isHeonhwaMember, isAdmin } = useMe()
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -50,7 +50,7 @@ const NewsLiturgyFlowerPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column">
       <Box py="20px" display="flex" justifyContent="flex-end">
-        {isHeonhwaMember && (
+        {(isHeonhwaMember || isAdmin) && (
           <Link
             href={ROUTES.NEWS_LITURGY_FLOWER_CREATE}
             _hover={{ textDecoration: 'none' }}
