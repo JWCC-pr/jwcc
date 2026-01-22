@@ -53,6 +53,16 @@ const useMe = () => {
     )
   }, [isLoggedIn, data])
 
+  /** 총관리자인지 여부 */
+  const isAdmin = useMemo(() => {
+    return !isLoggedIn || (data.data.grade && data.data.grade === 1)
+  }, [isLoggedIn, data])
+
+  /** 명도회 등급인지 여부 */
+  const isMyeongdoGrade = useMemo(() => {
+    return !isLoggedIn || (data.data.grade && data.data.grade === 5)
+  }, [isLoggedIn, data])
+
   return {
     ...data,
     isLoggedIn,
@@ -60,6 +70,8 @@ const useMe = () => {
     isParishMember,
     isHeonhwaMember,
     isMyeongdoMember,
+    isAdmin,
+    isMyeongdoGrade,
   }
 }
 

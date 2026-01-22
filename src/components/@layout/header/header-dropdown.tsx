@@ -6,6 +6,7 @@ import { Text } from '@chakra-ui/react/text'
 import { AnimatePresence, motion } from 'motion/react'
 
 import { toaster } from '@/components/ui/toaster'
+import { ROUTES } from '@/constants/routes'
 import useMe from '@/hooks/useMe'
 import useNavItems from '@/hooks/useNavItems'
 
@@ -29,11 +30,11 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
   const showDropdown =
     hoveredNavIndex !== null && navItems[hoveredNavIndex]?.subItems
 
-  const isDepartment =
+  const isCommunity =
     hoveredNavIndex !== null &&
-    navItems[hoveredNavIndex]?.startPath === '/department'
+    navItems[hoveredNavIndex]?.startPath === '/community'
 
-  const shouldShowParishMemberToast = isNotParishMember && isDepartment
+  const shouldShowParishMemberToast = isNotParishMember && isCommunity
 
   const handleClickParishMemberToast = () => {
     toaster.create({
@@ -121,35 +122,41 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
                     >
                       <Box display="flex" gap="10px" flexWrap="wrap">
                         {navItems[hoveredNavIndex].subItems?.map(
-                          (subItem, subIndex) => (
-                            <MotionBox
-                              key={subItem.href}
-                              initial={{ opacity: 0, y: -10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{
-                                delay: 0.1 + subIndex * 0.03,
-                                duration: 0.25,
-                                ease: 'easeOut',
-                              }}
-                            >
-                              <HeaderSubMenu
-                                href={
-                                  shouldShowParishMemberToast ? undefined : (
-                                    subItem.href
-                                  )
-                                }
-                                {...(shouldShowParishMemberToast && {
-                                  onClick: handleClickParishMemberToast,
-                                })}
+                          (subItem, subIndex) => {
+                            // 목자회의는 누구나 접근 가능
+                            const isPastoralCouncil =
+                              subItem.href === ROUTES.COMMUNITY_PASTORAL_COUNCIL
+                            const shouldBlockAccess =
+                              shouldShowParishMemberToast && !isPastoralCouncil
+
+                            return (
+                              <MotionBox
+                                key={subItem.href}
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                  delay: 0.1 + subIndex * 0.03,
+                                  duration: 0.25,
+                                  ease: 'easeOut',
+                                }}
                               >
-                                {subItem.label}
-                              </HeaderSubMenu>
-                            </MotionBox>
-                          ),
+                                <HeaderSubMenu
+                                  href={
+                                    shouldBlockAccess ? undefined : subItem.href
+                                  }
+                                  {...(shouldBlockAccess && {
+                                    onClick: handleClickParishMemberToast,
+                                  })}
+                                >
+                                  {subItem.label}
+                                </HeaderSubMenu>
+                              </MotionBox>
+                            )
+                          },
                         )}
                       </Box>
                       <Box display="flex" gap="10px" flexWrap="wrap">
-                        {hoveredNavIndex === navItems.length - 1 &&
+                        {hoveredNavIndex === navItems.length - 2 &&
                           editorialNavItems.subItems?.map(
                             (subItem, subIndex) => {
                               const subItemsLength =

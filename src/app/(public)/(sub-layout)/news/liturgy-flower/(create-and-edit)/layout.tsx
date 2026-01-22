@@ -9,15 +9,16 @@ import useMe from '@/hooks/useMe'
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const router = useRouter()
-  const { isHeonhwaMember, isLoading } = useMe()
+  const { isHeonhwaMember, isAdmin, isLoading } = useMe()
 
   useEffect(() => {
     if (isLoading) return
+    if (isAdmin) return
 
     if (!isHeonhwaMember) {
       router.push(ROUTES.NEWS_LITURGY_FLOWER)
     }
-  }, [isHeonhwaMember, isLoading, router])
+  }, [isHeonhwaMember, isLoading, router, isAdmin])
 
   return <>{children}</>
 }

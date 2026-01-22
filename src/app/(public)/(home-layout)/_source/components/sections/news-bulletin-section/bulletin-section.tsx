@@ -43,7 +43,7 @@ const BulletinSection: React.FC = () => {
         flexShrink={0}
       >
         <Text flex="1" textStyle="pre-heading-1" color="grey.10">
-          주보
+          본당 주보
         </Text>
         <Link href={ROUTES.NEWS_BULLETIN} _hover={{ textDecoration: 'none' }}>
           <Button variant="ghost" size="md" colorPalette="grey">
