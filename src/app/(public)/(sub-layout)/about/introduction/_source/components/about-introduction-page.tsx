@@ -7,7 +7,7 @@ import { Text } from '@chakra-ui/react/text'
 const AboutIntroductionPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" gap="56px">
-      <Text textStyle="pre-body-4" color="grey.10">
+      <Text textStyle="pre-body-2" color="grey.10">
         잠원동성당은 1947년 약현본당(현 중림동 약현성당)에서 분리되어
         설립되었으며 강남, 서초지역에서 가장 오래된 전통 있는 성당입니다.
         <br />
