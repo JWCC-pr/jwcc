@@ -24,6 +24,7 @@ export const useLiturgyFlowerFormSchema: yup.ObjectSchema<LiturgyFlowerFormDataT
           name: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
         }),
       )
+      .min(1, FORM_MESSAGE.COMMON.REQUIRED)
       .required(FORM_MESSAGE.COMMON.REQUIRED),
   })
 

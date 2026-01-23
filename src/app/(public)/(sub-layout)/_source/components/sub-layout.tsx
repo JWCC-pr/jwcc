@@ -24,11 +24,12 @@ const labelMap = {
   [ROUTES.ABOUT_PASTORAL]: '사목지침',
   [ROUTES.ABOUT_PRIESTS]: '본당 사제·수도자',
   [ROUTES.ABOUT_PAST_PRIESTS]: '역대 사제·수도자',
+  [ROUTES.ABOUT_PARISH_AREA]: '본당 관할 구역도',
   [ROUTES.ABOUT_DIRECTION]: '오시는 길',
   // 본당 소식
   [ROUTES.NEWS_NOTICES]: '공지사항',
+  [ROUTES.NEWS_BULLETIN]: '본당 주보',
   [ROUTES.NEWS_EVENT]: '본당 소식',
-  [ROUTES.NEWS_BULLETIN]: '주보',
   [ROUTES.NEWS_PASSING_NOTICE]: '선종 안내',
   [ROUTES.NEWS_LITURGY_FLOWER]: '전례꽃 갤러리',
   [ROUTES.NEWS_FREE_BOARD]: '자유게시판',
@@ -36,17 +37,16 @@ const labelMap = {
   [ROUTES.NEWS_EVENT_SCHEDULE]: '본당 일정',
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '사목협의회 조직도',
-  [ROUTES.COMMUNITY_PARISH_AREA]: '본당 관할 구역도',
+  // 신앙 공동체 > 각종 자료실
+  [ROUTES.COMMUNITY_EDITORIAL_DRAFT]: '주보 7면 편집',
+  [ROUTES.COMMUNITY_EDITORIAL_FINAL]: '주보 7면 최종본',
+  [ROUTES.COMMUNITY_EDITORIAL_MYEONGDO]: '명도회 자료실',
+  [ROUTES.COMMUNITY_EDITORIAL_TEMPLATE]: '주보 7면 양식',
   // 본당 업무
   [ROUTES.SERVICES_OFFICE]: '사무실 안내',
   [ROUTES.SERVICES_CATECHUMEN]: '예비신자 안내',
   [ROUTES.SERVICES_MARRIAGE]: '혼인성사 안내',
   [ROUTES.SERVICES_TRANSFER]: '전입 교우 안내',
-  // 각종 자료실
-  [ROUTES.EDITORIAL_DRAFT]: '주보 7면 편집',
-  [ROUTES.EDITORIAL_FINAL]: '주보 7면 최종본',
-  [ROUTES.EDITORIAL_MYEONGDO]: '명도회 자료실',
-  [ROUTES.EDITORIAL_TEMPLATE]: '주보 7면 양식',
 } as const
 
 const oneDepthLabelMap = {
@@ -58,6 +58,7 @@ const oneDepthLabelMap = {
   [ROUTES.ABOUT_PASTORAL]: '본당 소개',
   [ROUTES.ABOUT_PRIESTS]: '본당 소개',
   [ROUTES.ABOUT_PAST_PRIESTS]: '본당 소개',
+  [ROUTES.ABOUT_PARISH_AREA]: '본당 소개',
   [ROUTES.ABOUT_DIRECTION]: '본당 소개',
   // 본당 소식
   [ROUTES.NEWS_NOTICES]: '본당 소식',
@@ -70,17 +71,16 @@ const oneDepthLabelMap = {
   [ROUTES.NEWS_EVENT_SCHEDULE]: '본당 소식',
   // 신앙 공동체
   [ROUTES.COMMUNITY_PASTORAL_COUNCIL]: '신앙 공동체',
-  [ROUTES.COMMUNITY_PARISH_AREA]: '신앙 공동체',
+  // 신앙 공동체 > 각종 자료실
+  [ROUTES.COMMUNITY_EDITORIAL_DRAFT]: '신앙 공동체',
+  [ROUTES.COMMUNITY_EDITORIAL_FINAL]: '신앙 공동체',
+  [ROUTES.COMMUNITY_EDITORIAL_MYEONGDO]: '신앙 공동체',
+  [ROUTES.COMMUNITY_EDITORIAL_TEMPLATE]: '신앙 공동체',
   // 본당 업무
   [ROUTES.SERVICES_OFFICE]: '본당 업무',
   [ROUTES.SERVICES_CATECHUMEN]: '본당 업무',
   [ROUTES.SERVICES_MARRIAGE]: '본당 업무',
   [ROUTES.SERVICES_TRANSFER]: '본당 업무',
-  // 각종 자료실
-  [ROUTES.EDITORIAL_DRAFT]: '분과 게시판',
-  [ROUTES.EDITORIAL_FINAL]: '분과 게시판',
-  [ROUTES.EDITORIAL_MYEONGDO]: '분과 게시판',
-  [ROUTES.EDITORIAL_TEMPLATE]: '분과 게시판',
 } as const
 
 const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -89,7 +89,9 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { data: departmentList } = useDepartmentListQuery()
 
   // 분과 게시판 경로 패턴 매칭 - 정확히 /department/[departmentId]/board만 매칭
-  const departmentBoardMatch = pathname.match(/^\/department\/(\d+)\/board$/)
+  const departmentBoardMatch = pathname.match(
+    /^\/community\/department\/(\d+)\/board$/,
+  )
   const departmentId =
     departmentBoardMatch ? Number(departmentBoardMatch[1]) : null
 
@@ -118,7 +120,7 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     if (oneDepthLabel === '본당 소개') return 0
     else if (oneDepthLabel === '본당 소식') return 1
     else if (oneDepthLabel === '신앙 공동체') return 2
-    else if (oneDepthLabel === '분과 게시판') return 4
+    else if (oneDepthLabel === '분과 게시판') return 2
 
     return 3
   }, [oneDepthLabel])
@@ -133,13 +135,15 @@ const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     [index, allNavItems],
   )
 
-  // /department로 시작하는 경로인지 확인
-  const isDepartmentPath = pathname.startsWith('/department')
+  // /community/department로 시작하는 경로인지 확인
+  const isCommunityDepartmentPath = pathname.startsWith('/community/department')
 
-  // /department 경로인 경우: /department/[departmentId]/board만 레이아웃 적용
-  // /department가 아닌 경로인 경우: 기존대로 레이아웃 적용
+  // /community/department 경로인 경우: /community/department/[departmentId]/board만 레이아웃 적용
+  // /community/department가 아닌 경로인 경우: 기존대로 레이아웃 적용
   const shouldShowLayout =
-    isDepartmentPath ? !!departmentBoardMatch : !!mainLabel && !!oneDepthLabel
+    isCommunityDepartmentPath ? !!departmentBoardMatch : (
+      !!mainLabel && !!oneDepthLabel
+    )
 
   if (!shouldShowLayout) {
     return (

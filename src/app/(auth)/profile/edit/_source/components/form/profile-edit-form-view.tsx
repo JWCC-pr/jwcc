@@ -3,6 +3,7 @@
 import { Badge } from '@chakra-ui/react/badge'
 import { Box } from '@chakra-ui/react/box'
 import { Input } from '@chakra-ui/react/input'
+import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
 import { useFormContext, useFormState } from 'react-hook-form'
@@ -147,6 +148,10 @@ const ProfileEditFormView: React.FC<ProfileEditFormViewProps> = ({
               </Badge>
             ))}
           </Box>
+          <Text textStyle="pre-caption-2" color="grey.6">
+            ※ 단체 추가 및 수정 필요 시 메일로 신청 (
+            <Link href="mailto:pr@jwcc.or.kr">pr@jwcc.or.kr</Link>)
+          </Text>
         </Box>
       </Box>
     </Box>

@@ -23,6 +23,7 @@ export const NAV_ITEMS: NavItem[] = [
       { label: '사목지침', href: ROUTES.ABOUT_PASTORAL },
       { label: '본당 사제·수도자', href: ROUTES.ABOUT_PRIESTS },
       { label: '역대 사제·수도자', href: ROUTES.ABOUT_PAST_PRIESTS },
+      { label: '본당 관할 구역도', href: ROUTES.ABOUT_PARISH_AREA },
       { label: '오시는 길', href: ROUTES.ABOUT_DIRECTION },
     ],
   },
@@ -31,13 +32,13 @@ export const NAV_ITEMS: NavItem[] = [
     label: '본당 소식',
     subItems: [
       { label: '공지사항', href: ROUTES.NEWS_NOTICES },
+      { label: '본당 주보', href: ROUTES.NEWS_BULLETIN },
       { label: '본당 소식', href: ROUTES.NEWS_EVENT },
-      { label: '주보', href: ROUTES.NEWS_BULLETIN },
-      { label: '선종 안내', href: ROUTES.NEWS_PASSING_NOTICE },
-      { label: '전례꽃 갤러리', href: ROUTES.NEWS_LITURGY_FLOWER },
+      { label: '본당 일정', href: ROUTES.NEWS_EVENT_SCHEDULE },
       { label: '자유게시판', href: ROUTES.NEWS_FREE_BOARD },
       { label: '자료실', href: ROUTES.NEWS_DOCUMENT },
-      { label: '본당 일정', href: ROUTES.NEWS_EVENT_SCHEDULE },
+      { label: '선종 안내', href: ROUTES.NEWS_PASSING_NOTICE },
+      { label: '전례꽃 갤러리', href: ROUTES.NEWS_LITURGY_FLOWER },
     ],
   },
   {
@@ -45,7 +46,6 @@ export const NAV_ITEMS: NavItem[] = [
     label: '신앙 공동체',
     subItems: [
       { label: '사목협의회 조직도', href: ROUTES.COMMUNITY_PASTORAL_COUNCIL },
-      { label: '본당 관할 구역도', href: ROUTES.COMMUNITY_PARISH_AREA },
     ],
   },
   {
@@ -57,10 +57,5 @@ export const NAV_ITEMS: NavItem[] = [
       { label: '혼인성사 안내', href: ROUTES.SERVICES_MARRIAGE },
       { label: '전입 교우 안내', href: ROUTES.SERVICES_TRANSFER },
     ],
-  },
-  {
-    startPath: '/department',
-    label: '분과 게시판',
-    subItems: [],
   },
 ]
