@@ -211,13 +211,13 @@ const AboutSymbolPage: React.FC = () => {
       </Box>
 
       <Box display="flex" flexDirection="column" gap="36px">
-        <Text textStyle="pre-body-4" color="grey.10">
+        <Text textStyle="pre-body-2" color="grey.10">
           잠원동성당의 심벌마크는 성당 고유의 상징체로 그리스도교 신앙의 본질인
           ‘예수 그리스도의 죽음과 부활’을 형상화했습니다.
           <br />
           십자가의 양각은 죽음, 십자가의 음각은 부활을 상징합니다.
         </Text>
-        <Text px={['20px', '40px']} textStyle="pre-body-6" color="grey.8">
+        <Text px={['20px', '40px']} textStyle="pre-body-4" color="grey.8">
           우리는 십자가에 못 박히신 그리스도를 선포합니다. 그리스도는
           유다인들에게는 걸림돌이고 다른 민족에게는 어리석음입니다.
           <br />
@@ -226,7 +226,7 @@ const AboutSymbolPage: React.FC = () => {
           <br />
           (1코린 1, 23-24)
         </Text>
-        <Text textStyle="pre-body-4" color="grey.10">
+        <Text textStyle="pre-body-2" color="grey.10">
           볼 눈이 없는 사람들에게는 십자가는 패배의 상징이요 무력함 그
           자체입니다.
           <br />
@@ -248,7 +248,7 @@ const AboutSymbolPage: React.FC = () => {
           <br />
           그리고 주님께서는 성령을 통하여 언제나 교회와 함께 계실 것입니다.
         </Text>
-        <Text px={['20px', '40px']} textStyle="pre-body-6" color="grey.8">
+        <Text px={['20px', '40px']} textStyle="pre-body-4" color="grey.8">
           너희는 가서 모든 민족들을 제자로 삼아, 아버지와 아들과 성령의 이름으로
           세례를 주고,
           <br />
@@ -257,7 +257,7 @@ const AboutSymbolPage: React.FC = () => {
           <br />
           (마태 28, 19-20)
         </Text>
-        <Text textStyle="pre-body-4" color="grey.10">
+        <Text textStyle="pre-body-2" color="grey.10">
           열린 교회로서 지역사회와의 화합과 선교를 지향하고 있는 잠원동성당의
           심벌마크는 그리스도인의 신앙고백이며 몸소 살아내야 할 소명인 셈입니다.
         </Text>
@@ -278,7 +278,7 @@ const AboutSymbolPage: React.FC = () => {
         />
       </Box>
 
-      <Text textStyle="pre-body-4" color="grey.10">
+      <Text textStyle="pre-body-2" color="grey.10">
         잠원도성당의 심벌 마크는 본당을 상징하는 4가지 요소인
         <br />
         ▲나자렛 예수님 (우리의 신앙) ▲1947년 성심원(시작점) ▲잠원동
@@ -305,7 +305,7 @@ const AboutSymbolPage: React.FC = () => {
               <Text textStyle="cat-heading-3" color="primary.4">
                 {index + 1}
               </Text>
-              <Text textStyle="pre-body-6" color="grey.8">
+              <Text textStyle="pre-body-4" color="grey.8">
                 {list.description}
               </Text>
             </Box>
