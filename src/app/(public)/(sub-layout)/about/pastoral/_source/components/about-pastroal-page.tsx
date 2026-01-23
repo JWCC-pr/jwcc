@@ -42,7 +42,7 @@ const AboutPastoralPage: React.FC = () => {
             <Text textStyle="cat-heading-1" color="grey.10">
               {pastoralGuidelines.title}
             </Text>
-            <Text textStyle="pre-body-6" color="grey.7">
+            <Text textStyle="pre-body-2" color="grey.7">
               {pastoralGuidelines.subtitle}
             </Text>
           </Box>
@@ -50,7 +50,7 @@ const AboutPastoralPage: React.FC = () => {
         <AdminEditorContent
           body={pastoralGuidelines.body}
           hasBorderBottom={false}
-          textStyle="pre-body-6"
+          textStyle="pre-body-2"
           py="0px"
         />
         <Box
