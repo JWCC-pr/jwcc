@@ -19,7 +19,7 @@ const SubDepartmentSelect: React.FC<SubDepartmentSelectProps> = ({
 }) => {
   const { register } = useFormContext<DepartmentBoardFormDataType>()
 
-  const { data: me, isMyeongdoGrade, isAdmin } = useMe()
+  const { data: me, isMyeongdoMember, isAdmin } = useMe()
   const { data: departmentList } = useDepartmentListQuery({
     options: {
       enabled: isAdmin,
@@ -27,7 +27,7 @@ const SubDepartmentSelect: React.FC<SubDepartmentSelectProps> = ({
   })
 
   const options = useMemo(() => {
-    if (isMyeongdoGrade || isAdmin) {
+    if (isMyeongdoMember || isAdmin) {
       return (
         departmentList
           ?.find((department) => department.id === Number(departmentId))
@@ -47,7 +47,7 @@ const SubDepartmentSelect: React.FC<SubDepartmentSelectProps> = ({
       label: subDepartment.name,
       value: String(subDepartment.id),
     }))
-  }, [me, departmentId, isMyeongdoGrade, isAdmin, departmentList])
+  }, [me, departmentId, isMyeongdoMember, isAdmin, departmentList])
 
   return (
     <Select

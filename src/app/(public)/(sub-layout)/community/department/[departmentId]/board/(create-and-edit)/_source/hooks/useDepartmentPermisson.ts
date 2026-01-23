@@ -11,25 +11,25 @@ interface UseDepartmentPermissonProps {
 const useDepartmentPermisson = ({
   departmentId,
 }: UseDepartmentPermissonProps) => {
-  const { data: me, isMyeongdoGrade, isAdmin } = useMe()
+  const { data: me, isMyeongdoMember, isAdmin } = useMe()
   const router = useRouter()
 
   useEffect(() => {
     if (!me) return
-    if (isMyeongdoGrade) return
+    if (isMyeongdoMember) return
     if (isAdmin) return
     if (me.departmentSet.some((department) => department.id === departmentId)) {
       return
     }
 
     router.back()
-  }, [me, departmentId, router, isMyeongdoGrade, isAdmin])
+  }, [me, departmentId, router, isMyeongdoMember, isAdmin])
 
   return {
     isPermisson:
       !me ||
       me.departmentSet.some((department) => department.id === departmentId) ||
-      isMyeongdoGrade ||
+      isMyeongdoMember ||
       isAdmin,
   }
 }
