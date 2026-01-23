@@ -20,10 +20,10 @@ interface DepartmentBoardTopSectionProps {
 const DepartmentBoardTopSection: React.FC<DepartmentBoardTopSectionProps> = ({
   departmentId,
 }) => {
-  const { data: me, isMyeongdoGrade, isAdmin } = useMe()
+  const { data: me, isMyeongdoMember, isAdmin } = useMe()
   const { data: departmentList } = useDepartmentListQuery({
     options: {
-      enabled: isMyeongdoGrade,
+      enabled: isMyeongdoMember,
     },
   })
 
@@ -35,7 +35,7 @@ const DepartmentBoardTopSection: React.FC<DepartmentBoardTopSectionProps> = ({
 
   const hasPermission =
     me?.departmentSet.some((department) => department.id === departmentId) ||
-    (!isPastoralCouncil && isMyeongdoGrade) ||
+    (!isPastoralCouncil && isMyeongdoMember) ||
     isAdmin
 
   return (
