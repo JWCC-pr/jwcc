@@ -92,11 +92,11 @@ const DepartmentBoardDetailHeaderSection: React.FC<
       borderBottomColor="border.basic.1"
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Text textStyle="pre-heading-2" color="grey.10" lineClamp="1">
+        <Text textStyle="pre-heading-2" color="grey.10">
           {board.title}
         </Text>
         {isLoggedIn && (
-          <Box>
+          <Box display="flex" alignItems="center">
             <IconButton
               size="md"
               variant="ghost"
