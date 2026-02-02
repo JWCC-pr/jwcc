@@ -129,8 +129,6 @@ export const ROUTES = {
   SERVICES_OFFICE: `/services/office`,
   /** 예비신자 안내 */
   SERVICES_CATECHUMEN: `/services/catechumen`,
-  /** 혼인성사 예약 안내 */
-  SERVICES_MARRIAGE: `/services/marriage`,
   /** 전입 교우 안내 */
   SERVICES_TRANSFER: `/services/transfers`,
 } as const
