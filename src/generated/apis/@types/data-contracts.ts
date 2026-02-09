@@ -332,6 +332,29 @@ export interface BoardUserRequestType {
   subDepartmentSet: BoardSubDepartmentRequestType[]
 }
 
+export interface CatechismRoomType {
+  readonly id: number
+  /**
+   * 교리실명
+   * @maxLength 50
+   */
+  name: string
+  /** 위치 */
+  location?: string
+  /** 설명 */
+  description?: string
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
 export interface CommonErrorType {
   detail: string
 }
@@ -381,6 +404,10 @@ export interface DepartmentBoardType {
   title: string
   /** 본문 */
   body: string
+  /** 고정 여부 */
+  isPinned?: boolean
+  /** 비공개 여부 */
+  isSecret?: boolean
   /** 이미지 */
   imageSet?: DepartmentBoardImageNestedType[]
   /** 파일 */
@@ -504,6 +531,8 @@ export interface DepartmentBoardErrorMessageType {
   subDepartment?: string[]
   title?: string[]
   body?: string[]
+  isPinned?: string[]
+  isSecret?: string[]
   imageSet?: string[]
   fileSet?: string[]
 }
@@ -583,6 +612,10 @@ export interface DepartmentBoardRequestType {
    * @minLength 1
    */
   body: string
+  /** 고정 여부 */
+  isPinned?: boolean
+  /** 비공개 여부 */
+  isSecret?: boolean
   /** 이미지 */
   imageSet?: DepartmentBoardImageNestedRequestType[]
   /** 파일 */
@@ -920,6 +953,8 @@ export interface NewsType {
   thumbnail: string
   /** 본문 */
   body: string
+  /** 전체공개 */
+  isPublic?: boolean
   /**
    * 생성일시
    * @format date-time
@@ -937,6 +972,7 @@ export interface NewsErrorMessageType {
   title?: string[]
   thumbnail?: string[]
   body?: string[]
+  isPublic?: string[]
 }
 
 export interface NewsRequestType {
@@ -956,6 +992,8 @@ export interface NewsRequestType {
    * @minLength 1
    */
   body: string
+  /** 전체공개 */
+  isPublic?: boolean
 }
 
 export interface NoticeType {
@@ -1007,6 +1045,12 @@ export interface PaginatedBoardListType {
   count?: number
   isNext?: boolean
   results?: BoardType[]
+}
+
+export interface PaginatedCatechismRoomListType {
+  count?: number
+  isNext?: boolean
+  results?: CatechismRoomType[]
 }
 
 export interface PaginatedDepartmentBoardCommentListType {
@@ -1079,6 +1123,12 @@ export interface PaginatedPassingNoticeListType {
   count?: number
   isNext?: boolean
   results?: PassingNoticeType[]
+}
+
+export interface PaginatedRoomReservationListType {
+  count?: number
+  isNext?: boolean
+  results?: RoomReservationType[]
 }
 
 export interface PaginatedWeeklyBulletinEditorialListType {
@@ -1744,6 +1794,224 @@ export interface ReligiousRequestType {
   startDate: string
 }
 
+export interface RepeatRoomReservationType {
+  readonly id: number
+  /** 교리실 */
+  room: number
+  /**
+   * 예약 제목
+   * @maxLength 50
+   */
+  title: string
+  /**
+   * 사용자명
+   * @maxLength 10
+   */
+  userName?: string
+  /**
+   * 반복 유형
+   * * `weekly` - 요일 반복
+   * * `monthly_date` - 날짜 반복
+   */
+  repeatType: RepeatRoomReservationRepeatTypeEnumType
+  /**
+   * 시작일
+   * @format date
+   */
+  startDate: string
+  /**
+   * 종료일
+   * @format date
+   */
+  endDate: string
+  /**
+   * 시작 시간
+   * @format time
+   */
+  startAt: string
+  /**
+   * 종료 시간
+   * @format time
+   */
+  endAt: string
+  /** 반복 요일 */
+  weekdays?: any
+  /**
+   * 반복 주차
+   * @min 0
+   * @max 32767
+   */
+  weekOfMonth?: number | null
+  /**
+   * 반복 일자
+   * @min 0
+   * @max 32767
+   */
+  monthDay?: number | null
+  readonly createdBy: number
+  readonly createdByName: string
+}
+
+export interface RepeatRoomReservationErrorMessageType {
+  nonField?: string[]
+  room?: string[]
+  title?: string[]
+  userName?: string[]
+  repeatType?: string[]
+  startDate?: string[]
+  endDate?: string[]
+  startAt?: string[]
+  endAt?: string[]
+  weekdays?: string[]
+  weekOfMonth?: string[]
+  monthDay?: string[]
+}
+
+export interface RepeatRoomReservationRequestType {
+  /** 교리실 */
+  room: number
+  /**
+   * 예약 제목
+   * @minLength 1
+   * @maxLength 50
+   */
+  title: string
+  /**
+   * 사용자명
+   * @minLength 1
+   * @maxLength 10
+   */
+  userName?: string
+  /**
+   * 반복 유형
+   * * `weekly` - 요일 반복
+   * * `monthly_date` - 날짜 반복
+   */
+  repeatType: RepeatRoomReservationRequestRepeatTypeEnumType
+  /**
+   * 시작일
+   * @format date
+   */
+  startDate: string
+  /**
+   * 종료일
+   * @format date
+   */
+  endDate: string
+  /**
+   * 시작 시간
+   * @format time
+   */
+  startAt: string
+  /**
+   * 종료 시간
+   * @format time
+   */
+  endAt: string
+  /** 반복 요일 */
+  weekdays?: any
+  /**
+   * 반복 주차
+   * @min 0
+   * @max 32767
+   */
+  weekOfMonth?: number | null
+  /**
+   * 반복 일자
+   * @min 0
+   * @max 32767
+   */
+  monthDay?: number | null
+}
+
+export interface RoomReservationType {
+  readonly id: number
+  /** 교리실 */
+  room: number
+  readonly roomName: string
+  /** 반복 예약 */
+  readonly repeat: number | null
+  /**
+   * 예약 제목
+   * @maxLength 50
+   */
+  title: string
+  /**
+   * 사용자명
+   * @maxLength 10
+   */
+  userName?: string
+  /**
+   * 예약 날짜
+   * @format date
+   */
+  date: string
+  /**
+   * 시작 시간
+   * @format time
+   */
+  startAt: string
+  /**
+   * 종료 시간
+   * @format time
+   */
+  endAt: string
+  readonly createdBy: number
+  readonly createdByName: string
+  /**
+   * 생성일시
+   * @format date-time
+   */
+  readonly createdAt: string
+  /**
+   * 수정일시
+   * @format date-time
+   */
+  readonly updatedAt: string
+}
+
+export interface RoomReservationErrorMessageType {
+  nonField?: string[]
+  room?: string[]
+  title?: string[]
+  userName?: string[]
+  date?: string[]
+  startAt?: string[]
+  endAt?: string[]
+}
+
+export interface RoomReservationRequestType {
+  /** 교리실 */
+  room: number
+  /**
+   * 예약 제목
+   * @minLength 1
+   * @maxLength 50
+   */
+  title: string
+  /**
+   * 사용자명
+   * @minLength 1
+   * @maxLength 10
+   */
+  userName?: string
+  /**
+   * 예약 날짜
+   * @format date
+   */
+  date: string
+  /**
+   * 시작 시간
+   * @format time
+   */
+  startAt: string
+  /**
+   * 종료 시간
+   * @format time
+   */
+  endAt: string
+}
+
 export interface ScheduleType {
   readonly id: number
   /**
@@ -2265,6 +2533,28 @@ export const PresignedRequestFieldChoiceEnumTypeMap = {
   'weekly_bulletin.WeeklyBulletin.file': '주보 파일',
   'weekly_bulletin.WeeklyBulletin.thumbnail': '썸네일',
   'weekly_bulletin_editorial.WeeklyBulletinEditorialFile.file': '자료',
+} as const
+
+/**
+ * * `weekly` - 요일 반복
+ * `monthly_date` - 날짜 반복
+ */
+export type RepeatRoomReservationRepeatTypeEnumType =
+  keyof typeof RepeatRoomReservationRepeatTypeEnumTypeMap
+export const RepeatRoomReservationRepeatTypeEnumTypeMap = {
+  monthly_date: '날짜 반복',
+  weekly: '요일 반복',
+} as const
+
+/**
+ * * `weekly` - 요일 반복
+ * `monthly_date` - 날짜 반복
+ */
+export type RepeatRoomReservationRequestRepeatTypeEnumType =
+  keyof typeof RepeatRoomReservationRequestRepeatTypeEnumTypeMap
+export const RepeatRoomReservationRequestRepeatTypeEnumTypeMap = {
+  monthly_date: '날짜 반복',
+  weekly: '요일 반복',
 } as const
 
 /**
