@@ -45,7 +45,6 @@ const labelMap = {
   // 본당 업무
   [ROUTES.SERVICES_OFFICE]: '사무실 안내',
   [ROUTES.SERVICES_CATECHUMEN]: '예비신자 안내',
-  [ROUTES.SERVICES_MARRIAGE]: '혼인성사 안내',
   [ROUTES.SERVICES_TRANSFER]: '전입 교우 안내',
 } as const
 
@@ -79,7 +78,6 @@ const oneDepthLabelMap = {
   // 본당 업무
   [ROUTES.SERVICES_OFFICE]: '본당 업무',
   [ROUTES.SERVICES_CATECHUMEN]: '본당 업무',
-  [ROUTES.SERVICES_MARRIAGE]: '본당 업무',
   [ROUTES.SERVICES_TRANSFER]: '본당 업무',
 } as const
 
