@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Badge } from '@chakra-ui/react/badge'
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
+import { PushPinIcon } from '@phosphor-icons/react'
 
 import { format } from 'date-fns/format'
 
@@ -42,13 +43,32 @@ const columns: TableColumn<DepartmentBoardType>[] = [
           <Badge size="md" variant="subtle" colorPalette="grey">
             {board.subDepartmentInfo.name}
           </Badge>
-          <Text
-            textStyle="pre-body-6"
-            lineClamp="1"
-            className="hover-underline"
-          >
-            {board.title}
-          </Text>
+          <Box display="flex" gap="6px" alignItems="center">
+            {board.isPinned && (
+              <Box
+                flexShrink="0"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                w="16px"
+                h="16px"
+              >
+                <PushPinIcon size="16px" color="#780536" />
+              </Box>
+            )}
+            {board.isSecret && (
+              <Text textStyle="pre-body-5" color="primary.3">
+                [비밀글]
+              </Text>
+            )}
+            <Text
+              textStyle="pre-body-6"
+              lineClamp="1"
+              className="hover-underline"
+            >
+              {board.title}
+            </Text>
+          </Box>
         </Box>
         <Box display="flex" flexFlow="row wrap" gap="4px">
           {board.fileSet?.map(({ file }) => (
@@ -147,6 +167,9 @@ const DepartmentBoardTableSection: React.FC<
       columns={columns}
       data={boards.results}
       getRowKey={(board) => board.id}
+      getRowProps={(notice) => ({
+        bgColor: notice.isPinned ? 'primary.1' : 'grey.0',
+      })}
       onRowClick={handleClick}
       pagination={{
         totalCount: boards.count ?? 0,
