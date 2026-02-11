@@ -19,6 +19,8 @@ interface SelectProps extends Omit<SelectRootProps, 'collection'> {
   placeholder?: string
   size?: 'sm' | 'md' | 'lg'
   name?: string
+  /** Props to pass to Select.Content (e.g., for z-index overrides) */
+  contentProps?: React.ComponentProps<typeof ChakraSelect.Content>
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -27,6 +29,7 @@ const Select: React.FC<SelectProps> = ({
   size = 'md',
   name,
   onSelect,
+  contentProps,
   ...props
 }) => {
   const collection = createListCollection({ items: options })
@@ -63,7 +66,7 @@ const Select: React.FC<SelectProps> = ({
               </ChakraSelect.Control>
               <Portal>
                 <ChakraSelect.Positioner>
-                  <ChakraSelect.Content>
+                  <ChakraSelect.Content {...contentProps}>
                     {collection.items.map((item) => (
                       <ChakraSelect.Item
                         item={item}
@@ -97,7 +100,7 @@ const Select: React.FC<SelectProps> = ({
       </ChakraSelect.Control>
       <Portal>
         <ChakraSelect.Positioner>
-          <ChakraSelect.Content>
+          <ChakraSelect.Content {...contentProps}>
             {collection.items.map((item) => (
               <ChakraSelect.Item item={item} key={item.label + item.value}>
                 {item.label}

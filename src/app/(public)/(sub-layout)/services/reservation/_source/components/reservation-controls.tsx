@@ -59,7 +59,11 @@ const ReservationControls: React.FC = () => {
         </IconButton>
       </Box>
 
-      <DatePicker value={selectedDate} onChange={setSelectedDate} />
+      <DatePicker
+        value={selectedDate}
+        onChange={setSelectedDate}
+        variant="icon"
+      />
 
       <Button
         size="md"

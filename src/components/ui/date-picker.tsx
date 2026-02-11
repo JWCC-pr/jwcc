@@ -129,10 +129,19 @@ interface DatePickerProps extends Omit<BoxProps, 'onChange'> {
   disabled?: boolean
   /** Select와 동일한 패턴. 펼쳐지는 방향을 지정합니다. */
   positioning?: { placement?: DatePickerPlacement }
+  /** 표시 형태: 'icon' (캘린더 아이콘만), 'select' (날짜 텍스트 + 아이콘) */
+  variant?: 'icon' | 'select'
 }
 
 const DatePicker: React.FC<DatePickerProps> = (props) => {
-  const { value, onChange, disabled = false, positioning, ...boxProps } = props
+  const {
+    value,
+    onChange,
+    disabled = false,
+    positioning,
+    variant = 'icon',
+    ...boxProps
+  } = props
 
   const placement = positioning?.placement ?? 'bottom'
   const placementStyles = getPlacementStyles(placement)
@@ -255,6 +264,14 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
       .fill(null)
       .map((_, index) => index)
   }, [selectedMonth])
+
+  const formatDateForDisplay = (date: Date | null) => {
+    if (!date) return ''
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
 
   const canGoPreviousMonth = useMemo(() => {
     const prevMonth = new Date(selectedMonth)
@@ -452,29 +469,62 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
         }
       `}</style>
 
-      <IconButton
-        size="md"
-        variant="outline"
-        colorPalette="grey"
-        onClick={() => {
-          if (disabled) return
-          // Trigger click logic
-          // Reset temp date to current selected or undefined
-          setTempSelectedDate(selectedDate || undefined)
+      {variant === 'icon' ?
+        <IconButton
+          size="md"
+          variant="outline"
+          colorPalette="grey"
+          onClick={() => {
+            if (disabled) return
+            // Trigger click logic
+            // Reset temp date to current selected or undefined
+            setTempSelectedDate(selectedDate || undefined)
 
-          // Reset viewed month
-          let monthToUse = selectedDate || now
-          if (monthToUse < now) {
-            monthToUse = now
-          }
-          setUserSelectedMonth(monthToUse)
+            // Reset viewed month
+            let monthToUse = selectedDate || now
+            if (monthToUse < now) {
+              monthToUse = now
+            }
+            setUserSelectedMonth(monthToUse)
 
-          datePickerDisclosure.onToggle()
-        }}
-        disabled={disabled}
-      >
-        <CalendarBlankIcon size="20px" />
-      </IconButton>
+            datePickerDisclosure.onToggle()
+          }}
+          disabled={disabled}
+        >
+          <CalendarBlankIcon size="20px" />
+        </IconButton>
+      : <Button
+          size="lg"
+          variant="outline"
+          colorPalette="grey"
+          onClick={() => {
+            if (disabled) return
+            // Trigger click logic
+            // Reset temp date to current selected or undefined
+            setTempSelectedDate(selectedDate || undefined)
+
+            // Reset viewed month
+            let monthToUse = selectedDate || now
+            if (monthToUse < now) {
+              monthToUse = now
+            }
+            setUserSelectedMonth(monthToUse)
+
+            datePickerDisclosure.onToggle()
+          }}
+          disabled={disabled}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          w="full"
+          px="16px"
+        >
+          <Text textStyle="pre-body-4" color="grey.10">
+            {formatDateForDisplay(selectedDate)}
+          </Text>
+          <CalendarBlankIcon size="20px" />
+        </Button>
+      }
 
       {datePickerDisclosure.open && (
         <Box
