@@ -46,6 +46,7 @@ const labelMap = {
   [ROUTES.SERVICES_OFFICE]: '사무실 안내',
   [ROUTES.SERVICES_CATECHUMEN]: '예비신자 안내',
   [ROUTES.SERVICES_TRANSFER]: '전입 교우 안내',
+  [ROUTES.SERVICES_RESERVATION]: '교리실 예약',
 } as const
 
 const oneDepthLabelMap = {
@@ -79,6 +80,7 @@ const oneDepthLabelMap = {
   [ROUTES.SERVICES_OFFICE]: '본당 업무',
   [ROUTES.SERVICES_CATECHUMEN]: '본당 업무',
   [ROUTES.SERVICES_TRANSFER]: '본당 업무',
+  [ROUTES.SERVICES_RESERVATION]: '본당 업무',
 } as const
 
 const SubLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
