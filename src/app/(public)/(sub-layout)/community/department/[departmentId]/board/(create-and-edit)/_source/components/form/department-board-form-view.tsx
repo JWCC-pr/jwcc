@@ -90,7 +90,7 @@ const DepartmentBoardFormView: React.FC<DepartmentBoardFormViewProps> = ({
           />
           {isLeaderOrAbove && (
             <Controller
-              name="isPinned"
+              name="isFixed"
               control={control}
               render={({ field: { value, onChange, name } }) => (
                 <Checkbox.Root

@@ -355,6 +355,26 @@ export interface CatechismRoomType {
   readonly updatedAt: string
 }
 
+export interface CatechismRoomErrorMessageType {
+  nonField?: string[]
+  name?: string[]
+  location?: string[]
+  description?: string[]
+}
+
+export interface CatechismRoomRequestType {
+  /**
+   * 교리실명
+   * @minLength 1
+   * @maxLength 50
+   */
+  name: string
+  /** 위치 */
+  location?: string
+  /** 설명 */
+  description?: string
+}
+
 export interface CommonErrorType {
   detail: string
 }
@@ -405,7 +425,7 @@ export interface DepartmentBoardType {
   /** 본문 */
   body: string
   /** 고정 여부 */
-  isPinned?: boolean
+  isFixed?: boolean
   /** 비공개 여부 */
   isSecret?: boolean
   /** 이미지 */
@@ -531,7 +551,7 @@ export interface DepartmentBoardErrorMessageType {
   subDepartment?: string[]
   title?: string[]
   body?: string[]
-  isPinned?: string[]
+  isFixed?: string[]
   isSecret?: string[]
   imageSet?: string[]
   fileSet?: string[]
@@ -613,7 +633,7 @@ export interface DepartmentBoardRequestType {
    */
   body: string
   /** 고정 여부 */
-  isPinned?: boolean
+  isFixed?: boolean
   /** 비공개 여부 */
   isSecret?: boolean
   /** 이미지 */

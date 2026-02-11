@@ -34,6 +34,8 @@ export class DepartmentBoardApi<
       department?: number
       /** 세부분과 ID */
       sub_department?: number
+      /** 고정 여부 */
+      is_fixed?: boolean
       /** 검색어 */
       search?: string
       /** 결과 정렬 시 사용할 필드. */

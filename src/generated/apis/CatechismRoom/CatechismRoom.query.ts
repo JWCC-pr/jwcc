@@ -1,10 +1,19 @@
-import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+} from '@tanstack/react-query'
 
 import { fetchExtended } from '@/configs/fetch/fetch-extend'
 
-import { CommonErrorType } from '../@types/data-contracts'
+import {
+  CatechismRoomErrorMessageType,
+  CommonErrorType,
+} from '../@types/data-contracts'
 import {
   InfiniteQueryHookParams,
+  MutationHookParams,
   Parameter,
   QueryHookParams,
   RequestFnReturn,
@@ -38,9 +47,12 @@ export const QUERY_KEY_CATECHISM_ROOM_API = {
   LIST_INFINITE: (
     variables?: Parameter<typeof catechismRoomApi.catechismRoomList>,
   ) => ['CATECHISM_ROOM_LIST_INFINITE', variables].filter(isDefined),
+  CREATE: () => ['CATECHISM_ROOM_CREATE'],
   RETRIEVE: (
     variables?: Parameter<typeof catechismRoomApi.catechismRoomRetrieve>,
   ) => ['CATECHISM_ROOM_RETRIEVE', variables].filter(isDefined),
+  UPDATE: () => ['CATECHISM_ROOM_UPDATE'],
+  DESTROY: () => ['CATECHISM_ROOM_DESTROY'],
 }
 
 /**
@@ -114,6 +126,29 @@ export const useCatechismRoomListInfiniteQuery = <
  * No description
  *
  * @tags catechism_room
+ * @name CatechismRoomCreate
+ * @summary 교리실 등록
+ * @request POST:/v1/catechism_room/
+ * @secure  */
+
+export const useCatechismRoomCreateMutation = (
+  params: MutationHookParams<
+    typeof catechismRoomApi.catechismRoomCreate,
+    { error: CatechismRoomErrorMessageType | CommonErrorType }
+  >,
+) => {
+  const mutationKey = QUERY_KEY_CATECHISM_ROOM_API.CREATE()
+  return useMutation({
+    mutationKey,
+    mutationFn: catechismRoomApi.catechismRoomCreate,
+    ...params?.options,
+  })
+}
+
+/**
+ * No description
+ *
+ * @tags catechism_room
  * @name CatechismRoomRetrieve
  * @summary 교리실 상세 조회
  * @request GET:/v1/catechism_room/{id}/
@@ -132,6 +167,52 @@ export const useCatechismRoomRetrieveQuery = <
   return useQuery({
     queryKey,
     queryFn: () => catechismRoomApi.catechismRoomRetrieve(params.variables),
+    ...params?.options,
+  })
+}
+
+/**
+ * No description
+ *
+ * @tags catechism_room
+ * @name CatechismRoomUpdate
+ * @summary 교리실 수정
+ * @request PUT:/v1/catechism_room/{id}/
+ * @secure  */
+
+export const useCatechismRoomUpdateMutation = (
+  params: MutationHookParams<
+    typeof catechismRoomApi.catechismRoomUpdate,
+    { error: CatechismRoomErrorMessageType | CommonErrorType }
+  >,
+) => {
+  const mutationKey = QUERY_KEY_CATECHISM_ROOM_API.UPDATE()
+  return useMutation({
+    mutationKey,
+    mutationFn: catechismRoomApi.catechismRoomUpdate,
+    ...params?.options,
+  })
+}
+
+/**
+ * No description
+ *
+ * @tags catechism_room
+ * @name CatechismRoomDestroy
+ * @summary 교리실 삭제
+ * @request DELETE:/v1/catechism_room/{id}/
+ * @secure  */
+
+export const useCatechismRoomDestroyMutation = (
+  params: MutationHookParams<
+    typeof catechismRoomApi.catechismRoomDestroy,
+    { error: CommonErrorType }
+  >,
+) => {
+  const mutationKey = QUERY_KEY_CATECHISM_ROOM_API.DESTROY()
+  return useMutation({
+    mutationKey,
+    mutationFn: catechismRoomApi.catechismRoomDestroy,
     ...params?.options,
   })
 }
