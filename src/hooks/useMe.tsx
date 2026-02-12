@@ -20,6 +20,8 @@ const useMe = () => {
     !isLoggedIn || (data.data.grade && data.data.grade >= 7)
   /** 본당 신자 여부 ( 6등급 이하 ) */
   const isParishMember = data.data?.grade && data.data?.grade <= 6
+  /** 단체장 이상인지 여부 ( 1,2,3,4,5등급 ) */
+  const isGroupLeader = data.data?.grade && data.data?.grade <= 4
 
   /** 헌화회 소속인지 여부 */
   const isHeonhwaMember = useMemo(() => {
@@ -72,6 +74,7 @@ const useMe = () => {
     isMyeongdoMember,
     isAdmin,
     isMyeongdoGrade,
+    isGroupLeader,
   }
 }
 

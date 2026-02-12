@@ -2,22 +2,32 @@
 
 import { Box } from '@chakra-ui/react/box'
 
-import BuildingSection from './building-section'
-import { BuildingGroup } from './scheduler.types'
+import {
+  CatechismRoomGroupedType,
+  RoomReservationType,
+} from '@/generated/apis/@types/data-contracts'
+
+import BuildingReservationSection from './building-reservation-section'
 
 interface ReservationSchedulerProps {
-  buildings: BuildingGroup[]
+  rooms: CatechismRoomGroupedType[]
+  reservations: RoomReservationType[]
 }
 
 const ReservationScheduler: React.FC<ReservationSchedulerProps> = ({
-  buildings,
+  rooms,
+  reservations,
 }) => {
   return (
     <Box w="full" bg="common-white">
       <Box minW="full">
         <Box>
-          {buildings.map((building, index) => (
-            <BuildingSection key={index} group={building} />
+          {rooms.map((roomGroup, index) => (
+            <BuildingReservationSection
+              key={index}
+              roomGroup={roomGroup}
+              reservations={reservations}
+            />
           ))}
         </Box>
       </Box>

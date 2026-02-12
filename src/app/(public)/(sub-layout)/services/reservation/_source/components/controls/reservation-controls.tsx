@@ -1,37 +1,59 @@
 'use client'
 
-import { useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { Box } from '@chakra-ui/react/box'
 import { Button, IconButton } from '@chakra-ui/react/button'
 import { Text } from '@chakra-ui/react/text'
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react'
 
-import { addDays, format, isSameDay, startOfToday, subDays } from 'date-fns'
+import {
+  addDays,
+  format,
+  isSameDay,
+  isValid,
+  parse,
+  startOfToday,
+  subDays,
+} from 'date-fns'
 import { ko } from 'date-fns/locale'
 
 import DatePicker from '@/components/ui/date-picker'
 
-const NOW = startOfToday()
+const TODAY = startOfToday()
 
 const ReservationControls: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<Date>(NOW)
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const dateParam = searchParams.get('date')
+  const selectedDate =
+    dateParam && isValid(parse(dateParam, 'yyyy-MM-dd', TODAY)) ?
+      parse(dateParam, 'yyyy-MM-dd', TODAY)
+    : TODAY
+
+  const updateDate = (date: Date) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('date', format(date, 'yyyy-MM-dd'))
+    router.replace(`${pathname}?${params.toString()}`)
+  }
 
   const handlePrevDay = () => {
     const prevDate = subDays(selectedDate, 1)
-    if (prevDate < NOW) return
-    setSelectedDate(prevDate)
+    if (prevDate < TODAY) return
+    updateDate(prevDate)
   }
 
   const handleNextDay = () => {
-    setSelectedDate(addDays(selectedDate, 1))
+    updateDate(addDays(selectedDate, 1))
   }
 
   const handleToday = () => {
-    setSelectedDate(NOW)
+    updateDate(TODAY)
   }
 
-  const isToday = isSameDay(selectedDate, NOW)
+  const isToday = isSameDay(selectedDate, TODAY)
 
   return (
     <Box display="flex" gap="16px" alignItems="center">
@@ -61,7 +83,7 @@ const ReservationControls: React.FC = () => {
 
       <DatePicker
         value={selectedDate}
-        onChange={setSelectedDate}
+        onChange={(date) => date && updateDate(date)}
         variant="icon"
       />
 

@@ -4,19 +4,32 @@ import { UseFormProps, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 import { FORM_MESSAGE } from '@/constants/form/helper-text'
+import { RepeatRoomReservationRepeatTypeEnumType } from '@/generated/apis/@types/data-contracts'
 
 export interface RoomReservationFormDataType {
+  /** 제목 */
   title: string
-  groupName: string
-  startTime: string // "HH:mm"
-  endTime: string // "HH:mm"
+  /** 사용단체명 (Backend: organizationName) */
+  organizationName: string
+  /** 시작 시간 (Backend: startAt) */
+  startAt: string
+  /** 종료 시간 (Backend: endAt) */
+  endAt: string
+  /** 일정 반복 여부 */
   isRecurring?: boolean
-  recurringType?: 'weekly' | 'monthly_date'
-  recurringStartDate?: string
-  recurringEndDate?: string
-  recurringWeekdays?: string[]
-  recurringWeeks?: string[]
-  recurringMonthlyDay?: string
+  /** 반복 유형 (Backend: repeatType) */
+  repeatType?: RepeatRoomReservationRepeatTypeEnumType
+  /** 반복 시작일 (Backend: startDate) */
+  startDate?: string
+  /** 반복 종료일 (Backend: endDate) */
+  endDate?: string
+
+  /** 요일 반복 > 반복 요일 (Backend: weekdays) */
+  weekdays?: string[]
+  /** 요일 반복 > 주차 선택 (Backend: weekOfMonth) */
+  weekOfMonth?: string
+  /** 날짜 반복 > 반복 일자 (Backend: monthDay) */
+  monthDay?: string
 }
 
 export const roomReservationFormSchema: yup.ObjectSchema<RoomReservationFormDataType> =
@@ -25,54 +38,50 @@ export const roomReservationFormSchema: yup.ObjectSchema<RoomReservationFormData
       .string()
       .max(50, '제목은 최대 50자까지 입력 가능합니다')
       .required(FORM_MESSAGE.COMMON.REQUIRED),
-    groupName: yup
+    organizationName: yup
       .string()
       .max(10, '사용단체명은 최대 10자까지 입력 가능합니다')
       .required(FORM_MESSAGE.COMMON.REQUIRED),
-    startTime: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
-    endTime: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
+    startAt: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
+    endAt: yup.string().required(FORM_MESSAGE.COMMON.REQUIRED),
     isRecurring: yup.boolean().optional(),
-    recurringType: yup
+    repeatType: yup
       .string()
       .oneOf(['weekly', 'monthly_date'])
       .when('isRecurring', {
         is: true,
         then: (schema) => schema.required(FORM_MESSAGE.COMMON.REQUIRED),
         otherwise: (schema) => schema.optional(),
-      }) as yup.StringSchema<RoomReservationFormDataType['recurringType']>,
-    recurringStartDate: yup.string().when('isRecurring', {
+      }) as yup.StringSchema<RoomReservationFormDataType['repeatType']>,
+    startDate: yup.string().when('isRecurring', {
       is: true,
       then: (schema) => schema.required(FORM_MESSAGE.COMMON.REQUIRED),
       otherwise: (schema) => schema.optional(),
     }),
-    recurringEndDate: yup.string().when('isRecurring', {
+    endDate: yup.string().when('isRecurring', {
       is: true,
       then: (schema) => schema.required(FORM_MESSAGE.COMMON.REQUIRED),
       otherwise: (schema) => schema.optional(),
     }),
-    recurringWeekdays: yup
+    weekdays: yup
       .array()
       .of(yup.string().required())
-      .when(['isRecurring', 'recurringType'], {
-        is: (isRecurring: boolean, recurringType: string) =>
-          isRecurring && recurringType === 'weekly',
+      .when(['isRecurring', 'repeatType'], {
+        is: (isRecurring: boolean, repeatType: string) =>
+          isRecurring && repeatType === 'weekly',
         then: (schema) =>
           schema.min(1, FORM_MESSAGE.COMMON.REQUIRED).required(),
         otherwise: (schema) => schema.optional(),
       }),
-    recurringWeeks: yup
-      .array()
-      .of(yup.string().required())
-      .when(['isRecurring', 'recurringType'], {
-        is: (isRecurring: boolean, recurringType: string) =>
-          isRecurring && recurringType === 'weekly',
-        then: (schema) =>
-          schema.min(1, FORM_MESSAGE.COMMON.REQUIRED).required(),
-        otherwise: (schema) => schema.optional(),
-      }),
-    recurringMonthlyDay: yup.string().when(['isRecurring', 'recurringType'], {
-      is: (isRecurring: boolean, recurringType: string) =>
-        isRecurring && recurringType === 'monthly_date',
+    weekOfMonth: yup.string().when(['isRecurring', 'repeatType'], {
+      is: (isRecurring: boolean, repeatType: string) =>
+        isRecurring && repeatType === 'weekly',
+      then: (schema) => schema.min(1, FORM_MESSAGE.COMMON.REQUIRED).required(),
+      otherwise: (schema) => schema.optional(),
+    }),
+    monthDay: yup.string().when(['isRecurring', 'repeatType'], {
+      is: (isRecurring: boolean, repeatType: string) =>
+        isRecurring && repeatType === 'monthly_date',
       then: (schema) => schema.required(FORM_MESSAGE.COMMON.REQUIRED),
       otherwise: (schema) => schema.optional(),
     }),
@@ -88,9 +97,9 @@ export const useRoomReservationForm = (
     mode: 'onChange',
     defaultValues: {
       isRecurring: false,
-      recurringType: 'weekly',
-      recurringStartDate: today,
-      recurringEndDate: today,
+      repeatType: 'weekly',
+      startDate: today,
+      endDate: today,
       ...options?.defaultValues,
     },
     ...options,

@@ -1,10 +1,10 @@
 import { ContentType, HttpClient, RequestParams } from '../@http-client'
 import {
   CatechismRoomErrorMessageType,
+  CatechismRoomGroupedType,
   CatechismRoomRequestType,
   CatechismRoomType,
   CommonErrorType,
-  PaginatedCatechismRoomListType,
 } from '../@types/data-contracts'
 import { DeepOmitReadOnly } from '../@types/util-types'
 
@@ -27,19 +27,10 @@ export class CatechismRoomApi<
    * @secure
    */
 
-  catechismRoomList = (variables?: {
-    query?: {
-      /** 페이지당 반환할 결과 수. */
-      limit?: number
-      /** 결과를 반환할 초기 인덱스. */
-      offset?: number
-    }
-    params?: RequestParams
-  }) =>
-    this.request<PaginatedCatechismRoomListType, CommonErrorType>({
+  catechismRoomList = (variables?: { params?: RequestParams }) =>
+    this.request<CatechismRoomGroupedType[], CommonErrorType>({
       path: `/v1/catechism_room/`,
       method: 'GET',
-      query: variables?.query,
       secure: true,
       format: 'json',
       ...variables?.params,

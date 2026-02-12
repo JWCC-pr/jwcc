@@ -1,9 +1,4 @@
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { fetchExtended } from '@/configs/fetch/fetch-extend'
 
@@ -12,7 +7,6 @@ import {
   CommonErrorType,
 } from '../@types/data-contracts'
 import {
-  InfiniteQueryHookParams,
   MutationHookParams,
   Parameter,
   QueryHookParams,
@@ -44,9 +38,6 @@ const isDefined = (v: unknown) => typeof v !== 'undefined'
 export const QUERY_KEY_CATECHISM_ROOM_API = {
   LIST: (variables?: Parameter<typeof catechismRoomApi.catechismRoomList>) =>
     ['CATECHISM_ROOM_LIST', variables].filter(isDefined),
-  LIST_INFINITE: (
-    variables?: Parameter<typeof catechismRoomApi.catechismRoomList>,
-  ) => ['CATECHISM_ROOM_LIST_INFINITE', variables].filter(isDefined),
   CREATE: () => ['CATECHISM_ROOM_CREATE'],
   RETRIEVE: (
     variables?: Parameter<typeof catechismRoomApi.catechismRoomRetrieve>,
@@ -77,47 +68,6 @@ export const useCatechismRoomListQuery = <
   return useQuery({
     queryKey,
     queryFn: () => catechismRoomApi.catechismRoomList(params?.variables),
-    ...params?.options,
-  })
-}
-
-/**
- * No description    *      * @tags catechism_room
- * @name CatechismRoomList
- * @summary 교리실 목록 조회
- * @request GET:/v1/catechism_room/
- * @secure    */
-export const useCatechismRoomListInfiniteQuery = <
-  TData = InfiniteData<
-    RequestFnReturn<typeof catechismRoomApi.catechismRoomList>,
-    Parameter<typeof catechismRoomApi.catechismRoomList>
-  >,
->(
-  params?: InfiniteQueryHookParams<
-    typeof catechismRoomApi.catechismRoomList,
-    CommonErrorType,
-    TData
-  >,
-) => {
-  const queryKey = QUERY_KEY_CATECHISM_ROOM_API.LIST_INFINITE(params?.variables)
-  return useInfiniteQuery({
-    queryKey,
-    initialPageParam: null,
-    queryFn: ({ pageParam }) => {
-      const offset = pageParam ?? params?.variables?.query?.offset ?? 0
-      return catechismRoomApi.catechismRoomList({
-        ...params?.variables,
-        query: { ...params?.variables?.query, offset },
-      })
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage?.isNext) return null
-      const fetchedLength = allPages?.length || 0
-      const initialOffset = params?.variables?.query?.offset || 0
-      const limit = params?.variables?.query?.limit || 0
-
-      return initialOffset + fetchedLength * limit
-    },
     ...params?.options,
   })
 }

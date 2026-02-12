@@ -1,3 +1,5 @@
+'use client'
+
 import { Box } from '@chakra-ui/react/box'
 import { Tabs } from '@chakra-ui/react/tabs'
 
@@ -7,7 +9,7 @@ import { FormHelper } from '@/components/form-helper'
 import Select from '@/components/select'
 import DatePicker from '@/components/ui/date-picker'
 
-import { RoomReservationFormDataType } from '../../../hooks/useRoomReservationForm'
+import { RoomReservationFormDataType } from '../../hooks/useRoomReservationForm'
 import WeekdayMultiSelect from './weekday-multi-select'
 
 const TAB_VALUES = {
@@ -15,7 +17,7 @@ const TAB_VALUES = {
   MONTHLY_DATE: 'monthly_date',
 } as const
 
-const RoomRevervationFormViewRecurring: React.FC = () => {
+const RecurringFormView: React.FC = () => {
   const { control } = useFormContext<RoomReservationFormDataType>()
   const { errors } = useFormState({ control })
 
@@ -23,7 +25,7 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
     <Box py="12px">
       <Controller
         control={control}
-        name="recurringType"
+        name="repeatType"
         render={({ field }) => (
           <Tabs.Root
             value={field.value}
@@ -45,15 +47,19 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
               flexDirection="column"
               gap="10px"
             >
-              <Box display="flex" gap="10px">
+              <Box
+                display="flex"
+                gap="10px"
+                flexDirection={['column', 'row', 'row']}
+              >
                 <FormHelper
-                  w="362px"
+                  w={['full', '362px']}
                   label="반복 시작일"
-                  message={{ error: errors.recurringStartDate?.message }}
+                  message={{ error: errors.startDate?.message }}
                 >
                   <Controller
                     control={control}
-                    name="recurringStartDate"
+                    name="startDate"
                     render={({ field: dateField }) => (
                       <DatePicker
                         w="full"
@@ -73,13 +79,13 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
                   />
                 </FormHelper>
                 <FormHelper
-                  w="362px"
+                  w={['full', '362px']}
                   label="반복 종료일"
-                  message={{ error: errors.recurringEndDate?.message }}
+                  message={{ error: errors.endDate?.message }}
                 >
                   <Controller
                     control={control}
-                    name="recurringEndDate"
+                    name="endDate"
                     render={({ field: dateField }) => (
                       <DatePicker
                         w="full"
@@ -100,15 +106,19 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
                 </FormHelper>
               </Box>
 
-              <Box display="flex" gap="10px">
+              <Box
+                display="flex"
+                gap="10px"
+                flexDirection={['column', 'row', 'row']}
+              >
                 <FormHelper
-                  w="362px"
+                  w={['full', '362px']}
                   label="반복 요일"
-                  message={{ error: errors.recurringWeekdays?.message }}
+                  message={{ error: errors.weekdays?.message }}
                 >
                   <Controller
                     control={control}
-                    name="recurringWeekdays"
+                    name="weekdays"
                     render={({ field: weekdaysField }) => (
                       <WeekdayMultiSelect
                         value={weekdaysField.value || []}
@@ -119,13 +129,13 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
                   />
                 </FormHelper>
                 <FormHelper
-                  w="362px"
+                  w={['full', '362px']}
                   label="주차 선택"
-                  message={{ error: errors.recurringWeeks?.message }}
+                  message={{ error: errors.weekOfMonth?.message }}
                 >
                   <Select
                     size="lg"
-                    name="recurringWeeks"
+                    name="weekOfMonth"
                     positioning={{ sameWidth: true }}
                     contentProps={{ zIndex: 'max' }}
                     options={[
@@ -134,7 +144,6 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
                       { label: '2주차', value: '2' },
                       { label: '3주차', value: '3' },
                       { label: '4주차', value: '4' },
-                      { label: '5주차', value: '5' },
                     ]}
                   />
                 </FormHelper>
@@ -147,15 +156,19 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
               flexDirection="column"
               gap="10px"
             >
-              <Box display="flex" gap="10px">
+              <Box
+                display="flex"
+                gap="10px"
+                flexDirection={['column', 'row', 'row']}
+              >
                 <FormHelper
-                  w="362px"
+                  w={['full', '362px']}
                   label="반복 시작일"
-                  message={{ error: errors.recurringStartDate?.message }}
+                  message={{ error: errors.startDate?.message }}
                 >
                   <Controller
                     control={control}
-                    name="recurringStartDate"
+                    name="startDate"
                     render={({ field: dateField }) => (
                       <DatePicker
                         w="full"
@@ -175,13 +188,13 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
                   />
                 </FormHelper>
                 <FormHelper
-                  w="362px"
+                  w={['full', '362px']}
                   label="반복 종료일"
-                  message={{ error: errors.recurringEndDate?.message }}
+                  message={{ error: errors.endDate?.message }}
                 >
                   <Controller
                     control={control}
-                    name="recurringEndDate"
+                    name="endDate"
                     render={({ field: dateField }) => (
                       <DatePicker
                         w="full"
@@ -203,13 +216,13 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
               </Box>
 
               <FormHelper
-                w="362px"
+                w={['full', '362px']}
                 label="반복 일자"
-                message={{ error: errors.recurringMonthlyDay?.message }}
+                message={{ error: errors.monthDay?.message }}
               >
                 <Select
                   size="lg"
-                  name="recurringMonthlyDay"
+                  name="monthDay"
                   positioning={{ sameWidth: true }}
                   contentProps={{ zIndex: 'max' }}
                   options={[
@@ -255,4 +268,4 @@ const RoomRevervationFormViewRecurring: React.FC = () => {
   )
 }
 
-export default RoomRevervationFormViewRecurring
+export default RecurringFormView

@@ -21,13 +21,13 @@ interface Option {
 }
 
 const WEEKDAY_OPTIONS: Option[] = [
-  { label: '월', value: 'monday' },
-  { label: '화', value: 'tuesday' },
-  { label: '수', value: 'wednesday' },
-  { label: '목', value: 'thursday' },
-  { label: '금', value: 'friday' },
-  { label: '토', value: 'saturday' },
-  { label: '일', value: 'sunday' },
+  { label: '월', value: '0' },
+  { label: '화', value: '1' },
+  { label: '수', value: '2' },
+  { label: '목', value: '3' },
+  { label: '금', value: '4' },
+  { label: '토', value: '5' },
+  { label: '일', value: '6' },
 ]
 
 const getStyles = (state: {
@@ -42,8 +42,7 @@ const getStyles = (state: {
   return { backgroundColor: '#FFFFFF' }
 }
 
-// input 필드 내부의 선택된 항목에 표시될 커스텀 컴포넌트
-const MultiValue = (props: MultiValueProps<Option, true>) => {
+const MultiValueComp = (props: MultiValueProps<Option, true>) => {
   const { data, innerProps, removeProps } = props
 
   return (
@@ -67,8 +66,7 @@ const MultiValue = (props: MultiValueProps<Option, true>) => {
   )
 }
 
-/** 드롭다운 화살표 커스텀 컴포넌트 */
-const DropdownIndicator = (props: DropdownIndicatorProps<Option, true>) => {
+const DropdownIndicatorComp = (props: DropdownIndicatorProps<Option, true>) => {
   return (
     <components.DropdownIndicator {...props}>
       <CaretDownIcon size="20px" />
@@ -77,11 +75,8 @@ const DropdownIndicator = (props: DropdownIndicatorProps<Option, true>) => {
 }
 
 interface WeekdayMultiSelectProps {
-  /** 선택된 값 (string[]) */
   value?: string[]
-  /** 값 변경 핸들러 */
   onChange?: (value: string[]) => void
-  /** blur 핸들러 */
   onBlur?: () => void
 }
 
@@ -90,7 +85,6 @@ const WeekdayMultiSelect: React.FC<WeekdayMultiSelectProps> = ({
   onChange,
   onBlur,
 }) => {
-  // string[]을 MultiValue<Option>으로 변환
   const selectedValues = useMemo<MultiValue<Option>>(() => {
     return value
       .map((val) => WEEKDAY_OPTIONS.find((opt) => opt.value === val))
@@ -144,7 +138,6 @@ const WeekdayMultiSelect: React.FC<WeekdayMultiSelectProps> = ({
     )
   }
 
-  // 커스텀 Option 컴포넌트 - 체크박스 클릭 시 메뉴가 닫히지 않도록 처리
   const CustomOption = (props: OptionProps<Option, true>) => {
     const { data, innerRef, innerProps } = props
 
@@ -160,13 +153,10 @@ const WeekdayMultiSelect: React.FC<WeekdayMultiSelectProps> = ({
               e.target.closest('input[type="checkbox"]') !== null ||
               e.target.closest('[role="checkbox"]') !== null
 
-            // 체크박스 클릭 시에는 직접 처리하고 기본 옵션 클릭은 방지
             if (isCheckboxClick) {
               e.stopPropagation()
               handleOptionChange(data)
-            }
-            // 체크박스가 아닌 영역 클릭 시에는 기본 동작 유지
-            else {
+            } else {
               innerProps?.onClick?.(e)
             }
           },
@@ -193,12 +183,11 @@ const WeekdayMultiSelect: React.FC<WeekdayMultiSelectProps> = ({
       options={WEEKDAY_OPTIONS}
       formatOptionLabel={formatOptionLabel}
       components={{
-        MultiValue,
+        MultiValue: MultiValueComp,
         Option: CustomOption,
-        DropdownIndicator,
+        DropdownIndicator: DropdownIndicatorComp,
       }}
       styles={{
-        // control 커스텀
         control: (provided) => ({
           ...provided,
           border: '1px solid #EAEBEC',
@@ -206,50 +195,30 @@ const WeekdayMultiSelect: React.FC<WeekdayMultiSelectProps> = ({
           minHeight: '48px',
           boxShadow: 'none',
           width: '100%',
-          ':hover': {
-            border: '1px solid #EAEBEC',
-          },
+          ':hover': { border: '1px solid #EAEBEC' },
         }),
-        // container 커스텀 (전체 너비 설정)
-        container: (provided) => ({
-          ...provided,
-          width: '100%',
-        }),
-        // option 커스텀
+        container: (provided) => ({ ...provided, width: '100%' }),
         option: (provided, state) => ({
           ...provided,
           ...getStyles(state),
           padding: '0px',
           cursor: 'pointer',
-          ':active': {
-            backgroundColor: getStyles(state).backgroundColor,
-          },
+          ':active': { backgroundColor: getStyles(state).backgroundColor },
         }),
-        // 선택한 요소들이 표시되는 컨테이너 커스텀
         valueContainer: (provided) => ({
           ...provided,
           padding: '3px 8px',
           gap: '4px',
         }),
-        // 구분선 커스텀
-        indicatorSeparator: () => ({
-          display: 'none',
-        }),
-        // 드롭다운 화살표 커스텀 (hover 애니메이션 제거)
+        indicatorSeparator: () => ({ display: 'none' }),
         dropdownIndicator: (provided) => ({
           ...provided,
           color: '#9FA4A9',
           padding: '0 12px 0 8px',
           cursor: 'pointer',
-          ':hover': {
-            color: '#9FA4A9', // hover 시에도 색상 변경 없음
-          },
+          ':hover': { color: '#9FA4A9' },
         }),
-        // 메뉴 z-index 설정
-        menu: (provided) => ({
-          ...provided,
-          zIndex: 2000,
-        }),
+        menu: (provided) => ({ ...provided, zIndex: 2000 }),
       }}
     />
   )

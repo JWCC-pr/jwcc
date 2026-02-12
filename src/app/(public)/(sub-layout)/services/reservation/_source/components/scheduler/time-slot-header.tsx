@@ -1,28 +1,22 @@
 'use client'
 
+import React from 'react'
+
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
-import { formatTime } from '../../utils/format-time'
-import { SCHEDULER_CONSTANTS } from './scheduler.constants'
+import { SCHEDULER_CONFIG } from '../../constants/scheduler'
+import { formatTime } from '../../utils/time'
 
 /** 30분 단위 시간 배열 생성 (00:00 ~ 24:00) */
-const timeLabels = Array.from({ length: 24 }, (_, i) => {
-  return [
-    {
-      hour: i,
-      minute: 0,
-    },
-    {
-      hour: i,
-      minute: 30,
-    },
-  ]
-}).flat()
+const TIME_LABELS = Array.from({ length: 24 }, (_, i) => [
+  { hour: i, minute: 0 },
+  { hour: i, minute: 30 },
+]).flat()
 
-const SchedulerHeader: React.FC = () => {
+const TimeSlotHeader: React.FC = () => {
   const { COL_WIDTH, COL_HEIGHT, ROOM_COL_WIDTH, HEADER_HEIGHT } =
-    SCHEDULER_CONSTANTS
+    SCHEDULER_CONFIG
 
   return (
     <Box
@@ -38,7 +32,7 @@ const SchedulerHeader: React.FC = () => {
         <Box
           position="sticky"
           left={0}
-          zIndex={40}
+          zIndex="docked"
           bg="common-white"
           display="flex"
         >
@@ -70,9 +64,8 @@ const SchedulerHeader: React.FC = () => {
           </Box>
         </Box>
 
-        {/* Scrollable Time Labels */}
         <Box display="flex">
-          {timeLabels.map((time, index) => (
+          {TIME_LABELS.map((time, index) => (
             <Box
               key={index}
               minW={`${COL_WIDTH}px`}
@@ -94,4 +87,4 @@ const SchedulerHeader: React.FC = () => {
   )
 }
 
-export default SchedulerHeader
+export default TimeSlotHeader

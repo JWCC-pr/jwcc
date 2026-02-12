@@ -14,6 +14,9 @@ interface AlertDialogProps extends Omit<Dialog.RootProps, 'children'> {
 
   descriptionProps?: Dialog.DescriptionProps
   contentProps?: Dialog.ContentProps
+
+  backdropZIndex?: number
+  positionerZIndex?: number
 }
 
 const AlertDialog: React.FC<AlertDialogProps> = ({
@@ -23,6 +26,7 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
   buttons,
   descriptionProps,
   contentProps,
+  backdropZIndex,
   ...props
 }) => {
   return (
@@ -30,8 +34,8 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
       {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
 
       <Portal>
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Backdrop {...(backdropZIndex && { zIndex: backdropZIndex })} />
+        <Dialog.Positioner {...(backdropZIndex && { zIndex: backdropZIndex })}>
           <Dialog.Content
             display="flex"
             flexDirection="column"

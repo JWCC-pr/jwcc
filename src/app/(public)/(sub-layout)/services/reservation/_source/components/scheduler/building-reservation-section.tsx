@@ -5,15 +5,23 @@ import { useRef, useState } from 'react'
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
-import RoomRow from './room-row'
-import SchedulerHeader from './scheduler-header'
-import { BuildingGroup } from './scheduler.types'
+import {
+  CatechismRoomGroupedType,
+  RoomReservationType,
+} from '@/generated/apis/@types/data-contracts'
 
-interface BuildingSectionProps {
-  group: BuildingGroup
+import RoomReservationRow from './room-reservation-row'
+import TimeSlotHeader from './time-slot-header'
+
+interface BuildingReservationSectionProps {
+  roomGroup: CatechismRoomGroupedType
+  reservations: RoomReservationType[]
 }
 
-const BuildingSection: React.FC<BuildingSectionProps> = ({ group }) => {
+const BuildingReservationSection: React.FC<BuildingReservationSectionProps> = ({
+  roomGroup,
+  reservations,
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -26,7 +34,7 @@ const BuildingSection: React.FC<BuildingSectionProps> = ({ group }) => {
   return (
     <Box mb="40px">
       <Text textStyle="pre-heading-3" color="grey.800" mb="12px">
-        {group.buildingName}
+        {roomGroup.building}
       </Text>
 
       <Box display="flex" flexFlow="column">
@@ -49,9 +57,13 @@ const BuildingSection: React.FC<BuildingSectionProps> = ({ group }) => {
           }}
         >
           <Box minW="fit-content">
-            <SchedulerHeader />
-            {group.rooms.map((room) => (
-              <RoomRow key={room.id} room={room} />
+            <TimeSlotHeader />
+            {roomGroup.rooms.map((room) => (
+              <RoomReservationRow
+                key={room.roomId}
+                room={room}
+                reservations={reservations}
+              />
             ))}
           </Box>
         </Box>
@@ -60,4 +72,4 @@ const BuildingSection: React.FC<BuildingSectionProps> = ({ group }) => {
   )
 }
 
-export default BuildingSection
+export default BuildingReservationSection

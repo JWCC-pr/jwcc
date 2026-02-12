@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { fetchExtended } from '@/configs/fetch/fetch-extend'
 
@@ -6,7 +6,12 @@ import {
   CommonErrorType,
   RepeatRoomReservationErrorMessageType,
 } from '../@types/data-contracts'
-import { MutationHookParams } from '../@types/react-query-type'
+import {
+  MutationHookParams,
+  Parameter,
+  QueryHookParams,
+  RequestFnReturn,
+} from '../@types/react-query-type'
 import { RepeatRoomReservationApi } from './RepeatRoomReservation.api'
 
 /**
@@ -32,11 +37,17 @@ const isDefined = (v: unknown) => typeof v !== 'undefined'
  */
 export const QUERY_KEY_REPEAT_ROOM_RESERVATION_API = {
   CREATE: () => ['REPEAT_ROOM_RESERVATION_CREATE'],
+  RETRIEVE: (
+    variables?: Parameter<
+      typeof repeatRoomReservationApi.repeatRoomReservationRetrieve
+    >,
+  ) => ['REPEAT_ROOM_RESERVATION_RETRIEVE', variables].filter(isDefined),
+  UPDATE: () => ['REPEAT_ROOM_RESERVATION_UPDATE'],
   DESTROY: () => ['REPEAT_ROOM_RESERVATION_DESTROY'],
 }
 
 /**
- * No description
+ * @description `repeatType=weekly` 사용 시 `weekdays`는 0(월)~6(일) 숫자 배열입니다. `weekOfMonth`는 1~4주차 지정값이며, 매주 반복이면 `null` 또는 생략합니다. `repeatType=monthlyDate` 사용 시 `monthDay`를 1~31로 전달합니다.
  *
  * @tags repeat_room_reservation
  * @name RepeatRoomReservationCreate
@@ -54,6 +65,59 @@ export const useRepeatRoomReservationCreateMutation = (
   return useMutation({
     mutationKey,
     mutationFn: repeatRoomReservationApi.repeatRoomReservationCreate,
+    ...params?.options,
+  })
+}
+
+/**
+ * No description
+ *
+ * @tags repeat_room_reservation
+ * @name RepeatRoomReservationRetrieve
+ * @request GET:/v1/repeat_room_reservation/{id}/
+ * @secure    */
+
+export const useRepeatRoomReservationRetrieveQuery = <
+  TData = RequestFnReturn<
+    typeof repeatRoomReservationApi.repeatRoomReservationRetrieve
+  >,
+>(
+  params: QueryHookParams<
+    typeof repeatRoomReservationApi.repeatRoomReservationRetrieve,
+    { error: CommonErrorType },
+    TData
+  >,
+) => {
+  const queryKey = QUERY_KEY_REPEAT_ROOM_RESERVATION_API.RETRIEVE(
+    params.variables,
+  )
+  return useQuery({
+    queryKey,
+    queryFn: () =>
+      repeatRoomReservationApi.repeatRoomReservationRetrieve(params.variables),
+    ...params?.options,
+  })
+}
+
+/**
+ * No description
+ *
+ * @tags repeat_room_reservation
+ * @name RepeatRoomReservationUpdate
+ * @summary 교리실 반복 예약 수정
+ * @request PUT:/v1/repeat_room_reservation/{id}/
+ * @secure  */
+
+export const useRepeatRoomReservationUpdateMutation = (
+  params: MutationHookParams<
+    typeof repeatRoomReservationApi.repeatRoomReservationUpdate,
+    { error: RepeatRoomReservationErrorMessageType | CommonErrorType }
+  >,
+) => {
+  const mutationKey = QUERY_KEY_REPEAT_ROOM_RESERVATION_API.UPDATE()
+  return useMutation({
+    mutationKey,
+    mutationFn: repeatRoomReservationApi.repeatRoomReservationUpdate,
     ...params?.options,
   })
 }
