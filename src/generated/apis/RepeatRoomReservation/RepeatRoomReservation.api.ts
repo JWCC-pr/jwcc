@@ -17,7 +17,7 @@ export class RepeatRoomReservationApi<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * No description
+   * @description `repeatType=weekly` 사용 시 `weekdays`는 0(월)~6(일) 숫자 배열입니다. `weekOfMonth`는 1~4주차 지정값이며, 매주 반복이면 `null` 또는 생략합니다. `repeatType=monthlyDate` 사용 시 `monthDay`를 1~31로 전달합니다.
    *
    * @tags repeat_room_reservation
    * @name RepeatRoomReservationCreate
@@ -36,6 +36,51 @@ export class RepeatRoomReservationApi<
     >({
       path: `/v1/repeat_room_reservation/`,
       method: 'POST',
+      body: variables.data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...variables.params,
+    }) /**
+   * No description
+   *
+   * @tags repeat_room_reservation
+   * @name RepeatRoomReservationRetrieve
+   * @request GET:/v1/repeat_room_reservation/{id}/
+   * @secure
+   */
+
+  repeatRoomReservationRetrieve = (variables: {
+    id: number
+    params?: RequestParams
+  }) =>
+    this.request<RepeatRoomReservationType, CommonErrorType>({
+      path: `/v1/repeat_room_reservation/${variables.id}/`,
+      method: 'GET',
+      secure: true,
+      format: 'json',
+      ...variables.params,
+    }) /**
+   * No description
+   *
+   * @tags repeat_room_reservation
+   * @name RepeatRoomReservationUpdate
+   * @summary 교리실 반복 예약 수정
+   * @request PUT:/v1/repeat_room_reservation/{id}/
+   * @secure
+   */
+
+  repeatRoomReservationUpdate = (variables: {
+    id: number
+    data: DeepOmitReadOnly<RepeatRoomReservationRequestType>
+    params?: RequestParams
+  }) =>
+    this.request<
+      RepeatRoomReservationType,
+      RepeatRoomReservationErrorMessageType | CommonErrorType
+    >({
+      path: `/v1/repeat_room_reservation/${variables.id}/`,
+      method: 'PUT',
       body: variables.data,
       secure: true,
       type: ContentType.Json,

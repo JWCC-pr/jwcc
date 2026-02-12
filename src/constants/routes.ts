@@ -129,8 +129,15 @@ export const ROUTES = {
   SERVICES_OFFICE: `/services/office`,
   /** 예비신자 안내 */
   SERVICES_CATECHUMEN: `/services/catechumen`,
-  /** 혼인성사 예약 안내 */
-  SERVICES_MARRIAGE: `/services/marriage`,
   /** 전입 교우 안내 */
   SERVICES_TRANSFER: `/services/transfers`,
+
+  /** 교리실 예약 (목록/달력) */
+  SERVICES_RESERVATION: `/services/reservation`,
+  // /** 교리실 예약 상세 */
+  // SERVICES_RESERVATION_DETAIL: (id: number) => `/services/reservation/${id}`,
+  // /** 교리실 예약 신청 */
+  // SERVICES_RESERVATION_CREATE: `/services/reservation/create`,
+  // /** 교리실 예약 수정 */
+  // SERVICES_RESERVATION_EDIT: (id: number) => `/services/reservation/${id}/edit`,
 } as const

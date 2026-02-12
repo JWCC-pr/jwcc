@@ -341,8 +341,11 @@ export interface CatechismRoomType {
   name: string
   /** 위치 */
   location?: string
-  /** 설명 */
-  description?: string
+  /**
+   * 건물명
+   * @maxLength 50
+   */
+  building?: string
   /**
    * 생성일시
    * @format date-time
@@ -353,6 +356,40 @@ export interface CatechismRoomType {
    * @format date-time
    */
   readonly updatedAt: string
+}
+
+export interface CatechismRoomErrorMessageType {
+  nonField?: string[]
+  name?: string[]
+  location?: string[]
+  building?: string[]
+}
+
+export interface CatechismRoomGroupedType {
+  building: string
+  rooms: CatechismRoomItemType[]
+}
+
+export interface CatechismRoomItemType {
+  roomId: number
+  name: string
+  location: string
+}
+
+export interface CatechismRoomRequestType {
+  /**
+   * 교리실명
+   * @minLength 1
+   * @maxLength 50
+   */
+  name: string
+  /** 위치 */
+  location?: string
+  /**
+   * 건물명
+   * @maxLength 50
+   */
+  building?: string
 }
 
 export interface CommonErrorType {
@@ -405,7 +442,7 @@ export interface DepartmentBoardType {
   /** 본문 */
   body: string
   /** 고정 여부 */
-  isPinned?: boolean
+  isFixed?: boolean
   /** 비공개 여부 */
   isSecret?: boolean
   /** 이미지 */
@@ -531,7 +568,7 @@ export interface DepartmentBoardErrorMessageType {
   subDepartment?: string[]
   title?: string[]
   body?: string[]
-  isPinned?: string[]
+  isFixed?: string[]
   isSecret?: string[]
   imageSet?: string[]
   fileSet?: string[]
@@ -613,7 +650,7 @@ export interface DepartmentBoardRequestType {
    */
   body: string
   /** 고정 여부 */
-  isPinned?: boolean
+  isFixed?: boolean
   /** 비공개 여부 */
   isSecret?: boolean
   /** 이미지 */
@@ -1045,12 +1082,6 @@ export interface PaginatedBoardListType {
   count?: number
   isNext?: boolean
   results?: BoardType[]
-}
-
-export interface PaginatedCatechismRoomListType {
-  count?: number
-  isNext?: boolean
-  results?: CatechismRoomType[]
 }
 
 export interface PaginatedDepartmentBoardCommentListType {
@@ -1796,8 +1827,7 @@ export interface ReligiousRequestType {
 
 export interface RepeatRoomReservationType {
   readonly id: number
-  /** 교리실 */
-  room: number
+  roomId: number
   /**
    * 예약 제목
    * @maxLength 50
@@ -1808,6 +1838,11 @@ export interface RepeatRoomReservationType {
    * @maxLength 10
    */
   userName?: string
+  /**
+   * 사용단체명
+   * @maxLength 50
+   */
+  organizationName?: string
   /**
    * 반복 유형
    * * `weekly` - 요일 반복
@@ -1834,18 +1869,18 @@ export interface RepeatRoomReservationType {
    * @format time
    */
   endAt: string
-  /** 반복 요일 */
-  weekdays?: any
+  /** 요일 반복 값. 0=월, 1=화, 2=수, 3=목, 4=금, 5=토, 6=일 */
+  weekdays?: number[]
   /**
-   * 반복 주차
-   * @min 0
-   * @max 32767
+   * 월별 n주차 반복에서만 사용합니다. 매주 반복이면 null 또는 생략하세요.
+   * @min 1
+   * @max 4
    */
   weekOfMonth?: number | null
   /**
-   * 반복 일자
-   * @min 0
-   * @max 32767
+   * 날짜 반복(monthlyDate)일 때 사용할 일자(1~31)
+   * @min 1
+   * @max 31
    */
   monthDay?: number | null
   readonly createdBy: number
@@ -1854,9 +1889,10 @@ export interface RepeatRoomReservationType {
 
 export interface RepeatRoomReservationErrorMessageType {
   nonField?: string[]
-  room?: string[]
+  roomId?: string[]
   title?: string[]
   userName?: string[]
+  organizationName?: string[]
   repeatType?: string[]
   startDate?: string[]
   endDate?: string[]
@@ -1868,8 +1904,7 @@ export interface RepeatRoomReservationErrorMessageType {
 }
 
 export interface RepeatRoomReservationRequestType {
-  /** 교리실 */
-  room: number
+  roomId: number
   /**
    * 예약 제목
    * @minLength 1
@@ -1882,6 +1917,11 @@ export interface RepeatRoomReservationRequestType {
    * @maxLength 10
    */
   userName?: string
+  /**
+   * 사용단체명
+   * @maxLength 50
+   */
+  organizationName?: string
   /**
    * 반복 유형
    * * `weekly` - 요일 반복
@@ -1908,29 +1948,27 @@ export interface RepeatRoomReservationRequestType {
    * @format time
    */
   endAt: string
-  /** 반복 요일 */
-  weekdays?: any
+  /** 요일 반복 값. 0=월, 1=화, 2=수, 3=목, 4=금, 5=토, 6=일 */
+  weekdays?: number[]
   /**
-   * 반복 주차
-   * @min 0
-   * @max 32767
+   * 월별 n주차 반복에서만 사용합니다. 매주 반복이면 null 또는 생략하세요.
+   * @min 1
+   * @max 4
    */
   weekOfMonth?: number | null
   /**
-   * 반복 일자
-   * @min 0
-   * @max 32767
+   * 날짜 반복(monthlyDate)일 때 사용할 일자(1~31)
+   * @min 1
+   * @max 31
    */
   monthDay?: number | null
 }
 
 export interface RoomReservationType {
   readonly id: number
-  /** 교리실 */
-  room: number
+  roomId: number
   readonly roomName: string
-  /** 반복 예약 */
-  readonly repeat: number | null
+  readonly repeatId: number
   /**
    * 예약 제목
    * @maxLength 50
@@ -1941,6 +1979,11 @@ export interface RoomReservationType {
    * @maxLength 10
    */
   userName?: string
+  /**
+   * 사용단체명
+   * @maxLength 50
+   */
+  organizationName?: string
   /**
    * 예약 날짜
    * @format date
@@ -1972,17 +2015,17 @@ export interface RoomReservationType {
 
 export interface RoomReservationErrorMessageType {
   nonField?: string[]
-  room?: string[]
+  roomId?: string[]
   title?: string[]
   userName?: string[]
+  organizationName?: string[]
   date?: string[]
   startAt?: string[]
   endAt?: string[]
 }
 
 export interface RoomReservationRequestType {
-  /** 교리실 */
-  room: number
+  roomId: number
   /**
    * 예약 제목
    * @minLength 1
@@ -1995,6 +2038,11 @@ export interface RoomReservationRequestType {
    * @maxLength 10
    */
   userName?: string
+  /**
+   * 사용단체명
+   * @maxLength 50
+   */
+  organizationName?: string
   /**
    * 예약 날짜
    * @format date

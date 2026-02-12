@@ -20,7 +20,10 @@ import {
 import { useDepartmentBoardListQuery } from '@/generated/apis/DepartmentBoard/DepartmentBoard.query'
 import useMe from '@/hooks/useMe'
 
-const LIMIT = 10
+/** 고정 공지사항 */
+const FIXED_LIMIT = 5
+/** 화면에 보여질 총 게시글 수 */
+const TOTAL_VIEW_LIMIT = 15
 
 interface DepartmentBoardTableSectionProps {
   departmentId: number
@@ -44,7 +47,7 @@ const columns: TableColumn<DepartmentBoardType>[] = [
             {board.subDepartmentInfo.name}
           </Badge>
           <Box display="flex" gap="6px" alignItems="center">
-            {board.isPinned && (
+            {board.isFixed && (
               <Box
                 flexShrink="0"
                 display="flex"
@@ -142,38 +145,61 @@ const DepartmentBoardTableSection: React.FC<
   }
 
   const { isParishMember } = useMe()
-  const { data: boards } = useDepartmentBoardListQuery({
+  const { data: fixedBoards } = useDepartmentBoardListQuery({
     options: {
       enabled: !!isParishMember,
     },
     variables: {
       query: {
         department: departmentId,
-        offset: (page - 1) * LIMIT,
-        limit: LIMIT,
+        offset: 0,
+        limit: FIXED_LIMIT,
         ordering: [ordering],
         search,
         sub_department: subDepartment,
+        is_fixed: true,
       },
     },
   })
 
-  // FIXME: 스켈레톤 UI, 빈 데이터 UI 추가
+  const fixedCount = fixedBoards?.results?.length ?? 0
+  const limit = TOTAL_VIEW_LIMIT - fixedCount
+
+  const { data: boards } = useDepartmentBoardListQuery({
+    options: {
+      enabled: !!isParishMember && !!fixedBoards,
+    },
+    variables: {
+      query: {
+        department: departmentId,
+        offset: (page - 1) * limit,
+        limit: limit,
+        ordering: [ordering],
+        search,
+        sub_department: subDepartment,
+        is_fixed: false,
+      },
+    },
+  })
+
+  if (!fixedBoards) return
   if (!boards) return
-  if (!boards.results) return
+  if (!fixedBoards.results) return
+
+  const totalData = [...(fixedBoards.results ?? []), ...(boards.results ?? [])]
 
   return (
     <Table
       columns={columns}
-      data={boards.results}
+      data={totalData}
       getRowKey={(board) => board.id}
       getRowProps={(notice) => ({
-        bgColor: notice.isPinned ? 'primary.1' : 'grey.0',
+        bgColor: notice.isFixed ? 'primary.1' : 'grey.0',
       })}
       onRowClick={handleClick}
       pagination={{
         totalCount: boards.count ?? 0,
-        pageSize: LIMIT,
+        pageSize: limit,
         currentPage: page,
         onPageChange: handlePageChange,
       }}

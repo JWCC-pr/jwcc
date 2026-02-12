@@ -108,6 +108,10 @@ export class RoomReservationApi<
   roomReservationUpdate = (variables: {
     id: number
     data: DeepOmitReadOnly<RoomReservationRequestType>
+    query?: {
+      /** all: 해당 날짜 이후 반복 예약 전체 수정 */
+      scope?: string
+    }
     params?: RequestParams
   }) =>
     this.request<
@@ -116,6 +120,7 @@ export class RoomReservationApi<
     >({
       path: `/v1/room_reservation/${variables.id}/`,
       method: 'PUT',
+      query: variables.query,
       body: variables.data,
       secure: true,
       type: ContentType.Json,
@@ -133,11 +138,16 @@ export class RoomReservationApi<
 
   roomReservationDestroy = (variables: {
     id: number
+    query?: {
+      /** all: 해당 날짜 이후 반복 예약 전체 삭제 */
+      scope?: string
+    }
     params?: RequestParams
   }) =>
     this.request<void, CommonErrorType>({
       path: `/v1/room_reservation/${variables.id}/`,
       method: 'DELETE',
+      query: variables.query,
       secure: true,
       ...variables.params,
     })

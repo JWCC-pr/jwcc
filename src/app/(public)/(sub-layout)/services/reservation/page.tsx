@@ -1,15 +1,15 @@
-import { Metadata, NextPage } from 'next'
+import type { Metadata, NextPage } from 'next'
 
 import { getSharedMetadata } from '@/utils/metadata/shared-metadata'
 
-import ServicesOfficePage from './_source/components/services-marriage-page'
+import ReservationPage from './_source/components/reservation-page'
 
 export const metadata: Metadata = getSharedMetadata({
-  title: '혼인성사 안내',
+  title: '교리실 예약',
 })
 
 const Page: NextPage = () => {
-  return <ServicesOfficePage />
+  return <ReservationPage />
 }
 
 export default Page

@@ -156,7 +156,8 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isScrolled }) => {
 
                               const shouldShowParishMemberToast =
                                 isNotParishMember &&
-                                subItem.href.includes('/department')
+                                (subItem.href.includes('/department') ||
+                                  subItem.href.includes('/reservation'))
 
                               return (
                                 <Link

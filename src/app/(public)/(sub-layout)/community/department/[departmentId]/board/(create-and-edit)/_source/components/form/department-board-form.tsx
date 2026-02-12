@@ -36,7 +36,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
       content: initialData?.content ?? '',
       subDepartment: initialData?.subDepartment ?? undefined,
       fileSet: initialData?.fileSet ?? [],
-      isPinned: Boolean(initialData?.isPinned),
+      isFixed: Boolean(initialData?.isFixed),
       isSecret: Boolean(initialData?.isSecret),
     },
   })
@@ -60,7 +60,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
             body: data.content,
             subDepartment: data.subDepartment,
             fileSet: data.fileSet,
-            isPinned: data.isPinned,
+            isFixed: data.isFixed,
             isSecret: data.isSecret,
           },
         })
@@ -75,7 +75,7 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
             body: data.content,
             subDepartment: data.subDepartment,
             fileSet: data.fileSet,
-            isPinned: data.isPinned,
+            isFixed: data.isFixed,
             isSecret: data.isSecret,
           },
         })

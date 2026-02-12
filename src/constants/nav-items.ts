@@ -54,8 +54,8 @@ export const NAV_ITEMS: NavItem[] = [
     subItems: [
       { label: '사무실 안내', href: ROUTES.SERVICES_OFFICE },
       { label: '예비신자 안내', href: ROUTES.SERVICES_CATECHUMEN },
-      { label: '혼인성사 안내', href: ROUTES.SERVICES_MARRIAGE },
       { label: '전입 교우 안내', href: ROUTES.SERVICES_TRANSFER },
+      { label: '교리실 예약', href: ROUTES.SERVICES_RESERVATION },
     ],
   },
 ]

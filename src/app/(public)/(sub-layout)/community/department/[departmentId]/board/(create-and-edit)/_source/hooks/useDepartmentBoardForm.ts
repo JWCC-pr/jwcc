@@ -12,7 +12,7 @@ export interface DepartmentBoardFormDataType {
   fileSet?: {
     file: string
   }[]
-  isPinned?: boolean
+  isFixed?: boolean
   isSecret?: boolean
 }
 
@@ -40,7 +40,7 @@ export const departmentBoardFormSchema: yup.ObjectSchema<DepartmentBoardFormData
         }),
       )
       .optional(),
-    isPinned: yup.boolean().optional(),
+    isFixed: yup.boolean().optional(),
     isSecret: yup.boolean().optional(),
   })
 
