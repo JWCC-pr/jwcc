@@ -38,7 +38,9 @@ interface ConflictType {
   date: string
   startAt: string
   endAt: string
-  roomName: string
+  building: string
+  location: string
+  name: string
 }
 
 const ReservationCreateDialog: React.FC<ReservationCreateDialogProps> = ({
@@ -165,7 +167,9 @@ const ReservationCreateDialog: React.FC<ReservationCreateDialogProps> = ({
 
       if (conflict) {
         setOpenReservationConflictDialog(true)
-        setReservationConflictDialogData(conflict)
+        setReservationConflictDialogData({
+          ...conflict,
+        })
       }
     }
   })

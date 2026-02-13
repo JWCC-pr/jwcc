@@ -21,7 +21,9 @@ interface ReservationConflictDialogProps {
     date: string
     startAt: string
     endAt: string
-    roomName: string
+    building: string
+    location: string
+    name: string
   }
 }
 
@@ -46,7 +48,7 @@ const ReservationConflictDialog: React.FC<ReservationConflictDialogProps> = ({
       },
       {
         label: '예약 장소',
-        value: conflictData.roomName,
+        value: `${conflictData.building} ${conflictData.location} ${conflictData.name}`,
       },
     ]
   }, [conflictData])
