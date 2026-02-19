@@ -210,7 +210,7 @@ export const dialogSlotRecipe = defineSlotRecipe({
   defaultVariants: {
     size: 'md',
     scrollBehavior: 'outside',
-    placement: 'top',
+    placement: 'center',
     motionPreset: 'scale',
   },
 })

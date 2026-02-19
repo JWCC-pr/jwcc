@@ -155,7 +155,7 @@ const QuickMenuSection: React.FC = () => {
   const isDesktop = useIsBreakpoint('min', 1280) // 1280px 이상
 
   return (
-    <Box position="fixed" bottom="0" left="0" right="0" zIndex="1">
+    <Box position="fixed" bottom="0" left="0" right="0" zIndex="banner">
       <AnimatePresence>
         {!isOpen && (
           <MotionBox
@@ -172,7 +172,7 @@ const QuickMenuSection: React.FC = () => {
             bottom="0"
             left="0"
             right="0"
-            zIndex={1}
+            zIndex="base"
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
@@ -207,7 +207,7 @@ const QuickMenuSection: React.FC = () => {
             }}
             bgColor="primary.4"
             position="relative"
-            zIndex={2}
+            zIndex="docked"
           >
             <Box
               onClick={() => setIsOpen(false)}

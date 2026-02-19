@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 
+import { Badge } from '@chakra-ui/react/badge'
 import { Box } from '@chakra-ui/react/box'
 import { IconButton } from '@chakra-ui/react/button'
 import { Text } from '@chakra-ui/react/text'
@@ -35,13 +36,15 @@ interface DepartmentBoardDetailHeaderSectionProps {
     | 'isOwned'
     | 'isLiked'
     | 'fileSet'
+    | 'isSecret'
+    | 'subDepartmentInfo'
   >
 }
 
 const DepartmentBoardDetailHeaderSection: React.FC<
   DepartmentBoardDetailHeaderSectionProps
 > = ({ departmentId, board }) => {
-  const { isLoggedIn } = useMe()
+  const { isLoggedIn, isAdmin } = useMe()
 
   const router = useRouter()
   const invalidateQueries = useInvalidateQueries()
@@ -69,7 +72,7 @@ const DepartmentBoardDetailHeaderSection: React.FC<
   const { mutateAsync: departmentBoardDestroyMutateAsync } =
     useDepartmentBoardDestroyMutation({})
   const handleClickDelete = async () => {
-    if (!board.isOwned) return
+    if (!board.isOwned && !isAdmin) return
 
     try {
       await departmentBoardDestroyMutateAsync({ id: board.id })
@@ -92,9 +95,21 @@ const DepartmentBoardDetailHeaderSection: React.FC<
       borderBottomColor="border.basic.1"
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Text textStyle="pre-heading-2" color="grey.10">
-          {board.title}
-        </Text>
+        <Box display="flex" flexFlow="column" gap="2px">
+          <Badge size="md" variant="subtle" colorPalette="grey">
+            {board.subDepartmentInfo.name}
+          </Badge>
+          <Box display="flex" gap="6px" alignItems="center">
+            {board.isSecret && (
+              <Text textStyle="pre-body-1" color="primary.3">
+                [비밀글]
+              </Text>
+            )}
+            <Text textStyle="pre-heading-2" color="grey.10">
+              {board.title}
+            </Text>
+          </Box>
+        </Box>
         {isLoggedIn && (
           <Box display="flex" alignItems="center">
             <IconButton
@@ -109,7 +124,7 @@ const DepartmentBoardDetailHeaderSection: React.FC<
                 weight={board.isLiked ? 'fill' : 'regular'}
               />
             </IconButton>
-            {board.isOwned && (
+            {(board.isOwned || isAdmin) && (
               <Popover
                 options={[
                   { label: '수정', onClick: handleClickEdit },

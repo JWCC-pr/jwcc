@@ -1,5 +1,13 @@
 import { Icon, IconProps } from '@chakra-ui/react'
 
+export const CCaretDownFillIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <svg viewBox="0 0 12 12" fill="none">
+      <path d="M9 4.875L6 7.875L3 4.875" fill="#111827" />
+    </svg>
+  </Icon>
+)
+
 export const XIcon = (props: IconProps) => (
   <Icon {...props}>
     <svg viewBox="0 0 24 24" fill="none">

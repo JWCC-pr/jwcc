@@ -6,18 +6,22 @@ import { Box } from '@chakra-ui/react/box'
 import { IconButton } from '@chakra-ui/react/button'
 import { Image } from '@chakra-ui/react/image'
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react'
+import { useGesture } from '@use-gesture/react'
 
 import { animate, motion, useMotionValue } from 'motion/react'
 
 import { LiturgyFlowerType } from '@/generated/apis/@types/data-contracts'
 
 const MotionBox = motion(Box)
+const MotionImage = motion(Image)
 
 const ANIMATION_DURATION = 0.3
 const ANIMATION_EASE = [0.4, 0, 0.2, 1] as const
 const DRAG_THRESHOLD_RATIO = 0.25 // 25%
 const DRAG_VELOCITY_THRESHOLD = 300
 const DRAG_ELASTIC = 0.1
+const PINCH_SCALE_MIN = 1
+const PINCH_SCALE_MAX = 4
 
 interface NewsLiturgyFlowerDetailBodySectionProps {
   liturgyFlower: Pick<LiturgyFlowerType, 'imageSet'>
@@ -44,13 +48,19 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
   const [currentIndex, setCurrentIndex] = useState(FIRST_INDEX)
   const [isDragging, setIsDragging] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [isZoomed, setIsZoomed] = useState(false)
   const x = useMotionValue(0)
+  const scale = useMotionValue(1)
+  const panX = useMotionValue(0)
+  const panY = useMotionValue(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const imageContainerRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<ReturnType<typeof animate> | null>(null)
   const isJumpingRef = useRef(false)
   const isDraggingRef = useRef(false)
   const currentIndexRef = useRef(FIRST_INDEX)
+  const scaleRef = useRef(1)
+  const pinchImageRef = useRef<HTMLDivElement>(null)
 
   const showIndex = useMemo(() => {
     if (totalImages <= 1) return 1
@@ -258,6 +268,81 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
     })
   }, [totalImages, jumpToLast])
 
+  // 줌 리셋
+  const resetZoom = useCallback(() => {
+    animate(scale, 1, { duration: 0.2 })
+    animate(panX, 0, { duration: 0.2 })
+    animate(panY, 0, { duration: 0.2 })
+    scaleRef.current = 1
+    setIsZoomed(false)
+  }, [scale, panX, panY])
+
+  // 슬라이드 변경 시 줌 리셋
+  useEffect(() => {
+    if (scaleRef.current > 1) {
+      resetZoom()
+    }
+  }, [currentIndex, resetZoom])
+
+  // 핀치줌 + 팬 제스처
+  const bindGesture = useGesture(
+    {
+      onPinch: ({ offset: [s], memo }) => {
+        const clampedScale = Math.min(
+          PINCH_SCALE_MAX,
+          Math.max(PINCH_SCALE_MIN, s),
+        )
+        scale.set(clampedScale)
+        scaleRef.current = clampedScale
+
+        if (clampedScale > 1 && !isZoomed) {
+          setIsZoomed(true)
+        } else if (clampedScale <= 1 && isZoomed) {
+          panX.set(0)
+          panY.set(0)
+          setIsZoomed(false)
+        }
+
+        return memo
+      },
+      onPinchEnd: () => {
+        if (scaleRef.current <= 1) {
+          resetZoom()
+        }
+      },
+      onDrag: ({ offset: [ox, oy], pinching, cancel }) => {
+        // 핀치 중이면 드래그 무시
+        if (pinching) {
+          cancel()
+          return
+        }
+        // 확대 상태에서만 팬 처리
+        if (scaleRef.current > 1) {
+          const containerWidth = getContainerWidth()
+          const containerHeight = imageContainerRef.current?.offsetHeight ?? 0
+
+          // 팬 범위 제한
+          const maxPanX = (containerWidth * (scaleRef.current - 1)) / 2
+          const maxPanY = (containerHeight * (scaleRef.current - 1)) / 2
+
+          panX.set(Math.min(maxPanX, Math.max(-maxPanX, ox)))
+          panY.set(Math.min(maxPanY, Math.max(-maxPanY, oy)))
+        }
+      },
+    },
+    {
+      drag: {
+        enabled: isZoomed,
+        from: () => [panX.get(), panY.get()],
+      },
+      pinch: {
+        scaleBounds: { min: PINCH_SCALE_MIN, max: PINCH_SCALE_MAX },
+        rubberband: true,
+        from: () => [scaleRef.current, 0],
+      },
+    },
+  )
+
   const handleDragStart = useCallback(() => {
     if (totalImages <= 1) return
     setIsDragging(true)
@@ -395,6 +480,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
             style={{
               opacity: isInitialized ? 1 : 0,
               transition: isInitialized ? 'opacity 0.2s ease-in-out' : 'none',
+              touchAction: 'none',
             }}
           >
             <MotionBox
@@ -402,14 +488,19 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
               w={`${extendedTotal * 100}%`}
               h="100%"
               style={{ x }}
-              drag={totalImages > 1 ? 'x' : false}
+              drag={totalImages > 1 && !isZoomed ? 'x' : false}
               dragElastic={DRAG_ELASTIC}
               dragMomentum={false}
               onDragStart={handleDragStart}
               onDrag={handleDrag}
               onDragEnd={handleDragEnd}
               whileDrag={{ cursor: 'grabbing' }}
-              cursor={totalImages > 1 ? 'grab' : 'default'}
+              cursor={
+                isZoomed ? 'move'
+                : totalImages > 1 ?
+                  'grab'
+                : 'default'
+              }
             >
               {extendedImages.map((image, index) => (
                 <Box
@@ -421,8 +512,10 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
                   alignItems="center"
                   justifyContent="center"
                   position="relative"
+                  ref={index === currentIndex ? pinchImageRef : undefined}
+                  {...(index === currentIndex ? bindGesture() : {})}
                 >
-                  <Image
+                  <MotionImage
                     src={image.image}
                     alt="미사꽃 이미지"
                     maxW="100%"
@@ -430,6 +523,15 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
                     objectFit="contain"
                     draggable={false}
                     userSelect="none"
+                    style={
+                      index === currentIndex ?
+                        {
+                          scale,
+                          x: panX,
+                          y: panY,
+                        }
+                      : undefined
+                    }
                   />
                 </Box>
               ))}
