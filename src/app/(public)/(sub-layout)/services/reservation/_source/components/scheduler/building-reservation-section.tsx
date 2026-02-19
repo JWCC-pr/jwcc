@@ -32,8 +32,8 @@ const BuildingReservationSection: React.FC<BuildingReservationSectionProps> = ({
   }
 
   return (
-    <Box mb="40px">
-      <Text textStyle="pre-heading-3" color="grey.800" mb="12px">
+    <Box>
+      <Text textStyle="pre-heading-3" color="grey.800" my="12px">
         {roomGroup.building}
       </Text>
 

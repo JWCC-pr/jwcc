@@ -21,7 +21,7 @@ const ReservationScheduler: React.FC<ReservationSchedulerProps> = ({
   return (
     <Box w="full" bg="common-white">
       <Box minW="full">
-        <Box>
+        <Box display="flex" flexDirection="column" gap="24px">
           {rooms.map((roomGroup, index) => (
             <BuildingReservationSection
               key={index}
