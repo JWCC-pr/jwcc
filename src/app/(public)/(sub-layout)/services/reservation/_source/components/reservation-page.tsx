@@ -33,15 +33,10 @@ const ReservationPage: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" bg="common-white">
       {/* 상단 헤더 및 컨트롤 영역 */}
-      <Box p="24px 20px 0">
-        <Heading color="grey.800" textStyle="pre-heading-2" mb="24px">
-          교리실 예약
-        </Heading>
-        <ReservationControls />
-      </Box>
+      <ReservationControls />
 
       {/* 메인 스케줄러 그리드 영역 */}
-      <Box flex="1" overflow="hidden" p="24px 20px">
+      <Box flex="1" overflow="hidden">
         <ReservationScheduler
           rooms={rooms ?? []}
           reservations={reservation?.results ?? []}

@@ -55,46 +55,61 @@ const ReservationControls: React.FC = () => {
   const isToday = isSameDay(selectedDate, TODAY)
 
   return (
-    <Box display="flex" gap="16px" alignItems="center">
-      <Text textStyle="pre-heading-2" color="grey.10">
+    <Box
+      mb="20px"
+      display="flex"
+      gap="16px"
+      flexFlow={['column', 'row']}
+      alignItems={['flex-start', 'center']}
+    >
+      <Text flexShrink="0" textStyle="pre-heading-2" color="grey.10">
         {format(selectedDate, 'yyyy년 MM월 dd일 (EEE)', { locale: ko })}
       </Text>
 
-      <Box display="flex" gap="6px">
-        <IconButton
-          size="md"
-          variant="outline"
-          colorPalette="grey"
-          onClick={handlePrevDay}
-        >
-          <CaretLeftIcon size="20px" />
-        </IconButton>
-        <IconButton
-          size="md"
-          variant="outline"
-          colorPalette="grey"
-          onClick={handleNextDay}
-        >
-          <CaretRightIcon size="20px" />
-        </IconButton>
-      </Box>
-
-      <DatePicker
-        value={selectedDate}
-        onChange={(date) => date && updateDate(date)}
-        variant="icon"
-        allowPastDates
-      />
-
-      <Button
-        size="md"
-        variant="outline"
-        colorPalette="grey"
-        onClick={handleToday}
-        disabled={isToday}
+      <Box
+        display="flex"
+        gap="16px"
+        justifyContent={['space-between', 'flex-start']}
+        width="100%"
       >
-        오늘
-      </Button>
+        <Box display="flex" gap="6px">
+          <IconButton
+            size="md"
+            variant="outline"
+            colorPalette="grey"
+            onClick={handlePrevDay}
+          >
+            <CaretLeftIcon size="20px" />
+          </IconButton>
+          <IconButton
+            size="md"
+            variant="outline"
+            colorPalette="grey"
+            onClick={handleNextDay}
+          >
+            <CaretRightIcon size="20px" />
+          </IconButton>
+        </Box>
+
+        <Box display="flex" gap="16px">
+          <DatePicker
+            value={selectedDate}
+            onChange={(date) => date && updateDate(date)}
+            variant="icon"
+            allowPastDates
+          />
+
+          <Button
+            size="md"
+            variant="outline"
+            colorPalette="grey"
+            onClick={handleToday}
+            disabled={isToday}
+          >
+            오늘
+          </Button>
+        </Box>
+      </Box>
     </Box>
   )
 }
