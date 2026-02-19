@@ -6,6 +6,7 @@ import { Box } from '@chakra-ui/react/box'
 import { IconButton } from '@chakra-ui/react/button'
 import { Text } from '@chakra-ui/react/text'
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react'
+import { useGesture } from '@use-gesture/react'
 
 import { animate, motion, useMotionValue } from 'motion/react'
 import { Document, Page, pdfjs } from 'react-pdf'
@@ -23,9 +24,18 @@ const ANIMATION_DURATION = 0.3
 const ANIMATION_EASE = [0.4, 0, 0.2, 1] as const
 const DRAG_THRESHOLD = 50
 const GAP = 40
+const PINCH_SCALE_MIN = 1
+const PINCH_SCALE_MAX = 4
+const EDGE_PAN_THRESHOLD = 50
 
 interface NewsBullentinDetailPdfSectionProps {
   bulletin: Pick<WeeklyBulletinType, 'file'>
+}
+
+type DragMemo = {
+  startPanX: number
+  startPanY: number
+  mode: 'carousel' | 'pan'
 }
 
 const NewsBullentinDetailPdfSection: React.FC<
@@ -37,11 +47,17 @@ const NewsBullentinDetailPdfSection: React.FC<
   const [containerWidth, setContainerWidth] = useState<number>(0)
   const [containerHeight, setContainerHeight] = useState<number>(0)
   const [isDragging, setIsDragging] = useState(false)
+  const [isZoomed, setIsZoomed] = useState(false)
 
   const pdfContainerRef = useRef<HTMLDivElement>(null)
   const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map())
   const x = useMotionValue(0)
+  const scale = useMotionValue(1)
+  const panX = useMotionValue(0)
+  const panY = useMotionValue(0)
   const animationRef = useRef<ReturnType<typeof animate> | null>(null)
+  const pageNumberRef = useRef(1)
+  const scaleRef = useRef(1)
 
   // 컨테이너 크기 계산 및 canvas 높이 측정
   useEffect(() => {
@@ -115,15 +131,31 @@ const NewsBullentinDetailPdfSection: React.FC<
     }
   }, [])
 
+  // 줌 리셋
+  const resetZoom = useCallback(() => {
+    animate(scale, 1, { duration: 0.2 })
+    animate(panX, 0, { duration: 0.2 })
+    animate(panY, 0, { duration: 0.2 })
+    scaleRef.current = 1
+    setIsZoomed(false)
+  }, [scale, panX, panY])
+
   const goToPrevPage = useCallback(() => {
+    if (scaleRef.current > 1) resetZoom()
     setPageNumber((prev) => Math.max(prev - 1, 1))
-  }, [])
+  }, [resetZoom])
 
   const goToNextPage = useCallback(() => {
     if (numPages) {
+      if (scaleRef.current > 1) resetZoom()
       setPageNumber((prev) => Math.min(prev + 1, numPages))
     }
-  }, [numPages])
+  }, [numPages, resetZoom])
+
+  // pageNumber 변경 시 ref 업데이트
+  useEffect(() => {
+    pageNumberRef.current = pageNumber
+  }, [pageNumber])
 
   // 페이지 변경 시 애니메이션
   useEffect(() => {
@@ -143,44 +175,155 @@ const NewsBullentinDetailPdfSection: React.FC<
     }
   }, [pageNumber, containerWidth, numPages, x, isDragging, stopAnimation])
 
-  const handleDragStart = useCallback(() => {
-    setIsDragging(true)
-    stopAnimation()
-  }, [stopAnimation])
-
-  const handleDragEnd = useCallback(
-    (
-      _: MouseEvent | TouchEvent | PointerEvent,
-      info: { offset: { x: number }; velocity: { x: number } },
-    ) => {
-      setIsDragging(false)
-
-      // 드래그 방향과 거리에 따라 페이지 전환
-      if (Math.abs(info.offset.x) > DRAG_THRESHOLD) {
-        if (info.offset.x > 0 && pageNumber > 1) {
-          // 오른쪽으로 드래그 - 이전 페이지
-          goToPrevPage()
-        } else if (info.offset.x < 0 && numPages && pageNumber < numPages) {
-          // 왼쪽으로 드래그 - 다음 페이지
-          goToNextPage()
-        } else {
-          // 경계에서 드래그 - 원래 위치로 복귀
-          const targetX = -(pageNumber - 1) * (containerWidth + GAP)
-          animate(x, targetX, {
-            duration: ANIMATION_DURATION,
-            ease: ANIMATION_EASE,
-          })
+  // 모든 제스처 통합 처리 (@use-gesture로 드래그 + 핀치 모두 관리)
+  const bindGesture = useGesture(
+    {
+      onDrag: ({
+        movement: [mx, my],
+        velocity: [vx],
+        first,
+        last,
+        memo,
+        pinching,
+        cancel,
+      }) => {
+        if (pinching) {
+          cancel()
+          return memo
         }
-      } else {
-        // 드래그 거리가 짧으면 원래 위치로 복귀
-        const targetX = -(pageNumber - 1) * (containerWidth + GAP)
-        animate(x, targetX, {
-          duration: ANIMATION_DURATION,
-          ease: ANIMATION_EASE,
-        })
-      }
+
+        // 드래그 시작 시 모드 결정
+        if (first) {
+          stopAnimation()
+          const currentScale = scaleRef.current
+
+          if (currentScale > 1) {
+            memo = {
+              startPanX: panX.get(),
+              startPanY: panY.get(),
+              mode: 'pan' as const,
+            } satisfies DragMemo
+          } else {
+            memo = {
+              startPanX: 0,
+              startPanY: 0,
+              mode: 'carousel' as const,
+            } satisfies DragMemo
+            setIsDragging(true)
+          }
+        }
+
+        const typedMemo = memo as DragMemo
+        if (!typedMemo) return memo
+
+        // 팬 모드 (확대 상태에서 한 손가락 드래그)
+        if (typedMemo.mode === 'pan') {
+          const cw = containerWidth
+          const ch = containerHeight || 400
+          const maxPanX = (cw * (scaleRef.current - 1)) / 2
+          const maxPanY = (ch * (scaleRef.current - 1)) / 2
+
+          const newPanX = typedMemo.startPanX + mx
+          const newPanY = typedMemo.startPanY + my
+
+          // 가장자리에서 수평으로 더 드래그하면 캐루셀 모드로 전환
+          const isHorizontalDrag = Math.abs(mx) > Math.abs(my) * 1.5
+          if (
+            isHorizontalDrag &&
+            Math.abs(mx) > EDGE_PAN_THRESHOLD &&
+            numPages &&
+            numPages > 1
+          ) {
+            const atLeftEdge = typedMemo.startPanX >= maxPanX - 2 && mx > 0
+            const atRightEdge = typedMemo.startPanX <= -maxPanX + 2 && mx < 0
+
+            if (atLeftEdge || atRightEdge) {
+              resetZoom()
+              typedMemo.mode = 'carousel'
+              setIsDragging(true)
+            }
+          }
+
+          if (typedMemo.mode === 'pan') {
+            panX.set(Math.min(maxPanX, Math.max(-maxPanX, newPanX)))
+            panY.set(Math.min(maxPanY, Math.max(-maxPanY, newPanY)))
+            return memo
+          }
+        }
+
+        // 캐루셀 모드 (기본 상태에서 한 손가락 드래그)
+        if (!numPages || numPages <= 1) return memo
+
+        if (containerWidth <= 0) return memo
+
+        const baseX = -(pageNumberRef.current - 1) * (containerWidth + GAP)
+        x.set(baseX + mx)
+
+        // 드래그 종료 시 페이지 결정
+        if (last) {
+          setIsDragging(false)
+
+          if (Math.abs(mx) > DRAG_THRESHOLD || vx > 300) {
+            if (mx > 0 && pageNumberRef.current > 1) {
+              goToPrevPage()
+            } else if (mx < 0 && pageNumberRef.current < numPages) {
+              goToNextPage()
+            } else {
+              // 경계에서 드래그 - 원래 위치로 복귀
+              const targetX =
+                -(pageNumberRef.current - 1) * (containerWidth + GAP)
+              animate(x, targetX, {
+                duration: ANIMATION_DURATION,
+                ease: ANIMATION_EASE,
+              })
+            }
+          } else {
+            // 드래그 거리가 짧으면 원래 위치로 복귀
+            const targetX =
+              -(pageNumberRef.current - 1) * (containerWidth + GAP)
+            animate(x, targetX, {
+              duration: ANIMATION_DURATION,
+              ease: ANIMATION_EASE,
+            })
+          }
+        }
+
+        return memo
+      },
+      onPinch: ({ offset: [s] }) => {
+        const clampedScale = Math.min(
+          PINCH_SCALE_MAX,
+          Math.max(PINCH_SCALE_MIN, s),
+        )
+        scale.set(clampedScale)
+        scaleRef.current = clampedScale
+
+        if (clampedScale > 1 && !isZoomed) {
+          setIsZoomed(true)
+        } else if (clampedScale <= 1 && isZoomed) {
+          panX.set(0)
+          panY.set(0)
+          setIsZoomed(false)
+        }
+      },
+      onPinchEnd: () => {
+        if (scaleRef.current <= 1) {
+          resetZoom()
+        }
+      },
     },
-    [containerWidth, pageNumber, numPages, goToPrevPage, goToNextPage, x],
+    {
+      drag: {
+        filterTaps: true,
+        pointer: { touch: true },
+      },
+      pinch: {
+        scaleBounds: { min: PINCH_SCALE_MIN, max: PINCH_SCALE_MAX },
+        rubberband: true,
+        from: () => [scaleRef.current, 0],
+        pointer: { touch: true },
+      },
+    },
   )
 
   return (
@@ -242,9 +385,16 @@ const NewsBullentinDetailPdfSection: React.FC<
             alignItems="flex-start"
             justifyContent="flex-start"
             rounded="6px"
-            overflow="visible"
+            overflow="hidden"
             bgColor="background.basic.1"
-            cursor={isDragging ? 'grabbing' : 'grab'}
+            cursor={
+              isZoomed ? 'move'
+              : isDragging ?
+                'grabbing'
+              : 'grab'
+            }
+            style={{ touchAction: 'none' }}
+            {...bindGesture()}
           >
             {loading && (
               <Box
@@ -284,21 +434,7 @@ const NewsBullentinDetailPdfSection: React.FC<
                 alignItems="center"
                 gap={`${GAP}px`}
                 h="100%"
-                style={{
-                  x,
-                }}
-                drag="x"
-                dragElastic={0.05}
-                dragConstraints={{
-                  left:
-                    numPages && containerWidth > 0 ?
-                      -(numPages - 1) * (containerWidth + GAP)
-                    : 0,
-                  right: 0,
-                }}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                dragMomentum={false}
+                style={{ x }}
                 bgColor="background.basic.2"
               >
                 {numPages &&
@@ -326,7 +462,7 @@ const NewsBullentinDetailPdfSection: React.FC<
                         position="relative"
                         overflow="visible"
                       >
-                        <Box
+                        <MotionBox
                           w="100%"
                           h="auto"
                           display="flex"
@@ -345,6 +481,11 @@ const NewsBullentinDetailPdfSection: React.FC<
                               maxWidth: '100%',
                             },
                           }}
+                          style={
+                            pageIndex === pageNumber ?
+                              { scale, x: panX, y: panY }
+                            : undefined
+                          }
                         >
                           <Page
                             pageNumber={pageIndex}
@@ -380,7 +521,7 @@ const NewsBullentinDetailPdfSection: React.FC<
                               </Box>
                             }
                           />
-                        </Box>
+                        </MotionBox>
                       </Box>
                     )
                   })}
