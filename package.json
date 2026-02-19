@@ -53,6 +53,7 @@
     "@toktokhan-dev/universal": "^0.0.8",
     "@toktokhan-dev/zustand-react": "^0.0.3",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@use-gesture/react": "^10.3.1",
     "chakra-react-select": "6.0.0",
     "cheerio": "^1.2.0",
     "date-fns": "^4.1.0",
