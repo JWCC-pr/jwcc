@@ -241,30 +241,6 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
     stopAnimation,
   ])
 
-  const goToNext = useCallback(() => {
-    if (totalImages <= 1) return
-    setCurrentIndex((prev) => {
-      const next = prev + 1
-      if (next >= extendedTotal - 1) {
-        jumpToFirst(true)
-        return extendedTotal - 1
-      }
-      return next
-    })
-  }, [totalImages, extendedTotal, jumpToFirst])
-
-  const goToPrev = useCallback(() => {
-    if (totalImages <= 1) return
-    setCurrentIndex((prev) => {
-      const prevIndex = prev - 1
-      if (prevIndex <= 0) {
-        jumpToLast(true)
-        return 0
-      }
-      return prevIndex
-    })
-  }, [totalImages, jumpToLast])
-
   // 줌 리셋
   const resetZoom = useCallback(() => {
     animate(scale, 1, { duration: 0.2 })
@@ -274,12 +250,31 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
     setIsZoomed(false)
   }, [scale, panX, panY])
 
-  // 슬라이드 변경 시 줌 리셋
-  useEffect(() => {
-    if (scaleRef.current > 1) {
-      resetZoom()
-    }
-  }, [currentIndex, resetZoom])
+  const goToNext = useCallback(() => {
+    if (totalImages <= 1) return
+    if (scaleRef.current > 1) resetZoom()
+    setCurrentIndex((prev) => {
+      const next = prev + 1
+      if (next >= extendedTotal - 1) {
+        jumpToFirst(true)
+        return extendedTotal - 1
+      }
+      return next
+    })
+  }, [totalImages, extendedTotal, jumpToFirst, resetZoom])
+
+  const goToPrev = useCallback(() => {
+    if (totalImages <= 1) return
+    if (scaleRef.current > 1) resetZoom()
+    setCurrentIndex((prev) => {
+      const prevIndex = prev - 1
+      if (prevIndex <= 0) {
+        jumpToLast(true)
+        return 0
+      }
+      return prevIndex
+    })
+  }, [totalImages, jumpToLast, resetZoom])
 
   // 모든 제스처 통합 처리 (@use-gesture로 드래그 + 핀치 모두 관리)
   const bindGesture = useGesture(
