@@ -52,6 +52,14 @@ const RoomReservationRow: React.FC<RoomReservationRowProps> = ({
       setSelectedReservationId(reservationId)
       setDetailDialogOpen(true)
     } else {
+      if (!isGroupLeader) {
+        toaster.create({
+          type: 'error',
+          title: '단체장만 예약 가능합니다.',
+        })
+        return
+      }
+
       setSelectedTimeKey(timeKey)
       setCreateDialogOpen(true)
     }
@@ -110,14 +118,6 @@ const RoomReservationRow: React.FC<RoomReservationRowProps> = ({
             <Box
               key={slot.timeKey}
               onClick={() => {
-                if (!isGroupLeader) {
-                  toaster.create({
-                    type: 'error',
-                    title: '단체장만 예약 가능합니다.',
-                  })
-                  return
-                }
-
                 handleSlotClick(
                   slot.timeKey,
                   slot.isReserved,

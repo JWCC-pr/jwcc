@@ -25,12 +25,14 @@ interface ReservationFormViewProps {
   room: CatechismRoomItemType
   roomReservations: RoomReservationType[]
   excludeReservationId?: number
+  isEditMode?: boolean
 }
 
 const ReservationFormView: React.FC<ReservationFormViewProps> = ({
   room,
   roomReservations,
   excludeReservationId,
+  isEditMode,
 }) => {
   const { data: me, isAdmin } = useMe()
   const searchParams = useSearchParams()
@@ -131,6 +133,7 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
           control={control}
           render={({ field: { value, onChange, name } }) => (
             <Checkbox.Root
+              disabled={isEditMode}
               name={name}
               checked={value}
               onCheckedChange={(details) => onChange(details.checked === true)}

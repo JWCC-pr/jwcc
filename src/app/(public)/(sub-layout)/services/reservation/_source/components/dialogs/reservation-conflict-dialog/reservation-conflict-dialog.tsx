@@ -53,6 +53,8 @@ const ReservationConflictDialog: React.FC<ReservationConflictDialogProps> = ({
     ]
   }, [conflictData])
 
+  const length = items.length - 1
+
   return (
     <AlertDialog
       size="sm"
@@ -91,6 +93,12 @@ const ReservationConflictDialog: React.FC<ReservationConflictDialogProps> = ({
               </Box>
             ))}
           </Box>
+
+          {length > 0 && (
+            <Text textStyle="pre-body-6" color="grey.7">
+              외 {length}건의 일정이 더 겹쳐 있습니다.
+            </Text>
+          )}
         </Box>
       }
       buttons={{

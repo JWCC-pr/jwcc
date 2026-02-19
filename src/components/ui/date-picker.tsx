@@ -23,10 +23,6 @@ now.setHours(0, 0, 0, 0) // Start of today
 const currentYear = now.getFullYear()
 const currentMonth = now.getMonth()
 
-const years = Array(101)
-  .fill(null)
-  .map((_, index) => index + currentYear)
-
 const DROPDOWN_OFFSET = 16
 
 export type DatePickerPlacement =
@@ -131,6 +127,8 @@ interface DatePickerProps extends Omit<BoxProps, 'onChange'> {
   positioning?: { placement?: DatePickerPlacement }
   /** 표시 형태: 'icon' (캘린더 아이콘만), 'select' (날짜 텍스트 + 아이콘) */
   variant?: 'icon' | 'select'
+  /** 오늘 이전 날짜 선택 가능 여부 */
+  allowPastDates?: boolean
 }
 
 const DatePicker: React.FC<DatePickerProps> = (props) => {
@@ -140,6 +138,7 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
     disabled = false,
     positioning,
     variant = 'icon',
+    allowPastDates = false,
     ...boxProps
   } = props
 
@@ -254,7 +253,7 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
   const availableMonths = useMemo(() => {
     const selectedYear = selectedMonth.getFullYear()
 
-    if (selectedYear === currentYear) {
+    if (!allowPastDates && selectedYear === currentYear) {
       return Array(12 - currentMonth)
         .fill(null)
         .map((_, index) => currentMonth + index)
@@ -263,7 +262,7 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
     return Array(12)
       .fill(null)
       .map((_, index) => index)
-  }, [selectedMonth])
+  }, [selectedMonth, allowPastDates])
 
   const formatDateForDisplay = (date: Date | null) => {
     if (!date) return ''
@@ -274,6 +273,8 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
   }
 
   const canGoPreviousMonth = useMemo(() => {
+    if (allowPastDates) return true
+
     const prevMonth = new Date(selectedMonth)
     prevMonth.setMonth(selectedMonth.getMonth() - 1)
     return (
@@ -281,11 +282,12 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
       (prevMonth.getFullYear() === currentYear &&
         prevMonth.getMonth() >= currentMonth)
     )
-  }, [selectedMonth])
+  }, [selectedMonth, allowPastDates])
 
   const canGoPreviousYear = useMemo(() => {
+    if (allowPastDates) return true
     return selectedMonth.getFullYear() > currentYear
-  }, [selectedMonth])
+  }, [selectedMonth, allowPastDates])
 
   const handleMonthSelect = (monthValue: number) => {
     const newDate = new Date(selectedMonth)
@@ -298,7 +300,11 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
     const newDate = new Date(selectedMonth)
     newDate.setFullYear(year)
 
-    if (year === currentYear && newDate.getMonth() < currentMonth) {
+    if (
+      !allowPastDates &&
+      year === currentYear &&
+      newDate.getMonth() < currentMonth
+    ) {
       newDate.setMonth(currentMonth)
     }
 
@@ -324,7 +330,7 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
     if (!canGoPreviousYear) return
 
     const newYear = selectedMonth.getFullYear() - 1
-    if (newYear >= currentYear) {
+    if (allowPastDates || newYear >= currentYear) {
       handleYearSelect(newYear)
     }
   }
@@ -505,7 +511,7 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
 
             // Reset viewed month
             let monthToUse = selectedDate || now
-            if (monthToUse < now) {
+            if (!allowPastDates && monthToUse < now) {
               monthToUse = now
             }
             setUserSelectedMonth(monthToUse)
@@ -728,34 +734,41 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
                   overflowY="auto"
                   zIndex={10}
                 >
-                  {years.map((year) => {
-                    const isSelected = selectedMonth.getFullYear() === year
+                  {Array(101)
+                    .fill(null)
+                    .map((_, index) => {
+                      const baseYear =
+                        allowPastDates ? currentYear - 50 : currentYear
+                      return baseYear + index
+                    })
+                    .map((year) => {
+                      const isSelected = selectedMonth.getFullYear() === year
 
-                    return (
-                      <Box
-                        key={year}
-                        cursor="pointer"
-                        bg={isSelected ? 'primary.1' : 'common-white'}
-                        color={isSelected ? 'grey.10' : 'grey.8'}
-                        textStyle={isSelected ? 'pre-body-3' : 'pre-body-4'}
-                        onClick={() => handleYearSelect(year)}
-                        transition="all 0.2s"
-                        display="flex"
-                        alignItems="center"
-                        gap="16px"
-                        p="4px 16px"
-                        h="48px"
-                      >
-                        {isSelected ?
-                          <CheckIcon
-                            size="20px"
-                            color="var(--chakra-colors-primary-4)"
-                          />
-                        : <Box w="20px" h="20px" />}
-                        <Text>{year}</Text>
-                      </Box>
-                    )
-                  })}
+                      return (
+                        <Box
+                          key={year}
+                          cursor="pointer"
+                          bg={isSelected ? 'primary.1' : 'common-white'}
+                          color={isSelected ? 'grey.10' : 'grey.8'}
+                          textStyle={isSelected ? 'pre-body-3' : 'pre-body-4'}
+                          onClick={() => handleYearSelect(year)}
+                          transition="all 0.2s"
+                          display="flex"
+                          alignItems="center"
+                          gap="16px"
+                          p="4px 16px"
+                          h="48px"
+                        >
+                          {isSelected ?
+                            <CheckIcon
+                              size="20px"
+                              color="var(--chakra-colors-primary-4)"
+                            />
+                          : <Box w="20px" h="20px" />}
+                          <Text>{year}</Text>
+                        </Box>
+                      )
+                    })}
                 </Box>
               )}
             </Box>
@@ -770,9 +783,7 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
               onMonthChange={(month) => {
                 setUserSelectedMonth(month)
               }}
-              disabled={{
-                before: now,
-              }}
+              disabled={allowPastDates ? undefined : { before: now }}
               showOutsideDays
               formatters={{
                 formatWeekdayName: (date: Date) => {

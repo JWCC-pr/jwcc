@@ -216,6 +216,7 @@ const ReservationEditDialog: React.FC<ReservationEditDialogProps> = ({
           room={room}
           roomReservations={roomReservations}
           excludeReservationId={reservationId}
+          isEditMode
         />
       </ReservationDialogLayout>
 

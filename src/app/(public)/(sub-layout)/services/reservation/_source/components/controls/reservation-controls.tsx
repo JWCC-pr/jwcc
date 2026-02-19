@@ -41,7 +41,6 @@ const ReservationControls: React.FC = () => {
 
   const handlePrevDay = () => {
     const prevDate = subDays(selectedDate, 1)
-    if (prevDate < TODAY) return
     updateDate(prevDate)
   }
 
@@ -67,7 +66,6 @@ const ReservationControls: React.FC = () => {
           variant="outline"
           colorPalette="grey"
           onClick={handlePrevDay}
-          disabled={isToday}
         >
           <CaretLeftIcon size="20px" />
         </IconButton>
@@ -85,6 +83,7 @@ const ReservationControls: React.FC = () => {
         value={selectedDate}
         onChange={(date) => date && updateDate(date)}
         variant="icon"
+        allowPastDates
       />
 
       <Button

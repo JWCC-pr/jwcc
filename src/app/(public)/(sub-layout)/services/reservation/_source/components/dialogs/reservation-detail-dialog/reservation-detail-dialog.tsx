@@ -61,8 +61,6 @@ const ReservationDetailDialog: React.FC<ReservationDetailDialogProps> = ({
     { label: '예약자명', value: data.createdByName },
   ]
 
-  const isRepeatReservation = !!data.repeatId
-
   return (
     <Dialog.Root open={open} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
@@ -97,8 +95,8 @@ const ReservationDetailDialog: React.FC<ReservationDetailDialogProps> = ({
                     </IconButton>
                     <ReservationDeleteDialog
                       reservationId={data.id}
+                      repeatId={data.repeatId}
                       onClose={onClose}
-                      isRepeatReservation={isRepeatReservation}
                     />
                   </>
                 )}

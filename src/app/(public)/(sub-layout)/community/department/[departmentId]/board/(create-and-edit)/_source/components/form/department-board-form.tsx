@@ -86,9 +86,9 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
     } catch (error: any) {
       console.error(error)
 
-      const isPinnedError = !!error?.error?.isPinned
+      const isFixedError = !!error?.error?.isFixed
 
-      if (isPinnedError) {
+      if (isFixedError) {
         toaster.create({
           type: 'error',
           title: '고정된 게시글은 최대 5개까지 가능합니다',

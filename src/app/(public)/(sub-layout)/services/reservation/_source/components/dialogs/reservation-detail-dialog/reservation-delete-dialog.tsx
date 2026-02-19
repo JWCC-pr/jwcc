@@ -24,15 +24,15 @@ import { useInvalidateQueries } from '@/hooks/useInvalidateQueries'
 const NOW = new Date()
 
 interface ReservationDeleteDialogProps {
+  repeatId?: number
   reservationId: number
   onClose: () => void
-  isRepeatReservation: boolean
 }
 
 const ReservationDeleteDialog: React.FC<ReservationDeleteDialogProps> = ({
+  repeatId,
   reservationId,
   onClose,
-  isRepeatReservation,
 }) => {
   const searchParams = useSearchParams()
   const date = format(searchParams.get('date') || NOW, 'yyyy-MM-dd')
@@ -45,6 +45,8 @@ const ReservationDeleteDialog: React.FC<ReservationDeleteDialogProps> = ({
   const { mutateAsync: repeatRoomReservationDestroyMutateAsync } =
     useRepeatRoomReservationDestroyMutation({})
 
+  const isRepeatReservation = !!repeatId
+
   const handleDelete = async () => {
     try {
       if (isRepeatReservation) {
@@ -54,7 +56,7 @@ const ReservationDeleteDialog: React.FC<ReservationDeleteDialogProps> = ({
         }
         // 반복 예약 전체 제거
         else {
-          await repeatRoomReservationDestroyMutateAsync({ id: reservationId })
+          await repeatRoomReservationDestroyMutateAsync({ id: repeatId })
         }
       }
       // 일반 예약 제거
