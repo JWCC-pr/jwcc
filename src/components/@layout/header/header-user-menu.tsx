@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { Box } from '@chakra-ui/react/box'
+import { Button } from '@chakra-ui/react/button'
 import { Link } from '@chakra-ui/react/link'
 import { Popover } from '@chakra-ui/react/popover'
 import { Portal } from '@chakra-ui/react/portal'
@@ -114,13 +115,11 @@ const HeaderUserMenu: React.FC<HeaderUserMenuProps> = ({ isScrolled }) => {
             </Popover.Positioner>
           </Portal>
         </Popover.Root>
-      : <Link
-          href={ROUTES.LOGIN}
-          _hover={{
-            textDecoration: 'none',
-          }}
-        >
-          <UserIcon size="24px" color={isScrolled ? '#000' : '#fff'} />
+      : <Link href={ROUTES.LOGIN} _hover={{ textDecoration: 'none' }}>
+          <Button size="md" variant="solid" colorPalette="primary">
+            <UserIcon />
+            로그인
+          </Button>
         </Link>
       }
     </Box>
