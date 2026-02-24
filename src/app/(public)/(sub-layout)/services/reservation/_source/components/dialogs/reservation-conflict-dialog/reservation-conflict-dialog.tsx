@@ -74,7 +74,7 @@ const ReservationConflictDialog: React.FC<ReservationConflictDialogProps> = ({
             bgColor="background.basic.2"
             display="flex"
             flexFlow="column nowrap"
-            gap="4px"
+            gap="2px"
           >
             {items.map((item) => (
               <Box
