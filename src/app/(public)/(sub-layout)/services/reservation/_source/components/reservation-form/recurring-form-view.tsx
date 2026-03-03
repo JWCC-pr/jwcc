@@ -10,6 +10,7 @@ import Select from '@/components/select'
 import DatePicker from '@/components/ui/date-picker'
 
 import { RoomReservationFormDataType } from '../../hooks/useRoomReservationForm'
+import WeekOfMonthMultiSelect from './week-of-month-multi-select'
 import WeekdayMultiSelect from './weekday-multi-select'
 
 const TAB_VALUES = {
@@ -133,18 +134,16 @@ const RecurringFormView: React.FC = () => {
                   label="주차 선택"
                   message={{ error: errors.weekOfMonth?.message }}
                 >
-                  <Select
-                    size="lg"
+                  <Controller
+                    control={control}
                     name="weekOfMonth"
-                    positioning={{ sameWidth: true }}
-                    contentProps={{ zIndex: 'max' }}
-                    options={[
-                      { label: '매주', value: '0' },
-                      { label: '1주차', value: '1' },
-                      { label: '2주차', value: '2' },
-                      { label: '3주차', value: '3' },
-                      { label: '4주차', value: '4' },
-                    ]}
+                    render={({ field: weekOfMonthField }) => (
+                      <WeekOfMonthMultiSelect
+                        value={weekOfMonthField.value || []}
+                        onChange={weekOfMonthField.onChange}
+                        onBlur={weekOfMonthField.onBlur}
+                      />
+                    )}
                   />
                 </FormHelper>
               </Box>

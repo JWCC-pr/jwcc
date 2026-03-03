@@ -1871,12 +1871,8 @@ export interface RepeatRoomReservationType {
   endAt: string
   /** 요일 반복 값. 0=월, 1=화, 2=수, 3=목, 4=금, 5=토, 6=일 */
   weekdays?: number[]
-  /**
-   * 월별 n주차 반복에서만 사용합니다. 매주 반복이면 null 또는 생략하세요.
-   * @min 1
-   * @max 4
-   */
-  weekOfMonth?: number | null
+  /** 월별 n주차 반복에서만 사용합니다. 복수 선택 가능(예: [1, 3]). 매주 반복이면 [] 또는 생략하세요. */
+  weekOfMonth?: number[]
   /**
    * 날짜 반복(monthlyDate)일 때 사용할 일자(1~31)
    * @min 1
@@ -1950,12 +1946,8 @@ export interface RepeatRoomReservationRequestType {
   endAt: string
   /** 요일 반복 값. 0=월, 1=화, 2=수, 3=목, 4=금, 5=토, 6=일 */
   weekdays?: number[]
-  /**
-   * 월별 n주차 반복에서만 사용합니다. 매주 반복이면 null 또는 생략하세요.
-   * @min 1
-   * @max 4
-   */
-  weekOfMonth?: number | null
+  /** 월별 n주차 반복에서만 사용합니다. 복수 선택 가능(예: [1, 3]). 매주 반복이면 [] 또는 생략하세요. */
+  weekOfMonth?: number[]
   /**
    * 날짜 반복(monthlyDate)일 때 사용할 일자(1~31)
    * @min 1

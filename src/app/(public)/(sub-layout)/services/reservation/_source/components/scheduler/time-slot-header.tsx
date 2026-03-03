@@ -8,10 +8,10 @@ import { Text } from '@chakra-ui/react/text'
 import { SCHEDULER_CONFIG } from '../../constants/scheduler'
 import { formatTime } from '../../utils/time'
 
-/** 30분 단위 시간 배열 생성 (00:00 ~ 24:00) */
-const TIME_LABELS = Array.from({ length: 24 }, (_, i) => [
-  { hour: i, minute: 0 },
-  { hour: i, minute: 30 },
+/** 30분 단위 시간 배열 생성 (06:00 ~ 24:00) */
+const TIME_LABELS = Array.from({ length: 18 }, (_, i) => [
+  { hour: i + 6, minute: 0 },
+  { hour: i + 6, minute: 30 },
 ]).flat()
 
 const TimeSlotHeader: React.FC = () => {

@@ -3,7 +3,6 @@
 import { useSearchParams } from 'next/navigation'
 
 import { Box } from '@chakra-ui/react/box'
-import { Heading } from '@chakra-ui/react/heading'
 
 import { format } from 'date-fns'
 

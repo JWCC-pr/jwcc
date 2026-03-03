@@ -12,10 +12,10 @@ interface UseRoomReservationProps {
   reservations: RoomReservationType[]
 }
 
-/** 30분 단위 시간 슬롯 생성 */
-const TIME_SLOTS = Array.from({ length: 24 }, (_, i) => [
-  { hour: i, minute: 0 },
-  { hour: i, minute: 30 },
+/** 30분 단위 시간 슬롯 생성 (06:00 ~ 24:00) */
+const TIME_SLOTS = Array.from({ length: 18 }, (_, i) => [
+  { hour: i + 6, minute: 0 },
+  { hour: i + 6, minute: 30 },
 ]).flat()
 
 export const useRoomReservation = ({
