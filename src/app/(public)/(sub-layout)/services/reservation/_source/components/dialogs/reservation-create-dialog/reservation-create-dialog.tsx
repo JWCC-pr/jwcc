@@ -120,7 +120,6 @@ const ReservationCreateDialog: React.FC<ReservationCreateDialogProps> = ({
         startDate: new Date(date).toISOString(),
         endDate: new Date(date).toISOString(),
       })
-      trigger()
     }
   }, [open, reset, initialTime, initialEndTime, trigger, date])
 

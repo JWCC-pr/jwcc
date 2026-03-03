@@ -8,8 +8,14 @@ import { Input } from '@chakra-ui/react/input'
 import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns'
-import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import {
+  Controller,
+  useFormContext,
+  useFormState,
+  useWatch,
+} from 'react-hook-form'
 
+import { FormHelper } from '@/components/form-helper'
 import {
   CatechismRoomItemType,
   RoomReservationType,
@@ -41,6 +47,7 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
 
   const { register, control, setValue } =
     useFormContext<RoomReservationFormDataType>()
+  const { errors } = useFormState({ control })
 
   const [startAt, endAt, isRecurring] = useWatch({
     control,
@@ -63,8 +70,8 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
   return (
     <Box display="flex" flexDirection="column">
       {/* 제목 입력 */}
-      <Box py="10px" w="full" display="flex" gap="10px">
-        <Box w="80px" display="flex" alignItems="center" gap="4px">
+      <Box py="10px" w="full" display="flex" alignItems="flex-start" gap="10px">
+        <Box w="80px" h="48px" display="flex" alignItems="center" gap="4px">
           <Text textStyle="pre-body-6" color="grey.8">
             제목
           </Text>
@@ -72,19 +79,21 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
             *
           </Text>
         </Box>
-        <Input
-          placeholder="제목"
-          size="lg"
-          variant="outline"
-          colorPalette="grey"
-          maxLength={50}
-          {...register('title')}
-        />
+        <FormHelper required message={{ error: errors.title?.message }}>
+          <Input
+            placeholder="제목"
+            size="lg"
+            variant="outline"
+            colorPalette="grey"
+            maxLength={50}
+            {...register('title')}
+          />
+        </FormHelper>
       </Box>
 
       {/* 사용단체명 입력 */}
-      <Box py="10px" w="full" display="flex" gap="10px">
-        <Box w="80px" display="flex" alignItems="center" gap="4px">
+      <Box py="10px" w="full" display="flex" alignItems="flex-start" gap="10px">
+        <Box w="80px" h="48px" display="flex" alignItems="center" gap="4px">
           <Text textStyle="pre-body-6" color="grey.8">
             사용단체명
           </Text>
@@ -92,14 +101,19 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
             *
           </Text>
         </Box>
-        <Input
-          placeholder="사용단체명"
-          size="lg"
-          variant="outline"
-          colorPalette="grey"
-          maxLength={50}
-          {...register('organizationName')}
-        />
+        <FormHelper
+          required
+          message={{ error: errors.organizationName?.message }}
+        >
+          <Input
+            placeholder="사용단체명"
+            size="lg"
+            variant="outline"
+            colorPalette="grey"
+            maxLength={10}
+            {...register('organizationName')}
+          />
+        </FormHelper>
       </Box>
 
       {/* 예약 기본 정보 (읽기 전용) */}
