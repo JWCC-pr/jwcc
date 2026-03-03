@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { Box } from '@chakra-ui/react/box'
 import { Checkbox } from '@chakra-ui/react/checkbox'
 import { Input } from '@chakra-ui/react/input'
+import { Link } from '@chakra-ui/react/link'
 import { Text } from '@chakra-ui/react/text'
 
 import { format } from 'date-fns'
@@ -69,9 +70,40 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
 
   return (
     <Box display="flex" flexDirection="column">
+      {!isAdmin && (
+        <Box
+          mb="12px"
+          px="14px"
+          py="12px"
+          border="1px solid"
+          borderColor="border.basic.1"
+          bg="background.basic.2"
+          rounded="10px"
+        >
+          <Text textStyle="pre-body-5" color="grey.7">
+            반복 예약이 필요하시면{' '}
+            <Link
+              href="mailto:pr@jwcc.or.kr"
+              _hover={{ textDecoration: 'none' }}
+              color="grey.8"
+            >
+              pr@jwcc.or.kr
+            </Link>
+            로 연락주세요.
+          </Text>
+        </Box>
+      )}
+
       {/* 제목 입력 */}
       <Box py="10px" w="full" display="flex" alignItems="flex-start" gap="10px">
-        <Box w="80px" h="48px" display="flex" alignItems="center" gap="4px">
+        <Box
+          flexShrink="0"
+          w="80px"
+          h="48px"
+          display="flex"
+          alignItems="center"
+          gap="4px"
+        >
           <Text textStyle="pre-body-6" color="grey.8">
             제목
           </Text>
@@ -93,7 +125,14 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
 
       {/* 사용단체명 입력 */}
       <Box py="10px" w="full" display="flex" alignItems="flex-start" gap="10px">
-        <Box w="80px" h="48px" display="flex" alignItems="center" gap="4px">
+        <Box
+          flexShrink="0"
+          w="80px"
+          h="48px"
+          display="flex"
+          alignItems="center"
+          gap="4px"
+        >
           <Text textStyle="pre-body-6" color="grey.8">
             사용단체명
           </Text>

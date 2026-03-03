@@ -100,6 +100,7 @@ const ReservationCreateDialog: React.FC<ReservationCreateDialogProps> = ({
       endAt: initialEndTime,
       isRecurring: false,
       repeatType: 'weekly',
+      weekOfMonth: [],
       startDate: new Date(date).toISOString(),
       endDate: new Date(date).toISOString(),
     },
@@ -117,6 +118,7 @@ const ReservationCreateDialog: React.FC<ReservationCreateDialogProps> = ({
         endAt: initialEndTime,
         isRecurring: false,
         repeatType: 'weekly',
+        weekOfMonth: [],
         startDate: new Date(date).toISOString(),
         endDate: new Date(date).toISOString(),
       })
@@ -157,9 +159,9 @@ const ReservationCreateDialog: React.FC<ReservationCreateDialogProps> = ({
               endDate,
               weekdays: data.weekdays?.map(Number),
               weekOfMonth:
-                data.weekOfMonth && Number(data.weekOfMonth) !== 0 ?
-                  Number(data.weekOfMonth)
-                : null,
+                data.weekOfMonth?.includes('0') ?
+                  []
+                : (data.weekOfMonth?.map(Number) ?? []),
             },
           })
         } else if (data.repeatType === 'monthly_date') {

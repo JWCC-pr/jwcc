@@ -27,7 +27,7 @@ export interface RoomReservationFormDataType {
   /** 요일 반복 > 반복 요일 (Backend: weekdays) */
   weekdays?: string[]
   /** 요일 반복 > 주차 선택 (Backend: weekOfMonth) */
-  weekOfMonth?: string
+  weekOfMonth?: string[]
   /** 날짜 반복 > 반복 일자 (Backend: monthDay) */
   monthDay?: string
 }
@@ -73,12 +73,16 @@ export const roomReservationFormSchema: yup.ObjectSchema<RoomReservationFormData
           schema.min(1, FORM_MESSAGE.COMMON.REQUIRED).required(),
         otherwise: (schema) => schema.optional(),
       }),
-    weekOfMonth: yup.string().when(['isRecurring', 'repeatType'], {
-      is: (isRecurring: boolean, repeatType: string) =>
-        isRecurring && repeatType === 'weekly',
-      then: (schema) => schema.min(1, FORM_MESSAGE.COMMON.REQUIRED).required(),
-      otherwise: (schema) => schema.optional(),
-    }),
+    weekOfMonth: yup
+      .array()
+      .of(yup.string().required())
+      .when(['isRecurring', 'repeatType'], {
+        is: (isRecurring: boolean, repeatType: string) =>
+          isRecurring && repeatType === 'weekly',
+        then: (schema) =>
+          schema.min(1, FORM_MESSAGE.COMMON.REQUIRED).required(),
+        otherwise: (schema) => schema.optional(),
+      }),
     monthDay: yup.string().when(['isRecurring', 'repeatType'], {
       is: (isRecurring: boolean, repeatType: string) =>
         isRecurring && repeatType === 'monthly_date',

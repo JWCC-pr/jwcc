@@ -60,6 +60,7 @@ const ReservationEditDialog: React.FC<ReservationEditDialogProps> = ({
       endAt: '10:30',
       isRecurring: !!repeatId,
       repeatType: 'weekly',
+      weekOfMonth: [],
       startDate: new Date().toISOString(),
       endDate: new Date().toISOString(),
     },
@@ -94,7 +95,12 @@ const ReservationEditDialog: React.FC<ReservationEditDialogProps> = ({
         endDate: repeatData.endDate,
         weekdays: repeatData.weekdays?.map(String),
         weekOfMonth:
-          repeatData.weekOfMonth ? String(repeatData.weekOfMonth) : '0',
+          (
+            Array.isArray(repeatData.weekOfMonth) &&
+            repeatData.weekOfMonth.length > 0
+          ) ?
+            repeatData.weekOfMonth.map(String)
+          : [],
         monthDay: repeatData.monthDay ? String(repeatData.monthDay) : '',
       })
     }
@@ -145,9 +151,9 @@ const ReservationEditDialog: React.FC<ReservationEditDialogProps> = ({
               endDate,
               weekdays: data.weekdays?.map(Number),
               weekOfMonth:
-                data.weekOfMonth && Number(data.weekOfMonth) !== 0 ?
-                  Number(data.weekOfMonth)
-                : null,
+                data.weekOfMonth?.includes('0') ?
+                  []
+                : (data.weekOfMonth?.map(Number) ?? []),
             },
           })
         } else if (data.repeatType === 'monthly_date') {

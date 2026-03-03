@@ -14,6 +14,9 @@ interface UseTimeSlotSelectionProps {
   onSelectionChange: (start: string, end: string) => void
 }
 
+const SLOT_START_HOUR = 6
+const SLOT_COUNT = 36 // 06:00 ~ 24:00, 30분 단위
+
 export const useTimeSlotSelection = ({
   initialStartTime,
   initialEndTime,
@@ -21,11 +24,11 @@ export const useTimeSlotSelection = ({
   excludeReservationId,
   onSelectionChange,
 }: UseTimeSlotSelectionProps) => {
-  // 48개의 30분 단위 슬롯 생성 및 예약 여부 미리 계산
+  // 06:00 ~ 24:00 구간의 30분 단위 슬롯 생성 및 예약 여부 계산
   const timeSlots = useMemo(
     () =>
-      Array.from({ length: 48 }, (_, i) => {
-        const hour = Math.floor(i / 2)
+      Array.from({ length: SLOT_COUNT }, (_, i) => {
+        const hour = Math.floor(i / 2) + SLOT_START_HOUR
         const minute = (i % 2) * 30
         const label = formatTime(hour, minute)
 
@@ -93,7 +96,7 @@ export const useTimeSlotSelection = ({
 
   // 인덱스 기반 종료 시간 문자열 생성 유틸리티
   const getEndTimeLabel = useCallback((index: number) => {
-    const endHour = Math.floor((index + 1) / 2)
+    const endHour = Math.floor((index + 1) / 2) + SLOT_START_HOUR
     const endMinute = ((index + 1) % 2) * 30
     return formatTime(endHour, endMinute)
   }, [])

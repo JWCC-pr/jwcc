@@ -83,7 +83,7 @@ const DepartmentBoardFormView: React.FC<DepartmentBoardFormViewProps> = ({
                 <Checkbox.HiddenInput />
                 <Checkbox.Control />
                 <Checkbox.Label textStyle="pre-body-4" color="grey.10">
-                  비밀글
+                  단체만 보기
                 </Checkbox.Label>
               </Checkbox.Root>
             )}
