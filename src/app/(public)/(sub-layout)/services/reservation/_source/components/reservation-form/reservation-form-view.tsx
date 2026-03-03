@@ -64,9 +64,12 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
     <Box display="flex" flexDirection="column">
       {/* 제목 입력 */}
       <Box py="10px" w="full" display="flex" gap="10px">
-        <Box w="80px" display="flex" alignItems="center">
+        <Box w="80px" display="flex" alignItems="center" gap="4px">
           <Text textStyle="pre-body-6" color="grey.8">
             제목
+          </Text>
+          <Text textStyle="pre-body-5" color="accent.red2">
+            *
           </Text>
         </Box>
         <Input
@@ -81,9 +84,12 @@ const ReservationFormView: React.FC<ReservationFormViewProps> = ({
 
       {/* 사용단체명 입력 */}
       <Box py="10px" w="full" display="flex" gap="10px">
-        <Box w="80px" display="flex" alignItems="center">
+        <Box w="80px" display="flex" alignItems="center" gap="4px">
           <Text textStyle="pre-body-6" color="grey.8">
             사용단체명
+          </Text>
+          <Text textStyle="pre-body-5" color="accent.red2">
+            *
           </Text>
         </Box>
         <Input

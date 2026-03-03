@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 
@@ -53,8 +53,44 @@ const ReservationCreateDialog: React.FC<ReservationCreateDialogProps> = ({
   const searchParams = useSearchParams()
   const date = format(searchParams.get('date') || NOW, 'yyyy-MM-dd')
 
-  // 초기 종료 시간 (기본 30분 블록)
-  const initialEndTime = addMinutesToTimeStr(initialTime, 30)
+  // 초기 종료 시간: 기본 1시간이지만, 다음 예약 시작 시간이 더 이르면 그 시각으로 제한
+  const initialEndTime = useMemo(() => {
+    const startMinutes = (() => {
+      const [hour, minute] = initialTime.slice(0, 5).split(':').map(Number)
+      return hour * 60 + minute
+    })()
+
+    const defaultEndTime = addMinutesToTimeStr(initialTime, 60)
+    const defaultEndMinutes = startMinutes + 60
+
+    const nextReservationStartMinutes = roomReservations.reduce<number | null>(
+      (closest, reservation) => {
+        const [hour, minute] = reservation.startAt
+          .slice(0, 5)
+          .split(':')
+          .map(Number)
+        const reservationStartMinutes = hour * 60 + minute
+
+        if (reservationStartMinutes <= startMinutes) return closest
+        if (closest === null || reservationStartMinutes < closest) {
+          return reservationStartMinutes
+        }
+        return closest
+      },
+      null,
+    )
+
+    if (
+      nextReservationStartMinutes !== null &&
+      nextReservationStartMinutes < defaultEndMinutes
+    ) {
+      const nextHour = Math.floor(nextReservationStartMinutes / 60)
+      const nextMinute = nextReservationStartMinutes % 60
+      return `${nextHour.toString().padStart(2, '0')}:${nextMinute.toString().padStart(2, '0')}`
+    }
+
+    return defaultEndTime
+  }, [initialTime, roomReservations])
 
   const methods = useRoomReservationForm({
     defaultValues: {
