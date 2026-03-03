@@ -12,7 +12,9 @@ import { format } from 'date-fns/format'
 
 import AdminEditorContent from '@/app/(public)/(sub-layout)/_source/components/admin-editor-content'
 import { toaster } from '@/components/ui/toaster'
+import { ROUTES } from '@/constants/routes'
 import { useNewsRetrieveQuery } from '@/generated/apis/News/News.query'
+import useMe from '@/hooks/useMe'
 
 interface NewsEventDetailPageProps {
   newsId: number
@@ -21,17 +23,19 @@ interface NewsEventDetailPageProps {
 const NewsEventDetailPage: React.FC<NewsEventDetailPageProps> = ({
   newsId,
 }) => {
+  const { isParishMember } = useMe()
   const router = useRouter()
-  const { data: news, error } = useNewsRetrieveQuery({
+  const { data: news } = useNewsRetrieveQuery({
     variables: {
       id: newsId,
     },
   })
 
   useEffect(() => {
-    if (!error) return
+    if (!news) return
+    if (news.isPublic || isParishMember) return
 
-    router.back()
+    router.replace(ROUTES.NEWS_EVENT)
 
     setTimeout(() => {
       toaster.create({
@@ -39,7 +43,7 @@ const NewsEventDetailPage: React.FC<NewsEventDetailPageProps> = ({
         title: '본당 신자만 접근 가능합니다.',
       })
     }, 0)
-  }, [error, router])
+  }, [news, router, isParishMember])
 
   if (!news) return null
 

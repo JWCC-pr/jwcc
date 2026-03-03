@@ -72,7 +72,7 @@ const NewsEventsPage: React.FC = () => {
               textDecoration: 'none',
             }}
             onClick={(e) => {
-              if (news.isPublic && !isParishMember) {
+              if (!news.isPublic && !isParishMember) {
                 e.preventDefault()
 
                 toaster.create({
