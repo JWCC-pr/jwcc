@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 
 import { FormProvider } from 'react-hook-form'
 
+import { toaster } from '@/components/ui/toaster'
 import { ROUTES } from '@/constants/routes'
 import { DepartmentBoardType } from '@/generated/apis/@types/data-contracts'
 import {
@@ -35,6 +36,8 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
       content: initialData?.content ?? '',
       subDepartment: initialData?.subDepartment ?? undefined,
       fileSet: initialData?.fileSet ?? [],
+      isFixed: Boolean(initialData?.isFixed),
+      isSecret: Boolean(initialData?.isSecret),
     },
   })
 
@@ -57,6 +60,8 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
             body: data.content,
             subDepartment: data.subDepartment,
             fileSet: data.fileSet,
+            isFixed: data.isFixed,
+            isSecret: data.isSecret,
           },
         })
 
@@ -70,14 +75,25 @@ const DepartmentBoardForm: React.FC<DepartmentBoardFormProps> = ({
             body: data.content,
             subDepartment: data.subDepartment,
             fileSet: data.fileSet,
+            isFixed: data.isFixed,
+            isSecret: data.isSecret,
           },
         })
 
         id = result.id
       }
       router.replace(ROUTES.COMMUNITY_DEPARTMENT_BOARD_DETAIL(departmentId, id))
-    } catch (error) {
+    } catch (error: any) {
       console.error(error)
+
+      const isFixedError = !!error?.error?.isFixed
+
+      if (isFixedError) {
+        toaster.create({
+          type: 'error',
+          title: '고정된 게시글은 최대 5개까지 가능합니다',
+        })
+      }
     }
   })
 

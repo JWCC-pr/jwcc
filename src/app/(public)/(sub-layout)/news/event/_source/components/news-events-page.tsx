@@ -11,8 +11,10 @@ import { format } from 'date-fns/format'
 
 import EmptySection from '@/app/(public)/(sub-layout)/_source/components/empty-section'
 import Pagination from '@/components/pagination'
+import { toaster } from '@/components/ui/toaster'
 import { ROUTES } from '@/constants/routes'
 import { useNewsListQuery } from '@/generated/apis/News/News.query'
+import useMe from '@/hooks/useMe'
 
 const LIMIT = 6
 
@@ -27,6 +29,8 @@ const NewsEventsPage: React.FC = () => {
 
     router.replace(`${ROUTES.NEWS_EVENT}?${newSearchParams.toString()}`)
   }
+
+  const { isParishMember } = useMe()
 
   const { data: news } = useNewsListQuery({
     variables: {
@@ -66,6 +70,19 @@ const NewsEventsPage: React.FC = () => {
             onContextMenu={(e) => e.preventDefault()}
             _hover={{
               textDecoration: 'none',
+            }}
+            onClick={(e) => {
+              if (!news.isPublic && !isParishMember) {
+                e.preventDefault()
+
+                toaster.create({
+                  type: 'error',
+                  title: '본당 신자만 접근 가능합니다.',
+                })
+                return
+              }
+
+              router.push(ROUTES.NEWS_EVENT_DETAIL(news.id))
             }}
           >
             <Image

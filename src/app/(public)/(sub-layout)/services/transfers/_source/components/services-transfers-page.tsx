@@ -12,50 +12,6 @@ import { useIsBreakpoint } from '@/hooks/use-is-breakpoint'
 
 import InfoList from '../../../_source/components/info-list'
 
-/** 본당 사제 / 수도자 */
-const parishClergyInfos = [
-  {
-    label: '사제',
-    value: (
-      <Box display="flex" gap="6px">
-        <Text flex="1" textStyle="pre-body-4" color="grey.10">
-          주임신부
-          <br />
-          부주임신부
-          <br />
-          보좌신부
-        </Text>
-        <Text flex="1" textStyle="pre-body-4" color="grey.10">
-          박상수 바오로
-          <br />
-          문필정 바실리오
-          <br />
-          황준호 자선토마스
-        </Text>
-      </Box>
-    ),
-  },
-  {
-    label: '수도자',
-    value: (
-      <Box display="flex" gap="6px">
-        <Text flex="1" textStyle="pre-body-4" color="grey.10">
-          원장수녀
-          <br />
-          청소년 담당수녀
-          <br />
-          전례 담당수녀
-        </Text>
-        <Text flex="1" textStyle="pre-body-4" color="grey.10">
-          최 스페스
-          <br />
-          윤 데니스
-          <br />허 에녹
-        </Text>
-      </Box>
-    ),
-  },
-]
 /** 사무실 안내 */
 const officeInfos = [
   {
@@ -220,13 +176,6 @@ const ServicesTransfersPage: React.FC = () => {
 
       <Box display="flex" flexDirection="column" gap="24px">
         <Text textStyle="pre-heading-1" color="grey.10">
-          본당 사제 / 수도자
-        </Text>
-        <InfoList items={parishClergyInfos} isFlexibleWidth />
-      </Box>
-
-      <Box display="flex" flexDirection="column" gap="24px">
-        <Text textStyle="pre-heading-1" color="grey.10">
           사목협의회
         </Text>
         <Text textStyle="pre-body-4" color="grey.10">
@@ -241,9 +190,9 @@ const ServicesTransfersPage: React.FC = () => {
           href={ROUTES.COMMUNITY_PASTORAL_COUNCIL}
           _hover={{ textDecoration: 'none' }}
         >
-          <Button size="md" variant="solid" colorPalette="grey" disabled>
+          <Button size="md" variant="solid" colorPalette="grey">
             <LinkIcon size="20px" color="#4E5053" />
-            사목협의외 페이지 바로가기
+            사목협의회 페이지 바로가기
           </Button>
         </Link>
       </Box>

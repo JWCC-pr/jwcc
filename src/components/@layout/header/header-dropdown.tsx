@@ -124,10 +124,15 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
                         {navItems[hoveredNavIndex].subItems?.map(
                           (subItem, subIndex) => {
                             // 목자회의는 누구나 접근 가능
-                            const isPastoralCouncil =
+                            const isPastoralCouncilPage =
                               subItem.href === ROUTES.COMMUNITY_PASTORAL_COUNCIL
+                            const isReservationPage =
+                              isNotParishMember &&
+                              subItem.href === ROUTES.SERVICES_RESERVATION
                             const shouldBlockAccess =
-                              shouldShowParishMemberToast && !isPastoralCouncil
+                              (shouldShowParishMemberToast &&
+                                !isPastoralCouncilPage) ||
+                              isReservationPage
 
                             return (
                               <MotionBox

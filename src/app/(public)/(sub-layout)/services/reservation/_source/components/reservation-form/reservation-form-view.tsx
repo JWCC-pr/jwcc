@@ -1,0 +1,221 @@
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+
+import { Box } from '@chakra-ui/react/box'
+import { Checkbox } from '@chakra-ui/react/checkbox'
+import { Input } from '@chakra-ui/react/input'
+import { Link } from '@chakra-ui/react/link'
+import { Text } from '@chakra-ui/react/text'
+
+import { format } from 'date-fns'
+import {
+  Controller,
+  useFormContext,
+  useFormState,
+  useWatch,
+} from 'react-hook-form'
+
+import { FormHelper } from '@/components/form-helper'
+import {
+  CatechismRoomItemType,
+  RoomReservationType,
+} from '@/generated/apis/@types/data-contracts'
+import useMe from '@/hooks/useMe'
+
+import { RoomReservationFormDataType } from '../../hooks/useRoomReservationForm'
+import { calculateReservationDuration } from '../../utils/time'
+import RecurringFormView from './recurring-form-view'
+import TimeSlotSelector from './time-slot-selector'
+
+interface ReservationFormViewProps {
+  room: CatechismRoomItemType
+  roomReservations: RoomReservationType[]
+  excludeReservationId?: number
+  isEditMode?: boolean
+}
+
+const ReservationFormView: React.FC<ReservationFormViewProps> = ({
+  room,
+  roomReservations,
+  excludeReservationId,
+  isEditMode,
+}) => {
+  const { data: me, isAdmin } = useMe()
+  const searchParams = useSearchParams()
+
+  const date = searchParams.get('date') ?? format(new Date(), 'yyyy-MM-dd')
+
+  const { register, control, setValue } =
+    useFormContext<RoomReservationFormDataType>()
+  const { errors } = useFormState({ control })
+
+  const [startAt, endAt, isRecurring] = useWatch({
+    control,
+    name: ['startAt', 'endAt', 'isRecurring'],
+  })
+
+  // 예약 기간 계산 (n시간 형식)
+  const duration = calculateReservationDuration(startAt, endAt)
+
+  const reservationInfos = [
+    { label: '예약자명', value: me?.name },
+    { label: '예약 날짜', value: date },
+    {
+      label: '예약 시간',
+      value: `${startAt} ~ ${endAt} (${duration})`,
+    },
+    { label: '예약 교리실', value: `${room.location} ${room.name}` },
+  ]
+
+  return (
+    <Box display="flex" flexDirection="column">
+      {!isAdmin && (
+        <Box
+          mb="12px"
+          px="14px"
+          py="12px"
+          border="1px solid"
+          borderColor="border.basic.1"
+          bg="background.basic.2"
+          rounded="10px"
+        >
+          <Text textStyle="pre-body-5" color="grey.7">
+            반복 예약이 필요하시면{' '}
+            <Link
+              href="mailto:pr@jwcc.or.kr"
+              _hover={{ textDecoration: 'none' }}
+              color="grey.8"
+            >
+              pr@jwcc.or.kr
+            </Link>
+            로 연락주세요.
+          </Text>
+        </Box>
+      )}
+
+      {/* 제목 입력 */}
+      <Box py="10px" w="full" display="flex" alignItems="flex-start" gap="10px">
+        <Box
+          flexShrink="0"
+          w="80px"
+          h="48px"
+          display="flex"
+          alignItems="center"
+          gap="4px"
+        >
+          <Text textStyle="pre-body-6" color="grey.8">
+            제목
+          </Text>
+          <Text textStyle="pre-body-5" color="accent.red2">
+            *
+          </Text>
+        </Box>
+        <FormHelper required message={{ error: errors.title?.message }}>
+          <Input
+            placeholder="제목"
+            size="lg"
+            variant="outline"
+            colorPalette="grey"
+            maxLength={50}
+            {...register('title')}
+          />
+        </FormHelper>
+      </Box>
+
+      {/* 사용단체명 입력 */}
+      <Box py="10px" w="full" display="flex" alignItems="flex-start" gap="10px">
+        <Box
+          flexShrink="0"
+          w="80px"
+          h="48px"
+          display="flex"
+          alignItems="center"
+          gap="4px"
+        >
+          <Text textStyle="pre-body-6" color="grey.8">
+            사용단체명
+          </Text>
+          <Text textStyle="pre-body-5" color="accent.red2">
+            *
+          </Text>
+        </Box>
+        <FormHelper
+          required
+          message={{ error: errors.organizationName?.message }}
+        >
+          <Input
+            placeholder="사용단체명"
+            size="lg"
+            variant="outline"
+            colorPalette="grey"
+            maxLength={10}
+            {...register('organizationName')}
+          />
+        </FormHelper>
+      </Box>
+
+      {/* 예약 기본 정보 (읽기 전용) */}
+      <Box display="flex" flexDirection="column">
+        {reservationInfos.map((info) => (
+          <Box key={info.label} py="10px" w="full" display="flex" gap="10px">
+            <Box w="80px" display="flex" alignItems="center">
+              <Text textStyle="pre-body-6" color="grey.8">
+                {info.label}
+              </Text>
+            </Box>
+            <Text textStyle="pre-body-4" color="grey.10">
+              {info.value}
+            </Text>
+          </Box>
+        ))}
+      </Box>
+
+      {/* 시간 선택 슬롯 그리드 */}
+      <Box my="16px" w="full" overflowX="auto">
+        <TimeSlotSelector
+          initialStartTime={startAt}
+          initialEndTime={endAt}
+          roomReservations={roomReservations}
+          excludeReservationId={excludeReservationId}
+          onSelectionChange={(start, end) => {
+            setValue('startAt', start, { shouldValidate: true })
+            setValue('endAt', end, { shouldValidate: true })
+          }}
+        />
+      </Box>
+
+      {/* 일정 반복 토글 */}
+      {isAdmin && (
+        <Controller
+          name="isRecurring"
+          control={control}
+          render={({ field: { value, onChange, name } }) => (
+            <Checkbox.Root
+              disabled={isEditMode}
+              name={name}
+              checked={value}
+              onCheckedChange={(details) => onChange(details.checked === true)}
+              size="md"
+              variant="solid"
+              colorPalette="grey"
+              gap="8px"
+              py="16px"
+            >
+              <Checkbox.HiddenInput />
+              <Checkbox.Control />
+              <Checkbox.Label textStyle="pre-body-4" color="grey.10">
+                일정 반복
+              </Checkbox.Label>
+            </Checkbox.Root>
+          )}
+        />
+      )}
+
+      {/* 반복 설정 폼 (활성화 시 노출) */}
+      {isRecurring && <RecurringFormView />}
+    </Box>
+  )
+}
+
+export default ReservationFormView

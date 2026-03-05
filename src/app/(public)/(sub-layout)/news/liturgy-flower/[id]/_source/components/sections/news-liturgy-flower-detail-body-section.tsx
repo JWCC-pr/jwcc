@@ -6,21 +6,31 @@ import { Box } from '@chakra-ui/react/box'
 import { IconButton } from '@chakra-ui/react/button'
 import { Image } from '@chakra-ui/react/image'
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react'
+import { useGesture } from '@use-gesture/react'
 
 import { animate, motion, useMotionValue } from 'motion/react'
 
 import { LiturgyFlowerType } from '@/generated/apis/@types/data-contracts'
 
 const MotionBox = motion(Box)
+const MotionImage = motion(Image)
 
 const ANIMATION_DURATION = 0.3
 const ANIMATION_EASE = [0.4, 0, 0.2, 1] as const
 const DRAG_THRESHOLD_RATIO = 0.25 // 25%
 const DRAG_VELOCITY_THRESHOLD = 300
-const DRAG_ELASTIC = 0.1
+const PINCH_SCALE_MIN = 1
+const PINCH_SCALE_MAX = 4
+const EDGE_PAN_THRESHOLD = 50
 
 interface NewsLiturgyFlowerDetailBodySectionProps {
   liturgyFlower: Pick<LiturgyFlowerType, 'imageSet'>
+}
+
+type DragMemo = {
+  startPanX: number
+  startPanY: number
+  mode: 'carousel' | 'pan'
 }
 
 const NewsLiturgyFlowerDetailBodySection: React.FC<
@@ -44,13 +54,18 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
   const [currentIndex, setCurrentIndex] = useState(FIRST_INDEX)
   const [isDragging, setIsDragging] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [isZoomed, setIsZoomed] = useState(false)
   const x = useMotionValue(0)
+  const scale = useMotionValue(1)
+  const panX = useMotionValue(0)
+  const panY = useMotionValue(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const imageContainerRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<ReturnType<typeof animate> | null>(null)
   const isJumpingRef = useRef(false)
   const isDraggingRef = useRef(false)
   const currentIndexRef = useRef(FIRST_INDEX)
+  const scaleRef = useRef(1)
 
   const showIndex = useMemo(() => {
     if (totalImages <= 1) return 1
@@ -141,10 +156,8 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
       if (!containerWidth) {
         retryCount++
         if (retryCount < MAX_RETRIES) {
-          // 컨테이너 크기가 아직 계산되지 않았으면 다음 프레임에 재시도
           rafId = requestAnimationFrame(initializePosition)
         } else {
-          // 최대 재시도 횟수에 도달했으면 강제로 초기화
           setIsInitialized(true)
         }
         return
@@ -153,10 +166,8 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
       setIsInitialized(true)
     }
 
-    // 초기화 시도
     initializePosition()
 
-    // ResizeObserver로 컨테이너 크기 변경 감지
     const container = imageContainerRef.current
     if (!container) {
       if (rafId) cancelAnimationFrame(rafId)
@@ -166,7 +177,6 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
     const resizeObserver = new ResizeObserver(() => {
       const containerWidth = getContainerWidth()
       if (containerWidth) {
-        // 크기가 변경되었을 때 현재 인덱스에 맞게 위치 조정
         if (!isDraggingRef.current && !isJumpingRef.current) {
           const targetX = -currentIndexRef.current * containerWidth
           x.set(targetX)
@@ -203,19 +213,16 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
       return
     }
 
-    // 끝에 도달했을 때 처음으로 점프
     if (currentIndex >= extendedTotal - 1) {
       jumpToFirst()
       return
     }
 
-    // 처음 이전으로 갔을 때 마지막으로 점프
     if (currentIndex <= 0) {
       jumpToLast()
       return
     }
 
-    // 정상적인 슬라이드 이동
     stopAnimation()
     const targetX = -currentIndex * containerWidth
     animationRef.current = animate(x, targetX, {
@@ -234,8 +241,18 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
     stopAnimation,
   ])
 
+  // 줌 리셋
+  const resetZoom = useCallback(() => {
+    animate(scale, 1, { duration: 0.2 })
+    animate(panX, 0, { duration: 0.2 })
+    animate(panY, 0, { duration: 0.2 })
+    scaleRef.current = 1
+    setIsZoomed(false)
+  }, [scale, panX, panY])
+
   const goToNext = useCallback(() => {
     if (totalImages <= 1) return
+    if (scaleRef.current > 1) resetZoom()
     setCurrentIndex((prev) => {
       const next = prev + 1
       if (next >= extendedTotal - 1) {
@@ -244,10 +261,11 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
       }
       return next
     })
-  }, [totalImages, extendedTotal, jumpToFirst])
+  }, [totalImages, extendedTotal, jumpToFirst, resetZoom])
 
   const goToPrev = useCallback(() => {
     if (totalImages <= 1) return
+    if (scaleRef.current > 1) resetZoom()
     setCurrentIndex((prev) => {
       const prevIndex = prev - 1
       if (prevIndex <= 0) {
@@ -256,86 +274,165 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
       }
       return prevIndex
     })
-  }, [totalImages, jumpToLast])
+  }, [totalImages, jumpToLast, resetZoom])
 
-  const handleDragStart = useCallback(() => {
-    if (totalImages <= 1) return
-    setIsDragging(true)
-    isDraggingRef.current = true
-    stopAnimation()
-  }, [totalImages, stopAnimation])
-
-  const handleDrag = useCallback(() => {
-    if (totalImages <= 1) return
-    const containerWidth = getContainerWidth()
-    if (!containerWidth) return
-
-    const currentX = x.get()
-    const currentPosition = -currentX / containerWidth
-
-    if (currentPosition >= extendedTotal - 1) {
-      jumpToFirst()
-    } else if (currentPosition <= 0) {
-      jumpToLast()
-    }
-  }, [
-    totalImages,
-    extendedTotal,
-    x,
-    getContainerWidth,
-    jumpToFirst,
-    jumpToLast,
-  ])
-
-  const handleDragEnd = useCallback(
-    (
-      _: MouseEvent | TouchEvent | PointerEvent,
-      info: { offset: { x: number }; velocity: { x: number } },
-    ) => {
-      if (totalImages <= 1) return
-
-      const containerWidth = getContainerWidth()
-      if (!containerWidth) return
-
-      setIsDragging(false)
-      isDraggingRef.current = false
-
-      // 점프 중이면 처리하지 않음
-      if (isJumpingRef.current) {
-        return
-      }
-
-      const threshold = containerWidth * DRAG_THRESHOLD_RATIO
-
-      // 드래그 거리나 속도가 임계값을 넘으면 슬라이드 변경
-      if (
-        Math.abs(info.offset.x) > threshold ||
-        Math.abs(info.velocity.x) > DRAG_VELOCITY_THRESHOLD
-      ) {
-        if (info.offset.x > 0) {
-          goToPrev()
-        } else {
-          goToNext()
+  // 모든 제스처 통합 처리 (@use-gesture로 드래그 + 핀치 모두 관리)
+  const bindGesture = useGesture(
+    {
+      onDrag: ({
+        movement: [mx, my],
+        velocity: [vx],
+        first,
+        last,
+        memo,
+        pinching,
+        cancel,
+      }) => {
+        if (pinching) {
+          cancel()
+          return memo
         }
-      } else {
-        // 원래 위치로 복귀
-        stopAnimation()
-        const targetX = -currentIndex * containerWidth
-        animationRef.current = animate(x, targetX, {
-          duration: 0.2,
-          ease: ANIMATION_EASE,
-        })
-      }
+
+        // 드래그 시작 시 모드 결정
+        if (first) {
+          stopAnimation()
+          const currentScale = scaleRef.current
+
+          if (currentScale > 1) {
+            // 확대 상태 → 팬 모드
+            memo = {
+              startPanX: panX.get(),
+              startPanY: panY.get(),
+              mode: 'pan' as const,
+            } satisfies DragMemo
+          } else {
+            // 기본 상태 → 캐루셀 모드
+            memo = {
+              startPanX: 0,
+              startPanY: 0,
+              mode: 'carousel' as const,
+            } satisfies DragMemo
+            setIsDragging(true)
+            isDraggingRef.current = true
+          }
+        }
+
+        const typedMemo = memo as DragMemo
+        if (!typedMemo) return memo
+
+        // 팬 모드 (확대 상태에서 한 손가락 드래그)
+        if (typedMemo.mode === 'pan') {
+          const containerWidth = getContainerWidth()
+          const containerHeight = imageContainerRef.current?.offsetHeight ?? 0
+          const maxPanX = (containerWidth * (scaleRef.current - 1)) / 2
+          const maxPanY = (containerHeight * (scaleRef.current - 1)) / 2
+
+          const newPanX = typedMemo.startPanX + mx
+          const newPanY = typedMemo.startPanY + my
+
+          // 가장자리에서 수평으로 더 드래그하면 캐루셀 모드로 전환
+          const isHorizontalDrag = Math.abs(mx) > Math.abs(my) * 1.5
+          if (
+            isHorizontalDrag &&
+            Math.abs(mx) > EDGE_PAN_THRESHOLD &&
+            totalImages > 1
+          ) {
+            const atLeftEdge = typedMemo.startPanX >= maxPanX - 2 && mx > 0
+            const atRightEdge = typedMemo.startPanX <= -maxPanX + 2 && mx < 0
+
+            if (atLeftEdge || atRightEdge) {
+              // 줌 리셋 후 캐루셀 모드로 전환
+              resetZoom()
+              typedMemo.mode = 'carousel'
+              setIsDragging(true)
+              isDraggingRef.current = true
+            }
+          }
+
+          if (typedMemo.mode === 'pan') {
+            panX.set(Math.min(maxPanX, Math.max(-maxPanX, newPanX)))
+            panY.set(Math.min(maxPanY, Math.max(-maxPanY, newPanY)))
+            return memo
+          }
+        }
+
+        // 캐루셀 모드 (기본 상태에서 한 손가락 드래그)
+        if (totalImages <= 1) return memo
+
+        const containerWidth = getContainerWidth()
+        if (!containerWidth) return memo
+
+        const baseX = -currentIndexRef.current * containerWidth
+        x.set(baseX + mx)
+
+        // 무한 루프 래핑
+        const currentX = x.get()
+        const currentPosition = -currentX / containerWidth
+        if (currentPosition >= extendedTotal - 1) {
+          jumpToFirst()
+        } else if (currentPosition <= 0) {
+          jumpToLast()
+        }
+
+        // 드래그 종료 시 슬라이드 결정
+        if (last) {
+          setIsDragging(false)
+          isDraggingRef.current = false
+
+          if (!isJumpingRef.current) {
+            const threshold = containerWidth * DRAG_THRESHOLD_RATIO
+
+            if (Math.abs(mx) > threshold || vx > DRAG_VELOCITY_THRESHOLD) {
+              if (mx > 0) goToPrev()
+              else goToNext()
+            } else {
+              // 원래 위치로 복귀
+              stopAnimation()
+              const targetX = -currentIndexRef.current * containerWidth
+              animationRef.current = animate(x, targetX, {
+                duration: 0.2,
+                ease: ANIMATION_EASE,
+              })
+            }
+          }
+        }
+
+        return memo
+      },
+      onPinch: ({ offset: [s] }) => {
+        const clampedScale = Math.min(
+          PINCH_SCALE_MAX,
+          Math.max(PINCH_SCALE_MIN, s),
+        )
+        scale.set(clampedScale)
+        scaleRef.current = clampedScale
+
+        if (clampedScale > 1 && !isZoomed) {
+          setIsZoomed(true)
+        } else if (clampedScale <= 1 && isZoomed) {
+          panX.set(0)
+          panY.set(0)
+          setIsZoomed(false)
+        }
+      },
+      onPinchEnd: () => {
+        if (scaleRef.current <= 1) {
+          resetZoom()
+        }
+      },
     },
-    [
-      totalImages,
-      getContainerWidth,
-      currentIndex,
-      x,
-      goToPrev,
-      goToNext,
-      stopAnimation,
-    ],
+    {
+      drag: {
+        filterTaps: true,
+        pointer: { touch: true },
+      },
+      pinch: {
+        scaleBounds: { min: PINCH_SCALE_MIN, max: PINCH_SCALE_MAX },
+        rubberband: true,
+        from: () => [scaleRef.current, 0],
+        pointer: { touch: true },
+      },
+    },
   )
 
   if (totalImages === 0) return null
@@ -395,21 +492,21 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
             style={{
               opacity: isInitialized ? 1 : 0,
               transition: isInitialized ? 'opacity 0.2s ease-in-out' : 'none',
+              touchAction: 'none',
             }}
+            {...bindGesture()}
           >
             <MotionBox
               display="flex"
               w={`${extendedTotal * 100}%`}
               h="100%"
               style={{ x }}
-              drag={totalImages > 1 ? 'x' : false}
-              dragElastic={DRAG_ELASTIC}
-              dragMomentum={false}
-              onDragStart={handleDragStart}
-              onDrag={handleDrag}
-              onDragEnd={handleDragEnd}
-              whileDrag={{ cursor: 'grabbing' }}
-              cursor={totalImages > 1 ? 'grab' : 'default'}
+              cursor={
+                isZoomed ? 'move'
+                : totalImages > 1 ?
+                  'grab'
+                : 'default'
+              }
             >
               {extendedImages.map((image, index) => (
                 <Box
@@ -422,7 +519,7 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
                   justifyContent="center"
                   position="relative"
                 >
-                  <Image
+                  <MotionImage
                     src={image.image}
                     alt="미사꽃 이미지"
                     maxW="100%"
@@ -430,6 +527,11 @@ const NewsLiturgyFlowerDetailBodySection: React.FC<
                     objectFit="contain"
                     draggable={false}
                     userSelect="none"
+                    style={
+                      index === currentIndex ?
+                        { scale, x: panX, y: panY }
+                      : undefined
+                    }
                   />
                 </Box>
               ))}

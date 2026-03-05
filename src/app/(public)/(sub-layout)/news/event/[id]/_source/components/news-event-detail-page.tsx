@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect } from 'react'
+
 import { useRouter } from 'next/navigation'
 
 import { Box } from '@chakra-ui/react/box'
@@ -9,7 +11,10 @@ import { Text } from '@chakra-ui/react/text'
 import { format } from 'date-fns/format'
 
 import AdminEditorContent from '@/app/(public)/(sub-layout)/_source/components/admin-editor-content'
+import { toaster } from '@/components/ui/toaster'
+import { ROUTES } from '@/constants/routes'
 import { useNewsRetrieveQuery } from '@/generated/apis/News/News.query'
+import useMe from '@/hooks/useMe'
 
 interface NewsEventDetailPageProps {
   newsId: number
@@ -18,12 +23,27 @@ interface NewsEventDetailPageProps {
 const NewsEventDetailPage: React.FC<NewsEventDetailPageProps> = ({
   newsId,
 }) => {
+  const { isParishMember } = useMe()
   const router = useRouter()
   const { data: news } = useNewsRetrieveQuery({
     variables: {
       id: newsId,
     },
   })
+
+  useEffect(() => {
+    if (!news) return
+    if (news.isPublic || isParishMember) return
+
+    router.replace(ROUTES.NEWS_EVENT)
+
+    setTimeout(() => {
+      toaster.create({
+        type: 'error',
+        title: '본당 신자만 접근 가능합니다.',
+      })
+    }, 0)
+  }, [news, router, isParishMember])
 
   if (!news) return null
 

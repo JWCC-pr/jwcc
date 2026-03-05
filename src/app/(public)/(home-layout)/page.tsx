@@ -5,7 +5,7 @@ import { getSharedMetadata } from '@/utils/metadata/shared-metadata'
 import HomePage from './_source/components/HomePage'
 
 export const metadata: Metadata = getSharedMetadata({
-  title: '천주교 잠원동 성당 - 파티마의 성모',
+  title: '잠원동성당 - 천주교 서울대교구 잠원동성당',
   ignoreTemplate: true,
 })
 

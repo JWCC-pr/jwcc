@@ -12,11 +12,16 @@ import {
   type SelectRootProps,
 } from '@chakra-ui/react/select'
 
+import { toaster } from '@/components/ui/toaster'
+import { ROUTES } from '@/constants/routes'
+import useMe from '@/hooks/useMe'
+
 interface TwoDepthSelectProps {
   options: { label: string; value: string; disabled?: boolean }[]
 }
 
 const TwoDepthSelect: React.FC<TwoDepthSelectProps> = ({ options }) => {
+  const { isParishMember } = useMe()
   const pathname = usePathname()
   const router = useRouter()
 
@@ -30,6 +35,16 @@ const TwoDepthSelect: React.FC<TwoDepthSelectProps> = ({ options }) => {
   const handleValueChange: SelectRootProps['onValueChange'] = (e) => {
     const selectedValue = e.value[0]
     if (!selectedValue) return
+
+    const isReservationPage = selectedValue === ROUTES.SERVICES_RESERVATION
+
+    if (!isParishMember && isReservationPage) {
+      toaster.create({
+        title: '본당 신자만 접근 가능합니다.',
+        type: 'error',
+      })
+      return
+    }
 
     router.push(selectedValue)
   }

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Badge } from '@chakra-ui/react/badge'
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
+import { PushPinIcon } from '@phosphor-icons/react'
 
 import { format } from 'date-fns/format'
 
@@ -19,7 +20,10 @@ import {
 import { useDepartmentBoardListQuery } from '@/generated/apis/DepartmentBoard/DepartmentBoard.query'
 import useMe from '@/hooks/useMe'
 
-const LIMIT = 10
+/** 고정 공지사항 */
+const FIXED_LIMIT = 5
+/** 화면에 보여질 총 게시글 수 */
+const TOTAL_VIEW_LIMIT = 15
 
 interface DepartmentBoardTableSectionProps {
   departmentId: number
@@ -42,13 +46,32 @@ const columns: TableColumn<DepartmentBoardType>[] = [
           <Badge size="md" variant="subtle" colorPalette="grey">
             {board.subDepartmentInfo.name}
           </Badge>
-          <Text
-            textStyle="pre-body-6"
-            lineClamp="1"
-            className="hover-underline"
-          >
-            {board.title}
-          </Text>
+          <Box display="flex" gap="6px" alignItems="center">
+            {board.isFixed && (
+              <Box
+                flexShrink="0"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                w="16px"
+                h="16px"
+              >
+                <PushPinIcon size="16px" color="#780536" />
+              </Box>
+            )}
+            {board.isSecret && (
+              <Text textStyle="pre-body-5" color="primary.3">
+                [비밀글]
+              </Text>
+            )}
+            <Text
+              textStyle="pre-body-6"
+              lineClamp="1"
+              className="hover-underline"
+            >
+              {board.title}
+            </Text>
+          </Box>
         </Box>
         <Box display="flex" flexFlow="row wrap" gap="4px">
           {board.fileSet?.map(({ file }) => (
@@ -122,35 +145,61 @@ const DepartmentBoardTableSection: React.FC<
   }
 
   const { isParishMember } = useMe()
-  const { data: boards } = useDepartmentBoardListQuery({
+  const { data: fixedBoards } = useDepartmentBoardListQuery({
     options: {
       enabled: !!isParishMember,
     },
     variables: {
       query: {
         department: departmentId,
-        offset: (page - 1) * LIMIT,
-        limit: LIMIT,
+        offset: 0,
+        limit: FIXED_LIMIT,
         ordering: [ordering],
         search,
         sub_department: subDepartment,
+        is_fixed: true,
       },
     },
   })
 
-  // FIXME: 스켈레톤 UI, 빈 데이터 UI 추가
+  const fixedCount = fixedBoards?.results?.length ?? 0
+  const limit = TOTAL_VIEW_LIMIT - fixedCount
+
+  const { data: boards } = useDepartmentBoardListQuery({
+    options: {
+      enabled: !!isParishMember && !!fixedBoards,
+    },
+    variables: {
+      query: {
+        department: departmentId,
+        offset: (page - 1) * limit,
+        limit: limit,
+        ordering: [ordering],
+        search,
+        sub_department: subDepartment,
+        is_fixed: false,
+      },
+    },
+  })
+
+  if (!fixedBoards) return
   if (!boards) return
-  if (!boards.results) return
+  if (!fixedBoards.results) return
+
+  const totalData = [...(fixedBoards.results ?? []), ...(boards.results ?? [])]
 
   return (
     <Table
       columns={columns}
-      data={boards.results}
+      data={totalData}
       getRowKey={(board) => board.id}
+      getRowProps={(notice) => ({
+        bgColor: notice.isFixed ? 'primary.1' : 'grey.0',
+      })}
       onRowClick={handleClick}
       pagination={{
         totalCount: boards.count ?? 0,
-        pageSize: LIMIT,
+        pageSize: limit,
         currentPage: page,
         onPageChange: handlePageChange,
       }}
