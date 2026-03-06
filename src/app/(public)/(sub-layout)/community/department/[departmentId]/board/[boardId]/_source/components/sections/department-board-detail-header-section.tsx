@@ -102,7 +102,7 @@ const DepartmentBoardDetailHeaderSection: React.FC<
           <Box display="flex" gap="6px" alignItems="center">
             {board.isSecret && (
               <Text textStyle="pre-body-1" color="primary.3">
-                [비밀글]
+                [우리 단체만]
               </Text>
             )}
             <Text textStyle="pre-heading-2" color="grey.10">
