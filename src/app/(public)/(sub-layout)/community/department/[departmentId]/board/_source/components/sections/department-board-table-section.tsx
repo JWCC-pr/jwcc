@@ -61,7 +61,7 @@ const columns: TableColumn<DepartmentBoardType>[] = [
             )}
             {board.isSecret && (
               <Text textStyle="pre-body-5" color="primary.3">
-                [비밀글]
+                [우리 단체만]
               </Text>
             )}
             <Text
