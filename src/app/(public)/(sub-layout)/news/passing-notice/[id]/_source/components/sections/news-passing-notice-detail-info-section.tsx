@@ -17,7 +17,7 @@ interface NewsPassingNoticeDetailInfoSectionProps {
   passingNotice: Pick<
     PassingNoticeType,
     | 'name'
-    | 'baptismalName'
+    | 'district'
     | 'age'
     | 'passingAt'
     | 'encoffinmentAt'
@@ -34,7 +34,7 @@ const NewsPassingNoticeDetailInfoSection: React.FC<
 > = ({ passingNotice }) => {
   const deceasedInfo = [
     { label: '고인 성함', value: passingNotice.name },
-    { label: '세례명', value: passingNotice.baptismalName },
+    { label: '소속구역', value: passingNotice.district },
     { label: '나이', value: passingNotice.age + '세' },
   ]
   const funeralInfo = [

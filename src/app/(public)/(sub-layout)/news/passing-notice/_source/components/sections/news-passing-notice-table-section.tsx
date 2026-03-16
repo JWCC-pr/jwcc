@@ -21,11 +21,11 @@ const columns: TableColumn<PassingNoticeType>[] = [
     render: (passingNotice) => passingNotice.name,
   },
   {
-    key: 'baptismalName',
-    label: '세례명',
+    key: 'district',
+    label: '소속구역',
     width: { type: 'flex', value: 1, minWidth: 100 },
     textAlign: 'center',
-    render: (passingNotice) => passingNotice.baptismalName,
+    render: (passingNotice) => passingNotice.district,
   },
   {
     key: 'funeralMassAt',

@@ -1187,10 +1187,10 @@ export interface PassingNoticeType {
    */
   name: string
   /**
-   * 고인 세례명
+   * 소속구역
    * @maxLength 40
    */
-  baptismalName: string
+  district: string
   /**
    * 고인 나이
    * @min 0
