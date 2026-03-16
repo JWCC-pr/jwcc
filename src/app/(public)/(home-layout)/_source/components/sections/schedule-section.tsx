@@ -33,30 +33,30 @@ export interface CalendarDay {
   isSunday: boolean
 }
 
-const TODAY = new Date()
-const CURRENT_YEAR = TODAY.getFullYear()
-const CURRENT_MONTH = TODAY.getMonth() + 1
-
 const ScheduleSection: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<Date>(TODAY)
+  const today = useMemo(() => new Date(), [])
+  const currentYear = today.getFullYear()
+  const currentMonth = today.getMonth() + 1
+
+  const [selectedDate, setSelectedDate] = useState<Date>(today)
 
   const { data: schedules } = useScheduleListQuery({
     variables: {
       query: {
-        year: CURRENT_YEAR.toString(),
-        month: CURRENT_MONTH.toString(),
+        year: currentYear.toString(),
+        month: currentMonth.toString(),
       },
     },
   })
 
   // 해당 월의 모든 날짜 정보 생성
   const calendarDays: CalendarDay[] = useMemo(() => {
-    const date = new Date(CURRENT_YEAR, CURRENT_MONTH - 1, 1)
+    const date = new Date(currentYear, currentMonth - 1, 1)
     const daysInMonth = getDaysInMonth(date)
 
     return Array.from({ length: daysInMonth }, (_, i) => {
       const day = i + 1
-      const dayDate = new Date(CURRENT_YEAR, CURRENT_MONTH - 1, day)
+      const dayDate = new Date(currentYear, currentMonth - 1, day)
       /** 0=일요일, 1=월요일, ..., 6=토요일 */
       const dayOfWeek = getDay(dayDate)
       /** 월, 화, 수, 목, 금, 토, 일 */
@@ -80,7 +80,7 @@ const ScheduleSection: React.FC = () => {
         isSunday: dayOfWeek === 0,
       }
     })
-  }, [schedules])
+  }, [schedules, currentYear, currentMonth])
 
   const calendarSectionRef = useRef<HTMLDivElement>(null)
   const [calendarHeight, setCalendarHeight] = useState(0)
@@ -128,7 +128,7 @@ const ScheduleSection: React.FC = () => {
 
       <Box w="full" display="flex" flexFlow="column nowrap">
         <Text py="12px" textStyle="cat-heading-3" color="grey.10">
-          {format(TODAY, 'yyyy년 MM월')}
+          {format(today, 'yyyy년 MM월')}
         </Text>
 
         <Box
