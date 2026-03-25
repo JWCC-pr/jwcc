@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { Badge } from '@chakra-ui/react/badge'
 import { Box } from '@chakra-ui/react/box'
@@ -41,11 +41,16 @@ interface CalendarDay {
   isSelected: boolean
 }
 
-const NOW = startOfDay(new Date())
-
 const AboutEventSchedulePage: React.FC = () => {
-  const [currentMonth, setCurrentMonth] = useState<Date>(NOW)
-  const [selectedDate, setSelectedDate] = useState<Date | null>(NOW)
+  const [currentMonth, setCurrentMonth] = useState<Date>(() => startOfDay(new Date()))
+  const [selectedDate, setSelectedDate] = useState<Date | null>(() => startOfDay(new Date()))
+
+  // SSG 빌드 시점이 아닌 클라이언트의 실제 오늘 날짜를 사용
+  useEffect(() => {
+    const now = startOfDay(new Date())
+    setCurrentMonth(now)
+    setSelectedDate(now)
+  }, [])
 
   const year = currentMonth.getFullYear().toString()
   const month = (currentMonth.getMonth() + 1).toString()
@@ -70,12 +75,19 @@ const AboutEventSchedulePage: React.FC = () => {
       const dayOfWeek = getDay(dayDate)
       const dayName = format(dayDate, 'EEE', { locale: ko })
 
-      // 해당 날짜의 일정 필터링
-      const daySchedules =
+      // 해당 날짜의 일정 필터링 및 시간순 정렬
+      const daySchedules = (
         schedules?.filter((schedule) => {
           const scheduleDate = parseISO(schedule.scheduledAt)
           return isSameDay(scheduleDate, dayDate)
         }) || []
+      ).sort((a, b) => {
+        // startTime이 없는(하루종일) 일정을 앞에 배치
+        if (!a.startTime && !b.startTime) return 0
+        if (!a.startTime) return -1
+        if (!b.startTime) return 1
+        return a.startTime.localeCompare(b.startTime)
+      })
 
       return {
         day,
@@ -262,9 +274,12 @@ const AboutEventSchedulePage: React.FC = () => {
                           flexShrink={0}
                         />
                         <Text
+                          flex="1"
+                          minW="0"
+                          textAlign="left"
                           textStyle="pre-caption-3"
                           color="grey.10"
-                          lineClamp="1"
+                          truncate
                           fontSize="10px"
                         >
                           {schedule.title}

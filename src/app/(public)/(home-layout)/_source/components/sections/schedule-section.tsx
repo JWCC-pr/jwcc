@@ -34,11 +34,18 @@ export interface CalendarDay {
 }
 
 const ScheduleSection: React.FC = () => {
-  const today = useMemo(() => new Date(), [])
+  const [today, setToday] = useState(() => new Date())
   const currentYear = today.getFullYear()
   const currentMonth = today.getMonth() + 1
 
   const [selectedDate, setSelectedDate] = useState<Date>(today)
+
+  // SSG 빌드 시점이 아닌 클라이언트의 실제 오늘 날짜를 사용
+  useEffect(() => {
+    const now = new Date()
+    setToday(now)
+    setSelectedDate(now)
+  }, [])
 
   const { data: schedules } = useScheduleListQuery({
     variables: {
@@ -62,12 +69,19 @@ const ScheduleSection: React.FC = () => {
       /** 월, 화, 수, 목, 금, 토, 일 */
       const dayName = format(dayDate, 'EEE', { locale: ko })
 
-      // 해당 날짜의 일정 필터링
-      const daySchedules =
+      // 해당 날짜의 일정 필터링 및 시간순 정렬
+      const daySchedules = (
         schedules?.filter((schedule) => {
           const scheduleDate = parseISO(schedule.scheduledAt)
           return isSameDay(scheduleDate, dayDate)
         }) || []
+      ).sort((a, b) => {
+        // startTime이 없는(하루종일) 일정을 앞에 배치
+        if (!a.startTime && !b.startTime) return 0
+        if (!a.startTime) return -1
+        if (!b.startTime) return 1
+        return a.startTime.localeCompare(b.startTime)
+      })
 
       return {
         day,
