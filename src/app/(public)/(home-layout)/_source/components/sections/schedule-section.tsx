@@ -94,7 +94,7 @@ const ScheduleSection: React.FC = () => {
         isSunday: dayOfWeek === 0,
       }
     })
-  }, [schedules, currentYear, currentMonth])
+  }, [schedules, currentYear, currentMonth, today])
 
   const calendarSectionRef = useRef<HTMLDivElement>(null)
   const [calendarHeight, setCalendarHeight] = useState(0)
