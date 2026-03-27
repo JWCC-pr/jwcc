@@ -12,7 +12,6 @@ import { isSameDay, parseISO } from 'date-fns'
 import { format } from 'date-fns/format'
 import { getDay } from 'date-fns/getDay'
 import { getDaysInMonth } from 'date-fns/getDaysInMonth'
-import { isToday } from 'date-fns/isToday'
 import { ko } from 'date-fns/locale'
 
 import { ROUTES } from '@/constants/routes'
@@ -90,7 +89,7 @@ const ScheduleSection: React.FC = () => {
         date: dayDate,
         schedules: daySchedules,
         hasSchedules: daySchedules.length > 0,
-        isToday: isToday(dayDate),
+        isToday: isSameDay(dayDate, today),
         isSunday: dayOfWeek === 0,
       }
     })
