@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { Box } from '@chakra-ui/react/box'
 import { Text } from '@chakra-ui/react/text'
 
@@ -22,6 +24,12 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
   selectedDate,
   onDateClick,
 }) => {
+  // SSG 빌드 시점 고정 방지: 클라이언트 마운트 후 실제 오늘 날짜를 직접 계산
+  const [clientToday, setClientToday] = useState<Date | null>(null)
+  useEffect(() => {
+    setClientToday(new Date())
+  }, [])
+
   return (
     <Box
       ref={calendarSectionRef}
@@ -71,6 +79,8 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
         {/* 실제 달력 */}
         {calendarDays.map((dayInfo, i) => {
           const isSelected = isSameDay(dayInfo.date, selectedDate)
+          const isToday =
+            clientToday !== null && isSameDay(dayInfo.date, clientToday)
 
           return (
             <Box
@@ -106,7 +116,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({
                 textStyle={['cat-caption-2', 'cat-body-3']}
                 color="grey.10"
                 {...(dayInfo.isSunday && { color: 'accent.red2' })}
-                {...(dayInfo.isToday && {
+                {...(isToday && {
                   bgColor: 'primary.4',
                   rounded: 'full',
                   color: 'common-white',

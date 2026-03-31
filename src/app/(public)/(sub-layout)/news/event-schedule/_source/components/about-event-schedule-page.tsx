@@ -9,99 +9,44 @@ import { Text } from '@chakra-ui/react/text'
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react'
 import { keepPreviousData } from '@tanstack/react-query'
 
-import {
-  addMonths,
-  isSameDay,
-  parseISO,
-  startOfDay,
-  startOfMonth,
-  subMonths,
-} from 'date-fns'
+import { addMonths, isSameDay, parseISO, startOfDay, subMonths } from 'date-fns'
 import { format } from 'date-fns/format'
-import { getDay } from 'date-fns/getDay'
-import { getDaysInMonth } from 'date-fns/getDaysInMonth'
-import { isToday } from 'date-fns/isToday'
 import { ko } from 'date-fns/locale'
 
-import type { ScheduleType } from '@/generated/apis/@types/data-contracts'
 import { useScheduleListQuery } from '@/generated/apis/Schedule/Schedule.query'
 import { AboutEventScheduleCDoveIcon } from '@/generated/icons/MyIcons'
+import { generateCalendarDays } from '@/utils/calendar/generate-calendar-days'
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'] as const
-
-interface CalendarDay {
-  day: number
-  dayOfWeek: number
-  dayName: string
-  hasSchedules: boolean
-  date: Date
-  schedules: ScheduleType[]
-  isToday: boolean
-  isSunday: boolean
-  isSelected: boolean
-}
 
 const AboutEventSchedulePage: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState<Date>(() => startOfDay(new Date()))
   const [selectedDate, setSelectedDate] = useState<Date | null>(() => startOfDay(new Date()))
 
   // SSG 빌드 시점이 아닌 클라이언트의 실제 오늘 날짜를 사용
+  const [clientToday, setClientToday] = useState<Date | null>(null)
   useEffect(() => {
     const now = startOfDay(new Date())
     setCurrentMonth(now)
     setSelectedDate(now)
+    setClientToday(now)
   }, [])
 
-  const year = currentMonth.getFullYear().toString()
-  const month = (currentMonth.getMonth() + 1).toString()
+  const year = currentMonth.getFullYear()
+  const monthNum = currentMonth.getMonth() + 1
 
   const { data: schedules } = useScheduleListQuery({
-    variables: { query: { year, month } },
+    variables: { query: { year: year.toString(), month: monthNum.toString() } },
     options: {
       placeholderData: keepPreviousData,
     },
   })
 
-  // 해당 월의 모든 날짜 정보 생성
-  const calendarDays: CalendarDay[] = useMemo(() => {
-    const date = startOfMonth(currentMonth)
-    const daysInMonth = getDaysInMonth(date)
-
-    return Array.from({ length: daysInMonth }, (_, i) => {
-      const day = i + 1
-      const dayDate = startOfDay(
-        new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day),
-      )
-      const dayOfWeek = getDay(dayDate)
-      const dayName = format(dayDate, 'EEE', { locale: ko })
-
-      // 해당 날짜의 일정 필터링 및 시간순 정렬
-      const daySchedules = (
-        schedules?.filter((schedule) => {
-          const scheduleDate = parseISO(schedule.scheduledAt)
-          return isSameDay(scheduleDate, dayDate)
-        }) || []
-      ).sort((a, b) => {
-        // startTime이 없는(하루종일) 일정을 앞에 배치
-        if (!a.startTime && !b.startTime) return 0
-        if (!a.startTime) return -1
-        if (!b.startTime) return 1
-        return a.startTime.localeCompare(b.startTime)
-      })
-
-      return {
-        day,
-        dayOfWeek,
-        dayName,
-        date: dayDate,
-        schedules: daySchedules,
-        hasSchedules: daySchedules.length > 0,
-        isToday: isToday(dayDate),
-        isSunday: dayOfWeek === 0,
-        isSelected: selectedDate ? isSameDay(dayDate, selectedDate) : false,
-      }
-    })
-  }, [currentMonth, schedules, selectedDate])
+  // 해당 월의 모든 날짜 정보 생성 (clientToday로 SSG 빌드 시점 고정 방지)
+  const calendarDays = useMemo(() => {
+    const today = clientToday ?? currentMonth
+    return generateCalendarDays(year, monthNum, schedules, today)
+  }, [year, monthNum, schedules, clientToday, currentMonth])
 
   // 선택된 날짜의 일정 목록
   const selectedDaySchedules = useMemo(() => {
@@ -209,6 +154,10 @@ const AboutEventSchedulePage: React.FC = () => {
             {calendarDays.map((dayInfo, i) => {
               const hasFourOrMoreSchedules = dayInfo.schedules.length >= 4
               const moreSchedulesCount = dayInfo.schedules.length - 3
+              const isSelected =
+                selectedDate !== null && isSameDay(dayInfo.date, selectedDate)
+              const isToday =
+                clientToday !== null && isSameDay(dayInfo.date, clientToday)
 
               return (
                 <Box
@@ -221,7 +170,7 @@ const AboutEventSchedulePage: React.FC = () => {
                   alignItems="center"
                   borderBottom="1px solid"
                   borderBottomColor="border.basic.1"
-                  bgColor={dayInfo.isSelected ? 'background.basic.2' : 'grey.0'}
+                  bgColor={isSelected ? 'background.basic.2' : 'grey.0'}
                   cursor="pointer"
                   onClick={() => handleDateClick(dayInfo.date)}
                   _hover={{
@@ -239,7 +188,7 @@ const AboutEventSchedulePage: React.FC = () => {
                     color="grey.10"
                     flexShrink={0}
                     {...(dayInfo.isSunday && { color: 'accent.red2' })}
-                    {...(dayInfo.isToday && {
+                    {...(isToday && {
                       bgColor: 'primary.4',
                       rounded: 'full',
                       color: 'common-white',
